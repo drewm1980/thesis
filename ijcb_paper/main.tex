@@ -173,7 +173,8 @@ The source code of our implementations, which target NVIDIA Fermi GPUs
 as well as Intel x86-64 CPUs, will be made available for peer evaluation.
 \begin{figure}
 \centering
-{\tiny \input{figures_ijcb/pipeline_simplified.tex}}
+%{\tiny \input{figures_ijcb/pipeline_simplified.tex}}
+\includegraphics[scale=1]{figures_ijcb/pipeline_simplified.pdf}
 \caption{The face recognition pipeline.  }
 \label{fig:pipeline}
 \end{figure}
@@ -725,7 +726,7 @@ single small problem.  The transition between the two regimes occurs where the s
 $A$ reaches $2000 \times \1000 \times 4 = 8$ MB, i.e. the size of the CPU L3 cache. 
 \begin{figure}
 \begin{center}
-\includegraphics[width=2.5in]{figures_ijcb/time_vs_matrix_size_constant_tol}
+\includegraphics[width=4in]{figures_ijcb/time_vs_matrix_size_constant_tol}
 \end{center} 
 \caption{\small Comparison of $\ell_1$-min runtime vs. dimensions of $A$ on random data.} 
 \label{fig:random_data}
@@ -794,7 +795,7 @@ required $\approx 600$ ms seconds per subject in a similar setting.
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=3.3in]{figures_ijcb/alignment_runtime_graph}
+\includegraphics[width=4in]{figures_ijcb/alignment_runtime_graph}
 \caption{Alignment stage runtime vs. size of training database.} 
 \label{fig:alignment_stage_runtime}
 \end{figure}
@@ -814,7 +815,7 @@ also that for both implementations, the recognition stage takes much less time
 than the alignment stage.
 \begin{figure}[t!]
 \centering
-\includegraphics[width=2.5in]{figures_ijcb/speedVsResolution} 
+\includegraphics[width=4in]{figures_ijcb/speedVsResolution} 
 \caption{Recognition stage runtime vs. face window resolution}
 \label{fig:recognition_stage_runtime} \end{figure}
 
@@ -828,7 +829,7 @@ accuracy may be a result of numerical precision differences in our matrix
 inversion and vector reduction routines.
 \begin{figure}[t!]
 \centering
-\includegraphics[width=2.5in]{figures_ijcb/accuracyVsResolution} 
+\includegraphics[width=4in]{figures_ijcb/accuracyVsResolution} 
 \caption{Recognition rate of the full pipeline vs. face window resolution.} 
 \label{fig:accuracy_vs_resolution}
 \end{figure}
