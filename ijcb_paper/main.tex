@@ -175,7 +175,7 @@ The source code of our implementations, which target NVIDIA Fermi GPUs
 as well as Intel x86-64 CPUs, will be made available for peer evaluation.
 \begin{figure}
 \centering
-{\tiny \input{figures/pipeline_simplified.tex}}
+{\tiny \input{figures_ijcb/pipeline_simplified.tex}}
 \caption{The face recognition pipeline.\vspace{-0.1in}}
 \label{fig:pipeline}
 \end{figure}
@@ -347,17 +347,17 @@ by the algorithms, and is not an important performance consideration.
 \centering
 \subfigure[The larger algorithm data structures]
 {
-	\includegraphics[scale=1.2]{figures/arrays}
+	\includegraphics[scale=1.2]{figures_ijcb/arrays}
 	\label{fig:arrays}
 }
 \subfigure[The caches on a E5530 CPU]
 {
-	\includegraphics[scale=1.2]{figures/cpu_caches}
+	\includegraphics[scale=1.2]{figures_ijcb/cpu_caches}
 	\label{fig:cpu_caches}
 }
 \subfigure[The caches on a GTX480 GPU]
 {
-	\includegraphics[scale=1.2]{figures/gpu_caches}
+	\includegraphics[scale=1.2]{figures_ijcb/gpu_caches}
 	\label{fig:gpu_caches}
 }
 \label{fig:caches}
@@ -599,7 +599,7 @@ that performance is highest with 5-7 subject classes aligned simultaneously on e
 %concurrency is illustrated in Figure \ref{fig:alignment_mapping_gpu}.
 %\begin{figure}
 %\centering
-%\includegraphics[width=3.4in]{figures/alignment_mapping_gpu}
+%\includegraphics[width=3.4in]{figures_ijcb/alignment_mapping_gpu}
 %\caption{Proposed mapping of alignment parallelism onto GPU concurrency}
 %\label{fig:alignment_mapping_gpu}
 %\end{figure}
@@ -733,7 +733,7 @@ single small problem.  The transition between the two regimes occurs where the s
 $A$ reaches $2000 \times \1000 \times 4 = 8$ MB, i.e. the size of the CPU L3 cache. 
 \begin{figure}
 \begin{center}
-\includegraphics[width=2.5in]{figures/time_vs_matrix_size_constant_tol}
+\includegraphics[width=2.5in]{figures_ijcb/time_vs_matrix_size_constant_tol}
 \end{center} \vspace{-0.1in}
 \caption{\small Comparison of $\ell_1$-min runtime vs. dimensions of $A$ on random data.} \vspace{-0.1in}
 \label{fig:random_data}
@@ -802,7 +802,7 @@ required $\approx 600$ ms seconds per subject in a similar setting.
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=3.3in]{figures/alignment_runtime_graph}\vspace{0.06in}
+\includegraphics[width=3.3in]{figures_ijcb/alignment_runtime_graph}\vspace{0.06in}
 \caption{Alignment stage runtime vs. size of training database.} \vspace{-0.1in}
 \label{fig:alignment_stage_runtime}
 \end{figure}
@@ -822,7 +822,7 @@ also that for both implementations, the recognition stage takes much less time
 than the alignment stage.
 \begin{figure}[t!]
 \centering
-\includegraphics[width=2.5in]{figures/speedVsResolution} \vspace{-0.06in}
+\includegraphics[width=2.5in]{figures_ijcb/speedVsResolution} \vspace{-0.06in}
 \caption{Recognition stage runtime vs. face window resolution}\vspace{-0.1in}
 \label{fig:recognition_stage_runtime} \end{figure}
 
@@ -836,7 +836,7 @@ accuracy may be a result of numerical precision differences in our matrix
 inversion and vector reduction routines.
 \begin{figure}[t!]
 \centering
-\includegraphics[width=2.5in]{figures/accuracyVsResolution} \vspace{-0.06in}
+\includegraphics[width=2.5in]{figures_ijcb/accuracyVsResolution} \vspace{-0.06in}
 \caption{Recognition rate of the full pipeline vs. face window resolution.} \vspace{-0.1in}
 \label{fig:accuracy_vs_resolution}
 \end{figure}

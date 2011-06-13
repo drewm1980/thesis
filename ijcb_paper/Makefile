@@ -2,7 +2,7 @@ TARGETS=main.pdf
 
 all: ${TARGETS} 
 
-main.pdf:main.tex figures/alignment_runtime_graph.eps
+main.pdf:main.tex figures_ijcb/alignment_runtime_graph.eps
 
 # Always build main.pdf target, letting latexmk figure out all of the deps of main.pdf automatically
 
