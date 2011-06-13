@@ -49,18 +49,19 @@ occlusion or corruption by solving a simple convex program.
 %consist of SRC, and the alignment stage that precedes it will be based on
 %similar techniques.
 
+\newcommand{\tempheight}[0]{1.1in}
 \begin{figure}
 \centering \begin{tabular}{cc}
-\includegraphics[height=1in]{figures_pami/promo/case1/detector.png}&
+\includegraphics[height=\tempheight]{figures_pami/promo/case1/detector.png}&
 \hspace{3mm}
-\includegraphics[height=1in]{figures_pami/promo/case1/sci_with_axis_face_case1.png}
-\\ \includegraphics[height=1in]{figures_pami/promo/alignment_and_detector.png}&
+\includegraphics[height=\tempheight]{figures_pami/promo/case1/sci_with_axis_face_case1.png}
+\\ \includegraphics[height=\tempheight]{figures_pami/promo/alignment_and_detector.png}&
 \hspace{3mm}
-\includegraphics[height=1in]{figures_pami/promo/case2/sci_with_axis_face_case2.png}
-\\ \includegraphics[height=1in]{figures_pami/promo/case3/alignment.png} &
+\includegraphics[height=\tempheight]{figures_pami/promo/case2/sci_with_axis_face_case2.png}
+\\ \includegraphics[height=\tempheight]{figures_pami/promo/case3/alignment.png} &
 \hspace{3mm}
-\includegraphics[height=1in]{figures_pami/promo/case3/sci_with_axis_face_case3.png}
-\end{tabular} \caption{{\bf Effects of registration and illumination on
+\includegraphics[height=\tempheight]{figures_pami/promo/case3/sci_with_axis_face_case3.png}
+\end{tabular} \caption{\small{\bf Effects of registration and illumination on
 Recognition}. In this example we identify the girl among 20 subjects, by
 computing the sparse representation of her input face with respect to the
 entire training set. The absolute sum of the coefficients associated with each
@@ -76,7 +77,6 @@ Section \ref{sec:illumination}). {\bf Bottom:} The input face is well aligned an
 a sufficient set (all 38) of
 illuminations are used in the training. Both are necessary for correct recognition
 using SRC.}\label{fig:promo}
-\vspace{-5mm}
 \end{figure}
 
 Unfortunately, while the work \cite{Wright2009-PAMI} achieves impressive results, it does not deal with misalignment
@@ -103,7 +103,6 @@ In this paper, we examine how to handle alignment and illumination simultaneousl
 in the sparse representation framework, bringing the method proposed in \cite{Wright2009-PAMI}
 closer to practical use.
 
-\vspace{-0mm}
 \subsection{Related Work}
 We briefly review existing techniques for recognition, image
 registration, and handling of illumination variation.  Our
@@ -356,29 +355,28 @@ example.
 
 The scheme \eqref{eqn:L1-align} can be viewed as a generalized Gauss-Newton method for minimizing the composition of a nonsmooth objective function (the $\ell^1$-norm) with a differentiable mapping from transformation parameters to transformed images. Such algorithms date at least back to the 1970's  \cite{Cromme1978-NM,Jittorntrum1980-NM}, and continue to attract attention today \cite{Lewis2008-TR}. While space precludes a detailed discussion of their properties, we should mention that the scheme \eqref{eqn:L1-align} is known to converge quadratically in the neighborhood of any local optimum of the $\ell^1$-norm. In practice, this means that $\approx$ 10 to 15 iterations suffice to reach the desired solution. We refer the interested reader to \cite{Jittorntrum1980-NM,Osborne1990-JAMSSB} and the references therein.
 
+\renewcommand{\tempheight}[0]{1.0in}
 \begin{figure}
 \centering
-{\small
+{
 \begin{tabular}{cccc}
-\includegraphics[height=.8in]{figures_pami/L1_cropped} &
-\includegraphics[height=.8in]{figures_pami/y_warp_L1} &
-\includegraphics[height=.8in]{figures_pami/y_hat_L1} &
-\includegraphics[height=.8in]{figures_pami/e_L1} \\
-\includegraphics[height=.8in]{figures_pami/L2_cropped} &
-\includegraphics[height=.8in]{figures_pami/y_warp_L2} &
-\includegraphics[height=.8in]{figures_pami/y_hat_L2} &
-\includegraphics[height=.8in]{figures_pami/e_L2} \\
+\includegraphics[height=\tempheight]{figures_pami/L1_cropped} &
+\includegraphics[height=\tempheight]{figures_pami/y_warp_L1} &
+\includegraphics[height=\tempheight]{figures_pami/y_hat_L1} &
+\includegraphics[height=\tempheight]{figures_pami/e_L1} \\
+\includegraphics[height=\tempheight]{figures_pami/L2_cropped} &
+\includegraphics[height=\tempheight]{figures_pami/y_warp_L2} &
+\includegraphics[height=\tempheight]{figures_pami/y_hat_L2} &
+\includegraphics[height=\tempheight]{figures_pami/e_L2} \\
 (a) & (b) & (c) & (d)
-\end{tabular}
-\vspace{0mm}}
-\caption{{\bf Comparing alignment of a subject wearing sunglasses by
+\end{tabular}}
+\caption{\small{\bf Comparing alignment of a subject wearing sunglasses by
 $\ell^1$ and $\ell^2$ minimization.}
 {\bf Top:} alignment result of minimizing $\|\e\|_1$; {\bf Bottom:}
 result of minimizing $\|\e\|_2$. (a) {\em Green (dotted):} Initial face boundary
 given by the face detector, {\em Red (solid):} Alignment result shown on the same
 face; (b) warped testing image using the estimated transformation $\y_0$;
 (c) reconstructed face $A_i\x$ using the training; (d) image of error $\e$. }\label{fig:L1-L2-align}
-\vspace{-5.0mm}
 \end{figure}
 
 In addition to normalizing the training images (which is done
@@ -541,23 +539,25 @@ We have gathered the statistics of the Viola and Jones'
  and the average variation in scale is 8\%. This falls
  safely inside the region of attraction for our alignment
  algorithm.
+\newcommand{\tempheighta}[0]{1.1in}
+\newcommand{\tempheightb}[0]{0.9in}
 \begin{figure*}
 \centering
-{\small
+{
 \begin{tabular}{ccc}
-\includegraphics[height=1.4in]{figures_pami/x_y_roa.png} &
-\includegraphics[height=1.4in]{figures_pami/y_theta_roa.png} &
-\includegraphics[height=1.4in]{figures_pami/y_s_roa.png}\\
+\includegraphics[height=\tempheighta]{figures_pami/x_y_roa.png} &
+\includegraphics[height=\tempheighta]{figures_pami/y_theta_roa.png} &
+\includegraphics[height=\tempheighta]{figures_pami/y_s_roa.png}\\
 (a)&(b)&(c)
 \end{tabular}
 \begin{tabular}{cccc}
-\includegraphics[height=1.1in]{figures_pami/x_tr.png} &
-\includegraphics[height=1.1in]{figures_pami/y_tr.png} &
-\includegraphics[height=1.1in]{figures_pami/theta.png} &
-\includegraphics[height=1.1in]{figures_pami/scale.png}\\
+\includegraphics[height=\tempheightb]{figures_pami/x_tr.png} &
+\includegraphics[height=\tempheightb]{figures_pami/y_tr.png} &
+\includegraphics[height=\tempheightb]{figures_pami/theta.png} &
+\includegraphics[height=\tempheightb]{figures_pami/scale.png}\\
 (d)&(e)&(f)& (g)
 \end{tabular}
-\vspace{0mm} } \caption{{\bf Region of attraction.} Fraction of
+} \caption{\small{\bf Region of attraction.} Fraction of
 subjects for which the algorithm successfully aligns a
 synthetically perturbed test image.  The amount of translation
 is expressed as a fraction of the distance between the outer
@@ -568,7 +568,7 @@ in-plane rotation. (c) Simultaneous translation in $y$
 direction and scale variation. {\bf Bottom row:} (d)
 Translation in $x$ direction only. (e) Translation in $y$
 direction only. (f) In-plane rotation only. (g) Scale variation
-only.} \label{fig:attraction} \vspace{-4mm}
+only.} \label{fig:attraction} 
 \end{figure*}
 
 \noindent{2) \em Multiscale Implementation.}
@@ -593,11 +593,9 @@ a similar performance compared to a much larger kernel when
 only 2 scales are used.
 \begin{figure}
 \centering
-\includegraphics[width=3in]{figures_pami/multiscale.png}
-\vspace{-2mm}
-\caption{{\bf Multiscale alignment.} This figure shows the average success rate of alignment over all possible perturbations. A smaller blur kernel can be applied to achieve certain level of performance when more scales are used.}
+\includegraphics[width=4in]{figures_pami/multiscale.png}
+\caption{\small{\bf Multiscale alignment.} This figure shows the average success rate of alignment over all possible perturbations. A smaller blur kernel can be applied to achieve certain level of performance when more scales are used.}
 \label{fig:multiscale}
-\vspace{-2mm}
 \end{figure}
 
 \noindent{3) \em 3D Pose Variation.} As densely sampled pose
@@ -619,25 +617,25 @@ Note that this level of out-of-plane
  pose variation is beyond what we intend to handle with our formulation.
 \begin{figure}
 \centering
-{\small
+{
 \begin{tabular}{ccccc}
 \includegraphics[height=1in]{figures_pami/5} &
 \includegraphics[height=1in]{figures_pami/7} &
 \includegraphics[height=1in]{figures_pami/09} &
 \includegraphics[height=1in]{figures_pami/11} &
-\includegraphics[height=1in]{figures_pami/13} \vspace{0in} \\
+\includegraphics[height=1in]{figures_pami/13} \\
 (a) & (b) & (c) & (d) & (e)\\
 \includegraphics[height=1in]{figures_pami/15} &
 \includegraphics[height=1in]{figures_pami/17} &
 \includegraphics[height=1in]{figures_pami/19} &
 \includegraphics[height=1in]{figures_pami/21} &
-\includegraphics[height=1in]{figures_pami/3} \vspace{-.1in} \\
-(f) & (g) & (h) & (i) & (j) \vspace{-.1in}
+\includegraphics[height=1in]{figures_pami/3} \\
+(f) & (g) & (h) & (i) & (j)
 \end{tabular}
 }
-\caption{{\bf 2D Alignment of test images with different poses to frontal training images.} {\bf (a) to (i):}  plausible alignment for pose from $-45^{\circ}$
+\caption{\small{\bf 2D Alignment of test images with different poses to frontal training images.} {\bf (a) to (i):}  plausible alignment for pose from $-45^{\circ}$
 to $+45^{\circ}$. {\bf (j):} a case when the algorithm fails for an extreme pose ($>45^{\circ}$).
-}\label{fig:pose-alignment} \vspace{-8mm}
+}\label{fig:pose-alignment} 
 \end{figure}
 \subsection{Comparison with Related Work}
 Our modification to SRC roots solidly in the tradition of
@@ -764,8 +762,7 @@ advantages over flash-based illumination systems for face recognition:
 \begin{figure}
 \centering
 \includegraphics[height=2.3in]{figures_pami/camera_rig.pdf}
-\caption{{\bf Training acquisition system:} Four projectors and two cameras controlled by one computer.}
-\vspace{-2em}
+\caption{\small{\bf Training acquisition system:} Four projectors and two cameras controlled by one computer.}
 \label{fig:system}
 \end{figure}
 With our projector system, our choice of illuminations is
@@ -851,10 +848,9 @@ our large-scale experiments:
 \includegraphics[height=1.5in]{figures_pami/coverage_experiment_asplode.png} &
 \includegraphics[height=1.5in]{figures_pami/final_cvpr_illuminations_asplode.png}  \\
 (a) Coverage Experiment & (b) Chosen Illumination Patterns
-\end{tabular}\vspace{0mm}
-\caption{{\bf Illumination Patterns.}   The cells are illuminated in sequence.  For rear illuminations the sequence is reversed.  In the chosen pattern's rear illumination, the cells 1-5 and 7-11 are omitted for a total of 38 illuminations. The four rectangular regions correspond to the four projectors.  }
+\end{tabular}
+\caption{\small{\bf Illumination Patterns.}   The cells are illuminated in sequence.  For rear illuminations the sequence is reversed.  In the chosen pattern's rear illumination, the cells 1-5 and 7-11 are omitted for a total of 38 illuminations. The four rectangular regions correspond to the four projectors.  }
 \label{fig:illumination-patterns}
-\vspace{-.75em}
 \end{figure}
 
 \begin{figure}
@@ -863,10 +859,9 @@ our large-scale experiments:
 \includegraphics[height=1.5in]{figures_pami/illum_results/coverage_sunset.pdf} &
 \includegraphics[height=1.5in]{figures_pami/illum_results/granularity_sunset.pdf} \\
 (a) Coverage & (b) Granularity
-\end{tabular}\vspace{0mm}
-\caption{{\bf Study of sufficient illuminations.} The average $\ell^1$ registration residual versus different illumination training sets. }
+\end{tabular}
+\caption{\small{\bf Study of sufficient illuminations.} The average $\ell^1$ registration residual versus different illumination training sets. }
 \label{fig:illumination-sufficiency}
-\vspace{-3em}
 \end{figure}
 
 In the plot for the coverage experiment, Figure
@@ -896,7 +891,6 @@ See below for the 38 training images of one subject:
 \begin{figure}[h]
 \centering
 \includegraphics[width=6.3in]{figures_pami/training.png}
-\vspace{-2em}
 \end{figure}
 
 
@@ -1012,7 +1006,7 @@ Recognition rate & Session 2 & Session 3 & Session 4  \\
 \newcommand{\tempwidth}[0]{0.9in}
 \begin{figure}
 \centering
-{\small
+{
 \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}c@{}}
 \hspace{-2mm}\includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_failed/079_01_01_051_08.png}  &
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_failed/111_01_01_051_08.png}  &
@@ -1026,12 +1020,11 @@ Recognition rate & Session 2 & Session 3 & Session 4  \\
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_failed/130_02_01_051_08.png}  &
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_failed/163_02_01_051_08.png}  &
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_failed/175_02_01_051_08.png} \\
-\hspace{-2mm}(a) & (b) & (c) & (d) & (e) & (f) \vspace{0mm}
+\hspace{-2mm}(a) & (b) & (c) & (d) & (e) & (f) 
 \end{tabular}
 }
-\caption{{\bf Representative failures from Multi-PIE}. {\bf Top:} training from Session 1; {\bf Bottom:} test images from Session 2. Due to changes in hair, glasses, beard, or pose, our alignment fails on these subjects regardless of test image illumination.}
+\caption{\small{\bf Representative failures from Multi-PIE}. {\bf Top:} training from Session 1; {\bf Bottom:} test images from Session 2. Due to changes in hair, glasses, beard, or pose, our alignment fails on these subjects regardless of test image illumination.}
 \label{fig:failed-examples}
-\vspace{-12mm}
 \end{figure}
 \subsection{Improving the Sampling Window}
 Our algorithm's errors are mostly caused by a few subjects who
@@ -1040,18 +1033,16 @@ as hair, facial hair, and eyeglasses). Some representative
 examples are shown in Figure \ref{fig:failed-examples}. For those subjects, alignment and recognition fail on
 almost all test illuminations.
 \begin{figure}[b]
-\vspace{-1em}
 \centering
-{\small
+{
 \begin{tabular}{@{}cc@{}}
 \includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.0in]{figures_pami/example.png} &
-\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.0in]{figures_pami/example_new.png} \vspace{0mm} \\
-Default window. & Proposed window. \vspace{0mm}
+\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.0in]{figures_pami/example_new.png} \\
+Default window. & Proposed window.
 \end{tabular}
 }
-\caption{{\bf Choosing different sampling windows.}}
+\caption{\small{\bf Choosing different sampling windows.}}
 \label{fig:new-mask}
-\vspace{-1em}
 \end{figure}
 Meanwhile, this observation also suggests that we might be able
 to improve the performance of our method by carefully choosing
@@ -1068,7 +1059,7 @@ is shown in Figure~\ref{fig:new-mask}.
 
 \begin{table*}
 \centering
-\caption{Recognition rates on the Multi-PIE database for
+\caption{\small Recognition rates on the Multi-PIE database for
 different pairings of alignment and recognition stages.}
 \centerline{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c| }
@@ -1093,7 +1084,6 @@ SRC	& -- & -- & -- & -- & -- & -- & 93.9\%	& 93.8\%	& 92.3\% \\
 \hline
 \end{tabular}
 \label{tab:MultiPIE-recognition} }
-\vspace{-.1in}
 \end{table*}
 
 Table \ref{tab:MultiPIE-recognition2} shows that the
@@ -1228,7 +1218,7 @@ the training is uncontrolled and limited and the input is
 directly obtained from the face detector \cite{Wolf2008-ECCV}.
 \begin{table}
 \caption{Performance on single gallery image FERET dataset}
-\vspace{-3mm} \centerline{
+\centerline{
 \begin{tabular}{|c|c|c|c|c| }
 \hline
 Recognition rate \% & fb & fc & dup1 & dup2 \\
@@ -1243,7 +1233,6 @@ $LBP_i$ & 94.5 & 42.8 & 46.5 & 21.1 \\
 \hline
 \end{tabular}
 \label{tab:FERET-recognition} }
-\vspace{-12mm}
 \end{table}
 
 All of these experimental results confirm that
@@ -1274,7 +1263,7 @@ if $\textup{SCI}(\x) \geq t$, and otherwise reject it as
 invalid. We compare this classifier to classifiers based on
 thresholding the error residuals of NN, NS, LDA, and LBP.
 \begin{figure}[t]
-{\small
+{
 \centering
 \begin{tabular}{@{}c@{}c@{}}
 \includegraphics[height = 3in]{figures_pami/pami_roc_revision2} & \hspace{2mm}
@@ -1282,11 +1271,9 @@ thresholding the error residuals of NN, NS, LDA, and LBP.
 (a) & \hspace{2mm}(b) \\
 \end{tabular}
 }
-\vspace{-2mm}
-\caption{{\bf ROC curves} for subject validation on Multi-PIE database,
+\caption{\small {\bf ROC curves} for subject validation on Multi-PIE database,
 (a) for all algorithms with iterative alignment, and
 (b) for the classical algorithms with manual alignment (indicated by a subscript ``m'').}\label{fig:roc-multipie}
-\vspace{0em}
 \end{figure}
 
 Figure \ref{fig:roc-multipie} plots the receiver operating
@@ -1333,11 +1320,9 @@ recognition rate.
 \includegraphics[scale=\tempscale,clip=true]{figures_pami/multipie_occ/occ40.png} &
 \includegraphics[scale=\tempscale,clip=true]{figures_pami/multipie_occ/occ50.png}  \\
 \end{tabular}
-\vspace{-1mm}
-\caption{{\bf Recognition under varying level of
+\caption{\small{\bf Recognition under varying level of
 random block occlusion.} The above row shows examples of occluded test images with occlusion level from 10\% to 50\%. Our method maintains high recognition rates up to 30\% occlusion:}
-\vspace{2mm}
-{\small
+{
 \begin{tabular}{|c|c|c|c|c|c| }
 \hline
 Percent occluded & 10\% & 20\% & 30\% & 40\% & 50\%  \\
@@ -1347,7 +1332,6 @@ Recognition rate & 99.6\% & 94.9\% & 79.6\% & 46.5\% & 19.8\% \\
 \end{tabular}
 }
 \label{fig:multipie-occ-rec}
-\vspace{-.3in}
 \end{figure}
 
 \subsection{Recognition with Pose and Expression} We now run tests of
@@ -1361,7 +1345,6 @@ the performance of our method will be significantly improved if pose and express
 are available in the training.
 
 
-%\vspace{-.1in}
 \section{Tests on Our Own Database}\label{sec:own-data} Using the training acquisition
 system we described in Section \ref{sec:illumination}, and shown in Figure
 \ref{fig:system}, we have collected the frontal view of 109
@@ -1369,7 +1352,6 @@ subjects {\em without eyeglasses} under 38 illuminations shown
 in Figure \ref{fig:illumination-patterns}. For testing our
 algorithm, we have also taken 935 images of these subjects with
 a different camera under a variety of practical conditions.
-\vspace{-.1in}
 
 \subsection{Necessity of Rear Illuminations} To see how
 training illuminations affect the performance of our algorithm
@@ -1396,7 +1378,6 @@ respectively. This is a strong indication that
 frontal illuminations taken under laboratory conditions
 are insufficient for representing test images under typical indoor and
 outdoor illuminations.
-\vspace{-0.1in}
 
 \renewcommand{\tempscale}{0.75}
 \begin{figure}
@@ -1421,8 +1402,7 @@ outdoor illuminations.
 \includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/glasses/DSC_1688.JPG} &
 \includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/glasses/DSC_4035.JPG} \\
 \end{tabular}
-\caption{{\bf Representative examples of categories C1-C3}. One row for each category.}\label{fig:examples1-3}
-\vspace{-.1in}
+\caption{\small{\bf Representative examples of categories C1-C3}. One row for each category.}\label{fig:examples1-3}
 \end{figure}
 
 \begin{figure}[t]
@@ -1441,8 +1421,7 @@ outdoor illuminations.
 \includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_4030.JPG} &
 \includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_4095.JPG} \\
 \end{tabular}
- \caption{{\bf Representative examples of category C4}. Top row: successful examples with our method using overlapping blocks. Bottom row: failures with our method using overlapping blocks.}\label{fig:examples4}
-\vspace{-.55in}
+ \caption{\small{\bf Representative examples of category C4}. Top row: successful examples with our method using overlapping blocks. Bottom row: failures with our method using overlapping blocks.}\label{fig:examples4}
 \end{figure}
 
 \subsection{Large-Scale Test with Sufficient Training
@@ -1482,9 +1461,8 @@ illuminations are more challenging, the result is not
 surprising. In the next subsection, we will show how additional
 assumptions can be used to improve the recognition performance.
 \begin{table}[h]
-\vspace{0mm}
 \centering \caption{Recognition rates on our own
-database.} \vspace{0mm}
+database.}
 \begin{tabular}{|c|c|c|c|c| }
 \hline
 Test Category & C1 & C2 & C3 & C4  \\
@@ -1493,7 +1471,7 @@ Test Category & C1 & C2 & C3 & C4  \\
 Recognition Rate & 98.4\% & 95.8\% & 95.1\% & 40.9\% \\
 \hline
 \end{tabular}
-\label{tab:UIUC-recognition} \vspace{-5mm}
+\label{tab:UIUC-recognition}
 \end{table}
 
 \subsection{Improving the Performance with Occlusion using Overlapping Blocks}
@@ -1519,10 +1497,8 @@ results for individual blocks are then aggregated by voting.
 \begin{figure}
 \centering
 \includegraphics[width=4in]{figures_pami/occ_block.png}
-\vspace{-2mm}
-\caption{{\bf Using overlapping blocks to tackle contiguous occlusion.} (a) The test image, occluded by sunglasses. (b) The four overlapping blocks. (c) The sparse representation is calculated after alignment for each block independently. The red lines correspond to his true identity. (d) The true identity is successfully recovered by voting based on the SCI scores.}
+\caption{\small{\bf Using overlapping blocks to tackle contiguous occlusion.} (a) The test image, occluded by sunglasses. (b) The four overlapping blocks. (c) The sparse representation is calculated after alignment for each block independently. The red lines correspond to his true identity. (d) The true identity is successfully recovered by voting based on the SCI scores.}
 \label{fig:occ-block}
-\vspace{-5mm}
 \end{figure}
 
 In this experiment, we found that the using the \emph{sparsity

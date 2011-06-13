@@ -13,6 +13,7 @@ main.pdf:main.tex
 	dia $< -e $@ -t tex
 
 %.pdf:%.tex
+	rm -f main.pdf
 	latexmk ${ENGINE} $<
 
 .PHONY:clean
