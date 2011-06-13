@@ -1,0 +1,101 @@
+%!TEX root = thesis.tex
+
+% TITLE.TEX:    LaTex file to produce title page for UIUC Physics
+%               Department PhD Thesis
+% Author: Patrick Dreher
+% Date:   8/27/91
+
+% copyright page
+\renewcommand\maketitle{
+  \thispagestyle{empty}
+  %We need do determine TitleBoxHeight=1.75in-the height of capital letters.
+  \newlength{\TitleBoxHeight}\settoheight{\TitleBoxHeight}{THESIS}
+  \setlength{\TitleBoxHeight}{-1.0\TitleBoxHeight}
+  \addtolength{\TitleBoxHeight}{1.75in}
+  %
+  %Start from 0.75in top margin
+  %
+  %\vspace*{1in}
+  \vspace*{0.5in} % hack!
+  \vspace*{0.125in}
+  %
+  %Top of title is 2.25 in.
+  %
+  \noindent
+  \parbox[b][\TitleBoxHeight][s]{\linewidth}{
+  \begin{center}
+    \singlespace
+    \uppercase\expandafter{Fast and Robust Face Recognition \\via Sparse Representation and Parallel Programming
+    }
+  \end{center}\vfill}
+  %
+  %Bottom of "BY" is 4 in.
+  %
+  \vspace*{-0.125in}
+	\vspace*{0.5in}  % Hack to try to keep stuff in the right place
+	\vspace*{0.3125in}
+  \parbox[b][2.50in][s]{\linewidth}{
+  \begin{center}
+    BY\\
+    \uppercase{ANDREW W. WAGNER}
+    \vspace{-0.1in}
+%    \begin{center}\singlespace B.S., University of Illinois at Urbana-Champaign, 2003\end{center}
+    \begin{center}\singlespace M.S., University of Illinois at Urbana-Champaign, 2006\end{center}
+  \end{center}\vfill}
+  	\vspace*{-0.3125in}
+  %
+  %Bottom of "DISSERTATION" is 6.5 in.
+  %
+  \parbox[b][2.5in][s]{\linewidth}{
+  \begin{center}
+    THESIS PROPOSAL\\
+     \singlespace
+    Submitted in partial fulfillment of the requirements\\
+    for the degree of Doctor of Philosophy in Electrical and Computer Engineering\\
+    in the Graduate College of the\\
+    University of Illinois at Urbana-Champaign, 2009\\
+  \end{center}\vfill}
+   %
+   %Bottom of "Urbana, Illinois" is 9 in.
+   %
+   \parbox[b][0.5in][s]{\linewidth}
+   {\begin{center} Urbana, Illinois \end{center}\vfill}
+   \clearpage
+}
+
+\begin{titlepage}
+\vspace*{\fill}
+    \hspace*{\fill}{\copyright\ 2009 by Andrew W. Wagner. All rights reserved.}\hspace{\fill}
+\vspace{\fill}
+\end{titlepage}
+\newpage
+
+\begin{titlepage}
+\maketitle
+%\singlespace
+%
+%\begin{center}
+%% The following vspace numbers are designated for yclw printer only
+%\vspace*{1.2in}
+%ROBUST EXTENSIONS TO GENERALIZED COMPONENT ANALYSIS\\
+%
+%\vspace{1.475in}
+%BY\\
+%
+%\vspace{.2in}
+%SHANKAR RAMAMOHAN RAO\\
+%
+%\vspace{.2in}
+%B.S., University of California at Berkeley, 2001\\
+%
+%\vspace{1.8625in}
+%THESIS\\
+%\vspace{.2in}
+%Submitted in partial fulfillment of the requirements\\
+%for the degree of Master of Science in Electrical Engineering\\
+%in the Graduate College of the\\
+%University of Illinois at Urbana-Champaign, 2004\\
+%\vspace{1.6625in}
+%Urbana, Illinois
+%\end{center}
+\end{titlepage}

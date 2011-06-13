@@ -1,0 +1,44 @@
+%!TEX root = thesis.tex
+\chapter{INTRODUCTION}
+\label{chap:introduction}
+
+One of the most important skills humans possess is the ability to quickly recognize each other by sight.   The ability to rapidly identify each other gives us very important information we can use to interact with the people in the world around us.  Face recognition is such a useful skill that automating this ability has been one of the major topics of computer vision research.  Unfortunately, it turns out that human faces are rather difficult to recognize, primarily for reasons that are inherent in the imaging process.  Obstacles to high performance face recognition include an (initial) absence of information about the mapping between a person's face and an image, variations in nature of the light illuminating a person's face, and (unlabeled) portions of a person's face that may not have even been captured on camera due to occlusion.  
+
+One of the difficulties that has been holding face recognition back is that is is very difficult to collect sufficient data to compute meaningful recognition rates.  It takes a lot of resources to simultaneously build custom hardware for a training image acquisition system, manage the capturing of images of over a hundred test subjects, and still have time to implement an advanced recognition algorithm.  While public face databases play an important role in allowing researchers to compare the performance of their algorithms, relying on them exclusively for research prevents the researcher from tightly integrating their algorithm with their training image acquisition system.  In order to achieve the very high recognition rates that are needed for access control applications, tight integration between the training image acquisition system and the recognition system is necessary.  In particular, many published algorithms make photometric assumptions that are (often unnecessarily) violated by the data sets they run on.
+
+This thesis proposal demonstrates that a tightly integrated training image acquisition system and recognition algorithm is capable of significantly improving face recognition performance.  A key part of the system is exploiting the an important property of the imaging process:  there in a linear mapping between the space of illuminations of an object, and the space of images of that object taken under the same pose.  This makes it possible to effectively model the testing image as a linear superposition of a large (and well chosen) set of training images.  This idea is certainly not new; indeed it has been in use for face recognition for roughly two decades, \cite{Turk1991-CVPR}.  However, traditional algorithms that rely on this property of the image formation process have tended to perform very badly in the face of occlusions and when highly quality training images are unavailable.  the recent 
+
+Chapter \ref{chap:cvpr} is devoted to presenting a complete face recognition pipeline that I have built in collaboration with John Wright, Zihan Zhou, Arvind Ganesh, and Yi Ma.  This body of work has been accepted for publication in the IEEE Conference on Computer Vision and Pattern Recognition \cite{Wagner2009-CVPR}.  This main contributions of this work are a novel system for training image acquisition and an automatic image alignment system that turn the algorithm of \cite{Wright2009-PAMI} into a complete recognition system.  Chapter \ref{chap:iccv} presents an extension of the algorithm that better handles image occlusions by making use of the knowledge that occluded image pixels tend to be adjacent to each other, modeling the occlusion distribution with a Markov Random Field.  Finally, Chapter \ref{chap:proposed} discusses a variety of ideas for future improvements to the recognition system.
+
+%Unfortunately, a good recognition algorithm alone is not sufficient to construct a practical face recognition system: a linear superposition of the training images must be able to represent the test image taken under a different lighting condition.  For this purpose I will present a novel training image acquisition system that is able to rapidly acquire images of a subject under varying illumination.  While many acquisition systems have been built for this purpose, they have not been practical for widespread use.  I will propose a projector based approach, which can be easily assembled from off-the-shelf parts, and which is much more flexible in the variety of illuminations it can produce.
+
+%Since general software packages for solving sparse representation problems are unable to run in a reasonable amount of time on high dimensional face recognition data, I will show how dramatic speed gains can be achieved by offloading the data parallel portions of the algorithm onto a massively parallel processor.  I will demonstrate a GPU based implementation of a sparse solver that can perform recognition quickly enough to be useful for access control applications.  Finally, I will demonstrate a complete face recognition system that significantly advances the state of the art in terms of its ability to efficiently and effectively recognize faces under a variety of realistic conditions.
+
+
+%Most contemporary face recognition algorithms work well under
+%laboratory conditions but degrade when tested in less-controlled environments. This is mostly due to the difficulty of simultaneously 
+%handling variations in illumination, alignment, pose, and occlusion.
+%In this thesis proposal, we propose a simple and practical  face recognition system that achieves a high degree of  
+%robustness and stability to all these variations. We demonstrate how to use tools from sparse representation 
+%to align a test face image with a set of frontal training 
+%images in the presence of significant registration error and occlusion. We thoroughly characterize the region 
+%of attraction for our alignment algorithm on public face datasets such as Multi-PIE. 
+%We further study how to obtain a sufficient set of training illuminations for linearly  
+%interpolating practical lighting conditions. We have implemented a complete face recognition
+%system, including a projector-based training acquisition system, in order to evaluate how our algorithms work under practical testing conditions. We show  
+%that our system can efficiently and effectively recognize faces under  
+%a variety of realistic conditions, using only 
+%frontal images under the proposed illuminations as training.\vspace{-10mm}
+
+%Partially occluded faces are common in many applications of face
+%recognition. While algorithms based on sparse
+%representation have demonstrated promising results, they achieve their best performance on occlusions
+%that are not spatially correlated (i.e.\ random pixel corruption). We show that such sparsity-based algorithms can be significantly improved by harnessing prior knowledge about the pixel error distribution. We
+%show how a Markov Random Field model for spatial continuity of the occlusion can be integrated into the computation of a
+%sparse representation of the test image with respect to the training images.
+%Our algorithm efficiently and reliably identifies the
+%corrupted regions and excludes them from the sparse representation.
+%Extensive experiments on both laboratory and real-world datasets show that our algorithm tolerates much
+%larger fractions and varieties of occlusion than current state-of-the-art algorithms. \vspace{0mm}
+
+

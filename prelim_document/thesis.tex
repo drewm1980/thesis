@@ -1,0 +1,138 @@
+\def\fileversion{v1.0n} \def\filedate{2009/4/23}
+\documentclass[12pt,oneside]{book}
+\usepackage[fullpage]{uiucthesis}
+
+%\usepackage[fullpage,draftthesis]{uiucthesis}
+%\def\draftheader{\slshape Preliminary Examination Document}
+
+
+%\usepackage{graphicx}
+%\usepackage{times}
+%\usepackage{psfrag}
+%\usepackage{psfig}
+%\usepackage{epsfig}
+%\usepackage{latexsym, amsmath, amsfonts, amscd}
+%\usepackage{hhline,multirow}
+%\usepackage{fancyhdr}
+%\usepackage{pifont}\usepackage{array}
+
+% This is required for dvipdfm
+%\usepackage[dvipdfm]{color}
+%
+% graphicx.sty has some useful transformation features not present in 
+% graphics.sty
+%\usepackage[dvipdfm]{graphicx}
+\usepackage{graphicx}
+%
+% natbib.sty has many features for a variety of citation styles.  Remember 
+% to use \citep!
+% use "sort&compress" for newer versions of natbib, "sort" for older versions
+%\usepackage[square,sort&compress]{natbib}
+%
+% This makes many more AMS math symbols available.
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% array.sty and dcolumn.sty extend the features of the tabular and array 
+% environments.  
+\usepackage{dcolumn,array}
+
+\usepackage{cite}
+\usepackage{times}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{psfrag}
+%\usepackage{psfig}
+\usepackage{subfigure}
+\usepackage{epsfig}
+\usepackage{latexsym,amsfonts,amsthm,amscd}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{cmmib57}
+\usepackage{pifont}
+%\usepackage{bibmods}\usepackage{bibnames}
+\usepackage{makeidx}
+\usepackage[noprefix]{nomencl}
+\usepackage{hhline,multirow}
+
+\usepackage{url}
+
+%\usepackage{graphicx}
+
+%
+% Using those packages, one can define these new column types:
+\newcolumntype{.}{D{.}{.}{-1}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+%
+% hyperref works, but not quite like I'd want 
+% The main problem is that it does not currently handle \addcontentsline
+% which we *do* use below!
+% Perhaps in the future this will be ironed out.
+% Leave this commented out for now.
+% \usepackage[dvipdfm]{hyperref}
+% 
+% The following two packages, epic.sty and eepic.sty, allow xfig output 
+% to be rendered (nicely) by TeX.  
+\usepackage{epic}
+\usepackage{eepic}
+
+%  
+% The ifthen.sty package is useful for setting up switches for things like
+% color/grayscale images, compact formatting, etc.  
+\usepackage{ifthen}
+%
+% mydefs.sty is where to place customized definitions.   
+\usepackage{mydefs}
+
+\usepackage[usenames]{color}
+
+% Hopefully get psfrag to work
+%\usepackage{psfrag}
+
+% Set page dimensions.
+
+\textheight=8.4in
+\headheight=0pt
+\headsep=0pt
+\topmargin=0.1in
+\textwidth=6.3in
+\oddsidemargin=0.1in
+%\evensidemargin=0.0in
+
+\setlength\fboxsep{0pt}
+\setlength\fboxrule{1pt}
+
+%\input{coms}
+\begin{document}
+
+\include{page_title}
+\doublespace
+\frontmatter
+\include{ab}
+\doublespace
+\mainmatter
+
+
+
+
+
+\include{chapter_introduction}
+\include{chapter_cvpr09}
+\include{chapter_iccv09}
+\include{chapter_proposed}
+\include{chapter_future}
+%\include{chapter_conclusion}
+
+%\include{appx}
+
+\backmatter
+\singlespace
+
+\bibliographystyle{IEEEtran}
+%\bibliography{faces}
+\bibliography{IEEEabrv,faces}
+
+
+\end{document}
+\endinput
+

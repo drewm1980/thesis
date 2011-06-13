@@ -1,0 +1,44 @@
+%!TEX root = thesis.tex
+\pagenumbering{roman}
+\setcounter{page}{3}
+
+\chapter*{ABSTRACT}
+\doublespace
+
+
+%Fast and Robust Face Recognition via Sparse Representation and Parallel Programming
+
+Most contemporary face recognition algorithms work well under laboratory conditions but degrade when tested in less-controlled environments. In order to achieve useful recognition rates a recognition system needs to simultaneously handle variations in illumination, alignment, and occlusion. This thesis proposes a conceptually simple and practical face recognition system that achieves a high degree of robustness and stability to all these variations.  First a flexible system for acquiring well registered training images under many illuminations is demonstrated.
+An alignment and recognition system simultaneously searches for a linear combination of the training images and a corresponding warping of the testing image that results in an image error that is sparse.  To better handle severe occlusions an extension to the algorithm is proposed that makes use of the knowledge that occluded pixels tend to be spatially correlated.  Finally, several planned techniques for improving both the execution speed and recognition accuracy of the algorithm are discussed.
+
+\newpage
+
+%\vspace*{\fill}
+%    \hspace*{\fill}{\em To Mom, Dad, and Emily}\hspace{\fill}
+%\vspace{\fill}
+%\newpage
+
+%\chapter*{ACKNOWLEDGMENTS}
+
+%This work was performed in close collaboration with a team of brilliant engineers including John Wright, Zihan Zhou, Arvind Ganesh, Yoav Sharon, and of course, our advisor Yi Ma.  
+
+%\chapter*{Notations and Units}
+%\ind 
+
+% Single space the lists, as recommended
+\singlespace
+%
+% Create (automatically) the TOC
+% Everything below this point must appear in the TOC
+\tableofcontents
+\clearpage
+%
+% Create (automatically) the LOT
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
+\listoftables
+\clearpage
+%
+% Create (automatically) the LOF
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\listoffigures
+

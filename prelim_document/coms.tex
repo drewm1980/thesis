@@ -1,0 +1,206 @@
+\newcommand{\ind}{\hspace{\parindent}}
+\newcommand{\simgt}{$>$\hspace{-9pt}\raisebox{-6pt}{$\sim$}\ }
+\newcommand{\simlt}{$<$\hspace{-9pt}\raisebox{-6pt}{$\sim$}\ }
+
+\newcommand{\ie}{{i.e.}}
+\newcommand{\D}{\displaystyle}
+\newenvironment{principle}[1][Principle]{\begin{trivlist} \item[\hskip \labelsep {\bfseries #1}] \em }{\end{trivlist}}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{Principle}{Principle}[chapter]
+\def\QED{~\rule[-1pt]{5pt}{5pt}\par\medskip}
+\newenvironment{proof}{{\bf Proof: \ }}{ \hfill \QED}
+
+\newcommand{\p}{{p}}
+\renewcommand{\Re}{{\mathbb{R}}}
+\newcommand{\Ze}{{\mathbb{Z}}}
+\newcommand{\Pe}{{\mathbb{P}}}
+\renewcommand{\Im}{\mathcal{I}}
+\def\X{{\boldsymbol{X}}}
+\def\x{{\boldsymbol{x}}}
+\def\Y{{\boldsymbol{Y}}}
+\def\y{{\boldsymbol{y}}}
+\def\F{{\mathbf{F}}}
+
+% procedural macros:
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+
+% variable macros:
+\newcommand{\lp}{\left(}
+\newcommand{\rp}{\right)}
+\newcommand{\lb}{\left[}
+\newcommand{\rb}{\right]}
+
+\newcommand{\au}{ ^{197}{\rm Au} }
+\newcommand{\avgpx}{\langle p_{x}(y) \rangle}
+\newcommand{\avgpxpp}{\langle p_{x} / p_{\bot} \rangle}
+\newcommand{\avgm}{\langle M_{c}(b) \rangle}
+\newcommand{\avgteff}{\langle \Theta_{\rm eff}(\beta,E) \rangle}
+\newcommand{\avgtf}{\langle \theta_{\rm F}(b) \rangle}
+\newcommand{\bimp}{b}
+\newcommand{\betamax}{\beta_{\rm max}}
+\newcommand{\crosssect}{\sigma({\bf p},{\bf p'}\leftrightarrow{\bf q},{\bf q'})}
+\newcommand{\dt}{\Delta t}
+\newcommand{\ebal}{E_{\rm bal}}
+\newcommand{\ecm}{E_{\rm cm}}
+\newcommand{\elab}{E_{\rm lab}}
+\newcommand{\ep}{E_{\rm P}}
+\newcommand{\erho}{E(\rho)}
+\newcommand{\es}{E_{\rm S}}
+\newcommand{\f}[1]{f \lp {\bf #1},{\bf r} \rp}
+\newcommand{\flow}{{\cal F}}
+\newcommand{\fpr}{f \lp {\bf p},{\bf r} \rp}
+\newcommand{\fprt}{f \lp {\bf p},{\bf r}, t \rp}
+\newcommand{\gradr}{ \mbox{\boldmath $\nabla\!$}_{r}}
+\newcommand{\gradp}{ \mbox{\boldmath $\nabla\!$}_{p}}
+\newcommand{\la}{ ^{139}{\rm La} }
+\newcommand{\lam}[1]{\lambda_{#1}}
+\newcommand{\mc}{M_{c}}
+\newcommand{\mclimit}{M_{c}^{\rm limit}}
+\newcommand{\mcmax}{M_{c}^{\rm max}}
+\newcommand{\mua}{\mu_{\rm a}}
+\newcommand{\mur}{\mu_{\rm r}}
+\newcommand{\mult}{\langle M \rangle}
+\newcommand{\multb}{\langle M(\bimp) \rangle}
+\newcommand{\np}{N_{p}}
+\newcommand{\npmax}{N_{p}^{\rm max}}
+\newcommand{\nscat}{N_{\rm scat}}
+\newcommand{\ntest}{N_{\rm test}}
+\newcommand{\ppar}{\left( {\bf p} \right)}
+\newcommand{\pxn}{\langle p_{x}(v_{z}) \rangle}
+\newcommand{\qvec}{{\bf Q}}
+\newcommand{\ralpha}{{\bf r}_{\alpha}}
+\newcommand{\rc}{r_{\rm c}}
+\newcommand{\rhoac}{\rho_{\rm ac}}
+\newcommand{\rhobar}{\frac{\rho}{\rhoz}}
+\newcommand{\rhocrit}{\rho_{\rm C}}
+\newcommand{\rhoi}{\rho_{i}}
+\newcommand{\rhol}{\rho_{\rm L}}
+\newcommand{\rhor}{\rho \left( {\bf r} \right)}
+\newcommand{\rhoz}{\rho _{0}}
+\newcommand{\rhs}{r_{\rm hs}}
+\newcommand{\rmin}{r_{\rm min}}
+\newcommand{\rpmin}{r'_{\rm min}}
+\newcommand{\rpar}{\left( {\bf r} \right)}
+\newcommand{\seff}{\sigma_{\rm eff}}
+\newcommand{\seffnn}{\sigma_{\rm eff, nn}}
+\newcommand{\seffnp}{\sigma_{\rm eff, np}}
+\newcommand{\shs}{\sigma_{\rm hs}}
+\newcommand{\shsnn}{\sigma_{\rm hs, nn}}
+\newcommand{\shsnp}{\sigma_{\rm hs, np}}
+\newcommand{\tac}{T_{\rm ac}}
+\newcommand{\tapp}{T_{\rm app}}
+\newcommand{\taueff}{\tau_{\rm eff}}
+\newcommand{\tcrit}{T_{\rm C}}
+\newcommand{\tf}{\theta_{\rm F}}
+\newcommand{\tfb}{\theta_{\rm F}(\bimp)}
+\newcommand{\teffbe}{\Theta(\beta,E)}
+\newcommand{\teffnnbe}{\Theta_{\rm nn}(\beta,E)}
+\newcommand{\teffnpbe}{\Theta_{\rm np}(\beta,E)}
+\newcommand{\ths}{\Theta_{\rm hs}(\beta)}
+\newcommand{\ti}{T_{i}}
+\newcommand{\tint}{T_{\rm int}}
+\newcommand{\tmax}{t_{\rm max}}
+\newcommand{\up}{U_{\rm P}}
+\newcommand{\ur}{U \lp {\bf r} \rp}
+\newcommand{\urho}{U \lp \rho \rp}
+\newcommand{\us}{U_{\rm S}}
+\newcommand{\va}{v_{\rm a}}
+\newcommand{\vecp}{{\bf p}}
+\newcommand{\vecr}{{\bf r}}
+\newcommand{\veff}{v_{\rm eff}}
+\newcommand{\veffnp}{v_{\rm eff,np}}
+\newcommand{\veffnn}{v_{\rm eff,nn}}
+\newcommand{\vk}{{\bf k}}
+\newcommand{\vnp}{v_{\rm np}}
+\newcommand{\vnn}{v_{\rm nn}}
+\newcommand{\vpp}{v_{\rm pp}}
+\newcommand{\vr}{v_{\rm r}}
+\newcommand{\yproj}{y_{\rm proj}}
+\newcommand{\yuk}[1]{e^{- \mu_{\rm #1} r} /r}
+\newcommand{\yukc}[1]{e^{- \mu_{\rm #1} \rc} / \rc}
+
+%frank's definitions
+\newtheorem{wilbur}{Proposition}
+
+\newcommand{\he}{$^{3}{\rm He}$--A}
+\newcommand{\hel}{$^{3}{\rm He}$}
+\newcommand{\heAA}{$^{3}{\rm He}$--A1}
+\newcommand{\heB}{$^{3}{\rm He}$--B}
+
+\newcommand{\nqp}{Nambu quasi-particle}
+\newcommand{\lqp}{Landau quasi-particle}
+\newcommand{\io}{intrinsic orbital angular momentum}
+\newcommand{\am}{IOAM}
+\newcommand{\fcur}{fermion number current}
+
+\newcommand{\delo}{\mbox{${\bf \Delta}_{1}$}}
+\newcommand{\delt}{\mbox{${\bf \Delta}_{2}$}}
+\newcommand{\phat}{\mbox{$\hat{\mbox{\boldmath $p$}}$}}
+\newcommand{\pphi}{\mbox{$\phi_{p}$}}
+\newcommand{\bk}{{\bf k}}
+\newcommand{\bp}{{\bf p}}
+\newcommand{\bpp}{\mbox{${\bf p}^{\prime}$}}
+\newcommand{\bq}{{\bf q}}
+\newcommand{\bkp}{\mbox{${\bf k}^{\prime}$}}
+\newcommand{\lv}{\mbox{$\hat{{\bf l}}$}}
+\newcommand{\rrc}{{\rm c}}
+\newcommand{\bep}{\mbox{\boldmath $\epsilon$}}
+\newcommand{\bxx}{{\bf x}}
+\newcommand{\byy}{{\bf y}}
+\newcommand{\eps}{\mbox{$\epsilon$}}
+\newcommand{\xp}{\mbox{$x^{\prime}$}}
+\newcommand{\bxp}{\mbox{${\bf x^{\prime}}$}}
+\newcommand{\brr}{{\bf R}}
+\newcommand{\bsg}{\mbox{\boldmath $\sigma$}}
+\newcommand{\bnh}{\mbox{$\hat{{\bf n}}$}}
+\newcommand{\bnhp}{\mbox{$\hat{{\bf n}}_{\bf p}$}}
+\newcommand{\bbb}{{\bf B}}
+\newcommand{\cp}{\mbox{$C_{{\bf p}}$}}
+\newcommand{\spp}{\mbox{$S_{{\bf p}}$}}
+
+
+\newcommand{\cl}{\mbox{${\cal L}$}}
+\newcommand{\cm}{{\cal M}}
+\newcommand{\ccm}{\mbox{${\cal C}^{\mu}$}}
+
+\newcommand{\parj}{\mbox{$^{j}_{3}\rpp$}}
+\newcommand{\park}{\mbox{$^{k}_{3}\rpp$}}
+\newcommand{\parl}{\mbox{$^{l}_{3}\rpp$}}
+
+\newcommand{\rh}{\mbox{{\rm H}}}
+\newcommand{\rhzp}{\mbox{${\rm H}^{\prime}_{0}$}}
+\newcommand{\rhz}{\mbox{${\rm H}_{0}$}}
+\newcommand{\rhc}{\mbox{${\rm H}_{\chi}$}}
+\newcommand{\rhph}{\mbox{${\rm H}_{\phi}$}}
+\newcommand{\rhint}{\mbox{${\rm H}_{{\rm int}}$}}
+\newcommand{\rhintp}{\mbox{${\rm H}_{{\rm int}}^{\prime}$}}
+\newcommand{\rs}{{\rm s}}
+\newcommand{\rsp}{{\rm s}^{\prime}}
+
+\newcommand{\vp}{^{\prime}}
+
+\newcommand{\rpp}{{\rm P}}
+\newcommand{\rt}{{\rm T}}
+\newcommand{\hop}{H(\phat)}
+
+\newcommand{\gft}{\mbox{${\rm G}_{0 \rs}(\bp,{\rm t})$}}
+\newcommand{\gfp}{\mbox{${\rm G}_{0 \rs}(\bp,{\rm p}_{0})$}}
+\newcommand{\gfpp}{\mbox{${\rm G}_{0}(\bpp,{\rm p}^{\prime}_{0})$}}
+\newcommand{\lla}{\mbox{$\langle$}}
+\newcommand{\ra}{\mbox{$\rangle$}}
+\newcommand{\parr}{\mbox{$\partial$}}
+\newcommand{\epar}{\mbox{$\bar{\partial}$}}
+\newcommand{\gamb}{\mbox{$\bar{\gamma}$}}
+\newcommand{\gamfb}{\mbox{$\bar{\gamma_{5}}$}}
+\newcommand{\abar}{\mbox{$\bar{A}$}}
+\newcommand{\lag}{\mbox{${\cal L}(\phat)$}}
+\newcommand{\gm}{\mbox{$\gamma^{\mu}$}}
+\newcommand{\dm}{\mbox{$\partial_{\mu}$}}
+\newcommand{\gfiv}{\mbox{$\gamma_{5}$}}
+
