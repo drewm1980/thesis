@@ -1,0 +1,183 @@
+%
+% Dissertation style file by John Shumway.
+% Attempts to meet requirements of Univ. of Illinois Dept. of Physics.
+% No guarentees - PLEASE CHECK FORMAT CAREFULLY!
+% 
+% Page setup (8 1/2 x 11 double spaced page, for 11pt)
+% 1.5" side margins, 0.75" top and bottom margins
+% 
+\setlength{\textwidth}{6in}
+\setlength{\textheight}{9in}
+\setlength{\topmargin}{-0.75in}
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\evensidemargin}{0.25in}
+\setlength{\headheight}{0.25in}
+\setlength{\headsep}{0.25in}
+\setlength{\topskip}{0in}
+
+%Define singlespace and doublespace commands for 12pt fonts.
+%See page 53 of The Latex Companion.
+\newcommand{\doublespace} {
+  \renewcommand{\baselinestretch}{1.66}\small\normalsize
+}
+\newcommand{\oneandhalfspace} {
+  \renewcommand{\baselinestretch}{1.24}\small\normalsize
+}
+\newcommand{\singlespace} {
+  \renewcommand{\baselinestretch}{1}\small\normalsize
+}
+\oneandhalfspace
+\newcommand{\labeltoc}[1]{
+  \addtocontents{toc}
+  {\protect\par\vspace*{0.5\baselineskip}
+    \par{\noindent\bfseries #1\vspace{-0.5\baselineskip}}\par}}
+
+%Change "Bibliography" to "References"
+\renewcommand{\bibname}{References}
+
+% Put ellipses in chapter listings.
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\dotfill\nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+
+% Put ellipses in chapter listings.
+\newcommand*\l@chapterfoo[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\hfill\nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+
+%
+% \maketitle is redefined to make the required title page
+% Standard commands: \title, \author, \begin{abstract}, \end{abstract}
+% New commands: \prevdegrees, \gradyear, \advisor
+% Example:  \title{Phases of the electron-hole plasma}
+%           \author{John Beaumont Shumway, Jr}
+%           \advisor{David M. Ceperley}
+%           \prevdegrees{B.S., University of Missouri-Columbia, 1993\\
+%                        M.S., University of Missouri-Columbia, 1995}
+%           \gradyear{1999}
+% 
+%
+% Define "\prevdegrees" command for title page.
+%
+\newcommand{\prevdegrees}[1]{\renewcommand{\@prevdegrees}{#1}}
+\newcommand{\@prevdegrees}{\tt$\backslash$\string prevdegrees}
+%default is "\prevdegrees"
+%
+% Define "\gradyear" command for title page.
+%
+\newcommand{\gradyear}[1]{\renewcommand{\@gradyear}{#1}}
+\newcommand{\@gradyear}{\tt$\backslash$\string gradyear}
+%default is "\gradyear"
+%
+% Define "\advisor" command for abstract.
+%
+\newcommand{\advisor}[1]{\renewcommand{\@advisor}{#1}}
+\newcommand{\@advisor}{\tt$\backslash$\string advisor}
+%default is "\advisor"
+%
+% Redefine maketitle
+%
+\renewcommand\maketitle{
+  \thispagestyle{empty}
+  %We need do determine TitleBoxHeight=1.75in-the height of capital letters.
+  \newlength{\TitleBoxHeight}\settoheight{\TitleBoxHeight}{THESIS}
+  \setlength{\TitleBoxHeight}{-1.0\TitleBoxHeight}
+  \addtolength{\TitleBoxHeight}{1.75in}
+  %
+  %Start from 0.75in top margin
+  %
+  \vspace*{1.5in}
+  %
+  %Top of title is 2.25 in.
+  %
+  \noindent
+  \parbox[b][\TitleBoxHeight][s]{\linewidth}{
+  \begin{center}
+    \singlespace
+    \uppercase\expandafter{\@title}
+  \end{center}\vfill}
+  %
+  %Bottom of "BY" is 4 in.
+  %
+  \parbox[b][2.50in][s]{\linewidth}{
+  \begin{center}
+    BY\\
+    \uppercase\expandafter{\@author}\\
+    \begin{center}\singlespace \@prevdegrees\end{center}
+  \end{center}\vfill}
+  %
+  %Bottom of "THESIS" is 6.5 in.
+  %
+  \parbox[b][2.5in][s]{\linewidth}{
+  \begin{center}
+    THESIS\\
+    Submitted in partial fulfillment of the requirements\\ \singlespace
+    for the degree of Doctor of Philosophy in Physics\\
+    in the Graduate College of the\\
+    University of Illinois at Urbana-Champaign, \@gradyear\\
+  \end{center}\vfill}
+   %
+   %Bottom of "Urbana, Illinois" is 9 in.
+   %
+   \parbox[b][0.5in][s]{\linewidth}
+   {\begin{center} Urbana, Illinois \end{center}\vfill}
+   \clearpage
+}
+
+%
+% redefine abstract environment
+%
+\renewenvironment{abstract}{
+  \begin{center}
+    \uppercase\expandafter{\@title}\\
+    \@author, Ph.D. \\ \singlespace
+    Department of Physics\\
+    University of Illinois at Urbana-Champaign, \@gradyear\\
+    \@advisor, Advisor\\
+  \end{center}
+} {\clearpage}
+
+     
+%
+% Modify figure captions so that they print singlespace.
+%
+\renewcommand{\@makecaption}[2]{% #1 is e.g. Figure 1, #2 is captiontext
+  \singlespace
+  {\textbf{#1:} #2\par}
+}
+
+%
+% Change some of the rules for float placement.
+%
+\setcounter{topnumber}{2}          %Maximum 2 floats on top
+\setcounter{bottomnumber}{1}       %Maximum 1 float on bottom
+\renewcommand{\topfraction}{0.7}    %Top float max size is 70%
+\renewcommand{\bottomfraction}{0.7} %Bottom float max size is 70%
+
+%
+% End of file uidis.sty
+%
