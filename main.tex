@@ -19,9 +19,6 @@
 \department{Electrical and Computer Engineering}
 \degreeyear{2011}
 
-% Advisor name is required for
-% - doctoral students for the ProQuest abstract
-% - master's students who do not have a master's committee
 \advisor{Yi Ma}
 
 \committee{Professor Yi Ma, Chair\\
@@ -31,15 +28,10 @@
 
 \begin{document}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% COPYRIGHT
-%
-%\copyrightpage TODO
+% TODO
+%\copyrightpage
 %\blankpage
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TITLE
-%
 \maketitle
 
 %\raggedright
@@ -47,103 +39,65 @@
 
 \frontmatter
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ABSTRACT
-%
 \begin{abstract}
-% Put the abstract in a file called "abs.tex" and it'll be inputted here.
 \input{abstract} 
 \end{abstract}
 
+% TODO
+%\begin{dedication}
+%To my parents, for their love and support.
+%\end{dedication}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% DEDICATION
-%
-\begin{dedication}
-% Whatever dedication you want.
-To my parents, for their love and support. TODO
-\end{dedication}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ACKNOWLEDGMENTS
-%
-% Put acknowledgments in a file called "ack.tex" and it'll be inputted here.
 \begin{acknowledgments}
 \input{acknowledgements}
 \end{acknowledgments}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TABLE OF CONTENTS
-%
 \tableofcontents
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% LIST OF TABLES
-%
-% The List of Tables is not strictly necessary. Omitting the List of Tables will
-% simplify the thesis check and reduce the number of corrections.
-\listoftables
+%\listoftables
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% LIST OF FIGURES
-%
-% The List of Figures is not strictly necessary. Omitting the List of Figures will
-% simplify the thesis check and reduce the number of corrections.
-\listoffigures
+%\listoffigures
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% LIST OF ABBREVIATIONS
-%
-% The List of Abbreviations is not strictly necessary.
-\chapter{LIST OF ABBREVIATIONS}
-
+%\chapter{LIST OF ABBREVIATIONS}
 %\begin{symbollist*}
 %\item[EPIC] Explicitly Parallel Instruction Computing
 %\item[GPU] Graphics Processing Unit
 %\item[VLIW] Very Long Instruction Word
 %\end{symbollist*}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % LIST OF SYMBOLS
-%
 %\begin{symbollist}[0.7in]
 %\item[$\tau$] Time taken to drink one cup of coffee.
 %\end{symbollist}
 
 \mainmatter
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INSERT REAL CONTENT HERE
-%
-
-\chapter{INTRODUCTION}
+\chapter{Introduction}
 \label{chap:introduction}
 %\include{chap_introduction}
 
-\chapter{COMBINING ILLUMINATION INVARIANCE WITH OCCLUSION ROBUSTNESS, AND ALIGNMENT}
+\chapter{Combining illumination invariance with occlusion robustness, and alignment}
 \label{chap:cvpr}
-\include{chap_pipeline}
+%\include{chap_pipeline}
 
-\chapter{IMPROVING ROBUSTNESS TO CONTINUOUS OCCLUSIONS}
+\chapter{Improving robustness to continuous occlusions}
 \label{chap:iccv}
 %\include{chap_markov}
 
+\chapter{Parallelization on multicore processors}
 %\include{chap_ijcb}
+
+\chapter{Future work}
+\label{chap:future}
 %\include{chap_future}
+
 %\include{chap_conclusion}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% APPENDIX
-%
 \appendix 
 \include{appendix}
 
 \backmatter
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BIBLIOGRAPHY
-%
 \bibliographystyle{IEEE_ECE}
 \bibliography{thesisrefs}
 
