@@ -664,16 +664,16 @@ We have gathered the statistics of the Viola and Jones'
 \centering
 {\small
 \begin{tabular}{ccc}
-\includegraphics[height=1.2in]{figures_pami/x_y_roa.png} &
-\includegraphics[height=1.2in]{figures_pami/y_theta_roa.png} &
-\includegraphics[height=1.2in]{figures_pami/y_s_roa.png}\\
+\includegraphics[height=1.4in]{figures_pami/x_y_roa.png} &
+\includegraphics[height=1.4in]{figures_pami/y_theta_roa.png} &
+\includegraphics[height=1.4in]{figures_pami/y_s_roa.png}\\
 (a)&(b)&(c)
 \end{tabular}
 \begin{tabular}{cccc}
-\includegraphics[height=1in]{figures_pami/x_tr.png} &
-\includegraphics[height=1in]{figures_pami/y_tr.png} &
-\includegraphics[height=1in]{figures_pami/theta.png} &
-\includegraphics[height=1in]{figures_pami/scale.png}\\
+\includegraphics[height=1.1in]{figures_pami/x_tr.png} &
+\includegraphics[height=1.1in]{figures_pami/y_tr.png} &
+\includegraphics[height=1.1in]{figures_pami/theta.png} &
+\includegraphics[height=1.1in]{figures_pami/scale.png}\\
 (d)&(e)&(f)& (g)
 \end{tabular}
 \vspace{0mm} } \caption{{\bf Region of attraction.} Fraction of
@@ -740,18 +740,18 @@ Note that this level of out-of-plane
 \centering
 {\small
 \begin{tabular}{ccccc}
-\includegraphics[height=0.5in]{figures_cvpr/5} &
-\includegraphics[height=0.5in]{figures_cvpr/7} &
-\includegraphics[height=0.5in]{figures_cvpr/09} &
-\includegraphics[height=0.5in]{figures_cvpr/11} &
-\includegraphics[height=0.5in]{figures_cvpr/13} \vspace{0mm} \\
+\includegraphics[height=1in]{figures_cvpr/5} &
+\includegraphics[height=1in]{figures_cvpr/7} &
+\includegraphics[height=1in]{figures_cvpr/09} &
+\includegraphics[height=1in]{figures_cvpr/11} &
+\includegraphics[height=1in]{figures_cvpr/13} \vspace{0in} \\
 (a) & (b) & (c) & (d) & (e)\\
-\includegraphics[height=0.5in]{figures_cvpr/15} &
-\includegraphics[height=0.5in]{figures_cvpr/17} &
-\includegraphics[height=0.5in]{figures_cvpr/19} &
-\includegraphics[height=0.5in]{figures_cvpr/21} &
-\includegraphics[height=0.5in]{figures_cvpr/3} \vspace{0mm} \\
-(f) & (g) & (h) & (i) & (j) \vspace{0mm}
+\includegraphics[height=1in]{figures_cvpr/15} &
+\includegraphics[height=1in]{figures_cvpr/17} &
+\includegraphics[height=1in]{figures_cvpr/19} &
+\includegraphics[height=1in]{figures_cvpr/21} &
+\includegraphics[height=1in]{figures_cvpr/3} \vspace{-.1in} \\
+(f) & (g) & (h) & (i) & (j) \vspace{-.1in}
 \end{tabular}
 }
 \caption{{\bf 2D Alignment of test images with different poses to frontal training images.} {\bf (a) to (i):}  plausible alignment for pose from $-45^{\circ}$
@@ -882,7 +882,7 @@ advantages over flash-based illumination systems for face recognition:
 \end{itemize}
 \begin{figure}
 \centering
-\includegraphics[height=2in]{figures_cvpr/camera_rig.pdf}
+\includegraphics[height=2.3in]{figures_cvpr/camera_rig.pdf}
 \caption{{\bf Training acquisition system:} Four projectors and two cameras controlled by one computer.}
 \vspace{-2em}
 \label{fig:system}
@@ -967,8 +967,8 @@ our large-scale experiments:
 \begin{figure}
 \centering
 \begin{tabular}{cc}
-\includegraphics[height=.75in]{figures_cvpr/coverage_experiment_asplode.png} &
-\includegraphics[height=.75in]{figures_cvpr/final_cvpr_illuminations_asplode.png}  \\
+\includegraphics[height=1.5in]{figures_cvpr/coverage_experiment_asplode.png} &
+\includegraphics[height=1.5in]{figures_cvpr/final_cvpr_illuminations_asplode.png}  \\
 (a) Coverage Experiment & (b) Chosen Illumination Patterns
 \end{tabular}\vspace{0mm}
 \caption{{\bf Illumination Patterns.}   The cells are illuminated in sequence.  For rear illuminations the sequence is reversed.  In the chosen pattern's rear illumination, the cells 1-5 and 7-11 are omitted for a total of 38 illuminations. The four rectangular regions correspond to the four projectors.  }
@@ -979,8 +979,8 @@ our large-scale experiments:
 \begin{figure}
 \centering
 \begin{tabular}{@{}c@{}c@{}}
-\includegraphics[height=1.2in]{figures_cvpr/illum_results/coverage_sunset.pdf} &
-\includegraphics[height=1.2in]{figures_cvpr/illum_results/granularity_sunset.pdf} \\
+\includegraphics[height=1.5in]{figures_cvpr/illum_results/coverage_sunset.pdf} &
+\includegraphics[height=1.5in]{figures_cvpr/illum_results/granularity_sunset.pdf} \\
 (a) Coverage & (b) Granularity
 \end{tabular}\vspace{0mm}
 \caption{{\bf Study of sufficient illuminations.} The average $\ell^1$ registration residual versus different illumination training sets. }
@@ -1014,9 +1014,55 @@ can be found that performs as well or better.}
 See below for the 38 training images of one subject:
 \begin{figure}[h]
 \centering
-\includegraphics[width=3.2in]{figures_cvpr/training.png}
+\includegraphics[width=6.3in]{figures_cvpr/training.png}
 \vspace{-2em}
 \end{figure}
+
+
+%\subsection{Should Positivity in the Representation Coefficients
+%be Enforced?} One critical issue in linear illumination models
+%is whether to enforce nonnegativity in the coefficients $\x$,
+%i.e. whether to model illumination using a cone or a subspace.
+%Some authors, i.e. \cite{Basri2003-PAMI}, have chosen to allow
+%negative components in the coefficient vector $\x$ when
+%representing one image as a sum of other images, and only
+%enforce that the linear combination $A\x$ be positive
+%everywhere.  Unfortunately, for non-convex objects such as
+%faces, enforcing non-negativity of the representation is not
+%sufficient to guarantee that the resulting image of the object
+%is physical.  For example, consider a Lambertian planar object
+%with a cylindrical hole drilled in it that is aligned with the
+%optical axis of an orthographic camera.  Consider two images:
+%one under illumination from a distant point source aligned with
+%the hole, and one off of the hole axis.  Positively weighting
+%the on-axis image and negatively weighting the on-axis image
+%can result in an image where the bottom of the hole is more
+%strongly illuminated than the surrounding plane.  The image is
+%positive, but it is clearly non-physical.  It is worth
+%emphasizing that this phenomenon is a result of some points on
+%an object seeing a restricted subset of the illumination sphere
+%(a violation of convexity),  and not a result of the
+%directionality of the light chosen in the thought experiment.
+%While the number of coefficients that actually end up negative
+%after optimization is usually very small, we have observed
+%pathological cases where the shadows next to the user's nose in
+%the reconstructed image invert in value.
+
+%Instead of using a smaller set of training images, allowing the
+%coefficients to go negative to try to represent more test
+%illuminations, and risking over-fitting, we decided to enforce
+%non-negativity of the coefficients.  Nonnegative combinations
+%of images are guaranteed to correspond to physically plausible
+%images.  all physical illuminations unless the training images
+%actually span the boundary of the illumination cone. Because we
+%have a flexible acquisition system, we can directly generate a
+%set of illuminations that span most of the illumination cone,
+%without resorting to negative coefficients and risking
+%overfitting.  Thus, in Algorithm 1, we have enforced that the
+%coefficients $\x$ be non-negative.
+
+%One of the main factors that complicates face recognition, and computer vision in general, is that two images of the same person's face can be very different, even if the pose is carefully controlled and all points on the person's face are visible in both images.  The most safe, reliable, and general assumption that can be made about the imaging process is that it is linear with respect to the intensity of different light sources.  The set of images of a given object is therefore a cone in the non-negative orthant of the pixel basis.  All recognition algorithms that rely on vision for training rely on images sampled from this cone.
+
 
 \section{Tests on Public Databases}\label{sec:multipie}
 In this section and the next section, we conduct comprehensive experiments on
@@ -1082,7 +1128,7 @@ Recognition rate & Session 2 & Session 3 & Session 4  \\
 \label{tab:MultiPIE-recognition2} }
 \end{table}
 
-\newcommand{\tempwidth}[0]{0.58in}
+\newcommand{\tempwidth}[0]{0.9in}
 \begin{figure}
 \centering
 {\small
@@ -1350,8 +1396,8 @@ thresholding the error residuals of NN, NS, LDA, and LBP.
 {\small
 \centering
 \begin{tabular}{@{}c@{}c@{}}
-\includegraphics[height = 1.6in]{figures_pami/pami_roc_revision2} & \hspace{2mm}
-\includegraphics[height = 1.6in]{figures_pami/pami_roc2} \\
+\includegraphics[height = 3in]{figures_pami/pami_roc_revision2} & \hspace{2mm}
+\includegraphics[height = 3in]{figures_pami/pami_roc2} \\
 (a) & \hspace{2mm}(b) \\
 \end{tabular}
 }
@@ -1396,7 +1442,7 @@ indeed capable of handling a moderate amount of occlusion. For
 example, at 20\% occlusion, our algorithm still achieves 94.9\%
 recognition rate.
 
-\newcommand{\tempscale}{0.40}
+\newcommand{\tempscale}{0.75}
 \begin{figure}
 \centering
 \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}}
@@ -1471,7 +1517,7 @@ are insufficient for representing test images under typical indoor and
 outdoor illuminations.
 \vspace{-0.1in}
 
-\renewcommand{\tempscale}{0.45}
+\renewcommand{\tempscale}{0.75}
 \begin{figure}
 \centering
 \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}c@{}}
@@ -1591,7 +1637,7 @@ results for individual blocks are then aggregated by voting.
 
 \begin{figure}
 \centering
-\includegraphics[width=2.6in]{figures_pami/occ_block.png}
+\includegraphics[width=4in]{figures_pami/occ_block.png}
 \vspace{-2mm}
 \caption{{\bf Using overlapping blocks to tackle contiguous occlusion.} (a) The test image, occluded by sunglasses. (b) The four overlapping blocks. (c) The sparse representation is calculated after alignment for each block independently. The red lines correspond to his true identity. (d) The true identity is successfully recovered by voting based on the SCI scores.}
 \label{fig:occ-block}
