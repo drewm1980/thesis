@@ -34,3 +34,17 @@ the execution speed and recognition accuracy of the algorithm are discussed.
 %can efficiently and effectively recognize faces under a variety of realistic
 %conditions, using only frontal images under the proposed illuminations as
 %training.
+%\begin{abstract} Recently a family of promising face recognition algorithms
+%based on sparse representation and $\ell_1$-minimization ($\ell_1$-min) have been
+%developed.  These algorithms have not yet seen commercial application, 
+%largely due to higher computational cost compared to other traditional
+%algorithms. This paper studies techniques for leveraging the 
+%massive parallelism available in GPU and CPU hardware to accelerate
+%$\ell_1$-min based on augmented Lagrangian method (ALM) solvers. 
+%For very large problems, the GPU is faster due to higher memory bandwidth, while 
+%for problems that fit in the larger CPU L3 cache, the CPU is faster.
+%On both architectures, the proposed implementations significantly outperform
+%naive library-based implementations, as well as previous systems. 
+%The source code of the
+%algorithms will be made available for peer evaluation.  \end{abstract}
+
