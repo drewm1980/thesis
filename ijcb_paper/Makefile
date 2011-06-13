@@ -10,7 +10,7 @@ main.pdf:main.tex figures_ijcb/alignment_runtime_graph.eps
 	dia $< -e $@ -t tex
 
 %.pdf:%.tex
-	latexmk -pdfdvi $<
+	latexmk -pdf $<
 
 clean:
 	rm -f ${TARGETS} *.brf *.dvi *.log *.fdb_latexmk *.bbl *.aux
