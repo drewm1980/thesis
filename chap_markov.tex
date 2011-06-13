@@ -1,117 +1,88 @@
-%!TEX root = thesis.tex
+\section{Introduction} 
+This chapter represents work that I performed in collaboration with Zihan Zhou,
+John Wright, Hossein Mobahi, and Yi Ma.  It is an extended version of a
+conference paper that has been submitted for review for the 2009 IEEE
+Conference on Computer Vision.  While the previous chapter provided the overall
+design for a complete face recognition system, the work described in this
+chapter focuses on improving the robustness of the face recognition algorithm
+to occlusion.
 
-\chapter{IMPROVING ROBUSTNESS TO CONTINUOUS OCCLUSIONS}
-\label{chap:iccv}
+Occlusion is a common difficulty encountered in applications of automatic face
+recognition. Sources of occlusion include apparel such as  eyeglasses,
+sunglasses, hats, or scarves, as well as objects such as cell phones placed in
+front of the face. Moreover, even in the absence of an occluding object,
+violations of an assumed model for face appearance may act like occlusions:
+e.g., shadows due to extreme illumination violate the assumption of a
+low-dimensional linear illumination model \cite{Basri2003-PAMI}. Robustness to
+occlusion is therefore essential to practical face recognition.
 
-%\documentclass[10pt,twocolumn,letterpaper]{article}
+If the face image is partially occluded, popular recognition algorithms based
+on holistic features such as Eigenfaces and Fisherfaces
+\cite{Turk1991-CVPR,Belhumeur1997-PAMI} are no longer applicable, since all of
+the extracted features will be corrupted. If the spatial support of the
+occlusion can be reliably determined (e.g., using features such as color
+\cite{Jia2008-FGR,Jia2009-CVPR}), the occluded region can be discarded and
+recognition can proceed on the remaining part of the image. However, if the
+spatial support of the occlusion is initially unknown, one traditional approach
+is to rely on spatially localized features such as local image patches
+\cite{Martinez-02,Pentland1994-CVPR,Ahonen2006-PAMI}, or randomly sampled
+pixels \cite{Leonardis2000-CVIU,Fidler2006-PAMI}. Data-dependent spatially
+localized bases can also be computed using techniques such as independent
+component analysis (ICA) or localized nonnegative matrix factorization (LNMF)
+\cite{KimJ2005-PAMI,LiS2001-CVPR}. Clearly, such local features are less likely
+to be corrupted by partial occlusion than holistic features. However, as
+observed in \cite{Wright2009-PAMI}, operating on a small set of local features
+could discard useful redundant information in the test image, which is
+essential for detecting and correcting gross errors.
 
-%\usepackage{iccv}
-%\usepackage{times}
-%\usepackage{epsfig}
-%\usepackage{graphicx}
-%\usepackage{amsmath}
-%\usepackage{amssymb}
-
-%% Include other packages here, before hyperref.
-%\usepackage{algorithm}
-%\usepackage{algorithmic}
-
-%% If you comment hyperref and then uncomment it, you should delete
-%% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
-%% run, let it finish, and you should be clear).
-%\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
-
-%\renewcommand{\mathbf}{\boldsymbol}
-%\renewcommand{\Re}{\mathbb{R}}
-%\newcommand{\R}{\mathbb{R}}
-%\newcommand{\E}{\mathbf{E}}
-%\newcommand{\x}{\mathbf x}
-%\newcommand{\y}{\mathbf y}
-%\newcommand{\z}{\mathbf z}
-%\renewcommand{\r}{\mathbf r}
-%\newcommand{\e}{\mathbf e}
-%\newcommand{\n}{\mathbf n}
-%\newcommand{\G}{\mathbf G}
-%\newcommand{\I}{\mathbf I}
-%\renewcommand{\u}{\mathbf u}
-%\newcommand{\s}{\mathbf s}
-
-%\newtheorem{lemma}{Lemma}
-
-%\newcommand{\jw}[1]{{\color{red} \bf John: #1}}
-
-%\setlength\fboxsep{0pt}
-%\setlength\fboxrule{0.5pt}
-
-%
-%% \iccvfinalcopy % *** Uncomment this line for the final submission
-
-%\def\iccvPaperID{1145} % *** Enter the ICCV Paper ID here
-%\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
-
-%% Pages are numbered in submission mode, and unnumbered in camera-ready
-%\ificcvfinal\pagestyle{empty}\fi
-%\begin{document}
-
-%%%%%%%%%% TITLE
-%\title{Face Recognition With Contiguous Occlusion Using Markov Random Fields}
-
-%\author{First Author\\
-%Institution1\\
-%Institution1 address\\
-%{\tt\small firstauthor@i1.org}
-%% For a paper whose authors are all at the same institution,
-%% omit the following lines up until the closing ``}''.
-%% Additional authors and addresses can be added with ``\and'',
-%% just like the second author.
-%% To save space, use either the email address or home page, not both
-%\and
-%Second Author\\
-%Institution2\\
-%First line of institution2 address\\
-%{\small\url{http://www.author.org/~second}} }
-
-%\maketitle
-%% \thispagestyle{empty} % *** Uncomment this line for the final submission
-
-%%%%%%%%% ABSTRACT
-%\begin{abstract}
-%Partially occluded faces are common in many applications of face
-%recognition. While algorithms based on sparse
-%representation have demonstrated promising results, they achieve their best performance on occlusions
-%that are not spatially correlated (i.e.\ random pixel corruption). We show that such sparsity-based algorithms can be significantly improved by harnessing prior knowledge about the pixel error distribution. We
-%show how a Markov Random Field model for spatial continuity of the occlusion can be integrated into the computation of a
-%sparse representation of the test image with respect to the training images.
-%Our algorithm efficiently and reliably identifies the
-%corrupted regions and excludes them from the sparse representation.
-%Extensive experiments on both laboratory and real-world datasets show that our algorithm tolerates much
-%larger fractions and varieties of occlusion than current state-of-the-art algorithms. \vspace{0mm}
-%\end{abstract}
-
-\section{Introduction}
-This chapter represents work that I performed in collaboration with Zihan Zhou, John Wright, Hossein Mobahi, and Yi Ma.  It is an extended version of a conference paper that has been submitted for review for the 2009 IEEE Conference on Computer Vision.  While the previous chapter provided the overall design for a complete face recognition system, the work described in this chapter focuses on improving the robustness of the face recognition algorithm to occlusion.
-
-Occlusion is a common difficulty encountered in applications of automatic face recognition. Sources of occlusion include apparel such as  eyeglasses, sunglasses, hats, or scarves, as well as objects such as cell phones placed in front of the face. Moreover, even in the absence of an occluding object, violations of an assumed model for face appearance may act like occlusions: e.g., shadows due to extreme illumination violate the assumption of a low-dimensional linear illumination model \cite{Basri2003-PAMI}. Robustness to occlusion is therefore essential to practical face recognition.
-
-If the face image is partially occluded, popular recognition algorithms based on holistic features such as Eigenfaces and Fisherfaces \cite{Turk1991-CVPR,Belhumeur1997-PAMI} are no longer applicable, since all of the extracted features will be corrupted. If the spatial support of the occlusion can be reliably determined (e.g., using features such as color \cite{Jia2008-FGR,Jia2009-CVPR}), the occluded region can be discarded and recognition can proceed on the remaining part of the image. However, if the spatial support of the occlusion is initially unknown, one traditional approach is to rely on spatially localized features such as local image patches \cite{Martinez-02,Pentland1994-CVPR,Ahonen2006-PAMI}, or randomly sampled pixels \cite{Leonardis2000-CVIU,Fidler2006-PAMI}. Data-dependent spatially localized bases can also be computed using techniques such as independent component analysis (ICA) or localized nonnegative matrix factorization (LNMF) \cite{KimJ2005-PAMI,LiS2001-CVPR}. Clearly, such local features are less likely to be corrupted by partial occlusion than holistic features. However, as observed in \cite{Wright2009-PAMI}, operating on a small set of local features could discard useful redundant information in the test image, which is essential for detecting and correcting gross errors.
-
-To avoid losing useful information with local feature extraction, \cite{Wright2009-PAMI} casts face recognition as the problem of finding a sparse representation of the entire test image in terms of the training images, except for a sparse portion of the image that might be corrupted due to occlusion.
-The $n_i$ frontal\footnote{In \cite{Wright2009-PAMI}, both the training and test data are assumed to be well-registered frontal images. We also make this assumption, in order to isolate the effect of occlusion.} training images of each subject $i$ under
-varying illuminations are stacked as columns of a matrix $A_i \in \R^{m\times n_i}$. Concatenating the training images of all $K$ subjects gives a large matrix $A = [A_1,A_2,\ldots,A_K] \in \R^{m\times n}$, ($n = \sum_i n_i$).
-\cite{Wright2009-PAMI} then represents the given test image $\y \in \Re^m$ as a sparse linear
-combination $A \x$ of all images in the data set, plus a sparse error
-$\e$ due to occlusion: $\y = A \x + \e$. The sparse coefficients $\x$ and sparse error $\e$ are recovered by solving the $\ell^1$-norm minimization problem
+To avoid losing useful information with local feature extraction,
+\cite{Wright2009-PAMI} casts face recognition as the problem of finding a
+sparse representation of the entire test image in terms of the training images,
+except for a sparse portion of the image that might be corrupted due to
+occlusion.  The $n_i$ frontal\footnote{In \cite{Wright2009-PAMI}, both the
+training and test data are assumed to be well-registered frontal images. We
+also make this assumption, in order to isolate the effect of occlusion.}
+training images of each subject $i$ under varying illuminations are stacked as
+columns of a matrix $A_i \in \Re^{m\times n_i}$. Concatenating the training
+images of all $K$ subjects gives a large matrix $A = [A_1,A_2,\ldots,A_K] \in
+\Re^{m\times n}$, ($n = \sum_i n_i$).  \cite{Wright2009-PAMI} then represents
+the given test image $\y \in \Re^m$ as a sparse linear combination $A \x$ of
+all images in the data set, plus a sparse error $\e$ due to occlusion: $\y = A
+\x + \e$. The sparse coefficients $\x$ and sparse error $\e$ are recovered by
+solving the $\ell^1$-norm minimization problem
 \begin{equation}
 \min \|\x\|_1 + \|\e\|_1\quad \textup{s.t.} \quad \y = A \x + \e.
 \end{equation}
-This approach has demonstrated good potential in handling occlusion, especially when the dimension of the image signal is high \cite{Wright2008-IT}. Experiments in \cite{Wright2009-PAMI} showed that the algorithm can tolerate up to 70\% random pixel corruption or 40\% random block occlusion while still maintaining recognition rates higher than $90\%$ on the Yale B database.
+This approach has demonstrated good potential in handling occlusion, especially
+when the dimension of the image signal is high \cite{Wright2008-IT}.
+Experiments in \cite{Wright2009-PAMI} showed that the algorithm can tolerate up
+to 70\% random pixel corruption or 40\% random block occlusion while still
+maintaining recognition rates higher than $90\%$ on the Yale B database.
 
-However, in experiments on face images the $\ell^1$-minimization algorithm is not nearly as robust to contiguous occlusion as it is to random pixel corruption.  On the AR database sunglasses and scarf occlusions it achieves only 87\% and 59.5\% respectively.  This algorithm does not exploit any prior information about the corruption or occlusion (it is invariant to pixel ordering).  To try to improve performance for these cases, \cite{Wright2009-PAMI} proposed to partition the image into blocks and compute an independent sparse representation for each block. This significantly improves the recognition rates (up to 97.5\% and 93.5\% respectively). However, such fixed partition schemes only work for limited types of occlusion, and are less likely to scale well to large databases, since they essentially treat small image blocks independently.
+However, in experiments on face images the $\ell^1$-minimization algorithm is
+not nearly as robust to contiguous occlusion as it is to random pixel
+corruption.  On the AR database sunglasses and scarf occlusions it achieves
+only 87\% and 59.5\% respectively.  This algorithm does not exploit any prior
+information about the corruption or occlusion (it is invariant to pixel
+ordering).  To try to improve performance for these cases,
+\cite{Wright2009-PAMI} proposed to partition the image into blocks and compute
+an independent sparse representation for each block. This significantly
+improves the recognition rates (up to 97.5\% and 93.5\% respectively). However,
+such fixed partition schemes only work for limited types of occlusion, and are
+less likely to scale well to large databases, since they essentially treat
+small image blocks independently.
 
-In this chapter, we propose a more principled and general method for face recognition with {\em contiguous} occlusion. We do not assume any explicit prior knowledge about the location, size, shape, color, or number of the occluded regions; the only prior information we have about the occlusion is that the corrupted pixels are likely to be adjacent to each other in the image plane. The goal of this chapter is to show how to effectively incorporate this prior information into the sparse representation framework, significantly improving its robustness to all types of realistic occlusions.
+In this chapter, we propose a more principled and general method for face
+recognition with {\em contiguous} occlusion. We do not assume any explicit
+prior knowledge about the location, size, shape, color, or number of the
+occluded regions; the only prior information we have about the occlusion is
+that the corrupted pixels are likely to be adjacent to each other in the image
+plane. The goal of this chapter is to show how to effectively incorporate this
+prior information into the sparse representation framework, significantly
+improving its robustness to all types of realistic occlusions.
 
 \section{Motivation for imposing local spatial continuity for sparse error correction}
-Before introducing a model for the contiguous occlusion and incorporating it into a solution for face recognition, let us first justify why imposing spatial continuity could potentially help with finding the sparse errors (in our case, the occluded pixels). As discussed above, face recogntion can be cast as a problem of recovering an input signal $\x\in \R^n$ from corrupted measurements $\y = A\x+\e$, where $A\in
+Before introducing a model for the contiguous occlusion and incorporating it into a solution for face recognition, let us first justify why imposing spatial continuity could potentially help with finding the sparse errors (in our case, the occluded pixels). As discussed above, face recogntion can be cast as a problem of recovering an input signal $\x\in \Re^n$ from corrupted measurements $\y = A\x+\e$, where $A\in
 \Re^{m\times n}$ with $m>n$. Let $F$ be a matrix whoose rows span the left nullspace of
 $A$\footnote{$\mathrm{rank}(F) = m - \mathrm{rank}(A)$ and $FA=0$}. Applying $F$ to both sides of the measurement equation gives \vspace{0mm}
 \begin{displaymath}
@@ -144,7 +115,7 @@ for a $k$-sparse signal $\x$ whose support is a considered as a random variable,
 Based on results from Compressed Sensing theory, for a randomly chosen matrix to have RIP of order $k$ requires at least $m =\mathcal{O}(k\log(n/k))$ measurements \cite{CandesE2005-IT}. However, it has been shown that a matrix can have PRIP of order $k$ with only $m =\mathcal {O}(k + \log(D))$ measurements, where $D$ is the cardinality of the smallest set of supports of size $k$ for which the probability that the support of a $k$-sparse signal $\x$ does not belong to the set is less than $\epsilon$ \cite{Cevher2008-NIPS}. Then for distributions that allow a small $D$, the required number of measurements essentially grows linearly in $k$, much less than the general case. The distribution of contiguous supports precisely falls into this category\footnote{Simple counting arguments similar to that in \cite{Cevher2008-NIPS} indicate that $D$ can be upper-bounded by a polynomial of the dimension $m$.}. Thus, we should expect to recover sparse errors with such supports from much fewer measurements. Or equivalently, from a fixed number measurements, we should expect to correct a larger fraction of errors from $\ell^1$-minimization {\em if} we know how to properly harness information about the distribution.
 
 \section{Using a Markov random field assumption to impose local spatial continuity of the error support}
-Consider the error vector $\e\in \R^m$ incurred by some contiguous occlusion. Its nonzero entries should be both sparse and spatially continuous. Given an error vector $\e\in \R^m$, we let $\s\in \{-1,1\}^m$ denote its
+Consider the error vector $\e\in \Re^m$ incurred by some contiguous occlusion. Its nonzero entries should be both sparse and spatially continuous. Given an error vector $\e\in \Re^m$, we let $\s\in \{-1,1\}^m$ denote its
 support vector. That is, $\s[i] = -1$ when $\e[i] = 0$ and $\s[i] = 1$
 when $\e[i] \neq 0$. The image domain can be considered as a graph
 $G=(V,E)$, where $V = \{1,\dots,m\}$ denotes the set of $m$
@@ -658,19 +629,7 @@ Algm.\ 1 & 91.4 & 90.9 & {\bf 81.0} & {\bf 55.0} & {\bf 43.6} \\
 \caption{Images from the sunglasses category where the alignment method of \cite{Wagner2009-CVPR} failed, resulting in misclassificaion.} \label{fig:registration} \vspace{0mm}
 \end{figure}
 
-
-%\section{Future work}\vspace{0mm}
-
-%The most important issue for future work is how to perform robust alignment in the presence of large occlusions, e.g., by integrating a deformation model into the regression step of our algorithm \cite{Wagner2009-CVPR}. It remains to be seen to what extent such deformations are compatible with the MRF prior. \vspace{0mm}
-
 \section{Conclusion}
 This chapter has demonstrated improved performance of our recognition algorithm in the presence of large occlusions.  However, in order to isolate the effects of occlusion, all experiments were performed on images that were already aligned using hand-labeled feature points.  Since alignment must be performed automatically for the test image in a production system, the most important issue for future work on the MRF based recognition algorithm is to investigate how to perform robust alignment in the presence of large occlusions.  Given the success shown in Chapter \ref{chap:cvpr} in integrating a deformation model into the algorithm of \cite{Wright2009-PAMI}, the integration of a deformation model into the regression step of our algorithm \cite{Wagner2009-CVPR} seems very promising. 
 However, it remains to be seen to what extent such deformations are compatible with the MRF prior.  
 
-%
-%{\small
-%\bibliographystyle{ieee}
-%\bibliography{iccv09_faces}
-%}
-
-%\end{document}

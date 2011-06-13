@@ -1,21 +1,24 @@
-\section{L1 Minimization via Augmented Lagrange Multiplier}
-In this section we discuss the computational issues related to
-the implementation of Algorithm 1, which is
-repeated here for convenience. It is
-not hard to see that its computational complexity is dominated
-by the two steps where the $\ell^1$-norm minimization problems
-are solved; namely Step 6 for iterative registration, and Step
-14 for global sparse representation.
-Fortunately, many fast algorithms for solving these problems have been proposed over the
-past ten years. We refer the interested reader to \cite{YangA2010-pp} for a more comprehensive survey of the developments in this area.
-That work suggests that \emph{Augmented Lagrange Multiplier}
-(ALM) algorithms \cite{Bertsekas1982} strike a good balance
-between scalability and accuracy: as first order methods, they
-require only lightweight vector operations and matrix-vector
-multiplications at each iteration, making them preferable to
-more classical solutions such as interior point methods.
-However, compared to other first-order methods, they achieve
-higher accuracy with a fixed computational budget.
+\section{L1 Minimization via Interior Point Method} % TODO
+
+\section{L1 Minimization via Subgradient Descent} % TODO
+
+\section{L1 Minimization via Augmented Lagrange Multiplier} % TODO add more complete derivation of ALM
+ 
+In this section we discuss the computational issues related to the
+implementation of Algorithm 1, which is repeated here for convenience. It is
+not hard to see that its computational complexity is dominated by the two steps
+where the $\ell^1$-norm minimization problems are solved; namely Step 6 for
+iterative registration, and Step 14 for global sparse representation.
+Fortunately, many fast algorithms for solving these problems have been proposed
+over the past ten years. We refer the interested reader to \cite{YangA2010-pp}
+for a more comprehensive survey of the developments in this area.  That work
+suggests that \emph{Augmented Lagrange Multiplier} (ALM) algorithms
+\cite{Bertsekas1982} strike a good balance between scalability and accuracy: as
+first order methods, they require only lightweight vector operations and
+matrix-vector multiplications at each iteration, making them preferable to more
+classical solutions such as interior point methods.  However, compared to other
+first-order methods, they achieve higher accuracy with a fixed computational
+budget.
 
 We use Step 14 as an example to illustrate the ALM
 method, since solving Step 6 is very similar. Recall that in
