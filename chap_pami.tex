@@ -761,7 +761,7 @@ advantages over flash-based illumination systems for face recognition:
 \end{itemize}
 \begin{figure}
 \centering
-\includegraphics[height=2.3in]{figures_pami/camera_rig.pdf}
+\includegraphics[height=2.5in]{figures_pami/camera_rig.pdf}
 \caption{\small{\bf Training acquisition system:} Four projectors and two cameras controlled by one computer.}
 \label{fig:system}
 \end{figure}
@@ -845,8 +845,8 @@ our large-scale experiments:
 \begin{figure}
 \centering
 \begin{tabular}{cc}
-\includegraphics[height=1.5in]{figures_pami/coverage_experiment_asplode.png} &
-\includegraphics[height=1.5in]{figures_pami/final_cvpr_illuminations_asplode.png}  \\
+\includegraphics[height=1.7in]{figures_pami/coverage_experiment_asplode.png} &
+\includegraphics[height=1.7in]{figures_pami/final_cvpr_illuminations_asplode.png}  \\
 (a) Coverage Experiment & (b) Chosen Illumination Patterns
 \end{tabular}
 \caption{\small{\bf Illumination Patterns.}   The cells are illuminated in sequence.  For rear illuminations the sequence is reversed.  In the chosen pattern's rear illumination, the cells 1-5 and 7-11 are omitted for a total of 38 illuminations. The four rectangular regions correspond to the four projectors.  }
@@ -856,8 +856,8 @@ our large-scale experiments:
 \begin{figure}
 \centering
 \begin{tabular}{@{}c@{}c@{}}
-\includegraphics[height=1.5in]{figures_pami/illum_results/coverage_sunset.pdf} &
-\includegraphics[height=1.5in]{figures_pami/illum_results/granularity_sunset.pdf} \\
+\includegraphics[height=2in]{figures_pami/illum_results/coverage_sunset.pdf} &
+\includegraphics[height=2in]{figures_pami/illum_results/granularity_sunset.pdf} \\
 (a) Coverage & (b) Granularity
 \end{tabular}
 \caption{\small{\bf Study of sufficient illuminations.} The average $\ell^1$ registration residual versus different illumination training sets. }
@@ -890,7 +890,7 @@ can be found that performs as well or better.}
 See below for the 38 training images of one subject:
 \begin{figure}[h]
 \centering
-\includegraphics[width=6.3in]{figures_pami/training.png}
+\includegraphics[width=\textwidth]{figures_pami/training.png}
 \end{figure}
 
 
@@ -1036,8 +1036,8 @@ almost all test illuminations.
 \centering
 {
 \begin{tabular}{@{}cc@{}}
-\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.0in]{figures_pami/example.png} &
-\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.0in]{figures_pami/example_new.png} \\
+\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.8in]{figures_pami/example.png} &
+\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.8in]{figures_pami/example_new.png} \\
 Default window. & Proposed window.
 \end{tabular}
 }
@@ -1059,6 +1059,7 @@ is shown in Figure~\ref{fig:new-mask}.
 
 \begin{table*}
 \centering
+\small
 \caption{\small Recognition rates on the Multi-PIE database for
 different pairings of alignment and recognition stages.}
 \centerline{
@@ -1266,8 +1267,8 @@ thresholding the error residuals of NN, NS, LDA, and LBP.
 {
 \centering
 \begin{tabular}{@{}c@{}c@{}}
-\includegraphics[height = 3in]{figures_pami/pami_roc_revision2} & \hspace{2mm}
-\includegraphics[height = 3in]{figures_pami/pami_roc2} \\
+\includegraphics[height = 2in]{figures_pami/pami_roc_revision2} & \hspace{2mm}
+\includegraphics[height = 2in]{figures_pami/pami_roc2} \\
 (a) & \hspace{2mm}(b) \\
 \end{tabular}
 }
@@ -1310,18 +1311,18 @@ indeed capable of handling a moderate amount of occlusion. For
 example, at 20\% occlusion, our algorithm still achieves 94.9\%
 recognition rate.
 
-\newcommand{\tempscale}{0.75}
+\renewcommand{\tempwidth}{0.2\textwidth}
 \begin{figure}
 \centering
 \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}}
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/multipie_occ/occ10.png} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/multipie_occ/occ20.png} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/multipie_occ/occ30.png} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/multipie_occ/occ40.png} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/multipie_occ/occ50.png}  \\
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_occ/occ10.png} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_occ/occ20.png} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_occ/occ30.png} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_occ/occ40.png} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_occ/occ50.png}  \\
 \end{tabular}
 \caption{\small{\bf Recognition under varying level of
-random block occlusion.} The above row shows examples of occluded test images with occlusion level from 10\% to 50\%. Our method maintains high recognition rates up to 30\% occlusion:}
+random block occlusion.} The above row of images shows examples of occluded test images with occlusion level from 10\% to 50\%. Our method maintains high recognition rates up to 30\% occlusion:}
 {
 \begin{tabular}{|c|c|c|c|c|c| }
 \hline
@@ -1379,28 +1380,28 @@ frontal illuminations taken under laboratory conditions
 are insufficient for representing test images under typical indoor and
 outdoor illuminations.
 
-\renewcommand{\tempscale}{0.75}
+\renewcommand{\tempwidth}{0.1667\textwidth}
 \begin{figure}
 \centering
 \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}c@{}}
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1318.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1521.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1673.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1732.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1941.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_3766.JPG} \\
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_1574.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_1622.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_1641.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_3522.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_3707.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_3772.JPG} \\
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/glasses/DSC_1397.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/glasses/DSC_1532.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/glasses/DSC_1556.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/glasses/DSC_1585.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/glasses/DSC_1688.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/glasses/DSC_4035.JPG} \\
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1318.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1521.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1673.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1732.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_1941.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_indoor/DSC_3766.JPG} \\
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_1574.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_1622.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_1641.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_3522.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_3707.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/normal_outdoor/DSC_3772.JPG} \\
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/glasses/DSC_1397.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/glasses/DSC_1532.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/glasses/DSC_1556.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/glasses/DSC_1585.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/glasses/DSC_1688.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/glasses/DSC_4035.JPG} \\
 \end{tabular}
 \caption{\small{\bf Representative examples of categories C1-C3}. One row for each category.}\label{fig:examples1-3}
 \end{figure}
@@ -1408,18 +1409,18 @@ outdoor illuminations.
 \begin{figure}[t]
 \centering
 \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}c@{}}
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_1565.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_3656.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_3827.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_4090.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_4106.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_4126.JPG} \\
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_1611.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_3528.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_3744.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_3995.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_4030.JPG} &
-\includegraphics[scale=\tempscale,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_4095.JPG} \\
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_1565.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_3656.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_3827.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_4090.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_4106.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_4126.JPG} \\
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_1611.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_3528.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_3744.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_3995.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_4030.JPG} &
+\includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_4095.JPG} \\
 \end{tabular}
  \caption{\small{\bf Representative examples of category C4}. Top row: successful examples with our method using overlapping blocks. Bottom row: failures with our method using overlapping blocks.}\label{fig:examples4}
 \end{figure}
