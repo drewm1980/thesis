@@ -1,0 +1,14 @@
+To do list:
+
+*** Benchmark solving alignment problem by entire CPU vs. one per core, update Section 4.1 and Figure 5 to include it.
+
+** Make style of Figure 5 consistent with other plots.
+
+** Interpret 2 percent accuracy difference
+
+* First paragraph section 4, explain linearization.
+
+* Update speed comparisons and diagrams to GTX 580?
+
+* Better citation for previously reported speed?
+

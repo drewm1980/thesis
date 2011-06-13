@@ -1,0 +1,23 @@
+#!/bin/bash
+FILENAME=ijcb_paper_`date +%Y_%m_%d_%H_%M`.zip
+FILEPATH=../dist/$FILENAME
+echo "Archiving to $FILEPATH..."
+git archive --output $FILEPATH master
+
+echo ""
+echo ""
+echo "Hello Allen and Victor-"
+echo ""
+echo "I have uploaded an archive of our IJCB paper to:"
+echo ""
+echo "http://cpanel.cs.illinois.edu/~percept/Hidden/drew/$FILENAME"
+echo ""
+echo "Cheers,"
+echo "Drew"
+
+echo ""
+echo ""
+echo ""
+echo "Uploading..."
+scp $FILEPATH percept@cpanel.cs.illinois.edu:public_html/Hidden/drew/$FILENAME
+echo "Done..."
