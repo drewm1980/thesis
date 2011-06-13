@@ -1,0 +1,36 @@
+% From prelim document
+Most contemporary face recognition algorithms work well under laboratory
+conditions but degrade when tested in less-controlled environments. In order to
+achieve useful recognition rates a recognition system needs to simultaneously
+handle variations in illumination, alignment, and occlusion. This thesis
+proposes a conceptually simple and practical face recognition system that
+achieves a high degree of robustness and stability to all these variations.
+First a flexible system for acquiring well registered training images under
+many illuminations is demonstrated.  An alignment and recognition system
+simultaneously searches for a linear combination of the training images and a
+corresponding warping of the testing image that results in an image error that
+is sparse.  To better handle severe occlusions an extension to the algorithm is
+proposed that makes use of the knowledge that occluded pixels tend to be
+spatially correlated.  Finally, several planned techniques for improving both
+the execution speed and recognition accuracy of the algorithm are discussed.
+
+% From PAMI
+%Many classic and contemporary face recognition algorithms work well on public
+%data sets, but degrade sharply when they are used in a real recognition
+%system. This is mostly due to the difficulty of simultaneously handling
+%variations in illumination, image misalignment, and occlusion in the test
+%image. We consider a scenario where the training images are well controlled,
+%and test images are only loosely controlled.  We propose a conceptually simple
+%face recognition system that achieves a high degree of robustness and
+%stability to illumination variation, image misalignment, and partial
+%occlusion. The system uses tools from sparse representation to align a test
+%face image to a set of frontal training images.  The region of attraction of
+%our alignment algorithm is computed empirically for public face datasets such
+%as Multi-PIE. We demonstrate how to capture a set of training images with
+%enough illumination variation that they span test images taken under
+%uncontrolled illumination. In order to evaluate how our algorithms work under
+%practical testing conditions, we have implemented a complete face recognition
+%system, including a projector-based training acquisition system. Our system
+%can efficiently and effectively recognize faces under a variety of realistic
+%conditions, using only frontal images under the proposed illuminations as
+%training.
