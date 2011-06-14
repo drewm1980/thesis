@@ -2,7 +2,7 @@ One of the most important skills humans possess is the ability to quickly
 recognize each other by sight.   The ability to rapidly identify each other
 gives us very important information we can use to interact with the people in
 the world around us.  Face recognition is such a useful skill that automating
-this ability has been one of the major topics of computer vision research.
+this ability is one of the highest priority goals of computer vision research.
 Unfortunately, it turns out that human faces are rather difficult to recognize,
 primarily for reasons that are inherent in the imaging process.  Obstacles to
 high performance face recognition include an (initial) absence of information
@@ -10,100 +10,135 @@ about the mapping between a person's face and an image, variations in nature of
 the light illuminating a person's face, and (unlabeled) portions of a person's
 face that may not have even been captured on camera due to occlusion.  
 
-One of the difficulties that has been holding face recognition back is that is
-is very difficult to collect sufficient data to compute meaningful recognition
-rates.  It takes a lot of resources to simultaneously build custom hardware for
-a training image acquisition system, manage the capturing of images of over a
-hundred test subjects, and still have time to implement an advanced recognition
-algorithm.  While public face databases play an important role in allowing
-researchers to compare the performance of their algorithms, relying on them
-exclusively for research prevents the researcher from tightly integrating their
-algorithm with their training image acquisition system.  In order to achieve
-the very high recognition rates that are needed for access control
-applications, tight integration between the training image acquisition system
-and the recognition system is necessary.  In particular, many published
-algorithms make photometric assumptions that are (often unnecessarily) violated
-by the data sets they run on.
 
-This thesis proposal demonstrates that a tightly integrated training image
-acquisition system and recognition algorithm is capable of significantly
-improving face recognition performance.  A key part of the system is exploiting
-the an important property of the imaging process:  there in a linear mapping
-between the space of illuminations of an object, and the space of images of
-that object taken under the same pose.  This makes it possible to effectively
-model the testing image as a linear superposition of a large (and well chosen)
-set of training images.  This idea is certainly not new; indeed it has been in
-use for face recognition for roughly two decades, \cite{Turk1991-CVPR}.
-However, traditional algorithms that rely on this property of the image
-formation process have tended to perform very badly in the face of occlusions
-and when highly quality training images are unavailable.  the recent 
-
-Chapter \ref{chap:cvpr} is devoted to presenting a complete face recognition
-pipeline that I have built in collaboration with John Wright, Zihan Zhou,
-Arvind Ganesh, and Yi Ma.  This body of work has been accepted for publication
-in the IEEE Conference on Computer Vision and Pattern Recognition
-\cite{Wagner2009-CVPR}.  This main contributions of this work are a novel
-system for training image acquisition and an automatic image alignment system
-that turn the algorithm of \cite{Wright2009-PAMI} into a complete recognition
-system.  Chapter \ref{chap:iccv} presents an extension of the algorithm that
-better handles image occlusions by making use of the knowledge that occluded
-image pixels tend to be adjacent to each other, modeling the occlusion
-distribution with a Markov Random Field.  Finally, Chapter \ref{chap:future}
-discusses a variety of ideas for future improvements to the recognition system.
-
-%Unfortunately, a good recognition algorithm alone is not sufficient to
-%construct a practical face recognition system: a linear superposition of the
-%training images must be able to represent the test image taken under a
-%different lighting condition.  For this purpose I will present a novel
-%training image acquisition system that is able to rapidly acquire images of a
-%subject under varying illumination.  While many acquisition systems have been
-%built for this purpose, they have not been practical for widespread use.  I
-%will propose a projector based approach, which can be easily assembled from
-%off-the-shelf parts, and which is much more flexible in the variety of
-%illuminations it can produce.
-
-%Since general software packages for solving sparse representation problems are
-%unable to run in a reasonable amount of time on high dimensional face
-%recognition data, I will show how dramatic speed gains can be achieved by
-%offloading the data parallel portions of the algorithm onto a massively
-%parallel processor.  I will demonstrate a GPU based implementation of a sparse
-%solver that can perform recognition quickly enough to be useful for access
-%control applications.  Finally, I will demonstrate a complete face recognition
-%system that significantly advances the state of the art in terms of its
-%ability to efficiently and effectively recognize faces under a variety of
-%realistic conditions.
+\section{Positioning of this work}
+Face recognition applications to date have fallen
+into roughly two categories.  Face recognition has recently
+seen a lot of success in a family of less-demanding
+applications such as online image search and family photo album
+organization (e.g.\ Google Picassa, Microsoft Photo Gallery,
+and Apple iPhoto). At the other end of the tractability
+spectrum there are the terrorist watchlist and mass
+surveillance applications that have for the most part dominated
+the field of face recognition research.  However, there are
+many face recognition applications that fall roughly between
+these extremes, where very high recognition performance is
+desired, but the users in the gallery are still allies of the
+system rather than adversaries.  These applications include
+access control for secure facilities (e.g., prisons, office
+buildings), computer systems, automobiles, or automatic teller
+machines, where controlled gallery images can be obtained in
+advance.  These applications are very interesting due to their
+potential sociological impact.  Since the gallery subjects are
+allies, rather than opponents, of the recognition system, this
+creates the possibility of carefully controlling the
+acquisition of the training data. While the same can be said
+for other biometrics such as fingerprints and iris recognition,
+face recognition has the potential of working with test data
+that is much less controlled, allowing the access control
+system to be made less intrusive to the users of the system. 
+The scope of this thesis is to show how a reliable
+face recognition system can be built for this restricted, but
+still important, scenario.  
 
 
-%Most contemporary face recognition algorithms work well under laboratory
-%conditions but degrade when tested in less-controlled environments. This is
-%mostly due to the difficulty of simultaneously handling variations in
-%illumination, alignment, pose, and occlusion.  In this thesis proposal, we
-%propose a simple and practical  face recognition system that achieves a high
-%degree of  robustness and stability to all these variations. We demonstrate
-%how to use tools from sparse representation to align a test face image with a
-%set of frontal training images in the presence of significant registration
-%error and occlusion. We thoroughly characterize the region of attraction for
-%our alignment algorithm on public face datasets such as Multi-PIE.  We further
-%study how to obtain a sufficient set of training illuminations for linearly
-%interpolating practical lighting conditions. We have implemented a complete
-%face recognition system, including a projector-based training acquisition
-%system, in order to evaluate how our algorithms work under practical testing
-%conditions. We show  that our system can efficiently and effectively recognize
-%faces under  a variety of realistic conditions, using only frontal images
-%under the proposed illuminations as training.\vspace{-10mm}
+\section{Previous Work}
+Very few recognition systems specifically target applications where many well-
+controlled training images are available.  Of these, the classical holistic
+subspace-based face recognition methods \cite{Turk1991-CVPR,Belhumeur1997-PAMI}
+are well known for their speed and simplicity, as well as for their natural
+extension to linear illumination models.  However, their performance has been
+shown to be extremely brittle not only to alignment variation, but to even
+minor occlusions caused by, say, a wisp of hair, a blinked eye, or mouth that
+is slightly open. 
 
-%Partially occluded faces are common in many applications of face recognition.
-%While algorithms based on sparse representation have demonstrated promising
-%results, they achieve their best performance on occlusions that are not
-%spatially correlated (i.e.\ random pixel corruption). We show that such
-%sparsity-based algorithms can be significantly improved by harnessing prior
-%knowledge about the pixel error distribution. We show how a Markov Random
-%Field model for spatial continuity of the occlusion can be integrated into the
-%computation of a sparse representation of the test image with respect to the
-%training images.  Our algorithm efficiently and reliably identifies the
-%corrupted regions and excludes them from the sparse representation.  Extensive
-%experiments on both laboratory and real-world datasets show that our algorithm
-%tolerates much larger fractions and varieties of occlusion than current
-%state-of-the-art algorithms. \vspace{0mm}
+One of the logistical difficulties that has been holding face recognition research back is
+that, even with cooperative subjects, it is very difficult to collect
+sufficient data to achieve meaningful recognition rates.  It takes a lot of
+resources to simultaneously build custom hardware for a training image
+acquisition system, manage the capturing of images of over a hundred test
+subjects, and still have the resources to implement an advanced recognition algorithm.
+This fact has contributed to a pattern where published face recognition research is conducted
+almost exclusively on public data sets.
+While public face databases play an important role in allowing researchers to
+compare the performance of their algorithms, relying on them exclusively for
+research prevents the researcher from tightly integrating their algorithm with
+their training image acquisition system.  This thesis demonstrates that, in order to achieve the very high
+recognition rates that are needed for access control applications, tight
+integration between the training image acquisition system and the recognition
+system is a practical necessity.  In particular, many published algorithms implicitly make photometric
+assumptions that are (often unnecessarily) violated by the data sets they run
+on.  
 
+\section{Introduction to $\ell_1$ minimization and sparse representation based classification}
+%
+$\ell_1$-minimization has received much attention in recent years due to
+important applications in compressive sensing \cite{BrucksteinA2007} and sparse
+representation \cite{WrightJ2010-PIEEE}.  
+In general, $\ell_1$-minimization can refer to any minimization problem involving the 
+$ell_1$-norm (sum of absolute values, noted as $||\cdot||_1$) of a vector of expressions involving the optimization
+variables. However, in the context of this thesis, we will be primarily concerned with
+the class of optimization problems that minimize the $\ell_1$-norm of a vector that
+is affine in the optimization variables, under constraints that are also affine in the optimization variables.
+One common sparse representation formulation finds the minimum $\ell_1$-norm solution to an
+underdetermined linear system $\bb=A\xx$:
+%
+\begin{equation} \min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx.
+\label{eq:l1min} \end{equation}
+%
+It is now well established that, under certain conditions
+\cite{CandesE2005-IT_1,DonohoD2004}, the minimum $\ell_1$-norm solution is also
+the \emph{sparsest} solution to the system \eqref{eq:l1min}.
 
+In addition to numerous other applications, $\ell_1$-minimization has been recently used to reformulate
+image-based face recognition as a sparse representation problem
+\cite{WrightJ2009-PAMI}.  If we stack the $m$ pixels of the $n_i$ training images of $K$ subject
+classes into the columns of matrices $(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$, combine
+the matrices into a larger matrix $A = [A_1, \cdots, A_K]\in\Re^{m\times n}$, and arrange the pixels of a new
+query image into a vector $\bb\in\Re^m$, \emph{sparsity-based
+classification} (SBC) solves the following minimization problem:
+\begin{equation}
+\min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
+\label{eq:l1min_denoise}
+\end{equation}
+If the sparsest solutions for $\x$ and $\e$ are recovered, $\ee$ provides a
+means to compensate for pixels that are corrupted due to occlusion of some part of the query
+image, and the dominant nonzero coefficients of $\xx$ reveal the membership of
+$\bb$ based on the training image labels associated with $A$. 
+If $A$ contains images of each subject taken under different illuminations, 
+$A_i\x_i$ acts as a linear illumination model for the test image $\bb$.  The motivation
+for this illumination model will be further discussed in Chapter \ref{chap_pipeline}, Section \ref{sec:illumination}.
+SRC has demonstrated striking recognition performance
+despite severe occlusion or corruption by solving a simple convex program.  For
+this reason, the final recognition stage of our proposed system will consist of
+SRC, and the iterative face alignment stage that precedes it will be based on
+similar techniques.
+
+\section{Document Structure}
+%
+Chapter \ref{chap:pipeline} is devoted to presenting a complete face
+recognition pipeline, which was developed in collaboration with John Wright,
+Zihan Zhou, Arvind Ganesh, Hossein Mobahi, and Yi Ma.  This pipeline was
+presented at the IEEE Conference on Computer Vision and Pattern Recognition
+\cite{WagnerA2009-CVPR}.  An improved version of this recognition pipeline that
+is both faster and more accurate was was published in \cite{WagnerA2011-PAMI}.
+%
+Chapter \ref{chap:iccv} presents an extension of the algorithm that better
+handles image occlusions by making use of the knowledge that occluded image
+pixels tend to be adjacent to each other, modeling the occlusion distribution
+with a Markov Random Field.  This work was presented at the IEEE International
+Conference on Computer vision \cite{ZhouZ2009}.
+%
+Chapter \ref{chap:minimization} discusses the application of several numerical
+optimization techniques to the core minimization problems required by the face
+recognition pipeline.
+%
+Chapter \ref{chap:parallel} presents the optimized parallel implementations of
+the core numerical solvers, as well as the alignment algorithm, on highly
+concurrent multicore CPU and on GPU hardware.
+%
+Finally, Chapter \ref{chap:future} discusses a variety of ideas for future
+improvements to the recognition system, and some of the remaining
+implementation challenges that will be required for the system to be ready for
+commercial application.
+ 

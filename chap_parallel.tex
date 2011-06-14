@@ -1,18 +1,18 @@
 \section{Introduction} 
-$\ell_1$-minimization ($\ell_1$-min) has received much attention in recent
-years due to important applications in compressive sensing
-\cite{BrucksteinA2007} and sparse representation \cite{WrightJ2010-PIEEE}.  
-The problem refers to finding the minimum $\ell_1$-norm solution to an
-underdetermined linear system $\bb=A\xx$:
-\begin{equation}
-\min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx.
-\label{eq:l1min}
-\end{equation}
+%
+$\ell_1$-minimization has received much attention in recent years due to
+important applications in compressive sensing \cite{BrucksteinA2007} and sparse
+representation \cite{WrightJ2010-PIEEE}.  The problem refers to finding the
+minimum $\ell_1$-norm solution to an underdetermined linear system $\bb=A\xx$:
+%
+\begin{equation} \min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx.
+\label{eq:l1min} \end{equation}
+%
 It is now well established that, under certain conditions
 \cite{CandesE2005-IT_1,DonohoD2004}, the minimum $\ell_1$-norm solution is also
 the \emph{sparsest} solution to the system \eqref{eq:l1min}.
 
-Among its many applications, $\ell_1$-min has been recently used to reformulate
+Among its many applications, $\ell_1$-minimization has been recently used to reformulate
 image-based face recognition as a sparse representation problem
 \cite{WrightJ2009-PAMI}.  If we stack the $m$ pixels of the $n_i$ training images of $K$ subject
 classes into the columns of matrices $(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$, combine
@@ -30,15 +30,15 @@ $\bb$ based on the training image labels associated with $A$.
 %Since $A$ contains many images per user taken under different illuminations, 
 %$A_i\x_i$ acts as a linear illumination model for the test image $\bb$.
 
-In this paper, we study parallelization of $\ell$-min on many-core CPU and GPU
-architectures. Although $\ell_1$-min \eqref{eq:l1min} is a convex
+In this chapter, we study parallelization of $\ell$-minimization on many-core CPU and GPU
+architectures. Although $\ell_1$-minimization \eqref{eq:l1min} is a convex
 program, conventional algorithms such as interior-point methods
 \cite{ChenS2001-SIAM,TibshiraniR1996} scale poorly
 for applications such as face recognition. Recently, a number of
 accelerated algorithms have been proposed that explicitly take advantage of
-the special structure of $\ell_1$-min problems
+the special structure of $\ell_1$-minimization problems
 \cite{LorisI2009,YangA2010-ICIP}. We investigate parallelization of a
-state-of-the-art $\ell_1$-min solution based on
+state-of-the-art $\ell_1$-minimization solution based on
 \emph{augmented Lagrangian methods} (ALM) \cite{BertsekasD2003,YangA2010-ICIP}.
 
 In addition, the accuracy of the solution given by \eqref{eq:l1min_denoise} relies on the assumption
@@ -61,9 +61,9 @@ the coefficients of the linear illumination model $A_i\x$.
 Although ALM has been applied to improve the speed of a prototype face recognition system \cite{WagnerA2011-PAMI},
 due to the high per-class cost
 of the alignment step, the system still fails to achieve \emph{real-time}
-performance against datasets of hundreds or thousands of subjects.  In this paper,
+performance against datasets of hundreds or thousands of subjects.  In this chapter,
 in addition to accelerating the generic
-$\ell_1$-min objectives \eqref{eq:l1min} and \eqref{eq:l1min_denoise}, we 
+$\ell_1$-minimization objectives \eqref{eq:l1min} and \eqref{eq:l1min_denoise}, we 
 also discuss how to efficiently accelerate the face alignment step
 \eqref{eq:l1min_alignment} on multi-core CPUs and GPUs.
 
@@ -72,23 +72,23 @@ which is a property of an algorithm, and {\em concurrency}, which is a
 property of a hardware architecture. Parallelism in an algorithm provides the
 opportunity to perform computations concurrently on hardware.  Algorithms often
 exhibit multiple levels of parallelism, and hardware often provides multiple
-levels of concurrency.  In these terms, the primary contribution of this paper
+levels of concurrency.  In these terms, the primary contribution of this chapter
 will be to determine the optimal mappings between the parallelism available in
-$\ell_1$-min and the concurrency available in multi-core CPU and GPU
+$\ell_1$-minimization and the concurrency available in multi-core CPU and GPU
 architectures.
 
 Finally, we present extensive benchmarks to compare the performance of the
-generic ALM $\ell_1$-min algorithm and the corresponding face recognition
+generic ALM $\ell_1$-minimization algorithm and the corresponding face recognition
 routines on massively parallel CPUs and GPUs.  To this end, a face
 recognition system for security and access control applications has been implemented, 
 and is diagrammed in Figure \ref{fig:pipeline}. This pipeline follows the work of \cite{WagnerA2011-PAMI}, but
-the fast implementations presented in this paper are novel.
+the fast implementations presented in this chapter are novel.
 Since the parallelization of any algorithm
 is highly dependent on the target hardware, we will give a brief overview of
 the architecture of our test system in detail in Section
 \ref{sec:concurrency}.
 Finally, note that 
-while this paper focuses on the parallelism available in a single (shared memory) machine,
+while this chapter focuses on the parallelism available in a single (shared memory) machine,
 applications targeting thousands of subjects or more will likely require computation to be
 distributed over a cluster or network of computers. These systems are not addressed here.
 The source code of our implementations, which target NVIDIA Fermi GPUs
@@ -103,17 +103,17 @@ as well as Intel x86-64 CPUs, will be made available for peer evaluation.
 
 
 \subsection{Literature Review} 
-Traditionally, $\ell_1$-min (a.k.a.
+Traditionally, $\ell_1$-minimization (a.k.a.
 basis pursuit (BP)) has been formulated as a linear program
 \cite{ChenS2001-SIAM}. Several variations of the solution are also well known
 in optimization, including a noisy approximation via quadratic programming
 called the LASSO \cite{TibshiraniR1996} and truncated Newton interior-point
 method (TNIPM) \cite{KimS2007}.
 
-One of the drawbacks of most interior-point methods for $\ell_1$-min is that they require the solution sequence to follow an
+One of the drawbacks of most interior-point methods for $\ell_1$-minimization is that they require the solution sequence to follow an
 interior path via gradient descent or conjugate gradient methods, which are computationally expensive.
 To mitigate these issues, an approach called \emph{Homotopy} has been recently studied to accelerate the
-speed of $\ell_1$-min \cite{OsborneM2000,EfronB2004,MalioutovD2005,DonohoD2006}.
+speed of $\ell_1$-minimization \cite{OsborneM2000,EfronB2004,MalioutovD2005,DonohoD2006}.
 Although Homotopy can be shown to exactly estimate BP when the solution is
 sufficiently sparse \cite{DonohoD2006}, the algorithm still involves
 computationally expensive operations such as matrix-matrix multiplication and
@@ -130,33 +130,33 @@ matrices.
 %\footnote{During the face alignment algorithm presented later, The $A$ matrix changes between alignment iterations but not within the L1 solver}  
 In Section \ref{sec:ALM}, we contend that ALM is a better choice for
 implementation on many-core CPUs and GPUs. The ALM algorithm belongs to a
-category of approximate $\ell_1$-min solutions called \emph{iterative
+category of approximate $\ell_1$-minimization solutions called \emph{iterative
 shrinkage-thresholding} (IST) methods \cite{WrightS2008,BeckA2009}.  IST
 algorithms mainly involve elementary operations such as vector algebra and
 matrix-vector multiplication. Therefore, when the dimension of the problem
 becomes high, IST-type algorithms are particularly suitable for hardware
 systems with a high degree of concurrency. In \cite{YangA2010-ICIP}, the
 authors showed that ALM is able to significantly improve the solver speed,
-while achieving estimation accuracy competitive with other $\ell_1$-min
+while achieving estimation accuracy competitive with other $\ell_1$-minimization
 solutions. Therefore, we choose ALM as the core algorithm for
-implementation of $\ell_1$-min in the parallel face recognition pipeline.
+implementation of $\ell_1$-minimization in the parallel face recognition pipeline.
 
-In terms of the past works in parallel $\ell_1$-min, the literature has been
+In terms of the past works in parallel $\ell_1$-minimization, the literature has been
 limited, to the best of our knowledge. In \cite{BorghiA2010}, Borghi et al.
-developed a special proximal gradient $\ell_1$-min algorithm based on
+developed a special proximal gradient $\ell_1$-minimization algorithm based on
 Moreau-Yosida regularization. In \cite{MurphyM2010}, Murphy et al. presented
 parallel implementation of the l1-SPIRIT MRI reconstruction algorithm on 
-the same GPU architecture addressed in this paper.
+the same GPU architecture addressed in this chapter.
 
 \section{Augmented Lagrangian Method}
 \label{sec:ALM}
-In this section, we briefly describe the ALM algorithm for $\ell_1$-min
+In this section, we briefly describe the ALM algorithm for $\ell_1$-minimization
 \eqref{eq:l1min} \cite{YangA2010-ICIP} and analyze its complexity. Lagrange
 multipliers have been frequently used in convex programming to eliminate
 equality constraints via adding a penalty term to the cost function for
 infeasible points. ALM methods differ from other penalty-based approaches by
 simultaneously estimating the optimal solution and Lagrange multipliers in an
-iterative fashion.  For $\ell_1$-min \eqref{eq:l1min}, the augmented Lagrange
+iterative fashion.  For $\ell_1$-minimization \eqref{eq:l1min}, the augmented Lagrange
 function is defined as: 
 \begin{equation} L_\mu(\xx,\yy) = \|\xx\|_1 +
 \yy^T(\bb - A\xx) + \frac{\mu}{2} \| \bb-A\xx \|_2^2, 
@@ -166,7 +166,7 @@ vector of Lagrange multipliers.
 
 In Lagrange Multiplier Theory \cite{BertsekasD2003}, if there exists a multiplier $\y^*$ that
 satisfies the second-order sufficiency conditions for optimality, then for a sufficiently large $\mu$, the optimal
-$\ell_1$-min solution also minimizes
+$\ell_1$-minimization solution also minimizes
 \begin{equation}
 \xx^* = \arg \min L_\mu(\xx,\yy^*).
 \label{eq:optimal-ALM}
@@ -197,7 +197,7 @@ augmented Lagrangian $L_{\mu_k} (\xx,\yy_k)$ compared to solving the original pr
 \eqref{eq:l1min} directly. In fact, this problem can be solved element-wise
 iteratively by a soft-thresholding algorithm \cite{WrightS2008,BeckA2009},
 whose time complexity is bounded by $O(n^2)$ and can be easily parallelized.
-Algorithm \ref{alg:alm} summarizes the generic ALM $\ell_1$-min algorithm. \footnote{For conciseness, we
+Algorithm \ref{alg:alm} summarizes the generic ALM $\ell_1$-minimization algorithm. \footnote{For conciseness, we
 only present the ALM algorithm in the primal domain. There also
 exist implementations in the dual domain \cite{YangJ2009,YangA2010-ICIP}.}
 The soft-thresholding algorithm involves the element-wise operator $\shrink(x) = \sign(x)\max(|x|,0)$.
@@ -226,7 +226,7 @@ The soft-thresholding algorithm involves the element-wise operator $\shrink(x) =
 
 \section{Hardware Concurrency} \label{sec:concurrency}
 In this section we discuss the levels of concurrency available in the hardware
-architectures considered in this paper, as well as other aspects of the
+architectures considered in this thesis, as well as other aspects of the
 hardware that are important for performance.  In particular, since caches
 (regions of on-chip memory) are often orders of magnitude faster than off-chip
 memory, their sizes and speeds have a dramatic effect on performance.  We give a
@@ -308,7 +308,7 @@ a typical CPU are dedicated either to cache or to hardware that enables higher
 clock speeds (such as branch prediction, out-of-order instruction execution, etc...),
 most of the transistors on a GPU are dedicated to arithmetic logic units.
 For our GPU implementations, we target NVIDIA Fermi GPU architecture (\eg, the GTX 480
-GPU used in this paper).  An explanation of the GPU programming model (CUDA) at a useful level of completeness would take more space than is available here, so we will instead frame our discussion in terms of 
+GPU addressed in this chapter).  An explanation of the GPU programming model (CUDA) at a useful level of completeness would take more space than is available here, so we will instead frame our discussion in terms of 
 hardware capabilities. 
 %\footnote{A discussion of the CUDA programming model can be found in the NVIDIA C for CUDA Programming Guide}
 CUDA programmable GPUs are comprised of several
@@ -439,7 +439,7 @@ which is a representative example of a modern multi-core CPU.
 For the E5530, the L2 cache in each core is only able to store about 16 images.
 For image alignment problem, the number of training images per class is
 typically larger than 16.  
-In this paper, we compare two mappings of the parallelism available in the alignment
+In this chapter, we compare two mappings of the parallelism available in the alignment
 stage to the concurrency available on the CPU: a naive implementation that is purely 
 based on stock libraries and compilers, and a manually optimized version we advocate.
 
@@ -489,7 +489,7 @@ To achieve core-level concurrency we make use of the Open MP API. \cite{dagum200
 \label{sec:alignment_implementation_gpu}
 While on the CPU, algorithm performance is highly dependent on effective
 cache usage, cache is relatively unimportant on the GPU for ALM based
-$\ell_1$-min.  As can be seen in Figure \ref{fig:gpu_caches}, the GPU has 
+$\ell_1$-minimization.  As can be seen in Figure \ref{fig:gpu_caches}, the GPU has 
 a very small amount of cache compared to the CPU.  While it might be possible
 to fit a single instance of the alignment problem (with a slightly reduced problem size)
 into L2 cache, this would not be an efficient use of the GPU's resources.
@@ -543,7 +543,7 @@ After the face alignment stage is complete, the 20 subject classes with lowest
 alignment error are selected for recognition, $\bb$ and $A_i$ are re-sampled to a common alignment
 using $\tau_i$, and $A_i$ are concatenated into a new matrix $A$.
 A sparse representation of $\bb$ w.r.t $A$ is then recovered
-by solving a single $\ell_1$-min problem, as shown
+by solving a single $\ell_1$-minimization problem, as shown
 in \eqref{eq:l1min_denoise}, using Algorithm \ref{alg:alm_rec}.  The
 coefficients in $\x$ are then used to compute error residuals that are used for
 classification.  
@@ -611,10 +611,10 @@ GPU on data stored in GPU DRAM.
 \section{Experiments} 
 \label{sec:experiment} 
 In this section, we benchmark the
-performance of our parallel implementations of $\ell_1$-min on CPU and GPU
-platforms.  In order to show how our $\ell_1$-min algorithms scale with problem
+performance of our parallel implementations of $\ell_1$-minimization on CPU and GPU
+platforms.  In order to show how our $\ell_1$-minimization algorithms scale with problem
 size, in Section \ref{sec:simulation} we will begin with benchmarks for the
-general $\ell_1$-min problem on synthetic data.  We will then progress in
+general $\ell_1$-minimization problem on synthetic data.  We will then progress in
 Section \ref{sec:benchmark} to demonstrating the speed and accuracy of our
 implementations as applied to the alignment and recognition stages of the face
 recognition problem.
@@ -629,7 +629,7 @@ recognition problem.
 \label{sec:simulation}
 
 The first experiment compares the performance of our proposed CPU and GPU
-implementations of the general $\ell_1$-min solver (Algorithm \eqref{alg:alm}).
+implementations of the general $\ell_1$-minimization solver (Algorithm \eqref{alg:alm}).
 The $m \times n$ measurement matrix $A$ is a random Gaussian matrix, with each
 entry generated from the standard normal distribution and normalized to unit
 column norm.  The ratio of $m/n$ is fixed at $1/2$ with $n$ varying from 1000 to 8000.
@@ -650,7 +650,7 @@ $A$ reaches $2000 \times \1000 \times 4 = 8$ MB, i.e. the size of the CPU L3 cac
 \begin{center}
 \includegraphics[width=4in]{figures_ijcb/time_vs_matrix_size_constant_tol.pdf}
 \end{center} 
-\caption{\small Comparison of $\ell_1$-min runtime vs. dimensions of $A$ on random data.} 
+\caption{\small Comparison of $\ell_1$-minimization runtime vs. dimensions of $A$ on random data.} 
 \label{fig:random_data}
 \end{figure}
 
@@ -663,19 +663,19 @@ face recognition pipeline.
 
 First, in order to measure the impact of solving many
 $\ell_1$ problems-per concurrently on the GPU, we benchmark three implementations of the
-alignment $\ell_1$-min solver with $A$ of size $5120 \times 32$, and a fixed
+alignment $\ell_1$-minimization solver with $A$ of size $5120 \times 32$, and a fixed
 $50$ inner loop iterations for each of $50$ outer loop iterations. The runtime
 on a GTX480 GPU is averaged over a large number of trials, which are run
 sequentially or concurrently depending on the implementation.
 The results are shown in Table \ref{tbl:ubench}.
-Our proposed parallelization of the $\ell_1$-min used in the alignment
+Our proposed parallelization of the $\ell_1$-minimization used in the alignment
 stage is {\em eight times} faster than an implementation solving a single
 problem at a time using the stock BLAS libraries.
 \footnote{The streams implementation is limited significantly by a 
 cap on the number of concurrent streams in the current version of CUDA}
 %The results are shown below:
 \begin{table}[t!]
-\caption{\small Benchmark of implementations of alignment $\ell_1$-min.}
+\caption{\small Benchmark of implementations of alignment $\ell_1$-minimization.}
 \small
 \begin{tabular}{|l|c|}
 \hline
@@ -766,7 +766,7 @@ speed over previously reported implementations.
 As CPU manufacturers increase the number of cores and vector widths, and as GPU 
 manufacturers increase the amount
 of cache, both architectures are rapidly converging towards an architectural balance
-that increasingly favorable for $\ell_1$-min based face recognition.
+that increasingly favorable for $\ell_1$-minimization based face recognition.
 % of the same pipeline.  Whereas
 %earlier implementations required over a second to align a test image against
 %just one of the 250 subjects in Multi-PIE session 1, the proposed 

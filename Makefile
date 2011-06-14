@@ -7,6 +7,7 @@ ENGINE=-pdf
 #ENGINE=-pdfdvi
 
 # Always build main.pdf target, letting latexmk figure out all of the deps of main.pdf automatically
+.PHONY:main.pdf
 main.pdf:main.tex 
 
 %.tex:%.dia

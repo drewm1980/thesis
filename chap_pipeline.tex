@@ -1,53 +1,26 @@
 \section{Introduction}
-
-Face recognition applications to date have fallen
-into roughly two categories.  Face recognition has recently
-seen a lot of success in a family of less-demanding
-applications such as online image search and family photo album
-organization (e.g.\ Google Picassa, Microsoft Photo Gallery,
-and Apple iPhoto). At the other end of the tractability
-spectrum there are the terrorist watchlist and mass
-surveillance applications that have for the most part dominated
-the field of face recognition research.  However, there are
-many face recognition applications that fall roughly between
-these extremes, where very high recognition performance is
-desired, but the users in the gallery are still allies of the
-system rather than adversaries.  These applications include
-access control for secure facilities (e.g., prisons, office
-buildings), computer systems, automobiles, or automatic teller
-machines, where controlled gallery images can be obtained in
-advance.  These applications are very interesting due to their
-potential sociological impact.  Since the gallery subjects are
-allies, rather than opponents, of the recognition system, this
-creates the possibility of carefully controlling the
-acquisition of the training data. While the same can be said
-for other biometrics such as fingerprints and iris recognition,
-face recognition has the potential of working with test data
-that is much less controlled, allowing the access control
-system to be made less intrusive to the users of the system. To
-some extent, the goal of this paper is to show how a reliable
-face recognition system can be built for this restricted, but
-still important, scenario.
-
-Very few recognition systems specifically target applications where many well-
-controlled training images are available.  Of these, the classical holistic
-subspace-based face recognition methods \cite{Turk1991-CVPR,Belhumeur1997-PAMI}
-are well known for their speed and simplicity, as well as for their natural
-extension to linear illumination models.  However, their performance has been
-shown to be extremely brittle not only to alignment variation, but to even
-minor occlusions caused by, say, a wisp of hair, a blinked eye, or mouth that
-is slightly open. One promising recent direction, set forth in
-\cite{Wright2009-PAMI}, casts the recognition problem as one of finding a
-sparse representation of the test image in terms of the training set as a
-whole, up to some sparse error due to occlusion. A \emph{sparse
-representation-based classification} (SRC) method is then proposed for
-recognition. The main idea is that the sparse nonzero coefficients should
-concentrate on the training samples with the same class label as the test
-sample. SRC has demonstrated striking recognition performance despite severe
-occlusion or corruption by solving a simple convex program.
-%For this reason, the final recognition stage of our proposed system will
-%consist of SRC, and the alignment stage that precedes it will be based on
-%similar techniques.
+%
+Unfortunately, while the work \cite{Wright2009-PAMI} achieves impressive
+results, it does not deal with misalignment between the test and training
+images, and it requires a rich set of illuminations in the gallery images for
+good performance.  We illustrate the compounded effect of both alignment and
+illumination with an example in Figure \ref{fig:promo}.  The task is to
+identify the girl among 20 subjects. If the test face image, say obtained from
+an off-the-shelf face detector, has even a small amount of registration error
+against the training images (caused by mild pose, scale, or misalignment), the
+sparse representation obtained using the method of \cite{Wright2009-PAMI} is no
+longer informative, even if sufficient illuminations are present in the
+training, as shown in Figure \ref{fig:promo}(top). Additionally, in order to
+span the illuminations of a typical indoor (or outdoor) environment,
+illuminations from behind the subject are needed in the training set.
+Otherwise, even for perfectly aligned test images, the sparse representation
+obtained using \cite{Wright2009-PAMI} will not necessarily be sparse or
+informative, as shown by the example in Figure \ref{fig:promo}(middle).
+Clearly, both good alignment, as well as sufficient training images are needed
+to ensure success of the sparsity-based recognition method proposed by
+\cite{Wright2009-PAMI}.  In this chapter, we examine how to handle alignment
+and illumination simultaneously in the sparse representation framework,
+bringing the method proposed in \cite{Wright2009-PAMI} closer to practical use.
 
 \newcommand{\tempheight}[0]{1.1in}
 \begin{figure}
@@ -78,30 +51,6 @@ a sufficient set (all 38) of
 illuminations are used in the training. Both are necessary for correct recognition
 using SRC.}\label{fig:promo}
 \end{figure}
-
-Unfortunately, while the work \cite{Wright2009-PAMI} achieves impressive results, it does not deal with misalignment
-between the test and training images, and it requires a rich set of illuminations
-in the gallery images for good performance.
-We illustrate the compounded effect of both alignment and illumination
-with an example in Figure \ref{fig:promo}.
-The task is to identify the girl among 20 subjects. If the test
-face image, say obtained from an off-the-shelf face detector,
-has even a small amount of registration error against the
-training images (caused by mild pose, scale, or misalignment),
-the sparse representation obtained using the method of \cite{Wright2009-PAMI} is no longer informative,
-even if sufficient illuminations are present in the training, as shown in Figure
-\ref{fig:promo}(top). Additionally, in order to span
-the illuminations of a typical indoor (or outdoor) environment,
-illuminations from behind the subject are needed in the
-training set. Otherwise, even for perfectly aligned test images,
-the sparse representation obtained using \cite{Wright2009-PAMI} will not necessarily be sparse or
-informative, as shown by the example in Figure
-\ref{fig:promo}(middle). Clearly, both good alignment, as well
-as sufficient training images are needed to ensure success of the sparsity-based
-recognition method proposed by \cite{Wright2009-PAMI}.
-In this paper, we examine how to handle alignment and illumination simultaneously
-in the sparse representation framework, bringing the method proposed in \cite{Wright2009-PAMI}
-closer to practical use.
 
 \subsection{Related Work}
 We briefly review existing techniques for recognition, image
@@ -178,7 +127,7 @@ projector based light stage.  While similar systems have been used for
 other applications, to our knowledge, we
 are the first to use projectors to indirectly illuminate a subject's face for
 the purpose of face recognition.
-\subsection{Contributions} In this paper, we show how
+\subsection{Contributions} In this chapter, we show how
 registration and illumination
 can be simultaneously addressed within a robust sparse representation
 framework. We show that face registration, a challenging
@@ -194,21 +143,16 @@ that is capable of linearly representing typical indoor and outdoor
 lighting, along with a practical hardware system for capturing
 them.
 
-% The two main contributions of this paper are thus to propose a simple and practical face recognition algorithm that achieves a high degree of robustness and stability to all these variations given sufficient training images, and to demonstrate a practical system for gathering sufficient training images.  While most of the techniques we use have been studied in isolation, we believe we are the first to combine them into a complete recognition pipeline that can achieve good results on realistic data.
-
-% We use tools from sparse representation
-% to align a test face image with a set of frontal training
-% images in the presence of registration error, illumination variation, and partial occlusion. The region
-% of attraction of the alignment algorithm is thoroughly characterized on public face datasets such as Multi-PIE.
-% We further demonstrate how to capture a set of training images with enough illumination variation that they span test images taken under un-controlled %illumination.
-% We have implemented a complete face recognition system, including a projector-based training acquisition system, in order to evaluate how our algorithms %work under practical testing conditions. We show
-% that our system can efficiently and effectively recognize faces under
-% a variety of realistic conditions, using only
-% frontal images under the proposed illuminations as training.
-
-
-%This paper is enhanced version of a similarly titled conference paper \cite{Wagner2009-CVPR}.  We provide experiment results on a larger internal data set, as well as more extensive experiments on public data sets.  Furthermore, we test several variations on the main pipeline that also achieve good recognition performance.  We also present an alternative formulation of the iterative alignment based on derivatives of the training images rather than the testing images.  We present results with a new internal implementation of L1 minimization using an Augmented Lagrange Method that is significantly faster than our previous interior-point based solver.
-
+%A key part of the system is exploiting
+%an important property of the imaging process:  there is a linear mapping
+%between the space of illuminations of an object, and the space of images of
+%that object taken under the same pose.  This makes it possible to effectively
+%model the testing image as a linear superposition of a large (and well chosen)
+%set of training images.  This idea is certainly not new; indeed it has been in
+%use for face recognition for roughly two decades, \cite{Turk1991-CVPR}.
+%However, traditional algorithms that rely on this property of the image
+%formation process have tended to perform very badly in the face of occlusions
+%and when highly quality training images are unavailable.  
 
 We then demonstrate the effectiveness of the proposed new
 methods with a complete face recognition system that is {\em
@@ -233,7 +177,7 @@ clearly demonstrate that our system not only works well with
 images taken under controlled laboratory conditions, but is
 capable of handling practical indoor and outdoor illuminations as well.
 
-\noindent{\em Organization of this paper:} In Section \ref{sec:registration},
+\noindent{\em Organization of this chapter:} In Section \ref{sec:registration},
 we derive our robust registration and recognition algorithm within the sparse
 representation framework. We elaborate on algorithmic implementation issues,
 conduct region of attraction experiments with respect to both 2D in-plane
@@ -482,8 +426,8 @@ pixels from 109 subjects under 38 illuminations,
 our C implementation of Algorithm~\ref{alg:deformable-src} takes
 about 0.60 seconds per subject for alignment and about 2.0
 seconds for global recognition. Compared to the highly
-customized interior point method used in the conference version
-of this paper \cite{Wagner2009-CVPR}, this new algorithm is
+customized interior point method first presented in 
+\cite{Wagner2009-CVPR}, this new algorithm is
 only slightly faster for per subject alignment. However, it is
 much simpler to implement and it achieves a
 \emph{speedup of more than a factor of 10} for global
@@ -690,7 +634,7 @@ In the above section, we have made the assumption that the test image, although 
 
 The strongest theoretical results so far regarding the relationship
 between illumination and the resulting sets of images is due to Basri and Jacobs \cite{Basri2003-PAMI}.
-The main result of this paper is that for convex Lambertian objects, distant illuminations, and fixed pose,
+The main result of this section is that for convex Lambertian objects, distant illuminations, and fixed pose,
 all images of the object can be well approximated by linear combinations of
 nine (properly chosen) basis images.  The basis images have mixed sign, and
 their illuminations consist of the lowest frequency spherical harmonics.
@@ -1151,7 +1095,7 @@ Due to its robustness to variations in illumination, facial
 expression, aging and other changes, LBP has achieved the
 state-of-the-art face recognition performance in the scenario
 when only one sample per person is used for training
-\cite{Tan06facerecognition}. In this paper, we follow the same
+\cite{Tan06facerecognition}. In this section, we follow the same
 steps as in \cite{Ahonen2006-PAMI} to construct an LBP
 descriptor for each training and testing sample. The $80\times
 60$ face region is first divided into a regular $10\times 10$
@@ -1482,7 +1426,7 @@ the entire face as a whole. This idea has been explored in many
 earlier works; see \cite{Pentland1994-CVPR, Wright2009-PAMI}
 for examples. Since in most real world cases the occlusion is contiguous, it is reasonable to argue that a minority of the
 subregions are likely to be affected by the occlusion. In this
-paper, we adopt the same idea and partition the face into four
+section, we adopt the same idea and partition the face into four
 overlapping blocks to better handle sunglasses. This
 scheme is illustrated in Figure~\ref{fig:occ-block}. Notice
 that in this example three out of the four blocks are partially

@@ -5,14 +5,23 @@ achieve useful recognition rates a recognition system needs to simultaneously
 handle variations in illumination, alignment, and occlusion. This thesis
 proposes a conceptually simple and practical face recognition system that
 achieves a high degree of robustness and stability to all these variations.
-First a flexible system for acquiring well registered training images under
-many illuminations is demonstrated.  An alignment and recognition system
-simultaneously searches for a linear combination of the training images and a
-corresponding warping of the testing image that results in an image error that
-is sparse.  To better handle severe occlusions an extension to the algorithm is
-proposed that makes use of the knowledge that occluded pixels tend to be
-spatially correlated.  Finally, several planned techniques for improving both
-the execution speed and recognition accuracy of the algorithm are discussed.
+First a flexible projector-based system for acquiring well registered training
+images under many illuminations is demonstrated.  An alignment and recognition
+system simultaneously searches for a linear combination of the training images
+and a corresponding warping of the testing image that results in an image error
+that is sparse.  To better handle severe occlusions an extension to the
+algorithm is proposed that makes use of the knowledge that occluded pixels tend
+to be spatially correlated.  Due to the use of multiple face images as features
+and as the non-smooth nature of the optimization problems, these techniques
+have far greater computational requirements than techniques that extract
+low-dimensional features.  Algorithmic improvement and optimized
+implementations for modern parallel computing architectures are investigated in
+order to a system capable of perform recognition fast enough for use in an
+access control system.  
+%The work presented here has become the reference
+%algorithm for a new class of recognition systems that have been further 
+%developed by other researchers.
+
 
 % From PAMI
 %Many classic and contemporary face recognition algorithms work well on public
