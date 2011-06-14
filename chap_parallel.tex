@@ -1,34 +1,5 @@
 \section{Introduction} 
 %
-$\ell_1$-minimization has received much attention in recent years due to
-important applications in compressive sensing \cite{BrucksteinA2007} and sparse
-representation \cite{WrightJ2010-PIEEE}.  The problem refers to finding the
-minimum $\ell_1$-norm solution to an underdetermined linear system $\bb=A\xx$:
-%
-\begin{equation} \min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx.
-\label{eq:l1min} \end{equation}
-%
-It is now well established that, under certain conditions
-\cite{CandesE2005-IT_1,DonohoD2004}, the minimum $\ell_1$-norm solution is also
-the \emph{sparsest} solution to the system \eqref{eq:l1min}.
-
-Among its many applications, $\ell_1$-minimization has been recently used to reformulate
-image-based face recognition as a sparse representation problem
-\cite{WrightJ2009-PAMI}.  If we stack the $m$ pixels of the $n_i$ training images of $K$ subject
-classes into the columns of matrices $(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$, combine
-the matrices into a larger matrix $A = [A_1, \cdots, A_K]\in\Re^{m\times n}$, and arrange the pixels of a new
-query image into a vector $\bb\in\Re^m$, \emph{sparsity-based
-classification} (SBC) solves the following minimization problem:
-\begin{equation}
-\min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
-\label{eq:l1min_denoise}
-\end{equation}
-If the sparsest solutions for $\x$ and $\e$ are recovered, $\ee$ provides a
-means to compensate for pixels that are corrupted due to occlusion of some part of the query
-image, and the dominant nonzero coefficients of $\xx$ reveal the membership of
-$\bb$ based on the training image labels associated with $A$. 
-%Since $A$ contains many images per user taken under different illuminations, 
-%$A_i\x_i$ acts as a linear illumination model for the test image $\bb$.
 
 In this chapter, we study parallelization of $\ell$-minimization on many-core CPU and GPU
 architectures. Although $\ell_1$-minimization \eqref{eq:l1min} is a convex
