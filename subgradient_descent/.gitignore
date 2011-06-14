@@ -1,0 +1,16 @@
+*.dvi
+*.log
+*.aux
+*.pdfsync
+*.tex~
+*.bbl
+*.blg
+*.backup
+*.tar.gz
+main.pdf
+
+*.ps
+*.kilepr
+
+*.swp
+*.fdb_latexmk
