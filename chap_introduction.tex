@@ -1,74 +1,77 @@
-One of the most important skills humans possess is the ability to quickly
-recognize each other by sight.   The ability to rapidly identify each other
-gives us very important information we can use to interact with the people in
-the world around us.  Face recognition is such a useful skill that automating
-this ability is one of the highest priority goals of computer vision research.
-Unfortunately, it turns out that human faces are rather difficult to recognize,
-primarily for reasons that are inherent in the imaging process.  Obstacles to
-high performance face recognition include an (initial) absence of information
+The ability of humans to quickly and accurately recognize each-other by sight
+is one of the foundations of offline social interaction.  As digital devices
+(both mobile and embedded in our infrastructure) increase in importance for our
+daily lives, so does the incentive to share with them our capacity for
+automatic visual recognition.  While many applications of face recognition are
+controversial due to privacy concerns, there are far more potential
+applications where the advantages are clear.  Credit fraud could be
+significantly reduced if automated teller machines and cash registers were able
+to differentiate customers from thieves carrying stolen wallets.  Theft of
+devices could be reduced if they were only responsive to their owners.
+Customized user interfaces and access to data could propagate between devices.
+Mechanical door locks could be replaced with systems that are simultaneously
+more accurate and more convenient.  The primary allure of
+automated face recognition is its potential to make the initiation of
+authenticated interaction with a machine as natural as making eye contact with
+another human.
+
+\section{Positioning of this work} Face recognition applications to date have
+fallen into roughly two categories.  Face recognition has recently seen a lot
+of success in a family of less-demanding applications such as online image
+search and family photo album organization (e.g.\ Google Picassa, Microsoft
+Photo Gallery, and Apple iPhoto). At the other end of the tractability spectrum
+there are the terrorist watchlist and mass surveillance applications that have
+for the most part dominated the field of face recognition research.  However,
+there are many face recognition applications that fall roughly between these
+extremes, where very high recognition performance is desired, but the users in
+the gallery are still allies of the system rather than adversaries.  These
+applications include access control for secure facilities (e.g., prisons,
+office buildings), computer systems, automobiles, or automatic teller machines,
+where controlled gallery images can be obtained in advance.  These applications
+are very interesting due to their potential sociological impact.  Since the
+gallery subjects are allies, rather than opponents, of the recognition system,
+this creates the possibility of carefully controlling the acquisition of the
+training data. While the same can be said for other biometrics such as
+fingerprints and iris recognition, face recognition has the potential of
+working with test data that is much less controlled, allowing the access
+control system to be made less intrusive to the users of the system.  The scope
+of this thesis is to show how a reliable face recognition system can be built
+for this restricted, but still important, scenario.  
+
+
+Unfortunately, it turns out that human faces are rather difficult to recognize
+in images. for reasons that are inherent in the imaging process.  Obstacles to
+highly accurate face recognition include an (initial) absence of information
 about the mapping between a person's face and an image, variations in nature of
 the light illuminating a person's face, and (unlabeled) portions of a person's
 face that may not have even been captured on camera due to occlusion.  
 
+\section{Previous Work} Very few recognition systems specifically target
+applications where many well- controlled training images are available.  Of
+these, the classical holistic subspace-based face recognition methods
+\cite{Turk1991-CVPR,Belhumeur1997-PAMI} are well known for their speed and
+simplicity, as well as for their natural extension to linear illumination
+models.  However, their performance has been shown to be extremely brittle not
+only to alignment variation, but to even minor occlusions caused by, say, a
+wisp of hair, a blinked eye, or mouth that is slightly open. 
 
-\section{Positioning of this work}
-Face recognition applications to date have fallen
-into roughly two categories.  Face recognition has recently
-seen a lot of success in a family of less-demanding
-applications such as online image search and family photo album
-organization (e.g.\ Google Picassa, Microsoft Photo Gallery,
-and Apple iPhoto). At the other end of the tractability
-spectrum there are the terrorist watchlist and mass
-surveillance applications that have for the most part dominated
-the field of face recognition research.  However, there are
-many face recognition applications that fall roughly between
-these extremes, where very high recognition performance is
-desired, but the users in the gallery are still allies of the
-system rather than adversaries.  These applications include
-access control for secure facilities (e.g., prisons, office
-buildings), computer systems, automobiles, or automatic teller
-machines, where controlled gallery images can be obtained in
-advance.  These applications are very interesting due to their
-potential sociological impact.  Since the gallery subjects are
-allies, rather than opponents, of the recognition system, this
-creates the possibility of carefully controlling the
-acquisition of the training data. While the same can be said
-for other biometrics such as fingerprints and iris recognition,
-face recognition has the potential of working with test data
-that is much less controlled, allowing the access control
-system to be made less intrusive to the users of the system. 
-The scope of this thesis is to show how a reliable
-face recognition system can be built for this restricted, but
-still important, scenario.  
-
-
-\section{Previous Work}
-Very few recognition systems specifically target applications where many well-
-controlled training images are available.  Of these, the classical holistic
-subspace-based face recognition methods \cite{Turk1991-CVPR,Belhumeur1997-PAMI}
-are well known for their speed and simplicity, as well as for their natural
-extension to linear illumination models.  However, their performance has been
-shown to be extremely brittle not only to alignment variation, but to even
-minor occlusions caused by, say, a wisp of hair, a blinked eye, or mouth that
-is slightly open. 
-
-One of the logistical difficulties that has been holding face recognition research back is
-that, even with cooperative subjects, it is very difficult to collect
-sufficient data to achieve meaningful recognition rates.  It takes a lot of
-resources to simultaneously build custom hardware for a training image
+One of the logistical difficulties that has been holding face recognition
+research back is that, even with cooperative subjects, it is very difficult to
+collect sufficient data to achieve meaningful recognition rates.  It takes a
+lot of resources to simultaneously build custom hardware for a training image
 acquisition system, manage the capturing of images of over a hundred test
-subjects, and still have the resources to implement an advanced recognition algorithm.
-This fact has contributed to a pattern where published face recognition research is conducted
-almost exclusively on public data sets.
+subjects, and still have the resources to implement an advanced recognition
+algorithm.  This fact has contributed to a pattern where published face
+recognition research is conducted almost exclusively on public data sets.
 While public face databases play an important role in allowing researchers to
 compare the performance of their algorithms, relying on them exclusively for
 research prevents the researcher from tightly integrating their algorithm with
-their training image acquisition system.  This thesis demonstrates that, in order to achieve the very high
-recognition rates that are needed for access control applications, tight
-integration between the training image acquisition system and the recognition
-system is a practical necessity.  In particular, many published algorithms implicitly make photometric
-assumptions that are (often unnecessarily) violated by the data sets they run
-on.  
+their training image acquisition system.  This thesis demonstrates that, in
+order to achieve the very high recognition rates that are needed for access
+control applications, tight integration between the training image acquisition
+system and the recognition system is a practical necessity.  In particular,
+many published algorithms implicitly make photometric assumptions that are
+(often unnecessarily) violated by the data sets they run on.  
 
 \section{Introduction to $\ell_1$ minimization and sparse representation based classification}
 %
@@ -110,7 +113,7 @@ $A_i\x_i$ acts as a linear illumination model for the test image $\bb$.  The mot
 for this illumination model will be further discussed in Chapter \ref{chap_pipeline}, Section \ref{sec:illumination}.
 SRC has demonstrated striking recognition performance
 despite severe occlusion or corruption by solving a simple convex program.  For
-this reason, the final recognition stage of our proposed system will consist of
+this reason, the final recognition stage of the recognition pipeline will consist of
 SRC, and the iterative face alignment stage that precedes it will be based on
 similar techniques.
 

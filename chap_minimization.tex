@@ -1,4 +1,4 @@
-\section{Geometry of the $\ell_1$ representation problem}
+%\section{L1 Minimization via Interior Point Method} % TODO
 
 \subsection{Introduction} 
 % 
@@ -9,15 +9,15 @@ smooth function $y(\u)$,  find a linear combination of $a_j(\u)$ parameterized
 by $\x \in \Re^n$ that minimizes the absolute value of the error function
 $e(\u) = \sum_ja_j(\u) x_j - y(\u)$, integrated over some compact domain $U$.
 
-In the context of illumination invariant
-face recognition, $a_j$ are a database of images of one person's face
-under different illuminations, and $y$ is another image of a (possibly
-different) person's face.  In this case, $\u \in \Re^2$ is the 2D image
-coordinate, and $U$ is a mask that includes a subset of the human face.  In
-this case, the minimization problem becomes:
-\begin{equation}\label{eqn:continuous2D} \tilde{\x} = \argmin{\x\in \Re^n}
-\iint_U{\left|\left(\sum_{j=1,\ldots,n} a_j(\u) x_j\right) - y(\u)\right| du_1
-du_2} \end{equation}
+In the context of illumination invariant face recognition, $a_j$ are a database
+of images of one person's face under different illuminations, and $y$ is
+another image of a (possibly different) person's face.  In this case, $\u \in
+\Re^2$ is the 2D image coordinate, and $U$ is a mask that includes a subset of
+the human face.  In this case, the minimization problem becomes:
+\begin{equation}
+\label{eqn:continuous2D} 
+\tilde{\x} = \argmin{\x\in \Re^n} \iint_U{\left|\left(\sum_{j=1,\ldots,n} a_j(\u) x_j\right) - y(\u)\right| du_1 du_2} 
+\end{equation}
 
 For the sake of discussion, we will focus on the simplified case where $a_i$
 are piecewise smooth function of a scalar valued $u$.  Note that if we
@@ -85,6 +85,7 @@ versions of $a_j(u)$ and $y(u)$.  We will be concerned with what effect the
 choice of approximating functions will have on the derivatives of $f$ with
 respect to $x$.
 
+\section{Geometry of the $\ell_1$ representation problem}
 {\bf Rectangle Rule} 
 %
 The rectangle rule for numerical integration implements an
@@ -109,19 +110,21 @@ f_r = \frac{w}{m} \sum{ \left|\left(\sum_{j=1,\ldots,n} \a_j x_j\right) - \y\rig
 %
 where $\a_j, \y \in \Re^m$ are vectors containing the sampled values of $a(u)$ and $y(u)$.  If we pack $\a_j$ into the columns of a matrix $A \in \Re^{m \times n}$, we are left with the the familiar expression:
 %
-\begin{equation}\label{eqn:original_optimization}
+\begin{equation}
+\label{eqn:original_formulation}
 \tilde{\x_r} = \argmin{\x\in \Re^n} \frac{w}{m} || A \x - \y ||_1
 \end{equation}
 %
 Note that in the recognition step of the face recognition application, it is necessary to 
 perform a minimization of the form:
 %
-\begin{equation}\label{eqn:recognition_forumulation}
+\begin{equation}
+\label{eqn:recognition_formulation}
 \tilde{\x_r} = \argmin{\x\in \Re^n} \frac{w}{m} || A \x - \y ||_1 + ||\x||_1
 \end{equation}
 %
 Note that the optimization problem formulation \ref{eqn:recognition_formulation} can
-be converted to the formulation \ref{original_optimization} by appending an identity
+be converted to the formulation \ref{eqn:original_formulation} by appending an identity
 matrix to the bottom of $A$ and zeros to the bottom of $\y$.  For very tall $A$,
 doing so will not greatly affect the dimension of the problem, so it may not even
 be necessary to take advantage of the special structure of the 
@@ -133,7 +136,7 @@ In understanding
 the behavior of iterative optimization routines, it will be instructive to
 build a picture of the objective function $f$ in our heads.  
 If we let $\a_i$
-be the rows of $A$ from \ref{eqn:original_optimization}, the objective function
+be the rows of $A$ from \ref{eqn:original_formulation}, the objective function
 can be expressed as:
 \begin{equation}
 f_r = \sum_{i=1\ldots m}| \a_i \x - y_i | = \sum_{i=1\ldots m} |e_i|
@@ -333,6 +336,7 @@ type of computations performed in a traditional graphics pipeline.
 
 \end{itemize}
 
+\section{L1 Minimization via Subgradient Descent} % TODO
 {\bf Computing the steepest descent direction for rectangular integration }
 %First order methods for solving extremely tall $\ell_1$ minimization problems are limited in speed primarily
 %by their memory bandwidth requirements.  Furthermore, they require tuning and proper scaling of the data
