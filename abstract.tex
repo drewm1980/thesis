@@ -1,58 +1,27 @@
-% TODO introduce speed objective earlier.  From prelim document
-Most contemporary face recognition algorithms work well under laboratory
-conditions but degrade when tested in less-controlled environments. In order to
-achieve useful recognition rates a recognition system needs to simultaneously
-handle variations in illumination, alignment, and occlusion. This thesis
-proposes a conceptually simple and practical face recognition system that
-achieves a high degree of robustness and stability to all these variations.
-First a flexible projector-based system for acquiring well registered training
-images under many illuminations is demonstrated.  An alignment and recognition
-system simultaneously searches for a linear combination of the training images
-and a corresponding warping of the testing image that results in an image error
-that is sparse.  To better handle severe occlusions an extension to the
-algorithm is proposed that makes use of the knowledge that occluded pixels tend
-to be spatially correlated.  Due to the use of multiple face images as features
-and as the non-smooth nature of the optimization problems, these techniques
-have far greater computational requirements than techniques that extract
-low-dimensional features.  Both algorithmic improvements and optimized
-implementations for modern parallel computing architectures are investigated in
-order to a build a system capable of perform highly accurate and robust
-recognition while remaining fast enough for use in access control system.  
-%The work presented here has become the reference algorithm for a new class of
-%recognition systems that have been further developed by other researchers.
+Many classic and contemporary face recognition algorithms work well on public
+data sets, but degrade sharply when they are used in a real recognition system.
+This is mostly due to the difficulty of simultaneously handling variations in
+illumination, image misalignment, and occlusion in the test image. We consider
+a scenario where the training images are well controlled, and test images are
+only loosely controlled.  This thesis describes a conceptually simple face
+recognition system that achieves a high degree of robustness and stability to
+illumination variation, image misalignment, and partial occlusion.  First, well
+registered training images taken under many illumination directions are
+captured using a novel projector-based acquisition system.  The recognition
+system then uses tools from sparse representation to align a test face image to
+a set of frontal training images.  To better handle severe occlusions an
+extension to the algorithm is described that makes use of the knowledge that
+occluded pixels tend to be spatially correlated.  Due to the use of multiple
+face images as features and as the non-smooth nature of the optimization
+problems, these techniques have far greater computational requirements than
+techniques that extract low-dimensional features.  Several custom $\ell_1$
+solvers are presented that achieve faster convergence on face data than general
+solvers.  optimized implementations for modern parallel computing architectures
+are investigated in order to a build a system capable of perform highly
+accurate and robust recognition while remaining fast enough for use in access
+control system.  Optimized parallel implementations for contemporary CPU and
+GPU hardware are demonstrated to achieve near real-time face recognition for
+acces control applications with hundreds of gallery users.
 
 
-% From PAMI
-%Many classic and contemporary face recognition algorithms work well on public
-%data sets, but degrade sharply when they are used in a real recognition
-%system. This is mostly due to the difficulty of simultaneously handling
-%variations in illumination, image misalignment, and occlusion in the test
-%image. We consider a scenario where the training images are well controlled,
-%and test images are only loosely controlled.  We propose a conceptually simple
-%face recognition system that achieves a high degree of robustness and
-%stability to illumination variation, image misalignment, and partial
-%occlusion. The system uses tools from sparse representation to align a test
-%face image to a set of frontal training images.  The region of attraction of
-%our alignment algorithm is computed empirically for public face datasets such
-%as Multi-PIE. We demonstrate how to capture a set of training images with
-%enough illumination variation that they span test images taken under
-%uncontrolled illumination. In order to evaluate how our algorithms work under
-%practical testing conditions, we have implemented a complete face recognition
-%system, including a projector-based training acquisition system. Our system
-%can efficiently and effectively recognize faces under a variety of realistic
-%conditions, using only frontal images under the proposed illuminations as
-%training.
-%\begin{abstract} Recently a family of promising face recognition algorithms
-%based on sparse representation and $\ell_1$-minimization ($\ell_1$-min) have been
-%developed.  These algorithms have not yet seen commercial application, 
-%largely due to higher computational cost compared to other traditional
-%algorithms. This paper studies techniques for leveraging the 
-%massive parallelism available in GPU and CPU hardware to accelerate
-%$\ell_1$-min based on augmented Lagrangian method (ALM) solvers. 
-%For very large problems, the GPU is faster due to higher memory bandwidth, while 
-%for problems that fit in the larger CPU L3 cache, the CPU is faster.
-%On both architectures, the proposed implementations significantly outperform
-%naive library-based implementations, as well as previous systems. 
-%The source code of the
-%algorithms will be made available for peer evaluation.  \end{abstract}
 
