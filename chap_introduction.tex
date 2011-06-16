@@ -63,15 +63,14 @@ the users in the gallery are still allies of the system rather than
 adversaries.  These applications include access control for secure facilities
 (e.g., prisons, office buildings), computer systems, automobiles, or automatic
 teller machines, where controlled gallery images can be obtained in advance.
-These applications are very interesting due to their potential sociological
-impact.  Since the gallery subjects are allies, rather than opponents, of the
+Since the gallery subjects are allies, rather than opponents, of the
 recognition system, it is feasible to carefully control the acquisition of the
 gallery images. 
 
 \input{abstract}
 
 \section{Previous Work} Very few recognition systems specifically target
-applications where many well- controlled training images are available.  Of
+applications where many well-controlled training images are available.  Of
 these, the classical holistic subspace-based face recognition methods
 \cite{Turk1991-CVPR,Belhumeur1997-PAMI} are well known for their speed and
 simplicity, as well as for their natural extension to linear illumination
@@ -90,12 +89,13 @@ recognition research is conducted almost exclusively on public data sets.
 While public face databases play an important role in allowing researchers to
 compare the performance of their algorithms, relying on them exclusively for
 research prevents the researcher from tightly integrating their algorithm with
-their training image acquisition system.  This thesis demonstrates that, in
-order to achieve the very high recognition rates that are needed for access
-control applications, tight integration between the training image acquisition
-system and the recognition system is a practical necessity.  In particular,
-many published algorithms implicitly make photometric assumptions that are
-(often unnecessarily) violated by the data sets they run on.  
+their training image acquisition system.  In particular, many published
+algorithms implicitly make photometric assumptions that are (often
+unnecessarily) violated by the data sets they run on.  This thesis demonstrates
+that tight integration between the training image acquisition system and the
+recognition system enables the very high recognition rates that are needed for
+access control applications, while allowing more flexibility in the acquisition
+of the test image.
 
 \section{Introduction to $\ell_1$ minimization and sparse representation based classification}
 %
@@ -103,12 +103,12 @@ $\ell_1$-minimization has received much attention in recent years due to
 important applications in compressive sensing \cite{BrucksteinA2007} and sparse
 representation \cite{WrightJ2010-PIEEE}.  
 In general, $\ell_1$-minimization can refer to any minimization problem involving the 
-$ell_1$-norm (sum of absolute values, noted as $||\cdot||_1$) of a vector of expressions involving the optimization
+$\ell_1$-norm (sum of absolute values, noted as $||\cdot||_1$) of a vector of expressions involving the optimization
 variables. However, in the context of this thesis, we will be primarily concerned with
 the class of optimization problems that minimize the $\ell_1$-norm of a vector that
 is affine in the optimization variables, under constraints that are also affine in the optimization variables.
 One common sparse representation formulation finds the minimum $\ell_1$-norm solution to an
-underdetermined linear system $\bb=A\xx$:
+under-determined linear system $\bb=A\xx$:
 %
 \begin{equation} \min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx.
 \label{eq:l1min} \end{equation}
@@ -119,7 +119,7 @@ the \emph{sparsest} solution to the system \eqref{eq:l1min}.
 
 In addition to numerous other applications, $\ell_1$-minimization has been recently used to reformulate
 image-based face recognition as a sparse representation problem
-\cite{WrightJ2009-PAMI}.  If we stack the $m$ pixels of the $n_i$ training images of $K$ subject
+\cite{WrightJ2009-PAMI}.  If we arrange the $m$ pixels of the $n_i$ training images of $K$ subject
 classes into the columns of matrices $(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$, combine
 the matrices into a larger matrix $A = [A_1, \cdots, A_K]\in\Re^{m\times n}$, and arrange the pixels of a new
 query image into a vector $\bb\in\Re^m$, \emph{sparsity-based
@@ -137,8 +137,8 @@ $A_i\x_i$ acts as a linear illumination model for the test image $\bb$.  The mot
 for this illumination model will be further discussed in Chapter \ref{chap_pipeline}, Section \ref{sec:illumination}.
 SRC has demonstrated striking recognition performance
 despite severe occlusion or corruption by solving a simple convex program.  For
-this reason, the final recognition stage of the recognition pipeline will consist of
-SRC, and the iterative face alignment stage that precedes it will be based on
+this reason, the final recognition stage of the recognition pipeline consists of
+SRC, and the iterative face alignment stage that precedes it is based on
 similar techniques.
 
 \section{Document Structure}
@@ -146,15 +146,14 @@ similar techniques.
 Chapter \ref{chap:pipeline} is devoted to presenting a complete face
 recognition pipeline, which was developed in collaboration with John Wright,
 Zihan Zhou, Arvind Ganesh, Hossein Mobahi, and Yi Ma.  This pipeline was
-presented at the IEEE Conference on Computer Vision and Pattern Recognition
+presented at the 2009 IEEE Conference on Computer Vision and Pattern Recognition
 \cite{WagnerA2009-CVPR}.  An improved version of this recognition pipeline that
-is both faster and more accurate was was published in \cite{WagnerA2011-PAMI}.
+is both faster and more accurate is to be published in \cite{WagnerA2011-PAMI}.
 %
 Chapter \ref{chap:iccv} presents an extension of the algorithm that better
 handles image occlusions by making use of the knowledge that occluded image
 pixels tend to be adjacent to each other, modeling the occlusion distribution
-with a Markov Random Field.  This work was presented at the IEEE International
-Conference on Computer vision \cite{ZhouZ2009}.
+with a Markov Random Field.  This work was presented in \cite{ZhouZ2009}.
 %
 Chapter \ref{chap:minimization} discusses the application of several numerical
 optimization techniques to the core minimization problems required by the face
@@ -162,7 +161,8 @@ recognition pipeline.
 %
 Chapter \ref{chap:parallel} presents the optimized parallel implementations of
 the core numerical solvers, as well as the alignment algorithm, on highly
-concurrent multicore CPU and on GPU hardware.
+concurrent multicore CPU and on GPU hardware.  A paper describing this work
+is under review for the International Joint Conference on Biometrics, 2011.
 %
 Finally, Chapter \ref{chap:future} discusses a variety of ideas for future
 improvements to the recognition system, and some of the remaining
