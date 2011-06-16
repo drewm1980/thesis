@@ -1,11 +1,16 @@
 \section{Introduction}
 %
-Unfortunately, while the work \cite{Wright2009-PAMI} achieves impressive
-results, it does not deal with misalignment between the test and training
+% TODO dig up old discussions of illumination wrt basri.
+% TODO dig up discussion of coefficient positivity
+
+As introduced in Chapter \ref{chap:introduction}, SBC \cite{Wright2009-PAMI} 
+achieves impressive recognition results on aligned images,
+it does not deal with misalignment between the test and training
 images, and it requires a rich set of illuminations in the gallery images for
-good performance.  We illustrate the compounded effect of both alignment and
-illumination with an example in Figure \ref{fig:promo}.  The task is to
-identify the girl among 20 subjects. If the test face image, say obtained from
+good performance.  The need for proper handling of image alignment and
+illumination {\em simultaneously} is illustrated by an example in Figure \ref{fig:promo}.  
+The task is to
+identify the girl among 20 subjects. If the test face image, obtained from
 an off-the-shelf face detector, has even a small amount of registration error
 against the training images (caused by mild pose, scale, or misalignment), the
 sparse representation obtained using the method of \cite{Wright2009-PAMI} is no
@@ -18,7 +23,7 @@ obtained using \cite{Wright2009-PAMI} will not necessarily be sparse or
 informative, as shown by the example in Figure \ref{fig:promo}(middle).
 Clearly, both good alignment, as well as sufficient training images are needed
 to ensure success of the sparsity-based recognition method proposed by
-\cite{Wright2009-PAMI}.  In this chapter, we examine how to handle alignment
+\cite{Wright2009-PAMI}.  This chapter demonstrates a system for handling alignment
 and illumination simultaneously in the sparse representation framework,
 bringing the method proposed in \cite{Wright2009-PAMI} closer to practical use.
 

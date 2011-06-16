@@ -1,81 +1,36 @@
 \section{Introduction}
 
-The previous two chapters covered work that I have already performed towards my
-Ph.D. in the area of face recognition.  In this chapter I propose the main
-components of plan to turn our face recognition system into a complete package
-that is both accurate and scalable.  I haven already demonstrated that
-state-of-the-art face recognition performance can be achieved through careful
-control of the training image acquisition process and the use of an algorithm
-that effectively models illumination, pose, and occlusion.  Unfortunately,
-while our CPU implementation already performs several times as fast as our
-MATLAB implementation, it currently still takes over a minute to process a
-single test image.  This is clearly far too slow to be useful for an access
-control system. Since this is the biggest bottleneck for adoption of the
-proposed face recognition technology, solving this problem will be a major
-component of the remaining work for my proposed Ph.D. thesis.  Another major
-component of my research will be a systematic study of the choice of training
-illuminations.  Having already implemented a novel projector based training
-image acquisition system, I have the unique chance to automate the optimization
-of the set of training illuminations.  Another major step will be to combine
-the Markov Random Field occlusion handling with our iterative alignment
-algorithm.  Finally, there are some improvements that could be made to the
-training acquisition hardware itself to improve training image acquisition.  
+%solving this problem (speed) will be a major
+%component of the remaining work for my proposed Ph.D. thesis.  Another major
+%component of my research will be a systematic study of the choice of training
+%illuminations.  Having already implemented a novel projector based training
+%image acquisition system, I have the unique chance to automate the optimization
+%of the set of training illuminations.  Another major step will be to combine
+%the Markov Random Field occlusion handling with our iterative alignment
+%algorithm.  Finally, there are some improvements that could be made to the
+%training acquisition hardware itself to improve training image acquisition.  
 
-\section{Optimizing the Speed of the Recognition Algorithm}
+%\section{Optimizing the Speed of the Recognition Algorithm}
 
-Before any progress can be made on improving the speed of the algorithm, we
-must first understand why it currently runs so slowly. The main reason is that
-the sparsity based alignment and recognition algorithms detailed in the
-previous chapters use entire images as features.  Many face recognition
-algorithms either start with much smaller features to begin with (i.e. image
-patches, SIFT features), or project the images down to a much lower dimension
-as a first step.  Not only are we using relatively large training images in
-their natural basis, we are performing optimizations on them repeatedly in a
-loop, instead of just once, as is the case with Eigenfaces.   These
-optimization routines involve operations on many of these images at a time (for
-example, the recognition step currently uses 38 training images).  This is a
-very expensive algorithm in terms of the amount of data that must be handled
-simultaneously, and would have been considered very impractical to implement
-until rather recent improvements in computing hardware.  While we have an
-enormous amount of data that must be operated on, the simplicity of our choice
-of features has resulted in an algorithm that is extremely data parallel.
-Table \ref{tab:breakdown} shows a breakdown of the execution time for the
-different parts of the algorithm.  The first thing to note is that the
-algorithm's execution time will have to be improved by a factor of about 100 in
-order to be useful for access control.  It is unreasonable to expect a user to
-wait for much more than a second while the system decided whether or not to
-unlock the door.  Due to the emergence of readily available massively parallel
-processors in the form of programmable GPU's, this factor of speed improvement
-is actually more reasonable than it sounds.  Similar speedups have actually
-been achieved for some other data parallel tasks when ported from the CPU to
-the CUDA architecture.  The next few subsections will outline some strategies
-for optimizing the individual steps.
-\begin{table}[h]
-\centering
-\begin{tabular}{|c|c|}
-\hline
-Operation & Execution Time (seconds)\\
-\hline
-Loading the training database & 74\\
-\hline
-Per-user alignment & 130\\
-\hline
-Resampling the training images & 18\\
-\hline
-Final recognition step &137\\
-\hline
-\end{tabular}\vspace{2mm}
-\caption{Execution timing for a database of 100 training users with 30 xga grayscale training images per user} \label{tab:breakdown}
-\end{table}
+%\begin{table}[h]
+%\centering
+%\begin{tabular}{|c|c|}
+%\hline
+%Operation & Execution Time (seconds)\\
+%\hline
+%Loading the training database & 74\\
+%\hline
+%Per-user alignment & 130\\
+%\hline
+%Resampling the training images & 18\\
+%\hline
+%Final recognition step &137\\
+%\hline
+%\end{tabular}\vspace{2mm}
+%\caption{Execution timing for a database of 100 training users with 30 xga grayscale training images per user} \label{tab:breakdown}
+%\end{table}
 
-\subsection{Loading the training database}  The training database can be
-potentially quite large; for a database of 100 users, the full resolution
-training images take up 3 GB of data.  While his can be reduced significantly
-for the per-user alignment step (we only need the smaller re-sampled training
-images), we will need to load the full resolution images for the users that
-make it to the final recognition step, and this access must happen with very
-low latency.  Clever management of the loading of training images into memory
-will clearly be necessary.
+\subsection{Loading the training database}  
 
 One strategy for reducing the latency of the image loading is to use a
 technology called memory mapping.  This creates a mapping between the data in a
@@ -109,63 +64,17 @@ cut for the recognition step while per-user alignment is still being performed.
 Any training user that is not in the top $S$ (currently set to 10) users
 aligned so far certainly need not be loaded into memory.  
 
-\subsection{Per-user alignment}  
-Since this operation must be performed once per training user, the cost of this
-operation grows proportionally with the size of the training database.  For
-each user, the computation for this step involves repeatedly solving an l1
-optimization problem and resampling filtered versions of the test image.  
-
+\subsection{Resampling the training images}  
 One strategy for reducing the amount of time spent resampling(warping) the
 training images is to make use of the fact that we are resampling $N$ (= 38
-training images currently) simultaneously with the same transformation.  We can
-use this fact in two ways: first, we only have to compute the mapping of the
-pixel locations once, and second, we can tile the data for all 38 images
-together to further reduce time spent accessing memory.   
-
-\subsection{Resampling the training images}  
-Again, clever tiling and pre-fetching will be able to greatly reduce the time spent in this task.
-
-\subsection{Final recognition step}
-This bulk of the time spent in the final recognition step is in a large l1 optimization.  The matrices involved are bigger, but the l1 optimization problem only has to be solved once.  
-
-The two l1 optimization problems are solved by re-casting them as linear
-programming problems.  The resulting linear programming problems can be solved
-efficiently using interior point methods.  The most expensive operation in the
-interior point method for these problem sizes is the computation of the step
-direction.  This requires a multiplication of several large matrices to compute
-the matrices for a much smaller linear system of equations.  This smaller
-linear system is then solved by minimizing the $\ell^2$ norm of the error.
-Since all of these operations are taking place on very large arrays, these
-optimizations have the potential to map well to massively programming
-architectures, such as GPU's.  The massively parallel (capable of executing
-hundreds of threads concurrently) architecture that is currently the most
-promising is Nvidia's CUDA architecture, and development will center on this
-development system for the foreseeable future.  Performance gains of up to 100x
-over CPU implementations have been reported for algorithms that map well to the
-GPU.
-
-An example of an operation in our algorithm that is very low hanging fruit for
-GPU implementation is the multiplication of $A^T * D * A$ where $A$ is
-extremely tall (5120 x 38) and $D$ is diagonal.  While a general GPU
-implementation of matrix multiplication is provided with the GPU, there are
-likely significant performance improvements to be gained from a custom
-multiplication routine.  Data can be shared between the left and right copies
-of A.  To conserve cache space $A$ can be stored as the original 8 bit data
-type that came from the image, along with a floating point scale factor for
-each column.  The fact that $D$ is diagonal also greatly reduces the amount of
-computation that need be done.  Since $A$ is extremely tall, the edge case (in
-computation and in memory loading) for  the long edge is much more important
-that for the short edge.  Furthermore, the prior knowledge that $D$ gets
-updated about 10 times as frequently as $A$ how best to handle memory
-transfers.
-
-While the efficient implementation of the sparse representation algorithms we
-used has a limited interest from a theoretical standpoint, it is absolutely
-critical for enabling the use of these techniques for vision applications.
-Sparse representation may one day be as important a building block for computer
-vision as the singular value decomposition is currently, but this cannot happen
-without efficient implementations that are tuned both for the application
-domain and the available hardware.  
+training images currently) simultaneously with the same transformation. 
+In other words, the training images can be treated as a single 38 color image.
+This this has the potential to speed up the resampling stage for two reasons:
+first, it avoids re-computation of the mapping of pixel locations, and second,
+the memory accesses have improved cache locality.
+Unfortunately, optimized third party libraries such as Intel's Integrated Performance
+Primitives rarely provide optimized image
+transformations for images of more than four colors.
 
 \section{Optimizing the training illuminations} 
 To date, I have performed two experiments have been performed to guide the

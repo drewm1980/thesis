@@ -117,13 +117,18 @@ It is now well established that, under certain conditions
 \cite{CandesE2005-IT_1,DonohoD2004}, the minimum $\ell_1$-norm solution is also
 the \emph{sparsest} solution to the system \eqref{eq:l1min}.
 
-In addition to numerous other applications, $\ell_1$-minimization has been recently used to reformulate
-image-based face recognition as a sparse representation problem
-\cite{WrightJ2009-PAMI}.  If we arrange the $m$ pixels of the $n_i$ training images of $K$ subject
-classes into the columns of matrices $(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$, combine
-the matrices into a larger matrix $A = [A_1, \cdots, A_K]\in\Re^{m\times n}$, and arrange the pixels of a new
-query image into a vector $\bb\in\Re^m$, \emph{sparsity-based
-classification} (SBC) solves the following minimization problem:
+In addition to numerous other applications, $\ell_1$-minimization has been 
+recently used to reformulate image-based face recognition as a sparse representation problem
+\cite{WrightJ2009-PAMI}.  This is done by arranging the $m$ pixels of each gallery image into a corresponding
+column of a matrix 
+$A = [A_1, \cdots, A_K]\in\Re^{m\times n}$,
+where 
+$(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$
+are the sub-matrices containing 
+the $n_i$ training images each for subjects $1 \cdots K$.
+The pixels of the query image are arranged (in the same order) into a vector $\bb\in\Re^m$. 
+\emph{Sparsity-Based
+Classification} (SBC) then solves the following minimization problem:
 \begin{equation}
 \min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
 \label{eq:l1min_denoise}
@@ -135,7 +140,7 @@ $\bb$ based on the training image labels associated with $A$.
 If $A$ contains images of each subject taken under different illuminations, 
 $A_i\x_i$ acts as a linear illumination model for the test image $\bb$.  The motivation
 for this illumination model will be further discussed in Chapter \ref{chap_pipeline}, Section \ref{sec:illumination}.
-SRC has demonstrated striking recognition performance
+SRC has demonstrated strikingly high recognition accuracy
 despite severe occlusion or corruption by solving a simple convex program.  For
 this reason, the final recognition stage of the recognition pipeline consists of
 SRC, and the iterative face alignment stage that precedes it is based on
@@ -144,8 +149,9 @@ similar techniques.
 \section{Document Structure}
 %
 Chapter \ref{chap:pipeline} is devoted to presenting a complete face
-recognition pipeline, which was developed in collaboration with John Wright,
-Zihan Zhou, Arvind Ganesh, Hossein Mobahi, and Yi Ma.  This pipeline was
+recognition pipeline based on the SRC concept described above. 
+This pipeline was developed in collaboration with John Wright,
+Zihan Zhou, Arvind Ganesh, Hossein Mobahi, and Yi Ma, and was
 presented at the 2009 IEEE Conference on Computer Vision and Pattern Recognition
 \cite{WagnerA2009-CVPR}.  An improved version of this recognition pipeline that
 is both faster and more accurate is to be published in \cite{WagnerA2011-PAMI}.
