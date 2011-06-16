@@ -3,7 +3,7 @@
 % TODO dig up old discussions of illumination wrt basri.
 % TODO dig up discussion of coefficient positivity
 
-As introduced in Chapter \ref{chap:introduction}, SBC \cite{Wright2009-PAMI} 
+As introduced in Chapter \ref{chap:introduction}, SRC \cite{Wright2009-PAMI} 
 achieves impressive recognition results on aligned images,
 it does not deal with misalignment between the test and training
 images, and it requires a rich set of illuminations in the gallery images for
@@ -43,9 +43,9 @@ bringing the method proposed in \cite{Wright2009-PAMI} closer to practical use.
 Recognition}. In this example we identify the girl among 20 subjects, by
 computing the sparse representation of her input face with respect to the
 entire training set. The absolute sum of the coefficients associated with each
-subject is plotted on the right. We also show the faces reconstructed with each
-subject's training images weighted by the associated sparse coefficients. The
-red line (cross) corresponds to her true identity, subject 12. {\bf Top:} The
+subject is plotted on the right. The weighted sum of the 
+subject's training images using the associated sparse coefficients is also shown.
+The red line (cross) corresponds to her true identity, subject 12. {\bf Top:} The
 input face is from Viola and Jones' face detector (the black box) and all 38
 illuminations specified in Section \ref{sec:illumination} are used in the
 training.  {\bf Middle:} The input face is well-aligned (the white box) with
@@ -57,58 +57,43 @@ illuminations are used in the training. Both are necessary for correct recogniti
 using SRC.}\label{fig:promo}
 \end{figure}
 
-\subsection{Related Work}
-We briefly review existing techniques for recognition, image
-registration, and handling of illumination variation.  Our
-system is based purely on 2D techniques.  This fact immediately
-distinguishes our approach from systems that either require a
-3D data as an input, or attempt to estimate a 3D model from 2D
-input \cite{amberg2007reconstructing,Blanz2003-PAMI}.  While
-these techniques can achieve better robustness to pose
-variation given a sufficiently accurate 3D model, for access
-control applications where only moderate pose variation is
-present, the proposed method will be more than sufficient.
-Note that 2D images of faces under varying illuminations
-already contain 3D shape-related information,\footnote{In
-principle, one can recover the 3D shape of the face from
-multiple illuminations using photometric stereo.} and this
-information can be leveraged by 2D algorithms for alignment and
-recognition even if shape is not reconstructed explicitly.
+\subsection{Relation to Earlier Work on Image Registration}
 
-% Alignment
-In holistic recognition algorithms, correspondence between points in the test
-image and in the training must be achieved.  A long line of research exists on
-using Active Appearance Models \cite{Cootes2001-PAMI}, and the closely related
-Active Shape Models \cite{cootes1992active} to register images against a
-relatively high-dimensional model of plausible face appearances, often
-leveraging face-specific contours.  While these model-based techniques have
-advantages in dealing with variations in expression and pose, they may add
-unnecessary complexity to applications where subjects normally present a neutral face
-or only have moderate expression. We prefer to focus on deformations with far fewer
-degrees of freedom, i.e. similarity transformations, and to use the training images themselves
-as the appearance model. Iterative registration in this spirit dates at least back to the
-Lucas-Kanade algorithm \cite{lucas1981iterative}.
+In holistic recognition algorithms (algorithms that use images themselves as
+features) correspondence between points in the test image and in the gallery
+images must be achieved.  A long line of research exists on using Active
+Appearance Models \cite{Cootes2001-PAMI}, and the closely related Active Shape
+Models \cite{cootes1992active} to register images against a relatively
+high-dimensional model of plausible face appearances, often leveraging
+face-specific contours.  While these model-based techniques have advantages in
+dealing with variations in expression and pose, they may add unnecessary
+complexity to applications where subjects normally present a neutral face or
+only have moderate expression. Instead, this work focuses on classes of
+deformations with far fewer degrees of freedom, i.e. similarity transformations
+or perspective transformations.  Iterative registration in this spirit of this
+work dates at least back to the Lucas-Kanade algorithm
+\cite{lucas1981iterative}.
 
-Whereas much of the early work on image registration is aimed at the
-problem of registering nearly identical images, say by minimizing a sum of
-squared distances or maximizing normalized correlation, here we must confront several physical factors
-simultaneously: misalignment, illumination variations, and corrupted pixels.
-As we discuss further below, illumination variation can be dealt by
-expressing the test image as a linear combination of an appropriate set of
-training images. Similar representations have been exploited in
-illumination-robust tracking (e.g., \cite{Belhumeur1999-PAA,Murase1995-IJCV}).
-For robustness to gross errors, the $\ell^1$-norm of the residual is a more
-appropriate objective function than the classical $\ell^2$-norm. Its use here
-is loosely motivated by theoretical results due to Cand\`{e}s and Tao
-\cite{CandesE2005-IT} (see also \cite{Wright2008-IT}). These two observations
-lead us to pose the registration problem as the search for a set of
-transformations and illumination coefficients that minimize the $\ell^1$-norm
-of the representation error. We solve this problem using a generalized
-Gauss-Newton method which solves a sequence of affine-constrained $\ell^1$-norm
-minimization problems \cite{Osborne1990-JAMSSB,Jittorntrum1980-NM}. Each of
-these problems can also be solved efficiently using recently developed
-first-order techniques for $\ell^1$-minimization, which are reviewed in
-\cite{YangA2010-pp}.
+Whereas much of the early work on image registration is aimed at the problem of
+registering nearly identical images, say by minimizing a sum of squared
+distances or maximizing normalized correlation, face recognition applications
+must confront several physical factors simultaneously: misalignment,
+illumination variations, and corrupted pixels.  As will be discussed further
+below, illumination variation can be dealt with by expressing the test image as
+a linear combination of an appropriate set of training images. Similar
+representations have been exploited in illumination-robust tracking (e.g.,
+\cite{Belhumeur1999-PAA,Murase1995-IJCV}).  For robustness to gross errors, the
+$\ell^1$-norm of the residual is a more appropriate objective function than the
+classical $\ell^2$-norm. Its use here is loosely motivated by theoretical
+results due to Cand\`{e}s and Tao \cite{CandesE2005-IT} (see also
+\cite{Wright2008-IT}). These two observations motivate the reformulation of the
+registration problem as the search for a set of transformations and
+illumination coefficients that minimize the $\ell^1$-norm of the representation
+error.  The proposed alignment system uses a generalized Gauss-Newton method
+which solves a sequence of affine-constrained $\ell^1$-norm minimization
+problems \cite{Osborne1990-JAMSSB,Jittorntrum1980-NM}. Each of these problems
+can also be solved efficiently using recently developed first-order techniques
+for $\ell^1$-minimization, which are reviewed in \cite{YangA2010-pp}.
 
 % Illumination
 Researchers have tried various techniques to deal with illumination variation.
@@ -118,35 +103,33 @@ must be removed before the algorithm can continue.  This is typically done by
 making statistical assumptions about how illumination affects the image, and
 using those assumptions to extract a new representation that is claimed to be
 illumination invariant.  Recent examples include \cite{chen2006total} and
-\cite{zhou2007appearance}.  However, despite these efforts, truly
-illumination-invariant features are difficult to obtain from a single input
-image.  We argue that if one has the luxury of designing the acquisition system
+\cite{zhou2007appearance}.  Despite these efforts, truly
+illumination-invariant features remain difficult to obtain from a single input
+image.  Clearly, if one has the luxury of designing the acquisition system
 and the application demands a high recognition rate,
 it is then unwise to limit the gallery to a
-single image per person.  We therefore take the strategy of sampling many
+single image per person.  The proposed recognition system therefore takes the strategy of sampling many
 gallery images of each individual under varying illuminations.  These images
 are used as the basis for either a convex cone model
 \cite{Georghiades2001-PAMI,belhumeur1998set}, or a subspace model
 \cite{Basri2003-PAMI}.  Images are captured using a simple-to-construct
 projector based light stage.  While similar systems have been used for
-other applications, to our knowledge, we
-are the first to use projectors to indirectly illuminate a subject's face for
+other applications, to our knowledge, this
+system is the first to use projectors to indirectly illuminate a subject's face for
 the purpose of face recognition.
-\subsection{Contributions} In this chapter, we show how
-registration and illumination
-can be simultaneously addressed within a robust sparse representation
-framework. We show that face registration, a challenging
-nonlinear problem, can be solved by a series of linear programs
-that iteratively minimize the sparsity of the registration
-error. This leads to an efficient and effective alignment
-algorithm for face images that works for a large range of
-variation in translation, rotation, and scale, even when
-the face is only partially visible due to eyeglasses, closed
-eyes and open mouth, sensor saturation, etc.  We also propose a
-sufficient set of training illuminations
-that is capable of linearly representing typical indoor and outdoor
-lighting, along with a practical hardware system for capturing
-them.
+
+\subsection{Contributions} This chapter demonstrates how registration and
+illumination can be simultaneously addressed within a robust sparse
+representation framework. Face registration, despite being a challenging
+nonlinear problem, can be solved by a series of linear programs that
+iteratively minimize the sparsity of the registration error. This leads to an
+efficient and effective alignment algorithm for face images that works for a
+large range of variation in translation, rotation, and scale, even when the
+face is only partially visible due to eyeglasses, closed eyes and open mouth,
+sensor saturation, etc.  A sufficient set of training illuminations that is
+capable of linearly representing typical indoor and outdoor lighting is
+determined empirically, and a practical hardware system based on synchronized
+cameras and projectors is developed for capturing them.
 
 %A key part of the system is exploiting
 %an important property of the imaging process:  there is a linear mapping
@@ -159,7 +142,7 @@ them.
 %formation process have tended to perform very badly in the face of occlusions
 %and when highly quality training images are unavailable.  
 
-We then demonstrate the effectiveness of the proposed new
+The chapter then demonstrates the effectiveness of the proposed new
 methods with a complete face recognition system that is {\em
 simple, stable, and scalable}. The proposed system performs
 robust automatic recognition of subjects from loosely
@@ -171,40 +154,37 @@ detector\footnote{We use the OpenCV
 implementation of the Viola and Jones' face detector
 \cite{Viola2004-IJCV}.} is used to detect faces in the test images.
 
-We conduct extensive experiments on the proposed system with
+Extensive experiments are conducted on the proposed system with
 both public databases and a face database that is collected by
-our own acquisition system. Our experimental results on
-large-scale public face databases show that our algorithm
+the proposed acquisition system. The experimental results on
+large-scale public face databases show that the algorithm
 indeed achieves very good performance on these databases,
 exceeding or competing with the state-of-the-art algorithms.
-Additionally, our experimental results on our own database
-clearly demonstrate that our system not only works well with
+Additionally, the experimental results on the private database
+clearly demonstrate that the recognition system not only works well with
 images taken under controlled laboratory conditions, but is
 capable of handling practical indoor and outdoor illuminations as well.
 
-\noindent{\em Organization of this chapter:} In Section \ref{sec:registration},
-we derive our robust registration and recognition algorithm within the sparse
-representation framework. We elaborate on algorithmic implementation issues,
-conduct region of attraction experiments with respect to both 2D in-plane
-deformation and 3D pose variation, and discuss its relationship to existing
-work. Section \ref{sec:illumination} is dedicated to our training acquisition
-system. Using this system, we investigate empirically how many training
-illuminations are required to handle practical illumination variations, and
+\noindent{\em Organization of this chapter:} Section \ref{sec:registration},
+presents a derivation of the robust registration and recognition algorithm within the sparse
+representation framework. It further elaborates on algorithmic implementation issues,
+conducts region of attraction experiments with respect to both 2D in-plane
+deformation and 3D pose variation, and discusses its relationship to existing
+work. Section \ref{sec:illumination} is dedicated to the training acquisition
+system. This system is used to investigate empirically how many training
+illuminations are required to handle practical illumination variations, and to
 suggest a sufficient set of 38 training illuminations. Extensive experiments on
-a large-scale public database and on our own database are conducted in Section
+a large-scale public database and on a newly gathered database are conducted in Section
 \ref{sec:multipie} and Section \ref{sec:own-data}, respectively, to verify the
-proposed system. Section \ref{sec:conclusion} concludes our work with
-discussion of promising future directions.
+proposed system. 
 
-\section{Robust Alignment}\label{sec:registration}
-As demonstrated in Figure \ref{fig:promo}(top), the main
-limitation of the {\em sparse representation and
-classification} (SRC) algorithm of \cite{Wright2009-PAMI} is
-the assumption of pixel-accurate alignment between the test
-image and the training set. This leads to brittleness under
-pose and misalignment, making it inappropriate for deployment
-outside a laboratory setting. In this section, we show how this
-weakness can be rectified while still preserving the conceptual
+\section{Robust Alignment}\label{sec:registration} As demonstrated in Figure
+\ref{fig:promo}(top), the main limitation of the {\em Sparse Representation and
+Classification} (SRC) algorithm of \cite{Wright2009-PAMI} is the assumption of
+pixel-accurate alignment between the test image and the training set. This
+leads to brittleness under pose and misalignment, making it inappropriate for
+deployment outside a laboratory setting. The goal of this section is to show
+how this weakness can be rectified while still preserving the conceptual
 simplicity and good recognition performance of SRC.
 
 SRC assumes access to a database of multiple registered
@@ -215,8 +195,8 @@ form a large matrix $A = [ A_1 \mid A_2 \mid \dots \mid A_K ]
 \in \Re^{m \times n}$. As argued in \cite{Wright2009-PAMI}, a
 well-aligned test image $\y_0$ can be represented as a sparse
 linear combination $A \x_0$ of all of the images in the
-database,\footnote{We assume the training illuminations are sufficient. We will address how to ensure illumination
-sufficiency in the next section.} plus a sparse error $\e_0$
+database,\footnote{This assumes that the training illuminations are sufficient. The next section will address how to ensure illumination
+sufficiency.} plus a sparse error $\e_0$
 due to corrupted pixels. The sparse representation can be recovered by
 minimizing the $\ell^1$-norm\footnote{The $\ell^1$-norm of a
 vector, denoted by $\|\cdot\|_1$, is the sum of absolute values of its entries.} of
@@ -226,8 +206,8 @@ $\x$ and $\e$:
 \label{eqn:robust-l1}
 \end{equation}
 Now suppose that $\y_0$ is subject to some pose or
-misalignment, so that instead of observing $\y_0$, we observe
-the warped image $\y = \y_0 \circ \tau^{-1}$, for some
+misalignment, so that instead of recording $\y_0$, the camera captures
+a warped image $\y = \y_0 \circ \tau^{-1}$, for some
 transformation $\tau \in T$ where $T$ is a finite-dimensional
 group of transformations acting on the image domain.  The
 transformed image $\y$ no longer has a sparse representation of
@@ -236,8 +216,8 @@ algorithm of \cite{Wright2009-PAMI} is no longer appropriate,
 as seen in Figure \ref{fig:promo}(top).
 
 \subsection{Batch and Individual Alignment} If the
-true deformation $\tau^{-1}$ can be found, then we can apply
-its inverse $\tau$ to the test image and it again becomes
+true deformation $\tau^{-1}$ can be found, then
+its inverse $\tau$ can be applied to the test image and it again becomes
 possible to find a sparse representation of the resulting
 image, as $\y \circ \tau = A \x_0 + \e_0$.\footnote{In the terminology of \cite{baker2004lucas}, this formulation is ``Forward Additive''.}
   This sparsity
@@ -250,7 +230,7 @@ $\tau$ that allows the sparsest representation, via
 For fixed $\tau$, this problem is jointly convex in $\x$ and
 $\e$. However, as a simultaneous optimization over the
 coefficients $\x$, error representation $\e$, and
-transformation $\tau$, it is a difficult, nonconvex
+transformation $\tau$, it is a difficult, non-convex
 optimization problem. One source of difficulty is the presence
 of multiple faces in the matrix $A$:
 \eqref{eqn:L1-L1-conceptual} has many local minima that
@@ -264,22 +244,27 @@ alignment of the test face with each subject $i$:
 \begin{equation} \label{eqn:per-subject-L1}
 \hat \tau_i = \arg\hspace{-2.5mm}\min_{\x,\e,\tau_i \in T} \| \e \|_1 \quad \subj \quad \y \circ \tau_i = A_i \x + \e.
 \end{equation}
-We no longer penalize $\| \x \|_1$, since $A_i$ consists of
-only images of subject $i$ and so $\x$ is no longer expected to
+It no makes sense to penalize $\| \x \|_1$, since $A_i$ consists of
+only images of subject $i$ and therefore $\x$ is no longer expected to
 be sparse.
 
-\subsection{Alignment via Sequential $\ell^1$-Minimization} While the problem \eqref{eqn:per-subject-L1} is still nonconvex, for cases of practical interest in face recognition, a good initial guess for the transformation is available, e.g., from the output of a face detector. We can refine this initialization to an estimate of the true transformation by repeatedly linearizing about  the current estimate of $\tau$, and seeking representations of the form:
+\subsection{Alignment via Sequential $\ell^1$-Minimization} While the problem
+\eqref{eqn:per-subject-L1} is still non-convex, for cases of practical interest
+in face recognition, a good initial guess for the transformation is available,
+e.g., from the output of a face detector. This initialization can be refined to
+approach an estimate of the true transformation by repeatedly linearizing about  the
+current estimate of $\tau$, and seeking representations of the form:
 \begin{equation}
 \y\circ \tau + J \Delta \tau = A_i \x + \e.
 \end{equation}
-Here, $J = \frac{\partial}{\partial \tau} \y \circ \tau$ is the
-Jacobian of $\y \circ \tau$ with respect to the transformation
-parameters $\tau$, and $\Delta \tau$ is the step in $\tau$. The
-above equation is underdetermined if we allow the registration
-error $\e$ to be arbitrary. At the correct alignment we
-expect the test image to differ from $A_i \x$ only
-for the minority of the pixels corrupted by occlusions. Thus,
-we seek a deformation step $\Delta \tau$ that best sparsifies the registration error $\e$, in terms of its $\ell^1$-norm:
+Here, $J = \frac{\partial}{\partial \tau} \y \circ \tau$ is the Jacobian of $\y
+\circ \tau$ with respect to the transformation parameters $\tau$, and $\Delta
+\tau$ is the step in $\tau$. The above equation is under-determined if the
+registration error $\e$ is allowed to be arbitrary. At the correct alignment it
+is expected that the test image only differs from $A_i \x$ only for the
+minority of the pixels corrupted by occlusions. Thus, the algorithm computes a
+deformation step $\Delta \tau$ that best sparsifies the registration error
+$\e$, in terms of its $\ell^1$-norm:
 \begin{equation}
 \Delta\hat{\tau}_1 = \arg\hspace{-3.5mm}\min_{\x,\e,\Delta\tau \in T} \| \e \|_1 \quad \subj \quad \y\circ\tau + J \Delta \tau = A_i \x + \e.
 \label{eqn:L1-align}
@@ -293,7 +278,7 @@ minimizes the $\ell^2$-norm of the registration error:
 which is also equivalent to finding the deformation step
 $\Delta  \tau$ by solving the least-square problem:
 $\min_{\x,\Delta \tau} \|\y \circ \tau + J\Delta \tau - A_i \x
-\|_2$. Empirically, we find that if there is only small noise
+\|_2$. Empirically, if there is only small noise
 between $\y_0$ and $A_i\x$, both \eqref{eqn:L1-align} and
 $\eqref{eqn:L2-align}$ have similar performance.  However, if
 there are occlusions in $\y_0$, sequential
@@ -302,7 +287,18 @@ better than sequential $\ell^2$-minimization
 \eqref{eqn:L2-align}. Figure \ref{fig:L1-L2-align} shows an
 example.
 
-The scheme \eqref{eqn:L1-align} can be viewed as a generalized Gauss-Newton method for minimizing the composition of a nonsmooth objective function (the $\ell^1$-norm) with a differentiable mapping from transformation parameters to transformed images. Such algorithms date at least back to the 1970's  \cite{Cromme1978-NM,Jittorntrum1980-NM}, and continue to attract attention today \cite{Lewis2008-TR}. While space precludes a detailed discussion of their properties, we should mention that the scheme \eqref{eqn:L1-align} is known to converge quadratically in the neighborhood of any local optimum of the $\ell^1$-norm. In practice, this means that $\approx$ 10 to 15 iterations suffice to reach the desired solution. We refer the interested reader to \cite{Jittorntrum1980-NM,Osborne1990-JAMSSB} and the references therein.
+The scheme \eqref{eqn:L1-align} can be viewed as a generalized Gauss-Newton
+method for minimizing the composition of a non-smooth objective function (the
+$\ell^1$-norm) with a differentiable mapping from transformation parameters to
+transformed images. Such algorithms date at least back to the 1970's
+\cite{Cromme1978-NM,Jittorntrum1980-NM}, and continue to attract attention
+today \cite{Lewis2008-TR}. While a detailed discussion of their properties is
+outside the scope of this thesis, it is worth mentioning that the scheme
+\eqref{eqn:L1-align} is known to converge quadratically in the neighborhood of
+any local optimum of the $\ell^1$-norm. In practice, this means that $\approx$
+10 to 15 iterations suffice to reach the desired solution. The
+interested reader is referred to \cite{Jittorntrum1980-NM,Osborne1990-JAMSSB} and the
+references therein.
 
 \renewcommand{\tempheight}[0]{1.0in}
 \begin{figure}
@@ -353,22 +349,23 @@ the per-subject alignment residuals $\| \e \|_1$ can be used to
 prune unpromising candidates from the global optimization,
 leaving a much smaller and more efficiently solvable problem.
 The complete optimization procedure is summarized as Algorithm
-\ref{alg:deformable-src}. The parameter $S$ in our algorithm is the number of subjects
+\ref{alg:deformable-src}. The parameter $S$ is the number of subjects
 considered together to provide a sparse representation for the
 test image. If $S = 1$, the algorithm reduces to classification
 by registration error; but considering the test image might be
-an invalid subject, we typically choose $S = 10$. Since valid
+an invalid subject, $S=10$ is typically chosen. Since valid
 images have a sparse representation in terms of this larger
-set, we can reject invalid test images using the {\em sparsity
+set, invalid test images can be rejected using the {\em sparsity
 concentration index} proposed in \cite{Wright2009-PAMI}.
 The function $\delta_i(\x)$ in Algorithm \ref{alg:deformable-src}
 selects coefficients from the vector $\x$ corresponding to subject $i$.
 
+% WORKING HERE
 Another important free parameter in Algorithm
 \ref{alg:deformable-src} is the class of deformations $T$. In
-our experiments, we typically use 2D similarity
-transformations, $T = \mathbb{SE}(2)\times \Re_+$\footnote{Here, SE stands for Special
-Euclidean, i.e., 2D rigid transformations.  The $\Re_+$ accounts for the scale.}, for removing alignment error incurred by face
+the experiments presented here, 2D similarity (i.e. 2D rigid transformations)
+transformations are used, $T = \mathbb{SE}(2)\times \Re_+$\footnote{Here, SE stands for Special
+Euclidean.  The $\Re_+$ accounts for the scale.}, for removing alignment error incurred by face
 detector, or 2D projective transformations, $T =
 \mathbb{GL}(3)\footnote{Here, GL stands for General Linear.
 This class of transformations is able to represent distortion

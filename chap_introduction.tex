@@ -36,26 +36,45 @@ passports and automated login to laptops and single user computer systems.  Whil
 of the techniques described in this work are also applicable to automated face
 verification, the emphasis is on the more challenging face recognition problem.
 
-Face recognition applications (and research) can be roughly categorized by the
-demanded recognition rate, and by the quality of available data.  Low-stakes
+If one were to create a taxonomy of face recognition techniques, a likely first
+step would be to divide them into systems that rely on 2D face images, and
+systems that rely on either 3D face data as an input, or attempt to estimate
+such a 3D model from 2D input \cite{amberg2007reconstructing,Blanz2003-PAMI}.
+While 3D techniques can achieve better robustness to pose variation given a
+sufficiently accurate 3D model, for applications where only moderate pose
+variation is present, the proposed method will be sufficient.  2D images of
+faces under varying illuminations already contain 3D shape-related
+information,\footnote{In principle, one can recover the 3D shape of the face
+from multiple illuminations using photometric stereo.} and this information can
+be leveraged by 2D algorithms for alignment and recognition even if shape is
+not reconstructed explicitly.  Furthermore, hardware for directly capturing 3D
+data is still in the early development stages; compared to 2D sensors, they are
+significantly more expensive, have much lower resolution, and to date have not
+been used in any consumer products.  \footnote{Note that the Nintendo 3DS game
+system uses a stereo camera pair, and the Microsoft Kinect game system uses
+infrared structured light; neither use a time-of-flight depth sensor}.  The
+face recognition system presented here is based purely on 2D techniques.
+
+Face recognition applications (and research) can be further categorized by the
+recognition rate required, and by the quality of available data.  Low-stakes
 applications such as online image search and family photo album organization
 (e.g.\ Google Picassa, Microsoft Photo Gallery, and Apple iPhoto) have been
 tackled successfully in large part since they are useful at low recognition
-rates when combined with a good user interface.  The detection of attempts to register
-for state identification twice is
-another such application; for the system to be useful it is sufficient to narrow
-down the gallery to a subset small enough to be checked by a human
-investigator.
+rates when combined with a good user interface.  The detection of attempts to
+register for state identification twice is another such application; for the
+system to be useful it is sufficient to narrow down the gallery to a subset
+small enough to be checked by a human investigator.
 
 Another category of face recognition applications involves recognition using
-many (often uncooperative) users using restricted gallery images.  This
-application includes terrorist watchlist applications, applications in mass
-surveillance and tracking, and electronic advertisements capable of recognizing
-people.  While this category is the most thoroughly studied, it is largely
-unsolved due to the combination of a need to operate with many gallery users,
-as well as the need to be able to operate with restricted gallery images.  
-Law enforcement requires compatibility with old mugshots for the gallery,
-and often the probe image may not be frontal in surveillance images.
+many (often uncooperative) users using poorly controlled gallery images (often
+no more than one.  This category includes terrorist watchlist applications,
+applications in mass surveillance and tracking, and electronic advertisements
+capable of recognizing people.  While this category is the most thoroughly
+studied, it is largely unsolved due to the combination of a need to operate
+with many gallery users, as well as the need to be able to operate with
+restricted gallery images.  Law enforcement requires compatibility with old
+mugshots for the gallery, and often the probe image may not be frontal in
+surveillance images.
 
 This thesis argues that there is a large and under-studied category of
 recognition applications where very high recognition accuracy is desired, but
@@ -127,8 +146,8 @@ $(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$
 are the sub-matrices containing 
 the $n_i$ training images each for subjects $1 \cdots K$.
 The pixels of the query image are arranged (in the same order) into a vector $\bb\in\Re^m$. 
-\emph{Sparsity-Based
-Classification} (SBC) then solves the following minimization problem:
+\emph{Sparse Representation Based
+Classification} (SRC) then solves the following minimization problem:
 \begin{equation}
 \min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
 \label{eq:l1min_denoise}
