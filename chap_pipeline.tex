@@ -360,34 +360,29 @@ concentration index} proposed in \cite{Wright2009-PAMI}.
 The function $\delta_i(\x)$ in Algorithm \ref{alg:deformable-src}
 selects coefficients from the vector $\x$ corresponding to subject $i$.
 
-WORKING HERE
+Another important free parameter in Algorithm \ref{alg:deformable-src} is the
+class of deformations $T$. In the experiments presented here, 2D similarity
+(i.e. 2D rigid transformations) transformations are used, $T =
+\mathbb{SE}(2)\times \Re_+$\footnote{Here, SE stands for Special Euclidean.
+The $\Re_+$ accounts for the scale.}, for removing alignment error incurred by
+face detector, or 2D projective transformations, $T =
+\mathbb{GL}(3)\footnote{Here, GL stands for General Linear.  This class of
+transformations is able to represent distortion in a perspective image of a
+planar object.}$, for handling some pose variation.
 
-Another important free parameter in Algorithm
-\ref{alg:deformable-src} is the class of deformations $T$. In
-the experiments presented here, 2D similarity (i.e. 2D rigid transformations)
-transformations are used, $T = \mathbb{SE}(2)\times \Re_+$\footnote{Here, SE stands for Special
-Euclidean.  The $\Re_+$ accounts for the scale.}, for removing alignment error incurred by face
-detector, or 2D projective transformations, $T =
-\mathbb{GL}(3)\footnote{Here, GL stands for General Linear.
-This class of transformations is able to represent distortion
-in a perspective image of a planar object.}$, for handling some
-pose variation.
-
-In Algorithm \ref{alg:deformable-src}, we also implement a simple heuristic which improves the
-performance of our system, based on the observation that the face detector output may be poorly centered on
-the face, and may contain a significant amount of the background.  Therefore, before the recognition stage,
-instead of aligning the training sets to the
-original $\y$ directly obtained from the face detector, we
-compute an average transformation $\bar{\tau}$ from $\tau_{k_1},
-\tau_{k_2}, \ldots, \tau_{k_S}$ of the top $S$ classes, which
-is believed to be better centered, and update $\y$ according to
-$\bar{\tau}$. For the 2D similarity transformations, which are
-used in our system when initialized by the face detector, a
-transformation $\tau$ can be parameterized as $\tau = (\tau^1,
-\tau^2, \tau^3, \tau^4)$, where $\tau^1$ and $\tau^2$ represent
-the translations in $x$- and $y$-axis, $\tau^3$ represents the
-rotation angle and $\tau^4$ represents the scale. Then the
-average transformation is simply obtained by taking the
+Algorithm \ref{alg:deformable-src}, also implements a simple heuristic
+motivated by the observation that the face detector output may be poorly
+centered on the face and may contain a significant amount of the background:
+before the recognition stage, instead of aligning the training sets to the
+original $\y$ directly obtained from the face detector, the transformations of
+the top $S$ classes $\tau_{k_1}, \tau_{k_2}, \ldots, \tau_{k_S}$ are averaged
+into a transformation $\bar{\tau}$.  Updating $\y$ according to $\bar{\tau}$
+results in a better centered test image. For the 2D similarity transformations,
+which are used in our system when initialized by the face detector, a
+transformation $\tau$ can be parameterized as $\tau = (\tau^1, \tau^2, \tau^3,
+\tau^4)$, where $\tau^1$ and $\tau^2$ represent the translations in $x$- and
+$y$-axis, $\tau^3$ represents the rotation angle and $\tau^4$ represents the
+scale. The average transformation is simply obtained by taking the
 component-wise mean:
 \begin{displaymath}
 \bar{\tau}^i = (\tau_{k_1}^i + \tau_{k_2}^i + \cdots +
@@ -397,36 +392,36 @@ Finally, the training sets are aligned to the new $\y$.
 
 \input{deformable-src.tex}
 
-The transformation $\tau$ defines a mapping between the
-coordinates of pixels in the large original image and a smaller
-(un)warped image. The pixels of the small image are stacked into a vector. To prevent aliasing
-artifacts in the downsampled image, one should apply a
-smoothing filter to the original image. For a simple implementation, a rectangular window with
-regular sampling can used, but in general, the small image need
-not be regularly sampled in pixel coordinates.  For example,
-the sample locations could be arbitrarily selected from within a
-``face shaped'' area. We will discuss how choosing
-different windows can affect the performance of our algorithm
-in Section \ref{sec:multipie}.
+The transformation $\tau$ defines a mapping between the coordinates of pixels
+in the large original image and a smaller (un)warped image. The pixels of the
+small image are stacked into a vector. To prevent aliasing artifacts in the
+downsampled image, it is necessary to apply a smoothing filter to the original
+image beforehand. For a simple implementation, a rectangular window with
+regular sampling can used, but in general, the small image need not be
+regularly sampled in pixel coordinates.  For example, the sample locations
+could be arbitrarily selected from within a ``face shaped'' area. The impact of
+non-rectangular sampling windows on performance of the algorithm will be
+discussed in Section \ref{sec:multipie}.
 
 \subsection{System Implementation}
 The runtime of Algorithm~\ref{alg:deformable-src} is dominated
 by the time spent solving two qualitatively similar $\ell_1$ minimization problems.
-We have developed custom solvers for this purpose based on
-\emph{Augmented Lagrange Multiplier} (ALM) algorithm.
-We have selected this algorithm because it strikes the best
-balance between speed, accuracy, and scalability for our problem out of
-many algorithms that we have tested. We refer the reader to our
-supplementary materials for a more in-depth discussion of our
-solvers.
+Custom $\ell_1$ minimization solvers for this purpose based on
+\emph{Augmented Lagrange Multiplier} (ALM) algorithm have been developed.
+the ALM algorithm was selected because it strikes the best
+balance between speed, accuracy, and scalability.  Several $\ell_1$ minimization
+algorithms were tested for the face recognition problem, 
+and ALM was found to have the best performance. 
+A more in-depth discussion of the solvers will be presented
+in Chapter \ref{chap:minimization}
 For a more detailed discussion of competing
-approaches, we refer the interested reader to
+approaches, the interested reader is referred to
 \cite{YangA2010-pp}.
 On a Mac Pro with
-Dual-Core 2.66GHz Xeon processors and 4GB memory,
-running on our database containing images size $80\times 60$
+two Dual-Core 2.66GHz Xeon processors and 4GB memory,
+running on a private database containing images size $80\times 60$
 pixels from 109 subjects under 38 illuminations,
-our C implementation of Algorithm~\ref{alg:deformable-src} takes
+the C++ implementation of Algorithm~\ref{alg:deformable-src} takes
 about 0.60 seconds per subject for alignment and about 2.0
 seconds for global recognition. Compared to the highly
 customized interior point method first presented in 
@@ -434,15 +429,19 @@ customized interior point method first presented in
 only slightly faster for per subject alignment. However, it is
 much simpler to implement and it achieves a
 \emph{speedup of more than a factor of 10} for global
-recognition!
+recognition!  Performance optimization of this algorithm
+will be discussed in Chapter \ref{chap:parallel}.
 
-\subsection{Experiments on Region of Attraction} We will now present three
-experimental results demonstrating the effectiveness of the individual
+WORKING HERE
+
+\subsection{Experiments on Region of Attraction} Three experimental results
+will now be presented to demonstrate the effectiveness of the individual
 alignment procedure outlined in the previous section. They show the sufficiency
 of the region of attraction, verify effectiveness of the multiscale extension,
-and show stability to small pose variations.  We delay large-scale recognition
-experiments to Sections \ref{sec:multipie} and \ref{sec:own-data}, after we
-have discussed the issue of illumination in the next section.
+and show stability to small pose variations.  Large-scale recognition
+experiments are postponed to Sections \ref{sec:multipie} and
+\ref{sec:own-data}, after we have discussed the issue of illumination in the
+next section.
 
 \noindent {1) \em 2D Deformation.}  We first verify the
     effectiveness of our alignment algorithm with images
