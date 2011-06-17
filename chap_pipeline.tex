@@ -131,17 +131,6 @@ capable of linearly representing typical indoor and outdoor lighting is
 determined empirically, and a practical hardware system based on synchronized
 cameras and projectors is developed for capturing them.
 
-%A key part of the system is exploiting
-%an important property of the imaging process:  there is a linear mapping
-%between the space of illuminations of an object, and the space of images of
-%that object taken under the same pose.  This makes it possible to effectively
-%model the testing image as a linear superposition of a large (and well chosen)
-%set of training images.  This idea is certainly not new; indeed it has been in
-%use for face recognition for roughly two decades, \cite{Turk1991-CVPR}.
-%However, traditional algorithms that rely on this property of the image
-%formation process have tended to perform very badly in the face of occlusions
-%and when highly quality training images are unavailable.  
-
 The chapter then demonstrates the effectiveness of the proposed new
 methods with a complete face recognition system that is {\em
 simple, stable, and scalable}. The proposed system performs
@@ -150,9 +139,10 @@ controlled probe images taken both indoors and outdoors,
 using a gallery of
 frontal views of the subjects' faces under the proposed
 illuminations. An off-the-shelf face
-detector\footnote{We use the OpenCV
-implementation of the Viola and Jones' face detector
-\cite{Viola2004-IJCV}.} is used to detect faces in the test images.
+detector\footnote{The OpenCV
+implementation of Viola and Jones' face detector
+\cite{Viola2004-IJCV} used in this work has become a de-facto standard
+within the computer vision research community.} is used to detect faces in the test images.
 
 Extensive experiments are conducted on the proposed system with
 both public databases and a face database that is collected by
@@ -478,13 +468,14 @@ presented in Sections \ref{sec:multipie} and \ref{sec:own-data}.
 
 In order to determine if this region of attraction is sufficient,
 it must be compared to the accuracy achieved by the initialization
-provided by the face detector.  Statistics of the Viola and Jones'
- face detector on the Multi-PIE dataset. For 4,600 frontal
+provided by the face detector.  This is done by gathering statistics 
+of the Viola and Jones'
+ face detector on the Multi-PIE dataset: For 4,600 frontal
  images of 230 subjects under 20 different illuminations,
  using manual registration as the ground truth, the average
  misalignment error of the detected faces is about 6 pixels
  and the average variation in scale is 8\%. This falls
- safely inside the region of attraction for our alignment
+ safely inside the region of attraction of the alignment
  algorithm.
 \newcommand{\tempheighta}[0]{1.1in}
 \newcommand{\tempheightb}[0]{0.9in}
@@ -519,22 +510,26 @@ only.} \label{fig:attraction}
 \end{figure*}
 
 \noindent{2) \em Multiscale Implementation.}
-Performing alignment in a multiscale fashion has two benefits: first, it provides a larger region of attraction, and second, it reduces overall computational cost. Here, we further investigate the convergence behavior of the algorithm as a function of the standard deviation $\sigma$ of the Gaussian smoothing filter and the number of scales considered.
-We use the same 7 illuminations in
+Performing alignment in a multiscale fashion has two benefits: first, it
+provides a larger region of attraction, and second, it reduces overall
+computational cost. This experiment investigates the convergence behavior of
+the alignment algorithm as a function of the standard deviation $\sigma$ of the
+Gaussian smoothing filter and the number of scales considered.
+The experiment is performed using the same 7 illuminations from
 Session 1 as training, and all 20 illuminations in the same
-session as testing. We introduce artificial deformation in
-both $x$ and $y$ directions up to 16 pixels in the
+session as testing. The images are artificially deformed in
+both $x$ and $y$ directions by up to 16 pixels in the
 $80\times 60$ frame, with a step size of 4 pixels, i.e.,
 $(\Delta x, \Delta y) \in \{-16,-12,\ldots,12,16\} \times
-\{-16,-12,\ldots,12,16\}$. We consider an alignment
+\{-16,-12,\ldots,12,16\}$. An alignment is considered
 successful if the estimated coordinates of the eye-corners
 are within 1 pixel from the ground truth in the original
-image.  In Figure \ref{fig:multiscale}, we report the
+image.  Figure \ref{fig:multiscale} shows the
 alignment success rate, averaged over the artificially
 perturbed initial deformations, as a function of the
 standard deviation of the Gaussian kernel $\sigma$, for
-three choices of the number of scales. As one can see,
-using multiscale indeed improves the performance, and when
+three choices of the number of scales. 
+Using multiscale indeed improves the performance, and when
 3 scales are used, a smaller convolution kernel can achieve
 a similar performance compared to a much larger kernel when
 only 2 scales are used.
@@ -545,23 +540,25 @@ only 2 scales are used.
 \label{fig:multiscale}
 \end{figure}
 
-\noindent{3) \em 3D Pose Variation.} As densely sampled pose
-and
+\noindent{3) \em 3D Pose Variation.} Since densely sampled pose and
     illumination face images are not available in any of
-    the public databases, including Multi-PIE, we have
-    collected our own dataset using our own system (to be
-    introduced in the next section). We use frontal face
-    images of a subject under the 38 illuminations proposed
-    in the next section as training. For testing, we
-    collect images of the subject under a typical indoor
-    lighting condition at pose ranging from $-90^\circ$ to
+    the public databases, including Multi-PIE, a private
+	dataset has been collected using the training image
+	acquisition system described in the next section.
+	Frontal face images of each subject under the 38 illuminations proposed
+    in the next section are used as training images. Test
+	images of each subject are collected under typical indoor
+    lighting conditions at pose ranging from $-90^\circ$ to
     $+90^\circ$ with step size 5.625$^\circ$, a total of 33
-    poses. We use Viola and Jones' face detector to
-    initialize our alignment algorithm.
-Figure \ref{fig:pose-alignment} shows that our algorithm works reasonably well with poses up
-to $\pm 45^\circ$.
+    poses. The alignment algorithm is initialized using 
+	Viola and Jones' face detector.
+	Figure \ref{fig:pose-alignment} shows that the alignment algorithm 
+	appears to achieve reasonable alignments
+	with poses up to $\pm 45^\circ$.
 Note that this level of out-of-plane
- pose variation is beyond what we intend to handle with our formulation.
+ pose variation is well beyond what the 2D image recognition system
+intended to handle, and recognition performance will likely start
+to suffer at lower out-of-plane head angles.
 \begin{figure}
 \centering
 {
@@ -585,67 +582,81 @@ to $+45^{\circ}$. {\bf (j):} a case when the algorithm fails for an extreme pose
 }\label{fig:pose-alignment} 
 \end{figure}
 \subsection{Comparison with Related Work}
-Our modification to SRC roots solidly in the tradition of
+The enhancements to SRC presented in this chapter are rooted 
+solidly in the tradition of
 adding deformation-robustness to face recognition algorithms
 \cite{Cootes2001-PAMI,Gross2006-PAMI,Wiskott1997-PAMI}.
 However, the only previous work to investigate face alignment
 in the context of sparse signal representation and SRC is the
 work of \cite{Huang2008-CVPR}. They consider the case where the
 training images themselves are misaligned and allow one
-deformation per training image. They linearize the training
-rather than the test, which is computationally more costly as
-it effectively triples the size of the training set. In
-addition, as they align the test image to all subjects
-simultaneously, it potentially is more prone to local minima
-when the number of subjects increases, as we will see in the
-following experimental comparisons.
+deformation per training image. They linearize perturbation of the training
+set rather than the test, which is computationally more costly as
+it effectively quadruples the size of the training set. 
+Additionally, since they align the test image to all subjects
+simultaneously, their alignment iteration is likely more prone 
+to getting stuck in local minima when there is a large number
+of subjects in the gallery.  The effects of this will be seen
+in the following experimental comparisons.
 \begin{enumerate}
-\item {\em Extended Yale B.} In this experiment, we have
-    used the same experimental settings as in
+\item {\em Extended Yale B.} In this experiment, the
+    same experimental settings are used as in
     \cite{Huang2008-CVPR}. 20 subjects are selected and
     each has 32 frontal images (selected at random) as
     training and another 32 for testing. An artificial
     translation of 10 pixels (in both $x$ and $y$
     directions) is introduced to the test image. For our
-    algorithm we downsample all the images to $88\times
+    algorithm we downsample all of the images to $88\times
     80$ for memory reasons, whereas the work of
     \cite{Huang2008-CVPR} uses random projections.
-Note that the use of cropped images in this experiment introduces image boundary effects.
-    Our
-    algorithm achieves the recognition rate 93.7\%,
-    compared to 89.1\% recognition rate reported in
+	Note that the use of cropped images in this 
+	experiment introduces image boundary effects.
+    The proposed $\ell_1$ minimization based alignment
+    algorithm achieves a recognition rate of 93.7\%,
+    compared to a 89.1\% recognition rate reported in
     \cite{Huang2008-CVPR}.
-\item {\em CMU Multi-PIE.} In this experiment, we choose
+\item {\em CMU Multi-PIE.} This experiment is performed
+	using
     all subjects from the CMU Multi-PIE database, 7
     training images from Session 1 and 1 test image from
     Session 2 per person. The setting is exactly the same
-    as the previous experiment on 2D deformation. We again
-    work with downsampled images of size $80\times 60$ pixels. An
+    as the previous experiment on 2D deformation. Images are again
+    downsampled to a canonical size of $80\times 60$ pixels. An
     artificial translation of 5 pixels (in both $x$ and $y$
     directions) was induced in the test image. The
     algorithm of \cite{Huang2008-CVPR} achieves a
     recognition rate of 67.5\%,\footnote{That algorithm has
     two free parameters - $l$ and $d$, which govern the tradeoff between
 	accuracy and run-time. For this experiment
-    we chose $l = 1$ and $d = 514$.} while ours achieves 92.2\%.
+    these values are chosen to be $l = 1$ and $d = 514$.} while 
+	$\ell_1$ minimization based alignment achieves 92.2\%.
     \end{enumerate}
 				
 \section{Handling Illumination Variation}\label{sec:illumination}
-In the above section, we have made the assumption that the test image, although taken under some arbitrary illumination, can be linearly represented by a finite number of training illuminations.  Under what conditions is this a reasonable assumption to make?  What can we say from first principles about how the training images should be chosen?
+In the above section, it was assumed that the test image, although taken under
+some arbitrary illumination, can be linearly represented by a finite number of
+training illuminations.  Under what conditions is this a reasonable assumption
+to make?  What can be said from first principles about how the training images
+should be chosen?
 
 \subsection{The Illumination Model}
-
-The strongest theoretical results so far regarding the relationship
-between illumination and the resulting sets of images is due to Basri and Jacobs \cite{Basri2003-PAMI}.
-The main result of this section is that for convex Lambertian objects, distant illuminations, and fixed pose,
-all images of the object can be well approximated by linear combinations of
-nine (properly chosen) basis images.  The basis images have mixed sign, and
-their illuminations consist of the lowest frequency spherical harmonics.
-While this is a very important result for understanding the image
-formation process, the direct application of this result in most practical
-systems is misguided for several reasons.
-Specularities, self-shadowing, and inter-reflections all dramatically affect the appearance of face images,
-and they all do so in a way that violates the modeling assumptions of the Basri analysis.
+%
+The strongest theoretical results so far regarding the relationship between
+illumination and the resulting sets of images is due to Basri and Jacobs
+\cite{Basri2003-PAMI}.  The main result is that for convex
+Lambertian objects, distant illuminations, and fixed pose, all images of the
+object can be well approximated by linear combinations of nine (properly
+chosen) basis images.  
+These basis images have mixed sign, and their
+illuminations consist of the lowest frequency spherical harmonics.  While this
+is a very important result for understanding the image formation process, the
+direct application of this result in most practical systems is misguided for
+several reasons.  
+A more thorough discussion of this result can be found in Appendix 
+\ref{sec:appendix_illumination}.
+Specularities, self-shadowing, and inter-reflections all
+dramatically affect the appearance of face images, and they all do so in a way
+that violates the modeling assumptions of the Basri analysis.
 
 Fortunately, even with these effects, for most materials the relationship between
 illumination and image is still linear,\footnote{Materials that break

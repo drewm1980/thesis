@@ -1,0 +1,80 @@
+\section{Derivation of the Linear Illumination Model}
+\label{sec:appendix_illumination}
+
+%A key part of the system is exploiting
+%an important property of the imaging process:  there is a linear mapping
+%between the space of illuminations of an object, and the space of images of
+%that object taken under the same pose.  This makes it possible to effectively
+%model the testing image as a linear superposition of a large (and well chosen)
+%set of training images.  This idea is certainly not new; indeed it has been in
+%use for face recognition for roughly two decades, \cite{Turk1991-CVPR}.
+%However, traditional algorithms that rely on this property of the image
+%formation process have tended to perform very badly in the face of occlusions
+%and when highly quality training images are unavailable.  
+
+% TODO
+In the above section, we have
+made the assumption that the test image, although taken under some arbitrary
+illumination, can be linearly interpolated by a finite number of training
+illuminations.  Under what conditions is this a reasonable assumption to make?
+What can we say from first principles about how the training images should be
+chosen?  
+
+\paragraph{The illumination model}
+%
+First, let us assume that the illumination if the subject's face is distant.
+This model will be a good approximation as long as distance to the nearest
+light source is much larger than the person's face.  If we further assume that
+the object is convex so that there is no self-shadowing, the illumination
+incident on a surface patch will depend only on its orientation, and not on its
+position.  Furthermore, if the object is Lambertian, the intensity of the image
+of a given patch of object will not depend on its position either.  Since each
+pixel in the image corresponds to some patch on the object, the vector of image
+intensities is a linear function of the radiance of the corresponding portions
+of the object.  Consider the vector space of all illuminations of the object.
+These are just positive functions (or more generally, distributions) defined on
+the sphere, where each point on the sphere corresponds to a direction of
+incoming light.  Consider the vector space formed by the light exiting the
+object.  This too is a positive function defined on the sphere, where now each
+point on the sphere corresponds to the normal of a patch on the object (or any
+other patch with the same normal).  Under the Lambertian assumption, the
+radiance of a patch depends on the cosine of the incident angle of incoming
+light, and is integrated over the half-sphere of illumination that the patch
+can "see".
+
+Thus, the surface of the object acts on the sphere in a manner very similar to
+a half-cosine approximation to a low-pass filter for a one-dimensional signal.
+Thus the energy leaving the object is disproportionately concentrated in the
+subspace corresponding to low spatial frequencies.  Since the image is a linear
+function of this, the space of images of an object will also tend to fall on
+(the positive portion of) a subspace.   In \cite{Basri2003-PAMI}, Basri showed
+using spherical harmonic basis functions that nine basis illuminations
+(corresponding to the lowest frequency spherical harmonics) result in training
+images that do a good job of linearly interpolating all other training images.
+It should be noted, however, that these basis illuminations are not strictly
+positive, and thus neither are the training images they generate (when rendered
+on a computer that can handle negative illumination).  \footnote{Note that
+while the spherical harmonic basis functions have regions where they are
+negative, this does no necessary preclude this theoretical result from being
+put to use in practice.  If the geometry of the training illumination system
+were well calibrated, it would be possible to generate approximations of the
+positive and (rectified) negative components of the basis illuminations
+separately, taking the difference of the resulting two images, and storing it
+using a signed datatype.  Combinations of these images may not be positive, but
+they may still be good enough to be useful}.
+
+Although a human face is neither perfectly Lambertian nor convex, it has been
+observed in various empirical studies that one can often get away using a
+similar number of frontal illuminations to interpolate a wide range of new
+frontal illuminations that taken under the same laboratory conditions
+\cite{Georghiades2001-PAMI}. This is the case for many public face datasets,
+including AR, ORL, PIE, and Multi-PIE.  Unfortunately, we have found that in
+practice, a training database consisting purely of frontal illuminations is not
+sufficient to linearly interpolate images of a faces taken under typical indoor
+or outdoor conditions (see the experiment conducted in Section
+\ref{sec:own-data}). As illustrated by the example in Figure \ref{fig:promo},
+an insufficient number of training illuminations can result in recognition
+failure.  To ensure our algorithm works in practice, we need to find a set of
+training illuminations that are indeed {\em sufficient} to linearly interpolate
+a wide variety of practical indoor and outdoor illuminations.
+
