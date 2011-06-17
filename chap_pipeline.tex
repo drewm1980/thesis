@@ -769,30 +769,30 @@ illuminations, which is addressed in the next subsection.
 
 \subsection{Choice of Illumination Patterns}
 
-We ran two experiments to guide our choice of illuminations for
-our large-scale experiments:
+Two experiments are used to guide motivate the choice of illuminations 
+used in the large-scale experiments:
 \begin{enumerate}
-\item {\em Coverage Experiment.} In the first experiment we
-    attempt to determine what coverage of the sphere is
+\item {\em Coverage Experiment.} The first experiment 
+    attempts to determine what coverage of the sphere is
     required to achieve good interpolation for test images.
-    The subject was illuminated by 100 (50 front, 50 back)
+    The subject is illuminated by 100 (50 front, 50 back)
     illuminations arranged in concentric rings centered at
-    the front camera.  Subsets of the training images were
+    the front camera.  Subsets of the training images are
     chosen, starting at the front camera and adding a ring
-    at a time.  Each time a ring was added to the training
+    at a time.  Each time a ring is added to the training
     illumination set, the average $\ell^1$ registration
     error (residual) for a set of test images taken under
-    sunlight was computed and plotted in Figure
+    sunlight is computed and plotted in Figure
     \ref{fig:illumination-patterns}(a).  The more rings of
     training illuminations are added, the lower the
     representation error becomes, with diminishing returns.
-\item {\em Granularity Experiment.} In the second
-    experiment we attempt to determine how finely divided
+\item {\em Granularity Experiment.} The second
+    experiment attempts to determine how finely divided
     the illumination sphere should be.  At the first
     granularity level, the projectors  illuminate the
     covered area uniformly.  At each subsequent granularity
     level each illuminated cell is divided in two along its
-    longer side but intensity doubled.  For each
+    longer side but its intensity doubled.  For each
     granularity level the average $\ell^1$ registration
     error is computed as in the coverage experiment and
     shown in Figure \ref{fig:illumination-sufficiency}(b).
@@ -806,7 +806,11 @@ our large-scale experiments:
 \includegraphics[height=1.7in]{figures_pami/final_cvpr_illuminations_asplode.png}  \\
 (a) Coverage Experiment & (b) Chosen Illumination Patterns
 \end{tabular}
-\caption{\small{\bf Illumination Patterns.}   The cells are illuminated in sequence.  For rear illuminations the sequence is reversed.  In the chosen pattern's rear illumination, the cells 1-5 and 7-11 are omitted for a total of 38 illuminations. The four rectangular regions correspond to the four projectors.  }
+\caption{\small{\bf Illumination Patterns.}   The cells are illuminated in
+sequence.  For rear illuminations the sequence is reversed.  In the chosen
+pattern's rear illumination, the cells 1-5 and 7-11 are omitted for a total of
+38 illuminations. The four rectangular regions correspond to the four
+projectors.  }
 \label{fig:illumination-patterns}
 \end{figure}
 
@@ -817,32 +821,29 @@ our large-scale experiments:
 \includegraphics[height=2in]{figures_pami/illum_results/granularity_sunset.pdf} \\
 (a) Coverage & (b) Granularity
 \end{tabular}
-\caption{\small{\bf Study of sufficient illuminations.} The average $\ell^1$ registration residual versus different illumination training sets. }
+\caption{\small{\bf Study of sufficient illuminations.} The average $\ell^1$
+registration residual versus different illumination training sets. }
 \label{fig:illumination-sufficiency}
 \end{figure}
 
 In the plot for the coverage experiment, Figure
-\ref{fig:illumination-sufficiency}(a),
- we clearly see two plateau regions: one is after 4 rings
-and one is after 10 rings. The first four rings represent the
-typical frontal illuminations, which are present in most public
-face datasets; however, we see that the residual stabilizes
-after 10 rings which include some illuminations from the back
-of the subject. This suggests that although the frontal
-illuminations account for most of the illumination on the face,
-some illuminations from the back are needed in the training set to
-represent images with illumination coming from all directions.
-In the plot for the granularity experiment, Figure
-\ref{fig:illumination-sufficiency}(b), we observe that the
-residual reaches a plateau after four divisions, corresponding
-to a total of 32 illuminations. Based on the results from both
-experiments, we decide to partition the area covered by the
-first 10 rings into a total of 38 cells, whose layout is
-explained in Figure \ref{fig:illumination-patterns}(b). For
-our large-scale experiments, we have collected those
-illuminations for all our subjects.\footnote{It is possible
-that with further experimentation a reduced set of illuminations
-can be found that performs as well or better.}
+\ref{fig:illumination-sufficiency}(a), two plateau regions can be observed: one
+is after 4 rings and one is after 10 rings. The first four rings represent the
+typical frontal illuminations, which are present in most public face datasets;
+however, the residual does not stabilize until after 10 rings, which include
+some illuminations from the back of the subject. This suggests that although
+the frontal illuminations account for most of the illumination on the face,
+some illuminations from the back are needed in the training set to represent
+images with illumination coming from all directions.  In the plot for the
+granularity experiment, Figure \ref{fig:illumination-sufficiency}(b), the
+residual reaches a plateau after four divisions, corresponding to a total of 32
+illuminations. Motivated by the results from the above two experiments, the
+illumination area covered by the first 10 rings is partitioned into a total of
+38 cells, whose layout is shown in Figure \ref{fig:illumination-patterns}(b).
+For large scale experiments, the same set of illuminations just described is is
+used for capturing gallery images for all of the subjects.\footnote{It is
+possible that with further experimentation a reduced set of illuminations can
+be found that performs as well or better.}
 
 See below for the 38 training images of one subject:
 \begin{figure}[h]
@@ -850,12 +851,12 @@ See below for the 38 training images of one subject:
 \includegraphics[width=\textwidth]{figures_pami/training.png}
 \end{figure}
 
-
 \section{Tests on Public Databases}\label{sec:multipie}
-In this section and the next section, we conduct comprehensive experiments on
-large-scale face databases to verify the performance of our algorithm and
-system. We first test on the largest public face database available that is
-suitable for testing our algorithm, the CMU Multi-PIE.  One shortcoming of the
+In this section and the next section, comprehensive experiments are conducted on
+large-scale face databases to verify the performance of our face recognition
+pipeline.  
+We first test on the largest public face database available that is
+suitable for testing our algorithm, the CMU Multi-PIE dataset.  One shortcoming of the
 CMU Multi-PIE database for our purposes is that there is no separate set of
 test images taken under natural illuminations; we are left to choose which sets
 of images to use for testing and training.  To challenge our algorithm, we
