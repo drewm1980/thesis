@@ -78,3 +78,56 @@ failure.  To ensure our algorithm works in practice, we need to find a set of
 training illuminations that are indeed {\em sufficient} to linearly interpolate
 a wide variety of practical indoor and outdoor illuminations.
 
+
+\subsection{Should Positivity in the Representation Coefficients
+be Enforced?} One critical issue in linear illumination models
+is whether to enforce nonnegativity in the coefficients $\x$,
+i.e. whether to model illumination using a cone or a subspace.
+Some authors, i.e. \cite{Basri2003-PAMI}, have chosen to allow
+negative components in the coefficient vector $\x$ when
+representing one image as a sum of other images, and only
+enforce that the linear combination $A\x$ be positive
+everywhere.  Unfortunately, for non-convex objects such as
+faces, enforcing non-negativity of the representation is not
+sufficient to guarantee that the resulting image of the object
+is physical.  For example, consider a Lambertian planar object
+with a cylindrical hole drilled in it that is aligned with the
+optical axis of an orthographic camera.  Consider two images:
+one under illumination from a distant point source aligned with
+the hole, and one off of the hole axis.  Positively weighting
+the on-axis image and negatively weighting the on-axis image
+can result in an image where the bottom of the hole is more
+strongly illuminated than the surrounding plane.  The image is
+positive, but it is clearly non-physical.  It is worth
+emphasizing that this phenomenon is a result of some points on
+an object seeing a restricted subset of the illumination sphere
+(a violation of convexity),  and not a result of the
+directionality of the light chosen in the thought experiment.
+While the number of coefficients that actually end up negative
+after optimization is usually very small, we have observed
+pathological cases where the shadows next to the user's nose in
+the reconstructed image invert in value.
+
+Instead of using a smaller set of training images, allowing the
+coefficients to go negative to try to represent more test
+illuminations, and risking over-fitting, we decided to enforce
+non-negativity of the coefficients.  Nonnegative combinations
+of images are guaranteed to correspond to physically plausible
+images.  all physical illuminations unless the training images
+actually span the boundary of the illumination cone. Because we
+have a flexible acquisition system, we can directly generate a
+set of illuminations that span most of the illumination cone,
+without resorting to negative coefficients and risking
+overfitting.  Thus, in Algorithm 1, we have enforced that the
+coefficients $\x$ be non-negative.
+
+%One of the main factors that complicates face recognition, and computer vision
+%in general, is that two images of the same person's face can be very
+%different, even if the pose is carefully controlled and all points on the
+%person's face are visible in both images.  The most safe, reliable, and
+%general assumption that can be made about the imaging process is that it is
+%linear with respect to the intensity of different light sources.  The set of
+%images of a given object is therefore a cone in the non-negative orthant of
+%the pixel basis.  All recognition algorithms that rely on vision for training
+%rely on images sampled from this cone.
+

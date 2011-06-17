@@ -643,73 +643,70 @@ should be chosen?
 %
 The strongest theoretical results so far regarding the relationship between
 illumination and the resulting sets of images is due to Basri and Jacobs
-\cite{Basri2003-PAMI}.  The main result is that for convex
-Lambertian objects, distant illuminations, and fixed pose, all images of the
-object can be well approximated by linear combinations of nine (properly
-chosen) basis images.  
-These basis images have mixed sign, and their
-illuminations consist of the lowest frequency spherical harmonics.  While this
-is a very important result for understanding the image formation process, the
-direct application of this result in most practical systems is misguided for
-several reasons.  
-A more thorough discussion of this result can be found in Appendix 
-\ref{sec:appendix_illumination}.
-Specularities, self-shadowing, and inter-reflections all
-dramatically affect the appearance of face images, and they all do so in a way
-that violates the modeling assumptions of the Basri analysis.
+\cite{Basri2003-PAMI}.  The main result is that for convex Lambertian objects,
+distant illuminations, and fixed pose, all images of the object can be well
+approximated by linear combinations of nine (properly chosen) basis images.
+These basis images have mixed sign, and their illuminations consist of the
+lowest frequency spherical harmonics.  While this is a very important result
+for understanding the image formation process, the direct application of this
+result in most practical systems is misguided for several reasons.\footnote{A more
+thorough discussion of this result can be found in 
+Appendix \ref{sec:appendix_illumination}
+, and more discussion of linearity can be found in
+\cite{belhumeur1998set}.}
+Specularities, self-shadowing, and
+inter-reflections all dramatically affect the appearance of face images, and
+they all do so in a way that violates the modeling assumptions of the Basri
+analysis.
 
-Fortunately, even with these effects, for most materials the relationship between
-illumination and image is still linear,\footnote{Materials that break
-this assumption include fluorescent materials and the photochromic (``Transition'') lenses
-in some eyeglasses.  Most materials emit light in proportion to their
-incident light.} provided the sensor has a linear response curve.\footnote{Proper handling of gamma encoding is an important consideration for
-practitioners.  Most cameras apply a non-linear and often undocumented response
-curve to captured images.  A slight degradation of performance will occur if
-gamma compressed images are treated as if they were linear.  We recommend the use
-of cameras with well documented response curves that can be inverted when the
-image file is loaded.}
-For a more in-depth study
-of the relationship between illumination and images, we refer the reader to
-\cite{belhumeur1998set}.
-While the relationship between illuminations and images is linear,
-only positive weights are allowed; the space of all images of an object with
-fixed pose and varying illumination is a convex cone lying in the positive
-orthant. The question becomes, how many images does it take to do a good job
-of representing images sampled from this cone?
+Fortunately, even with these effects, for most materials the relationship
+between illumination and image is still linear,\footnote{Materials that break
+this assumption include fluorescent materials and the photochromic
+(``Transition'') lenses in some eyeglasses.  Most materials emit light in
+proportion to their incident light.} provided the sensor has a linear response
+curve.\footnote{Proper handling of gamma encoding is an important consideration
+for practitioners.  Most cameras apply a non-linear and often undocumented
+response curve to captured images.  A slight degradation of performance will
+occur if gamma compressed images are treated as if they were linear.  The best
+performance is achieved either with machine vision cameras with a linear
+response curve, or with cameras with calibrated response curves that can be
+inverted when the image file is loaded.} While the relationship between
+illuminations and images is linear, only positive weights are allowed; the
+space of all images of an object with fixed pose and varying illumination is a
+convex cone lying in the positive orthant. The question becomes, how many
+images does it take to do a good job of representing images sampled from this
+cone?
 
-It has been observed in various empirical studies that
-one can get away with using a small number of frontal
-illuminations to linearly represent a wide range of new frontal
-illuminations, when they are all taken under the same laboratory conditions
-\cite{Georghiades2001-PAMI}. This is the case for many public
-face datasets, including AR, ORL, PIE, and Multi-PIE.
-Unfortunately, we have found that in practice, a training
-database consisting purely of frontal illuminations is not
-sufficient to linearly represent images of a faces taken
-under typical indoor or outdoor conditions (see the experiment
-conducted in Section \ref{sec:own-data}). As illustrated by the
-example in Figure \ref{fig:promo}, an insufficient number of
-training illuminations can result in recognition failure. To
-ensure our algorithm works in practice, we need to find a set
-of training illuminations that are indeed {\em sufficient} to
-linearly represent a wide variety of practical indoor and
+It has been observed in various empirical studies that one can get away with
+using a small number of frontal illuminations to linearly represent a wide
+range of new frontal illuminations, when they are all taken under the same
+laboratory conditions \cite{Georghiades2001-PAMI}. This is the case for many
+public face datasets, including AR, ORL, PIE, and Multi-PIE.  Unfortunately, it
+has been found that in practice, a training database consisting purely of
+frontal illuminations is not sufficient to linearly represent images of faces
+taken under typical indoor or outdoor conditions (see the experiment conducted
+in Section \ref{sec:own-data}). As illustrated by the example in Figure
+\ref{fig:promo}, an insufficient number of training illuminations can result in
+recognition failure. To ensure that the proposed recognition pipeline works in
+practice, we need to find a set of training illuminations that are indeed {\em
+sufficient} to linearly represent a wide variety of practical indoor and
 outdoor illuminations.
 
-
 \subsection{Projector-based Illumination System}
-
-We have designed a system that can acquire frontal images of a subject while
-simultaneously illuminating the subject from all directions above horizontal. A sketch of the
-system is shown in Figure \ref{fig:system}: The illumination
-system consists of four projectors that display various bright
-patterns onto the three white walls in the corner of a dark
-room.  The light reflects off of the walls and illuminates the
-user's head indirectly.  After taking the frontal illuminations
-we rotate the chair by 180 degrees and take pictures from the
-opposite direction.  Having two cameras speeds the process
-since only the chair needs to be moved in between frontal and
-rear illuminations. Our projector-based system has several
-advantages over flash-based illumination systems for face recognition:
+%
+This section describes a novel system that can acquire frontal images of a
+subject while simultaneously illuminating the subject from all above-horizontal
+illumination directions. A sketch of the system is shown in Figure
+\ref{fig:system}: The illumination system consists of four projectors that
+display various bright patterns onto the three white walls in the corner of a
+dark room.  The light reflects off of the walls and illuminates the user's head
+indirectly.  After acquiring the frontal illuminations the chair is rotated by
+180 degrees and a second set of pictures are taken from the opposite direction
+so that the subject is illuminated from behind and above.  In practice, having
+two cameras greatly accelerates the process since only the chair needs to be
+moved in between frontal and rear illuminations. This projector-based system
+has several advantages over flash-based illumination systems for face
+recognition:
 \begin{itemize}
 \item The illuminations can be modified in software, rather than hardware.
 \item It is easy to capture many different illuminations quickly.
@@ -723,25 +720,26 @@ advantages over flash-based illumination systems for face recognition:
 \caption{\small{\bf Training acquisition system:} Four projectors and two cameras controlled by one computer.}
 \label{fig:system}
 \end{figure}
-With our projector system, our choice of illuminations is
-constrained only by the need to achieve a good
-SNR,\footnote{Since illuminations with more pixels illuminated
-will have a better SNR (provided they don't saturate), there is
-an engineering tradeoff between the SNR and the number of
-training images.} avoid saturation, and achieve a reasonably
-short acquisition time.  Two simplifying assumptions that we
-make are that every pixel is either turned fully on or off in
-every illumination, and that the illuminated regions do not
-overlap.
+%
+With this projector system, the choice of illumination patterns is constrained
+only by the need to achieve a good Signal to Noise Ratio (SNR),\footnote{Since
+illuminations with more pixels illuminated will have a better SNR (provided
+they don't saturate), there is an engineering tradeoff between the SNR and the
+number of training images.} avoid saturation, and achieve a reasonably short
+acquisition time.  Two simplifying assumptions that we make are that every
+pixel is either turned fully on or off in every illumination, and that the
+illuminated regions do not overlap.
 
-Assuming that each pixel is fully on or off enables us to guarantee
-that each illumination image has the same overall intensity, merely
-by guaranteeing that we illuminate the same number of pixels in each image.\footnote{Since DLP projectors may have dramatically different response
-curves depending on the mode they are in, it is not advisable to simply normalize each illumination image by its mean.}
-Since our algorithm depends only on  the
-linearity between the illuminations and the images, and not on the
-relative intensities of the illuminations, the designer has the freedom to choose the overall intensity of the illuminations
-to prevent saturation or low SNR, in a sort of offline exposure control.
+Assuming that each pixel is fully on or off makes it possible to guarantee that each
+illumination image has the same overall intensity, merely by guaranteeing that
+the same number of pixels are illuminated in each image.  \footnote{Since DLP
+projectors may have dramatically different response curves depending on the
+mode they are in, it is not advisable to simply normalize each illumination
+image by its mean.} Since our algorithm depends only on the linearity between
+the illuminations and the images, and not on the relative intensities of the
+illuminations, the designer has the freedom to choose the overall intensity of
+the illuminations to prevent saturation or low SNR, in a sort of offline
+exposure control.
 
 Assuming that the sequentially illuminated regions do not overlap results in a
 set of training images that span a larger cone than a similar number of
@@ -749,24 +747,25 @@ overlapping regions.  This results in training images that require fewer
 negative coefficients in $\x$ to represent test images under natural
 illuminations.  The effect of negative coefficients in $\x$ appears to depend
 partly on how the test images are taken and is still under study.
+This is discussed further in Appendix \ref{sec:appendix_illumination}.
 
-{\em Relationship to existing work:} Most light stages used for face recognition have
-been constructed for the purpose of creating public data sets to study
-illumination invariance \cite{Georghiades2001-PAMI, Gross2008-FGR}.  Many other
-light stages have been used for computer graphics purposes
-\cite{debevec2000acquiring, jones2005performance}.
-The light source can be
+{\em Relationship to existing work:} Most light stages used for face
+recognition have been constructed for the purpose of creating public data sets
+to study illumination invariance \cite{Georghiades2001-PAMI, Gross2008-FGR}.
+Many other light stages have been used for computer graphics purposes
+\cite{debevec2000acquiring, jones2005performance}.  The light source can be
 moved around manually \cite{masselus2002free}, but this may result in poor
-consistency of illuminations between users.  Structured light applications use projectors to
-directly illuminate the face (or other object) \cite{zhang2002rapid} for 3D
-reconstruction, but this is very disturbing to the user.
-Y.\ Schechner \cite{schechner2007multiplexing}
-studies techniques for multiplexing illumination that can dramatically reduce the noise
-of the demultiplexed images for certain classes of objects and cameras.
-While these techniques have not been incorporated into the current
-system, they fit elegantly into our framework and will likely be used
-in future implementations.  We stress that use of this multiplexing technique
-is independent from the choice of original (directional) illuminations.
+consistency of illuminations between users.  Structured light applications use
+projectors to directly illuminate the face (or other object)
+\cite{zhang2002rapid} for 3D reconstruction, but this is very disturbing to the
+user.  Y.\ Schechner \cite{schechner2007multiplexing} studies techniques for
+multiplexing illumination that can dramatically reduce the noise of the
+demultiplexed images for certain classes of objects and cameras.  While these
+techniques have not been incorporated into the current system, they fit
+elegantly into the framework and will likely be used in future implementations.
+To avoid confusion, it must be emphasized that use of this multiplexing
+technique is independent from the choice of original (directional)
+illuminations, which is addressed in the next subsection.
 
 \subsection{Choice of Illumination Patterns}
 
@@ -850,51 +849,6 @@ See below for the 38 training images of one subject:
 \centering
 \includegraphics[width=\textwidth]{figures_pami/training.png}
 \end{figure}
-
-
-%\subsection{Should Positivity in the Representation Coefficients
-%be Enforced?} One critical issue in linear illumination models
-%is whether to enforce nonnegativity in the coefficients $\x$,
-%i.e. whether to model illumination using a cone or a subspace.
-%Some authors, i.e. \cite{Basri2003-PAMI}, have chosen to allow
-%negative components in the coefficient vector $\x$ when
-%representing one image as a sum of other images, and only
-%enforce that the linear combination $A\x$ be positive
-%everywhere.  Unfortunately, for non-convex objects such as
-%faces, enforcing non-negativity of the representation is not
-%sufficient to guarantee that the resulting image of the object
-%is physical.  For example, consider a Lambertian planar object
-%with a cylindrical hole drilled in it that is aligned with the
-%optical axis of an orthographic camera.  Consider two images:
-%one under illumination from a distant point source aligned with
-%the hole, and one off of the hole axis.  Positively weighting
-%the on-axis image and negatively weighting the on-axis image
-%can result in an image where the bottom of the hole is more
-%strongly illuminated than the surrounding plane.  The image is
-%positive, but it is clearly non-physical.  It is worth
-%emphasizing that this phenomenon is a result of some points on
-%an object seeing a restricted subset of the illumination sphere
-%(a violation of convexity),  and not a result of the
-%directionality of the light chosen in the thought experiment.
-%While the number of coefficients that actually end up negative
-%after optimization is usually very small, we have observed
-%pathological cases where the shadows next to the user's nose in
-%the reconstructed image invert in value.
-
-%Instead of using a smaller set of training images, allowing the
-%coefficients to go negative to try to represent more test
-%illuminations, and risking over-fitting, we decided to enforce
-%non-negativity of the coefficients.  Nonnegative combinations
-%of images are guaranteed to correspond to physically plausible
-%images.  all physical illuminations unless the training images
-%actually span the boundary of the illumination cone. Because we
-%have a flexible acquisition system, we can directly generate a
-%set of illuminations that span most of the illumination cone,
-%without resorting to negative coefficients and risking
-%overfitting.  Thus, in Algorithm 1, we have enforced that the
-%coefficients $\x$ be non-negative.
-
-%One of the main factors that complicates face recognition, and computer vision in general, is that two images of the same person's face can be very different, even if the pose is carefully controlled and all points on the person's face are visible in both images.  The most safe, reliable, and general assumption that can be made about the imaging process is that it is linear with respect to the intensity of different light sources.  The set of images of a given object is therefore a cone in the non-negative orthant of the pixel basis.  All recognition algorithms that rely on vision for training rely on images sampled from this cone.
 
 
 \section{Tests on Public Databases}\label{sec:multipie}
