@@ -1,80 +1,58 @@
-\documentclass[10pt]{article} 
+%\usepackage{latexsym, amsthm, amsfonts, amscd}
+%\renewcommand{\mathbf}{\boldsymbol}
+%\newcommand{\y}{\mathbf y}
+%\newcommand{\Y}{\mathbf Y}
+%\renewcommand{\Re}{\mathbb R}
+%\newcommand{\Sp}{\mathbb S}
+%\newcommand{\e}{\mathbf e}
+%\newcommand{\w}{\mathbf w}
+%\newcommand{\1}{\mathbf 1}
+%\newcommand{\0}{\mathbf 0}
+%\renewcommand{\u}{\mathbf u}
+%\newcommand{\var}{\mathrm{Var}}
+%\newcommand{\A}{\mathcal A}
+%\renewcommand{\S}{\mathcal S}
+%\newcommand{\z}{\mathbf z}
+%\newcommand{\x}{\mathbf x}
+%\renewcommand{\v}{\mathbf v}
+%\newcommand{\conv}{\mathrm{conv}}
+%\newcommand{\eps}{\varepsilon}
+%\newcommand{\subj}{\mathrm{subj}}
+%\renewcommand{\a}{\mathbf a}
+%\newcommand{\pphi}{\mathbf{\phi}}
+%\newcommand{\R}{\mathcal R}
+%\newcommand{\supp}{\mathrm{supp}}
+%\newcommand{\rank}{\mathrm{rank}}
+%\newcommand{\E}{\mathbb E}
+%\newcommand{\pplus}{\tilde \oplus}
+%\newcommand{\<}{\langle}
+%\renewcommand{\>}{\rangle}
+%\newcommand{\F}{\mathcal{F}}
+%\newcommand{\aff}{\mathrm{aff}}
+%\newcommand{\relint}{\mathrm{rel int}}
+%\newcommand{\2}{\mathbf{2}}
+%\newcommand{\q}{\mathbf{q}}
+%\newcommand{\llambda}{\mathbf{\lambda}}
+%\newcommand{\nnu}{\mathbf{\nu}}
+%\newcommand{\Id}{\mathtt{I}}
+%\newcommand{\diag}{\mathrm{diag}}
+%\renewcommand{\r}{\mathbf{r}}
+%\newcommand{\f}{\mathbf{f}}
+%\newcommand{\g}{\mathbf{g}}
+%\newcommand{\xxi}{\mathbf{\xi}}
+%\newcommand{\ggamma}{\mathbf{\gamma}}
+%\newcommand{\h}{\mathbf{h}}
+%\newcommand{\s}{\mathbf{s}}
+%\renewcommand{\a}{\mathbf{a}}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{problem}{Problem}
+%\newtheorem{observation}{Observation}
 
-\usepackage[pdftex]{graphicx,color}
-\usepackage{times}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{cite}
-\usepackage{graphicx}
-\usepackage{color}
-\usepackage{subfigure}
-\usepackage{url}
-\usepackage{latexsym, amsthm, amsfonts, amscd}
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\usepackage{pb-diagram}
-
-\renewcommand{\mathbf}{\boldsymbol}
-
-\newcommand{\y}{\mathbf y}
-\newcommand{\Y}{\mathbf Y}
-\renewcommand{\Re}{\mathbb R}
-\newcommand{\Sp}{\mathbb S}
-\newcommand{\e}{\mathbf e}
-\newcommand{\w}{\mathbf w}
-\newcommand{\1}{\mathbf 1}
-\newcommand{\0}{\mathbf 0}
-\renewcommand{\u}{\mathbf u}
-\newcommand{\var}{\mathrm{Var}}
-\newcommand{\A}{\mathcal A}
-\renewcommand{\S}{\mathcal S}
-\newcommand{\z}{\mathbf z}
-\newcommand{\x}{\mathbf x}
-\renewcommand{\v}{\mathbf v}
-\newcommand{\conv}{\mathrm{conv}}
-\newcommand{\eps}{\varepsilon}
-\newcommand{\subj}{\mathrm{subj}}
-\renewcommand{\a}{\mathbf a}
-\newcommand{\pphi}{\mathbf{\phi}}
-\newcommand{\R}{\mathcal R}
-\newcommand{\supp}{\mathrm{supp}}
-\newcommand{\rank}{\mathrm{rank}}
-\newcommand{\E}{\mathbb E}
-\newcommand{\pplus}{\tilde \oplus}
-\newcommand{\<}{\langle}
-\renewcommand{\>}{\rangle}
-\newcommand{\F}{\mathcal{F}}
-\newcommand{\aff}{\mathrm{aff}}
-\newcommand{\relint}{\mathrm{rel int}}
-\newcommand{\2}{\mathbf{2}}
-\newcommand{\q}{\mathbf{q}}
-\newcommand{\llambda}{\mathbf{\lambda}}
-\newcommand{\nnu}{\mathbf{\nu}}
-\newcommand{\Id}{\mathtt{I}}
-\newcommand{\diag}{\mathrm{diag}}
-\renewcommand{\r}{\mathbf{r}}
-\newcommand{\f}{\mathbf{f}}
-\newcommand{\g}{\mathbf{g}}
-\newcommand{\xxi}{\mathbf{\xi}}
-\newcommand{\ggamma}{\mathbf{\gamma}}
-\newcommand{\h}{\mathbf{h}}
-\newcommand{\s}{\mathbf{s}}
-\renewcommand{\a}{\mathbf{a}}
-
-
-\newtheorem{conjecture}{Conjecture}
-\newtheorem{corollary}{Corollary}
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}{Lemma}
-\newtheorem{proposition}{Proposition}
-\newtheorem{problem}{Problem}
-\newtheorem{observation}{Observation}
-
-\begin{document}
-
-\title{An Interior Point Solver for Alignment}
-\author{John Wright \\ {\bf Working notes, do not redistribute!}}
-\maketitle
+\section{An Interior Point Solver for Alignment}
 
 This note outlines the derivation of an interior point solver for the optimization problem
 \begin{equation}
@@ -201,7 +179,3 @@ P \doteq - 2 \Psi^{-1} \Sigma^e_b \Lambda^e_b A \qquad T \doteq -2 \Psi^{-1}\Sig
 B^* P \Delta \x + B^* T \Delta \q &=& \a - B^* \h .
 \end{eqnarray}
 
-\bibliographystyle{plain}
-\bibliography{../geometry}
-
-\end{document}
