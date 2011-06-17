@@ -1,0 +1,207 @@
+\documentclass[10pt]{article} 
+
+\usepackage[pdftex]{graphicx,color}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{subfigure}
+\usepackage{url}
+\usepackage{latexsym, amsthm, amsfonts, amscd}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{pb-diagram}
+
+\renewcommand{\mathbf}{\boldsymbol}
+
+\newcommand{\y}{\mathbf y}
+\newcommand{\Y}{\mathbf Y}
+\renewcommand{\Re}{\mathbb R}
+\newcommand{\Sp}{\mathbb S}
+\newcommand{\e}{\mathbf e}
+\newcommand{\w}{\mathbf w}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\0}{\mathbf 0}
+\renewcommand{\u}{\mathbf u}
+\newcommand{\var}{\mathrm{Var}}
+\newcommand{\A}{\mathcal A}
+\renewcommand{\S}{\mathcal S}
+\newcommand{\z}{\mathbf z}
+\newcommand{\x}{\mathbf x}
+\renewcommand{\v}{\mathbf v}
+\newcommand{\conv}{\mathrm{conv}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\subj}{\mathrm{subj}}
+\renewcommand{\a}{\mathbf a}
+\newcommand{\pphi}{\mathbf{\phi}}
+\newcommand{\R}{\mathcal R}
+\newcommand{\supp}{\mathrm{supp}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\pplus}{\tilde \oplus}
+\newcommand{\<}{\langle}
+\renewcommand{\>}{\rangle}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\aff}{\mathrm{aff}}
+\newcommand{\relint}{\mathrm{rel int}}
+\newcommand{\2}{\mathbf{2}}
+\newcommand{\q}{\mathbf{q}}
+\newcommand{\llambda}{\mathbf{\lambda}}
+\newcommand{\nnu}{\mathbf{\nu}}
+\newcommand{\Id}{\mathtt{I}}
+\newcommand{\diag}{\mathrm{diag}}
+\renewcommand{\r}{\mathbf{r}}
+\newcommand{\f}{\mathbf{f}}
+\newcommand{\g}{\mathbf{g}}
+\newcommand{\xxi}{\mathbf{\xi}}
+\newcommand{\ggamma}{\mathbf{\gamma}}
+\newcommand{\h}{\mathbf{h}}
+\newcommand{\s}{\mathbf{s}}
+\renewcommand{\a}{\mathbf{a}}
+
+
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{problem}{Problem}
+\newtheorem{observation}{Observation}
+
+\begin{document}
+
+\title{An Interior Point Solver for Alignment}
+\author{John Wright \\ {\bf Working notes, do not redistribute!}}
+\maketitle
+
+This note outlines the derivation of an interior point solver for the optimization problem
+\begin{equation}
+\min_{\x,\e,\q}\;  \| \e \|_1 \quad \mathrm{subj} \quad \y = A \x + B \q + \e, \quad \x \ge \0.
+\end{equation}
+for use in image alignment. Here, $\x \in \Re^n$, $\q \in \Re^p$, $\y, \e \in \Re^m$, so $A \in \Re^{m \times n}$, $B \in \Re^{m\times p}$. Our development will follow Chapter 11 of Boyd and Vandenbergh. We begin by recasting this as an inequality-constrained linear program in the usual fashion
+\begin{eqnarray*}
+\min \qquad 1^* \u \\
+\subj \qquad -\x &\le& \0 \\
+\y - A\x - B\q &\le& \u \\
+-\y + A \x + B\q &\le& \u
+\end{eqnarray*}
+To the three inequality constraints associate Lagrange multiplier vectors $\llambda_{x,+} \in \Re^n$, $\llambda_{e,+}, \llambda_{e,-} \in \Re^m$. Here, we have simply eliminated the equality constraint. The combined primal variables are 
+\begin{equation}
+\tilde \x = [ \, \x^* \;\, \q^* \;\, \u^* \, ]^* \in \Re^{n+m+p}
+\end{equation}
+Objective
+\begin{equation}
+\f^* \tilde \x \qquad   \f = [ \0_n \; \0_p \; \1_m ]^* \in \Re^{n+m+p}
+\end{equation}
+Combined inequality constraint matrix 
+\begin{equation}
+\Phi \doteq \left[ \begin{array}{ccc} 
+-\Id_{n \times n} & 0_{n \times p} & 0_{n \times m} \\
+-A &  -B & - \Id_{m \times m} \\
+A  &   B  &  - \Id_{m \times m} \\
+\end{array} \right] \in \Re^{2m + n \times m + n + p}
+\end{equation}
+Define 
+\begin{equation}
+\g \doteq \left[ \, \0_n \;\; \y^* \;\, -\y^* \, \right]^* \in \Re^{n + 2m}
+\end{equation}
+The inequality constraint is then $$\Phi \tilde \x + \g \le \0_{n+2m}.$$
+The combined dual variables are 
+\begin{equation}
+\llambda = [ \llambda_{x} \; \llambda_{e,+} \; \llambda_{e,-} ]^* \in \Re^{n+2m}
+\end{equation}
+The KKT equations are 
+\begin{eqnarray}
+\Phi \tilde \x + \g &\le& \0_{n+2m} \\
+\llambda &\ge& \0_{n+2m} \\
+\f + \Phi^* \llambda &=& \0_{n+p+m} \\
+\diag(\llambda) \,( \Phi \, \tilde \x + \g) &=& \0_{n + 2m}.
+\end{eqnarray}
+As usual in barrier methods, we take a $t^{-1}$-relaxation of the complementarity constraint. The relaxed KKT residuals are 
+\begin{eqnarray}
+\r_{dual}  &=&  \f + \Phi^* \llambda \\
+\r_{central} &=& -\diag(\llambda) (\Phi \tilde \x + \g) - t^{-1} \1_{n+p+m}
+\end{eqnarray}
+The Newton system is then simply
+\begin{equation}
+\left[ \begin{array}{cc} 0 & \Phi^* \\ - \diag(\llambda) \Phi & -\diag(\Phi \tilde \x + \g) \end{array} \right] \left[ \begin{array}{c} \Delta \tilde \x \\ \Delta \llambda \end{array} \right] = - \left[ \begin{array}{c} \r_{dual} \\ \r_{central} \end{array} \right]
+\end{equation}
+This system has a lot of structure, so simplifications on paper are possible. Let
+$$\Gamma \doteq - \diag(\Phi \tilde \x + \g)$$
+The top $n+p+m$ equations involve only the dual variables. Expanding them
+\begin{equation} \label{eqn:d-lambda-only}
+\left[ \begin{array}{ccc} -\Id_{n\times n} &  -A^* & A^* \\  0_{p \times n} & -B^* & B^* \\ 
+0_{m \times n} & -\Id_{m \times m} & -\Id_{m \times m} \end{array} \right] \left[ \begin{array}{c} \Delta \llambda_{x} \\ \Delta \llambda_{e,+} \\ \Delta \llambda_{e,-} \end{array} \right] = - \left[ \begin{array}{c} \r_{d,1} \\ \r_{d,2} \\ \r_{d,3} \end{array} \right]
+\end{equation}
+where 
+\begin{eqnarray*} 
+\r_{d,1} &=& \r_{dual}(1:n) \in \Re^n \\
+\r_{d,2} &=& \r_{dual}(n+1:n+p) \in \Re^p \\
+\r_{d,3} &=& \r_{dual}(n+p+1:n+p+m) \in \Re^m \\
+\end{eqnarray*} 
+Immediately, we see that 
+\begin{eqnarray}
+\Delta \llambda_{e,-} &=& \r_{d,3} - \Delta \llambda_{e,+}
+\end{eqnarray}
+Substituting into the top two equations of \eqref{eqn:d-lambda-only}, we have
+\begin{eqnarray}
+-\Delta \llambda_{x} - 2 A^* \Delta \llambda_{e,+} &=& - \r_{d,1} - A^* \r_{d,3} \\
+-2 B^* \Delta \llambda_{e,+} &=& -\r_{d,2} - B^* \r_{d,3}
+\end{eqnarray}
+yielding
+\begin{equation}
+\Delta \llambda_{x} = -2 A^* \Delta \llambda_{e,+} +  \r_{d,1} + A^* \r_{d,3} .
+\end{equation}
+If you trace back all of the substitutions, what we have left is the following system of equations
+\begin{eqnarray*}
+B^* \Delta \llambda_{e,+} &=& \frac{1}{2} ( \r_{d,2} + B^* \r_{d,3} ) \;\doteq\; \a \\
+\hspace{-.75in}\left[ \begin{array}{cccc} \Lambda_{x} & 0 & 0 & -2 \ \Gamma_{x} A^* \\ \Lambda_{e,+}A & \Lambda_{e,+} B & \Lambda_{e,+} & \Gamma_{e,+} \\ 
+-\Lambda_{e,-} A& -\Lambda_{e,-} B & \Lambda_{e,-} & -\Gamma_{e,-} \end{array} \right] \left[ \begin{array}{c} \Delta \x \\ \Delta \q \\ \Delta \u \\ \Delta \llambda_{e,+} \end{array} \right] &=& \left[ \begin{array}{c} -\Gamma_{x} (\r_{d,1} + A^*\r_{d,3}) -\r_{c,1} \\ -\r_{c,2} \\ -\r_{c,3}-\Gamma_{e,-} \r_{d,3} \end{array} \right]
+\end{eqnarray*}
+We're in great shape here -- the $\Lambda$ and $\Gamma$ are diagonal, easy to invert. The subtlety is that for each equation $j$, exactly one of $\Lambda_j$ and $\Gamma_j$ is converging to zero. To continue analytically eliminating terms, we'll need to choose ``well-conditioned subsets'' for each of these matrices. 
+
+\paragraph{Eliminating $\Delta \u$.}
+
+From $[2m]$, select one element from each $\{ i, i+m\}$ (with ties broken at random):
+$$L^e_g \doteq \{ i : | [\llambda_{e,+} \; \llambda_{e,-}]_i | > | [\llambda_{e,+} \\ \llambda_{e,-} ]_{i+m} | \}.$$
+Let $\Lambda_g$ be the diagonal matrix such that
+$$\Lambda_g(i,i) = \left\{ \begin{array}{cc} \Lambda_{e,+}(i,i) & i \in L^e_g \\ \Lambda_{e,-}(i,i) & else \end{array}\right.$$ 
+Let $\Sigma_g \in \Re^{n \times n}$ be the diagonal matrix such that 
+$$\Sigma_g(i,i) = \left\{ \begin{array}{cc} 1 & i \in L^e_g \\ -1 & else \end{array}\right.$$
+$$M_g(i,i) = \left\{ \begin{array}{cc} \Gamma_{e,+}(i,i) & i \in L^e_g \\ -\Gamma_{e,-}(i,i) & else \end{array}\right.$$ 
+Let $\Lambda_b$, $\Sigma_b$, $M_b$ be defined in the natural (complement) manner. Define $\ggamma =  \left[ \begin{array}{c} - \r_{c,2} \\ -\r_{c,3} - \Gamma_{e,-} \r_{d,3} \end{array} \right]$, $\ggamma_g = \ggamma(L^e_g)$, $\ggamma_b = \ggamma(L^e_b)$.
+
+Then again we have two equations 
+\begin{eqnarray}
+\Sigma_g \Lambda_g A \Delta \x \; + \Sigma_g \Lambda_g B \Delta \q + \Lambda_g \Delta \u + M_g \Delta \llambda_{e,+} &=& \ggamma_g \\
+\Sigma_b \Lambda_b A \Delta \x \; +  \Sigma_b \Lambda_b B \Delta \q + \Lambda_b \Delta \u + M_b \Delta \llambda_{e,+} &=& \ggamma_b. \label{eqn:bot-bad}
+\end{eqnarray}
+Eliminate $\Delta \u$ via the good part:
+\begin{equation}
+\Delta \u = - \Sigma_g A \Delta \x - \Sigma_g B \Delta \q - \Lambda_g^{-1} M_g \Delta \llambda_{e,+} + \Lambda_g^{-1} \ggamma_g
+\end{equation}
+leaving 
+\begin{equation}
+2 \Sigma^e_b \Lambda^e_b A \Delta \x + 2 \Sigma^e_b \Lambda^e_b B \Delta \q + (M^e_b - \Lambda^e_b (\Lambda^e_g)^{-1} M^e_g) \Delta \llambda_{e,+} = \ggamma_b - \Lambda^e_b (\Lambda^e_g)^{-1} \ggamma_g.
+\end{equation}
+Thankfully, $\Psi \doteq M_b^e - (\Lambda^e_g)^{-1} \Lambda^e_b M^e_g$ is a well-conditioned diagonal matrix, allowing us to next eliminate $\Delta \llambda_{e,+}$:
+\begin{equation}
+\Delta \llambda_{e,+} = P\Delta x + T \Delta \q + \h
+\end{equation}
+where 
+\begin{equation}
+P \doteq - 2 \Psi^{-1} \Sigma^e_b \Lambda^e_b A \qquad T \doteq -2 \Psi^{-1}\Sigma^e_b \Lambda^e_b B \qquad \h \doteq \Psi^{-1}( \ggamma_b - \Lambda^e_b (\Lambda^e_g)^{-1} \ggamma_g ).
+\end{equation}
+
+\paragraph{Core system of equations.} All of the above manipulation leaves us with our core linear system of equations in unknowns $\Delta \x, \Delta \q$ ($n + p$ unknowns total):
+\begin{eqnarray}
+(W+FP) \Delta \x + F T \Delta \q &=& \v - F \h \\
+B^* P \Delta \x + B^* T \Delta \q &=& \a - B^* \h .
+\end{eqnarray}
+
+\bibliographystyle{plain}
+\bibliography{../geometry}
+
+\end{document}
