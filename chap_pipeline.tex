@@ -851,50 +851,51 @@ See below for the 38 training images of one subject:
 \includegraphics[width=\textwidth]{figures_pami/training.png}
 \end{figure}
 
-\section{Tests on Public Databases}\label{sec:multipie}
-In this section and the next section, comprehensive experiments are conducted on
-large-scale face databases to verify the performance of our face recognition
-pipeline.  
-We first test on the largest public face database available that is
-suitable for testing our algorithm, the CMU Multi-PIE dataset.  One shortcoming of the
-CMU Multi-PIE database for our purposes is that there is no separate set of
-test images taken under natural illuminations; we are left to choose which sets
-of images to use for testing and training.  To challenge our algorithm, we
-choose only a small set of illuminations for the training set, yet we include
-all illuminations in the testing set. In the following section, we will test
-our algorithm on a face dataset that is collected by our own system. The goal
-for that experiment will be to show that with a sufficient set of training
-illuminations for each subject, our algorithm indeed works stably and robustly
+\section{Tests on Public Databases}\label{sec:multipie} In this section and the
+next section, comprehensive experiments are conducted on large-scale face
+databases to verify the performance of our face recognition pipeline.  The
+largest public face database available that is suitable for testing the
+$\ell_1$ minimization based pipeline, the CMU Multi-PIE dataset, is used for
+the first experiment.  One shortcoming of the CMU Multi-PIE database for this
+purpose is that there is no separate set of test images taken under natural
+illuminations; it is necessary to choose subsets of pictures taken in a lab
+setting to use for testing and training.  To challenge the algorithm, only a
+small set of illuminations for the training set is chosen, yet all
+illuminations are included in the testing set. In the following section, the
+performance the $\ell_1$ minimization based pipeline is tested on a face
+dataset that is collected by the projector-based acquisition system. The goal
+for this experiment will be to show that with a sufficient set of training
+illuminations for each subject, the algorithm indeed works stably and robustly
 with practical illumination, misalignment, pose, and occlusion, as already
-indicated by our experiment shown in Figure \ref{fig:promo}(bottom).
+indicated by the experiment shown in Figure \ref{fig:promo}(bottom).
 
 CMU Multi-PIE provides the most extensive test set among public
 datasets. This database contains images of 337 subjects across
 simultaneous variation in pose, expression, and illumination.
-Of these 337 subjects, we use all of the 249 subjects present
-in Session 1 as the training set. The remaining 88 subjects are
+Of these 337 subjects, all of the 249 subjects 
+in Session 1 are used as the training set. The remaining 88 subjects are
 treated as ``impostors'', or invalid images. For each of the
-249 training subjects, we include frontal images of 7 frontal
+249 training subjects, frontal images are used with 7 frontal
 illuminations,\footnote{They are illuminations
 $\{0,1,7,13,14,16,18\}$ of \cite{Gross2008-FGR}. For each
-directional illumination, we subtract the ambient-illuminated
-image 0.} taken with neutral expression. As suggested by the
-work of \cite{Georghiades2001-PAMI}, we choose these extreme
-frontal illuminations in the hope that they would linearly
+directional illumination, the ambient-illuminated
+image 0 is subtracted.} taken with neutral expression. As suggested by the
+work of \cite{Georghiades2001-PAMI}, these extreme
+frontal illuminations are used in the hope that they would linearly
 represent other frontal illuminations well. For the test set,
-we use all 20 illuminations from Sessions 2-4, which were
-recorded over a period of several months. The dataset is
+all 20 illuminations from Sessions 2-4, which were
+recorded over a period of several months, were used. The dataset is
 challenging due to the large number of subjects, and due to
 natural variation in subject appearance over time.
-Table \ref{tab:MultiPIE-recognition2} shows the result of our
-algorithm on each of the 3 testing sessions. Our algorithm
+Table \ref{tab:MultiPIE-recognition2} shows the performance of the
+recognition pipeline on each of the 3 testing sessions. The pipeline
 achieves recognition rates above $90\%$ for all three sessions.
-For the test images, our iterative alignment was initialized
+For the test images, the iterative alignment algorithm was initialized
 automatically via the Viola and Jones' face detector. To
 demonstrate that the sparse representation based recognition
-step is indeed beneficial even when there are no impostors, we
-include results for recognition based only on the alignment
-error residuals (i.e. $S=1$), shown in row 1.
+step is indeed beneficial even when there are no impostors, 
+results for recognition based only on the alignment
+error residuals (i.e. $S=1$), are shown in row 1.
 
 \begin{table}
 \caption{Recognition rates on the Multi-PIE database for
@@ -940,7 +941,7 @@ Recognition rate & Session 2 & Session 3 & Session 4  \\
 \label{fig:failed-examples}
 \end{figure}
 \subsection{Improving the Sampling Window}
-Our algorithm's errors are mostly caused by a few subjects who
+The proposed recognition algorithm's errors are mostly caused by a few subjects who
 significantly change their appearances between sessions (such
 as hair, facial hair, and eyeglasses). Some representative
 examples are shown in Figure \ref{fig:failed-examples}. For those subjects, alignment and recognition fail on
@@ -957,18 +958,17 @@ Default window. & Proposed window.
 \caption{\small{\bf Choosing different sampling windows.}}
 \label{fig:new-mask}
 \end{figure}
-Meanwhile, this observation also suggests that we might be able
-to improve the performance of our method by carefully choosing
-a face region which is less affected by the above factors for
-recognition. In particular, since the forehead region is likely
-to be affected by the change of hair style, we try replacing
-the previous $80 \times 60$ canonical frame with a new
-window that better excludes the forehead. We adjust the
-resolution of the window to keep $m$ approximately constant. In addition,
-we cut off two lower corners of the $80 \times 60$ canonical frame, motivated by
-the observation that in many cases the corners
-actually contain background. An example of the new window
-is shown in Figure~\ref{fig:new-mask}.
+Meanwhile, this observation also suggests that it might be possible to improve
+the performance of the method by carefully choosing a face region which is less
+affected by the above factors for recognition. In particular, since the
+forehead region is likely to be affected by the change of hair style, it might
+be helpful to replace the previously used $80 \times 60$ canonical frame with a
+new window that better excludes the forehead.  Motivated by the observation
+that in many cases the corners actually contain background actually contain
+background pixels, the two lower corners of the $80 \times 60$ canonical frame
+are removed.  In addition, the resolution of the window is adjusted to keep $m$
+approximately constant.  An example of the new window is shown in
+Figure~\ref{fig:new-mask}.
 
 \begin{table*}
 \centering
@@ -1000,90 +1000,77 @@ SRC	& -- & -- & -- & -- & -- & -- & 93.9\%	& 93.8\%	& 92.3\% \\
 \label{tab:MultiPIE-recognition} }
 \end{table*}
 
-Table \ref{tab:MultiPIE-recognition2} shows that the
-recognition rates on Multi-PIE indeed increase with this new
-window. In addition, Figure \ref{fig:failed-examples}(a), (b),
-and (c) illustrate three representative subjects for which the
-recognition rates of our algorithm are significantly boosted
-with the new window. However, we should mention that the best
-choice of the window is problem-specific and there is not a
-simple guideline to follow. For example, although the new
-window performs better on Multi-PIE, the same window does not
-help at all on our own database, which will be introduced in
-the next section. This is because most of the training and
-testing images in our database are taken on the same day so the
-variation in hair style is very small. Hence, excluding the
-forehead part may actually result in loss of useful
-discriminative information.
+Table \ref{tab:MultiPIE-recognition2} shows that the recognition rates on
+Multi-PIE indeed increase with this new window. In addition, Figure
+\ref{fig:failed-examples}(a), (b), and (c) illustrate three representative
+subjects for which the recognition rates of the algorithm are significantly
+boosted with the new window. However, it should be mentioned that the best
+choice of the window may be specific to the dataset and there is not a simple
+guideline to follow. For example, although the new window performs better on
+Multi-PIE, the same window does not help at all on on the new database to be
+introduced in the next section. This is because most of the training and
+testing images in our database are taken on the same day so the variation in
+hair style is very small. Hence, excluding the forehead part may actually
+result in loss of useful discriminative information.
 
 \subsection{Comparison to Existing Work}
 
-We first compare our result to the recent work
-\cite{Yang2010-CVPR}. Notice that in \cite{Yang2010-CVPR}, the
-initial registration is obtained from manually selected outer
-eye corners. Then, a supervised hierarchical sparse coding
-model based on local image descriptors is trained, which enjoys
-certain translation invariant properties. With the same
-training and testing sets, \cite{Yang2010-CVPR} is able to
-handle the remaining misalignment and achieves state-of-the-art
-performance on the CMU Multi-PIE database.
-Table~\ref{tab:MultiPIE-recognition2} shows that our algorithm
-achieves similar or better performance on different sessions of
+The performance of the proposed recognition pipeline is first compared to
+\cite{Yang2010-CVPR}. In \cite{Yang2010-CVPR}, the initial registration is
+obtained from manually selected outer eye corners. Then, a supervised
+hierarchical sparse coding model based on local image descriptors is trained,
+which enjoys certain translation invariant properties. With the same training
+and testing sets, \cite{Yang2010-CVPR} is able to handle the remaining
+misalignment and achieves state-of-the-art performance on the CMU Multi-PIE
+database.  Table~\ref{tab:MultiPIE-recognition2} shows that the proposed
+algorithm achieves similar or better performance on different sessions of
 Multi-PIE.
 
 % Classical algorithms
-To better examine the effectiveness of our iterative alignment
-algorithm, we next compare our result to baseline
-linear-projection-based algorithms, such as Nearest Neighbor
-(NN), Nearest Subspace (NS) \cite{Lee2005-PAMI}, and Linear
-Discriminant Analysis (LDA)
-\cite{Belhumeur1997-PAMI}.\footnote{We do not list results on
-PCA \cite{Turk1991-CVPR} as its performance is always below
-that of Nearest Subspace.} Since these algorithms assume
-pixel-accurate alignment, they are not expected to work well if
-the test image is not well aligned with the training. In
-Table~\ref{tab:MultiPIE-recognition}, we report the results of
-these classical algorithms with three types of testing image
-alignment: 1.\ alignment from the Viola and Jones' detector,
-2.\ alignment via manually selected outer eye
-corners,\footnote{Two manually clicked points are sufficient to
-define a similarity transformation. All of the experiments in
-this section are carried out with similarity transformations.}
-and 3.\ the output of our iterative alignment algorithm. The
-performance drop of the LDA algorithm on Multi-PIE reported
-here seems to agree with that reported already in
-\cite{Gross2008-FGR}.  All of the classical algorithms benefit
-greatly from being paired with our iterative alignment
+To examine the effect on recognition rate of the iterative alignment algorithm
+separately from the SRC-based recognition stage, in this experiment is it
+combined with baseline linear-projection-based algorithms, such as Nearest
+Neighbor (NN), Nearest Subspace (NS) \cite{Lee2005-PAMI}, and Linear
+Discriminant Analysis (LDA) \cite{Belhumeur1997-PAMI}.\footnote{We do not list
+results on PCA \cite{Turk1991-CVPR} as its performance is always below that of
+Nearest Subspace.} Since these recognition algorithms assume pixel-accurate
+alignment, they are not expected to work well if the test image is not well
+aligned with the training. In Table~\ref{tab:MultiPIE-recognition}, recognition
+rates are computed for these classical algorithms with three types of testing
+image alignment: 1.\ alignment from the Viola and Jones' detector, 2.\
+alignment via manually selected outer eye corners,\footnote{Two manually
+clicked points are sufficient to define a similarity transformation. All of the
+experiments in this section are carried out with similarity transformations.}
+and 3.\ the output of the iterative alignment algorithm. The performance drop
+of the LDA algorithm on Multi-PIE reported here seems to agree with that
+reported already in \cite{Gross2008-FGR}.  All of the classical algorithms
+benefit greatly from being paired with the proposed iterative alignment
 algorithm.
 
 % LBP
-We also compare our result to Local Binary Patterns (LBP)
-\cite{Ahonen2006-PAMI}, a local appearance descriptor which is
-able to capture fine details of facial appearance and texture.
-Due to its robustness to variations in illumination, facial
-expression, aging and other changes, LBP has achieved the
-state-of-the-art face recognition performance in the scenario
-when only one sample per person is used for training
-\cite{Tan06facerecognition}. In this section, we follow the same
-steps as in \cite{Ahonen2006-PAMI} to construct an LBP
-descriptor for each training and testing sample. The $80\times
-60$ face region is first divided into a regular $10\times 10$
-grid of cells, each of size $8\times 6$ pixels. Within each
-cell, the histogram of 59 uniform binary patterns is then
-computed, where the patterns are generated by thresholding 8
-neighboring pixels in a circle of radius 2 using the central
-pixel value. Finally, the local histograms are concatenated to
-produce the global descriptor vector. As suggested in
-\cite{Ahonen2006-PAMI}, the recognition is performed using a
-nearest neighbor classifier with Chi square distance as the
-distance measure and we report the recognition rates with the
-same three types of input as before.
+The performance of the pipeline is next compared to Local Binary Patterns (LBP)
+\cite{Ahonen2006-PAMI}, a local appearance descriptor which is able to capture
+fine details of facial appearance and texture.  Due to its robustness to
+variations in illumination, facial expression, aging and other changes, LBP has
+achieved the state-of-the-art face recognition performance in the scenario when
+only one sample per person is used for training \cite{Tan06facerecognition}. In
+this section, the same steps as in \cite{Ahonen2006-PAMI} are followed to
+construct an LBP descriptor for each training and testing sample. The $80\times
+60$ face region is first divided into a regular $10\times 10$ grid of cells,
+each of size $8\times 6$ pixels. Within each cell, the histogram of 59 uniform
+binary patterns is then computed, where the patterns are generated by
+thresholding 8 neighboring pixels in a circle of radius 2 using the central
+pixel value. Finally, the local histograms are concatenated to produce the
+global descriptor vector. As suggested in \cite{Ahonen2006-PAMI}, the
+recognition is performed using a nearest neighbor classifier with Chi square
+distance as the distance measure. Recognition rates with the
+same three types of alignment input as before are reported.
 
 As shown in Table~\ref{tab:MultiPIE-recognition}, although LBP
 achieves competitive recognition rates given manually aligned
 training and testing samples, demonstrating its robustness to
 moderate misalignment, it still benefits from using the output
-of our iterative alignment algorithm as the input. In addition,
+of the iterative alignment algorithm as the input. In addition,
 like the other classical algorithms, the performance of LBP
 degrades dramatically if it is applied directly to the output
 of a face detector. This is notable given that LBP is often
@@ -1092,35 +1079,31 @@ attribute the improvement in performance of LBP over SRC in
 this experiment to its robustness to illumination components
 that cannot be linearly interpolated by the training set.
 
-In addition, although our algorithm is not designed for
-recognition when there is only a single gallery image per user,
-we compare its performance with LBP within this setting for
-completeness. For this experiment, we use the FERET dataset
-\cite{phillips1998feret}, which contains five standard
-partitions: `fa' is the gallery containing 1196 frontal images
-of 1196 subjects, and `fb', `fc', `dup1' and `dup2' are four
-sets of probe images. The testing sets differ from the training
-in facial expression (`fb'), illumination (`fc'), aging (`dup1'
-) and long aging (`dup2'). In fact, except for `fb', we notice
-significant changes of illumination in all the other three test
-sets. For the training, we again crop and normalize the face
-region from each original image to an $80\times 60$ window
-using manually marked eye coordinates \cite{Deng2010-PR}. In
-Table~\ref{tab:FERET-recognition}, we report the performance of
-our algorithm on the four test sets, with input directly
-obtained from the Viola and Jones' detector. We also report the
-performance of LBP with the same three types of input as before:
-we use letters
-``$d$'', ``$m$'', and ``$i$'' to indicate face detector, manual
-alignment, and our iterative alignment algorithm, respectively.
+Although the SRC algorithm is not designed for recognition when there is only a
+single gallery image per user, its performance with LBP is compared within this
+setting for completeness. This experiment uses the FERET dataset
+\cite{phillips1998feret}, which contains five standard partitions: `fa' is the
+gallery containing 1196 frontal images of 1196 subjects, and `fb', `fc', `dup1'
+and `dup2' are four sets of probe images. The testing sets differ from the
+training in facial expression (`fb'), illumination (`fc'), aging (`dup1') and
+long aging (`dup2'). In fact, except for `fb', there are significant changes of
+illumination in all the other three test sets.  For the training set, each
+original is again cropped to an $80\times 60$ window using manually marked eye
+coordinates \cite{Deng2010-PR} and normalized to unit $\ell_2$ norm.  In
+Table~\ref{tab:FERET-recognition}, the performance of the SRC-based pipeline is
+computed for the four test sets, with input directly obtained from the Viola
+and Jones' detector.  The performance of LBP with the same three types of input
+as before is reported: the letters ``$d$'', ``$m$'', and ``$i$'' are used to
+indicate face detector, manual alignment, and the iterative alignment
+algorithm, respectively.
 
-As expected, our algorithm does not perform well except for
+As expected, the proposed algorithm does not perform well except for
 `fb', in which the illumination is similar to the training and
 the mere variation in facial expression is handled well by the
-sparse error model. For the other three test sets, our
+sparse error model. For the other three test sets, the
 algorithm fails because the illumination changes and other
-variations seriously violate the assumptions of our method.
-This also explains why LBP performs worse with our iterative
+variations seriously violate the assumptions of the method.
+This also explains why LBP performs worse with iterative
 alignment algorithm, compared to manual alignment. On the other
 hand, while LBP achieves the best recognition rates given
 manually aligned training and testing samples, its performance
