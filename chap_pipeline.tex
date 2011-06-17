@@ -432,52 +432,53 @@ much simpler to implement and it achieves a
 recognition!  Performance optimization of this algorithm
 will be discussed in Chapter \ref{chap:parallel}.
 
-WORKING HERE
-
 \subsection{Experiments on Region of Attraction} Three experimental results
 will now be presented to demonstrate the effectiveness of the individual
-alignment procedure outlined in the previous section. They show the sufficiency
-of the region of attraction, verify effectiveness of the multiscale extension,
-and show stability to small pose variations.  Large-scale recognition
-experiments are postponed to Sections \ref{sec:multipie} and
-\ref{sec:own-data}, after we have discussed the issue of illumination in the
-next section.
+alignment procedure outlined in the previous section. They show sufficiency of
+the region of attraction, verify effectiveness of the multiscale extension, and
+show stability to small pose variations.  After a discussion of illumination
+invariance in the next section, large-scale recognition experiments are
+presented in Sections \ref{sec:multipie} and \ref{sec:own-data}.
 
-\noindent {1) \em 2D Deformation.}  We first verify the
+\noindent {1) \em 2D Deformation.}  The first experiment verifies the
     effectiveness of our alignment algorithm with images
     from the CMU Multi-PIE Database \cite{Gross2008-FGR}.
-    We select all the subjects in Session 1, use 7
-    illuminations per person from Session 1 for training,
-    and test on one new illumination from Session
+    The gallery set consists of all the subjects in Session 1, using 7
+    illuminations per person. The test images use
+    one new illumination from each user in Session
     2.\footnote{The training are illuminations $\{0, 1, 7,
     13, 14, 16, 18\}$ of \cite{Gross2008-FGR}, and the
-    testing is the illumination 10. } We manually select
-    eye corners in both training and testing as the ground
-    truth for registration. We downsample the images to
+    testing is the illumination 10. } A ground truth for
+	registration is formed by manually selecting
+    eye corners in both training and testing images. 
+	The images are downsampled to a canonical image size of 
     $80\times 60$ pixels\footnote{Unless otherwise stated,
-    this will be the default resolution at which we prepare
-    all our training and testing datasets.} and the distance between the two outer
+    this will be the default resolution at which 
+    all training and testing datasets are resampled.} 
+	and the distance between the two outer
     eye corners is normalized to be 50 pixels for each
-    person. We introduce artificial deformation to the
+    person. An artificial deformation is applied to the
     testing image with a combination of translation,
-    rotation and scaling. We further use the alignment
-    error $\|\e\|_1$ as an indicator of success. Let $r_0$
+    rotation and scaling. A small value for the alignment
+    error $r = \|\e\|_1$ is chosen as an indicator of success. Let $r_0$
     be the alignment error obtained by aligning a test
     image to the training images without any artificial
-    perturbation. When the test image is artificially
-    perturbed and aligned, resulting in an alignment error
+    perturbation. After the test image is artificially
+    perturbed and aligned resulting in an alignment error
     $r$, we consider the alignment successful if $|r - r_0 | \leq
     0.01r_0$. Figure \ref{fig:attraction} shows the
     percentage of successful registrations for all subjects
     for each artificial deformation. The results suggest
-    that our algorithm works extremely well with
+    that the alignment algorithm works extremely well with
     translation up to 20\% of the eye distance (or 10
     pixels) in all directions and up to $30^\circ$ in-plane
-    rotation. We have also tested our alignment algorithm
-    with scale variation and it can handle up to 15\%
+    rotation. Tests of the alignment algorithm
+    with scale variation show that it can handle up to 15\%
     change in scale.
 
-We have gathered the statistics of the Viola and Jones'
+In order to determine if this region of attraction is sufficient,
+it must be compared to the accuracy achieved by the initialization
+provided by the face detector.  Statistics of the Viola and Jones'
  face detector on the Multi-PIE dataset. For 4,600 frontal
  images of 230 subjects under 20 different illuminations,
  using manual registration as the ground truth, the average
