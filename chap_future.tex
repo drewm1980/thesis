@@ -1,3 +1,6 @@
+\chapter{Future work}
+\label{chap:future}
+
 \section{Introduction}
 
 %solving this problem (speed) will be a major
@@ -79,7 +82,7 @@ transformations for images of more than four colors.
 \section{Optimizing the training illuminations} 
 To date, I have performed two experiments have been performed to guide the
 choice of training illuminations, the results of which were shown in Chapter
-\ref{chap:cvpr}.  One used rectangular partitions of the domain of the
+\ref{chap:pipeline}.  One used rectangular partitions of the domain of the
 illumination space with different granularities.  This gave a rough idea of the
 number of training illuminations that would be necessary.  The second
 experiment used a partitions of the illumination domain that were rectangular
@@ -135,7 +138,7 @@ There are few other things that make this experiment appealing.  Since the dummy
 \subsection{Leverage color information to improve occlusion robustness}  Color information is unused for the current system.  This was a simplifying assumption that made implementation of the algorithm significantly easier and faster.  There are several different ways in which the algorithms presented in this thesis could be extended to handle color information.  One of the main reasons that color is not as important in face recognition as it is in some other vision applications is that the pixels in the image of a given person's face generally vary primarily in intensity.  Furthermore, the variation of skin tone from person to person usually varies less than the color variation resulting from the color of the illumination.  For these reasons, color may be especially useful for the improvement of occlusion handling, since occluding objects are likely to vary in color more than human faces do.  
 
 
-\section{Combining MRF recognition with alignment} Chapter \ref{chap:iccv} demonstrated that it is possible to improve recognition performance by leveraging the information that occlusions are typically spatially coherent.  However, all of the experiments were performed on images that had already been aligned.  Combining this technique with alignment is an important topic for further research, and my collaboration with Zihan Zhou will continue on this topic.  The first attempt at integrating the MRF extension with alignment will be a straightforward combination of the two ideas.  Alignment is achieved by including a linearization of the warped test image with respect to the transformation parameters in the L1 optimization.  MRF simply restricts the subset of pixels on which the L1 optimization is performed.  Therefore, these two ideas are neatly orthogonal from an implementation standpoint.  The challenging part will be to understand exactly how the alignment and occlusion rejection interact in the early iterations of the algorithm, where the estimates of both the occlusion and the alignment have not yet converged significantly.
+\section{Combining MRF recognition with alignment} Chapter \ref{chap:markov} demonstrated that it is possible to improve recognition performance by leveraging the information that occlusions are typically spatially coherent.  However, all of the experiments were performed on images that had already been aligned.  Combining this technique with alignment is an important topic for further research, and my collaboration with Zihan Zhou will continue on this topic.  The first attempt at integrating the MRF extension with alignment will be a straightforward combination of the two ideas.  Alignment is achieved by including a linearization of the warped test image with respect to the transformation parameters in the L1 optimization.  MRF simply restricts the subset of pixels on which the L1 optimization is performed.  Therefore, these two ideas are neatly orthogonal from an implementation standpoint.  The challenging part will be to understand exactly how the alignment and occlusion rejection interact in the early iterations of the algorithm, where the estimates of both the occlusion and the alignment have not yet converged significantly.
 
 
 \section{Improving the acquisition system hardware}
@@ -152,7 +155,7 @@ Not all of the above strategies may turn out to be feasible; in particular, the 
 % TODO Mention scheneker illumination patterns.
 
 %{\bf Radical departures from the current design}
-%The training image acquisition system detailed in Chapter \ref{chap:cvpr} requires several reasonably high quality DLP projectors and cameras for its operation.  While this is an investment that a large institution using face recognition  for access control might be willing to make, it pretty much rules outs application in less mission critical applications. There are several substitute techniques that may be worth pursuing:
+%The training image acquisition system detailed in Chapter \ref{chap:pipeline} requires several reasonably high quality DLP projectors and cameras for its operation.  While this is an investment that a large institution using face recognition  for access control might be willing to make, it pretty much rules outs application in less mission critical applications. There are several substitute techniques that may be worth pursuing:
 %\begin{itemize}
 %\item {\em Replace the projectors with many smaller light sources}  The main disadvantage of this technique is that it necessitates either building a large structure to hold the light sources or mounting them on the walls and ceiling.  Either way, a network of wires will be required to power and the actuate the lights, which further complicates installation.
 %\item {\em Replace the projectors with a moving light source}  The main reason the projectors are not very cost effective in this application is that most of the light they produce is wasted.  This dramatically increases the need for thermal design, reduces the life of the components, and increases the power usage.  There are a variety of possible designs that get around this including the use of a moving light source, moving light-directing mirrors, or an array of focused light sources.

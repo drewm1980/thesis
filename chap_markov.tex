@@ -1,3 +1,6 @@
+\chapter{Improving robustness to continuous occlusions}
+\label{chap:markov}
+
 \section{Introduction} 
 
 %\cite{Cevher2008-NIPS, ZhouZ2009}. 
@@ -643,6 +646,6 @@ Algm.\ 1 & 91.4 & 90.9 & {\bf 81.0} & {\bf 55.0} & {\bf 43.6} \\
 \end{figure}
 
 \section{Conclusion}
-This chapter has demonstrated improved performance of our recognition algorithm in the presence of large occlusions.  However, in order to isolate the effects of occlusion, all experiments were performed on images that were already aligned using hand-labeled feature points.  Since alignment must be performed automatically for the test image in a production system, the most important issue for future work on the MRF based recognition algorithm is to investigate how to perform robust alignment in the presence of large occlusions.  Given the success shown in Chapter \ref{chap:cvpr} in integrating a deformation model into the algorithm of \cite{Wright2009-PAMI}, the integration of a deformation model into the regression step of our algorithm \cite{Wagner2009-CVPR} seems very promising. 
+This chapter has demonstrated improved performance of our recognition algorithm in the presence of large occlusions.  However, in order to isolate the effects of occlusion, all experiments were performed on images that were already aligned using hand-labeled feature points.  Since alignment must be performed automatically for the test image in a production system, the most important issue for future work on the MRF based recognition algorithm is to investigate how to perform robust alignment in the presence of large occlusions.  Given the success shown in Chapter \ref{chap:pipeline} in integrating a deformation model into the algorithm of \cite{Wright2009-PAMI}, the integration of a deformation model into the regression step of our algorithm \cite{Wagner2009-CVPR} seems very promising. 
 However, it remains to be seen to what extent such deformations are compatible with the MRF prior.  
 
