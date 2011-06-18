@@ -1,42 +1,19 @@
-\documentclass{article}
+\section{Derivation of the Augmented Lagrange Multiplier (ALM) Method for $\ell^1$-norm minimization}
 
-\addtolength{\textwidth}{1in}
-\addtolength{\oddsidemargin}{-0.5in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textheight}{1in}
-\addtolength{\topmargin}{-0.5in}
-
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage[retainorgcmds]{IEEEtrantools}
-\usepackage{algorithmic,algorithm}
-
-\title{Augmented Lagrange Multiplier (ALM) Method for $\ell^1$-norm minimization}
-\author{Arvind Ganesh}
-
-\newcommand{\x}{\mathbf{x}}
-\newcommand{\y}{\mathbf{y}}
-\newcommand{\e}{\mathbf{e}}
-\newcommand{\R}{\mathbb{R}}
-\renewcommand{\L}{\mathcal{L}}
-\newcommand{\bl}{\boldsymbol{\lambda}}
-\newcommand{\p}{\mathbf{p}}
-\newcommand{\q}{\mathbf{q}}
-\newcommand{\sh}{\mathrm{shrink}}
+%\newcommand{\bl}{\boldsymbol{\lambda}}
+%\newcommand{\p}{\mathbf{p}}
+%\newcommand{\q}{\mathbf{q}}
+%\newcommand{\shrink}{\mathrm{shrink}}
+%\newcommand{\z}{\mathbf{z}}
 \newcommand{\sgn}{\mathrm{sign}}
-\newcommand{\z}{\mathbf{z}}
 
-
-\begin{document}
-
-\maketitle
-
-\section{Error correction}
+\subsection{Error correction}
 
 The problem at hand is 
 \begin{equation}
 \min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 \quad \mathrm{s.t.} \quad \y = A\x + \e,
 \end{equation}
-where $\x \in \R^n$, $\e \in \R^m$, and $W \in \R^{m \times m}$ is a fixed diagonal matrix with non-negative entries. 
+where $\x \in Re^n$, $\e \in Re^m$, and $W \in Re^{m \times m}$ is a fixed diagonal matrix with non-negative entries. 
 \smallbreak
 We set $f(\x,\e) = \|\x\|_1 + \|W\e\|_1$, and $h(\x,\e) = \y - A\x - \e$. Clearly, $f$ and $h$ are convex functions in $\x$ and $\e$. In the ALM formulation, the basic steps in each iteration can be summarized as follows:
 \begin{equation}
@@ -76,13 +53,13 @@ Instead of minimizing wrt $\x$ and $\e$ simultaneously, we adopt an alternating 
 \end{equation}
 Before discussing the solution to the above iterations, we introduce the soft-thresholding (or shrinkage) operator for scalars as follows:
 \begin{equation}
-\sh(x,\alpha) = \sgn(x)\cdot \max\{|x| - \alpha, 0\},
+\shrink(x,\alpha) = \sgn(x)\cdot \max\{|x| - \alpha, 0\},
 \end{equation}
-where $\alpha > 0$.\footnote{If $\alpha = 0$, then the $\sh(.)$ operator reduces to the identity operator.} When applied to vectors or matrices, the $\sh(.)$ operator acts elementwise. 
+where $\alpha > 0$.\footnote{If $\alpha = 0$, then the $\shrink(.)$ operator reduces to the identity operator.} When applied to vectors or matrices, the $\shrink(.)$ operator acts elementwise. 
 \smallbreak
 Now, the first step in \eqref{eqn:alt} has the following closed-form solution:
 \begin{equation}
-\,[\e_{j+1}]_i  =  \sh \left(\left[ \y + \frac{1}{\mu_k}\bl_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m,
+\,[\e_{j+1}]_i  =  \shrink \left(\left[ \y + \frac{1}{\mu_k}\bl_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m,
 \end{equation}
 where $[\e]_i$ represents the $i$th component of $\e$.
 \smallbreak
@@ -97,12 +74,12 @@ where $\tau \geq \lambda_\mathrm{max} (A^TA) = \sigma^2_\mathrm{max}(A)$. With t
 & = & \arg \min_\x \, \frac{2}{\mu_k}\|\x\|_1 - \left \langle 2\tau \x_k - 2A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \tau\|\x\|_2^2 \\
 & = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 - \left \langle \x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \frac{1}{2}\|\x\|_2^2 \\
 & = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 + \frac{1}{2}\left \| \x - \left(\x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right) \right)\right \|_2^2 \\
-& = & \sh\left(\x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)
+& = & \shrink\left(\x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)
 \end{IEEEeqnarray}
 \smallbreak
 Thus, the iteration to solve the second step of \eqref{eqn:alt} can be written as:
 \begin{equation}
-\x_{l+1}  =  \sh\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + \e_{j+1} - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right).
+\x_{l+1}  =  \shrink\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + \e_{j+1} - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right).
 \end{equation}
 Thus, the entire algorithm can be summarized as Algorithm \ref{alg:exact}.
 \begin{algorithm}[h]
@@ -110,10 +87,10 @@ Thus, the entire algorithm can be summarized as Algorithm \ref{alg:exact}.
 \begin{algorithmic}
 \WHILE{not converged}
 \WHILE{not converged}
-\STATE $[\e_{j+1}]_i  =  \sh \left(\left[ \y + \frac{1}{\mu_k}\bl_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m$
+\STATE $[\e_{j+1}]_i  =  \shrink \left(\left[ \y + \frac{1}{\mu_k}\bl_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m$
 \STATE $t_1 \leftarrow 1$, $\z_1 \leftarrow \x_j$
 \WHILE{not converged}
-\STATE $\x_{l+1}  =  \sh\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l + \e_{j+1} - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)$
+\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l + \e_{j+1} - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)$
 \STATE $t_{l+1} = 0.5\left( 1 + \sqrt{1+4t_l^2}\right)$
 \STATE $\z_{l+1} = \x_{l+1} + \frac{t_l - 1}{t_{l+1}}(\x_{l+1} - \x_l)$
 \ENDWHILE
@@ -133,13 +110,13 @@ Typically, on a single-core MATLAB implementation, if $\rho$ is close to 1, most
 \smallbreak
 {\bf YALL1 package.} We have been using this MATLAB package so far. From what I understood from their paper, they consider the extreme approximation by limiting each inner loop to just 1 iteration. My hunch is this can be made to work if $\rho$ is chosen very close to 1 (say around 1.005-1.01), thereby allowing the number of outer loop iterations to increase a lot. 
 
-\section{Compressed sensing}
+\subsection{Compressed sensing}
 
 The problem at hand is 
 \begin{equation}
 \min_{\x} \, \|\x\|_1 \quad \mathrm{s.t.} \quad \y = A\x,
 \end{equation}
-where $\x \in \R^n$ and $A \in \R^{m\times n}$. 
+where $\x \in Re^n$ and $A \in Re^{m\times n}$. 
 \smallbreak
 We set $f(\x) = \|\x\|_1$, and $h(\x) = \y - A\x$. Clearly, $f$ and $h$ are convex functions in $\x$. In the ALM formulation, the basic steps in each iteration can be summarized as follows:
 \begin{equation}
@@ -175,12 +152,12 @@ where $\tau \geq \lambda_\mathrm{max} (A^TA) = \sigma^2_\mathrm{max}(A)$. With t
 & = & \arg \min_\x \, \frac{2}{\mu_k}\|\x\|_1 - \left \langle 2\tau \x_k - 2A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \tau\|\x\|_2^2 \\
 & = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 - \left \langle \x_k - \frac{1}{\tau}A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \frac{1}{2}\|\x\|_2^2 \\
 & = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 + \frac{1}{2}\left \| \x - \left(\x_k - \frac{1}{\tau}A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right) \right)\right \|_2^2 \\
-& = & \sh\left(\x_k - \frac{1}{\tau}A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)
+& = & \shrink\left(\x_k - \frac{1}{\tau}A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)
 \end{IEEEeqnarray}
 \smallbreak
 Thus, the iteration to solve the second step of \eqref{eqn:alt} can be written as:
 \begin{equation}
-\x_{l+1}  =  \sh\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right).
+\x_{l+1}  =  \shrink\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right).
 \end{equation}
 Thus, the entire algorithm can be summarized as Algorithm \ref{alg:exact}.
 \begin{algorithm}[h]
@@ -190,7 +167,7 @@ Thus, the entire algorithm can be summarized as Algorithm \ref{alg:exact}.
 \WHILE{not converged}
 \STATE $t_1 \leftarrow 1$, $\z_1 \leftarrow \x_j$
 \WHILE{not converged}
-\STATE $\x_{l+1}  =  \sh\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)$
+\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)$
 \STATE $t_{l+1} = 0.5\left( 1 + \sqrt{1+4t_l^2}\right)$
 \STATE $\z_{l+1} = \x_{l+1} + \frac{t_l - 1}{t_{l+1}}(\x_{l+1} - \x_l)$
 \ENDWHILE
@@ -203,4 +180,3 @@ Thus, the entire algorithm can be summarized as Algorithm \ref{alg:exact}.
 \end{algorithm}
 
 
-\end{document}
