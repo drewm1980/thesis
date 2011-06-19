@@ -1,0 +1,90 @@
+\section{L1 Minimization via Subgradient Descent} % TODO
+{\bf Computing the steepest descent direction for rectangular integration }
+%First order methods for solving extremely tall $\ell_1$ minimization problems are limited in speed primarily
+%by their memory bandwidth requirements.  Furthermore, they require tuning and proper scaling of the data
+%to ensure that they converge to the correct solution, and that the convergence occurs in a small number
+%of iterations.  For this reason, these notes investigate algorithms that exhibit the following properties:
+\begin{eqnarray}
+\argmin{\x\in \Re^n} ||A \x - \bb||_1 \\
+A \in \Re^{m \times n}\\
+b \in \Re^m \\
+\e = A \x - \bb \in \Re^m\\
+f = ||\e||_1 \in \Re \\
+\a_i = A(i,:) \in \Re^{n}\\
+\end{eqnarray}
+
+For simplicity we make the following assumptions on the problem matrices $A$ a $\bb$.
+\begin{itemize}
+\item $A$ and $\b$ are general arrays, i.e. we do not (yet) analyze special cases
+where $A$ drops rank, there are duplicate rows, zero rows, etc.
+\item $m$ is larger than $n$ to a degree that a $m \times n$ matrix-vector multiplication (gemv)
+takes more time than inverting an $n\times n$ matrix.  
+\end{itemize}
+
+For some arbitrary point $\tilde\x$, we wish to compute a steepest descent
+direction of $f$ and $\tilde\x$.  We begin by analyzing two cases.
+
+In the first case, $\x$ does not lie on any attracting hyperplanes, i.e. $\e_i(\tilde\x)=0
+\forall i$. In this case, the function is locally linear, and the gradient can be computed
+by applying the appropriate sign change to each row of $A$, and then summing the rows of $A$:
+\begin{eqnarray}
+f_{local} &=& \sum_i |e_i(\tilde\x)| = \sign(\e(\tilde\x)) .* e(\tilde\x) \\
+\nabla_x f_{local} &=& A^T * \sign(\e(\tilde\x)) \\
+d &=& -A^T * \sign(\e(\tilde\x))
+\end{eqnarray}
+Note that once $\tilde\x$ is known, $d$ can be computed in a single pass through $A$.
+
+The second special case analyzed is for the case where $\tilde\x$ lies on the intersection
+of $n$ intersecting hyperplanes.  Without loss of generality, we reorder and partition the
+matrices $A$ and $\bb$ such that the top $n$ rows correspond to the equations that are solved
+with equality at $\tilde\x$:
+\begin{eqnarray}
+A = \left[\begin{array}{c}A_1 \\ A_2 \end{array}\right]\\
+\bb = \left[\begin{array}{c}\bb_1 \\ \bb_2 \end{array}\right]\\
+A_1 \in \Re^{n \times n} \\
+A_2 \in \Re^{m-n \times n}
+\end{eqnarray}
+At $\tilde\x$, $\bb_1 = 0$.  Under our assumptions on $A$, $A_1$ is invertible.
+We make the following state-dependent affine coordinate transformation:
+\begin{eqnarray}
+\hat\x &=& A_1\x - \bb_1 \\
+\x &=& A_1^{-1} (\hat\x + \bb_1)
+\end{eqnarray}
+With this substitution,
+\begin{eqnarray}
+f(\hat\x) &=& ||\hat\x||_1 + ||A_2 A_1^{-1} (\hat\x + \bb_1) - \bb_2 ||_1 \\
+&=& ||\hat\x||_1 + || (A_2 A_1^{-1}) \hat\x + (A_2 A_1^{-1} \bb_1 - \bb_2) ||_1 \\
+&=& ||\hat\x||_1 + || \hat A \hat\x + \hat \bb ||_1
+\end{eqnarray}
+For infinitesimal $\hat\x$, the signs of the entries of the second term of $f$ will be
+governed by the signs of the entries of $ \hat \bb = A_2 A_1^{-1} \bb_1 - \bb_2$.  
+%Note: $A_1^{-1} \bb_1$ is the center of the linear
+Note that due to our reordering of the rows, the entries of $\hat \bb$ are non-zero,
+and the sign is well defined.
+Therefore, $f$ locally reduces to:
+\begin{eqnarray}
+f(\hat\x) &=& ||\hat\x||_1 + \sign(\hat \bb)^T(\hat A \hat \x + \hat \bb) \\
+&=& ||\hat\x||_1 + (\sign(\hat \bb)^T \hat A) \hat \x + (\sign(\hat \bb)^T  \hat \bb) \\
+&=& ||\hat\x||_1 + \g^T \hat \x + ||\hat \bb||_1
+\end{eqnarray}
+For the purposes of deriving a descent direction, we can neglect the constant last term, leaving:
+\begin{eqnarray}
+f &=& ||\hat\x||_1 + \g^T \hat \x
+\end{eqnarray}
+This function has a stepest descent direction:
+\begin{eqnarray}
+\hat d &=& -\shrink(\g)
+\end{eqnarray}
+where the operator $\shrink(\x) = \sign(\x).*\max(|\x|-1,0)$ is the standard
+soft thresholding operator. Mapping back to the original coordinate system and unrolling substitutions,
+we have:
+\begin{eqnarray}
+\d &=& A_1^{-1} \hat \d \\
+ &=& -A_1^{-1} \shrink(\g) \\
+ &=& -A_1^{-1} \shrink(\hat A ^T \ \sign(\hat \bb)) \\
+ &=& -A_1^{-1} \shrink(\hat A ^T \ \sign(A_2 A_1^{-1} \bb_1 - \bb_2)) \\
+ &=& -A_1^{-1} \shrink(A_1^{-T}A_2^T \sign(A_2 A_1^{-1} \bb_1 - \bb_2))
+\end{eqnarray}
+Unfortunately, while $\hat \d$ is the steepest descent direction for the optimization in transformed coordinates,
+$\d$ is in general not the steepest descent direction for the original problem.  
+{\em What if only some rows of $e_1$ are zero?}
