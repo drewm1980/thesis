@@ -5,20 +5,10 @@
 
 %\cite{Cevher2008-NIPS, ZhouZ2009}. 
 
-%Our system could potentially be extended to better handle large pose
-%and expression, either by incorporating training images with different poses or
-%expressions or by explicitly modeling and compensating the associated
-%deformations in the alignment stage.
-
-%A unified approach
-%for face alignment and recognition in the presence of
-%severe contiguous occlusion remains an open problem.
-
-
 This chapter represents work that I performed in collaboration with Zihan Zhou,
 John Wright, Hossein Mobahi, and Yi Ma.  It is an extended version of a
-conference paper that has been submitted for review for the 2009 IEEE
-Conference on Computer Vision.  While the previous chapter provided the overall
+conference paper that was published in the 2009 IEEE Conference on Computer
+Vision \cite{ZhouZ2009}.  While the previous chapter provided the overall
 design for a complete face recognition system, the work described in this
 chapter focuses on improving the robustness of the face recognition algorithm
 to occlusion.
@@ -29,7 +19,8 @@ sunglasses, hats, or scarves, as well as objects such as cell phones placed in
 front of the face. Moreover, even in the absence of an occluding object,
 violations of an assumed model for face appearance may act like occlusions:
 e.g., shadows due to extreme illumination violate the assumption of a
-low-dimensional linear illumination model \cite{Basri2003-PAMI}. Robustness to
+low-dimensional linear illumination model\footnote{see \cite{Basri2003-PAMI} and Appendix
+\ref{sec:appendix_illumination} for more discussion}. Robustness to
 occlusion is therefore essential to practical face recognition.
 
 If the face image is partially occluded, popular recognition algorithms based
@@ -655,23 +646,28 @@ to investigate how to perform robust alignment in the presence of large
 occlusions.  Given the success shown in Chapter \ref{chap:pipeline} in
 integrating a deformation model into the algorithm of \cite{Wright2009-PAMI},
 the integration of a deformation model into the regression step of our
-algorithm \cite{Wagner2009-CVPR} seems very promising.  That said, there
-is some danger that the changing model of occluded areas used by in the MRF
-model will destabilize the iterative alignment.  Ideally, an occlusion model
-needs to be able to distinguish between error caused by misalignment
-and error caused by genuine occlusions; otherwise, error components needed to
-get a correct alignment update direction may be labeled as occlusions and 
-excluded from the computation of the Jacobian.
+algorithm \cite{Wagner2009-CVPR} seems very promising.  Since MRF simply
+restricts the subset of pixels on which the L1 optimization is performed.
+Therefore, iterative alignment and occlution modeling using MRF are neatly
+orthogonal from an implementation standpoint.  
 
-Due to unresolved issues with combining the MRF occlusion model with iterative
-alignment, the pipeline described in Chapter \ref{chap:pipeline} will remain
-the baseline algorithm for the following chapters.  
-While Chapter \ref{chap:pipeline} and this chapter were concerned with modifications
-to the recognition algorithm that improve recognition accuracy and robustness,
-the following chapters are concerned with modifications that increase the speed
-of the recognition system without sacrificing accuracy.  Chapter \ref{chap:minimization}
-is dedicated to presenting algorithms for solving the required $\ell_1$ minimization problems.
-Chapter \ref{chap:parallel} presents optimized parallel implementations of the full 
-recognition pipeline.
+Unfortunately, there is danger that the changing model of occluded areas
+used by in the MRF model will destabilize the iterative alignment.  Ideally, an
+occlusion model needs to be able to distinguish between error caused by
+misalignment and error caused by genuine occlusions; otherwise, error
+components needed to get a correct alignment update direction may be labeled as
+occlusions and excluded from the computation of the Jacobian.
+
+Due to the unresolved issues with combining the MRF occlusion model with
+iterative alignment mentioned above, the pipeline described in Chapter
+\ref{chap:pipeline} will remain the baseline algorithm for the following
+chapters.  While Chapter \ref{chap:pipeline} and this chapter were concerned
+with modifications to the recognition algorithm that improve recognition
+accuracy and robustness, the following chapters are concerned with
+modifications that increase the speed of the recognition system without
+sacrificing accuracy.  Chapter \ref{chap:minimization} is dedicated to
+presenting algorithms for solving the required $\ell_1$ minimization problems.
+Chapter \ref{chap:parallel} presents optimized parallel implementations of the
+full recognition pipeline.
 
 
