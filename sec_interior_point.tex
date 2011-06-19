@@ -13,7 +13,7 @@ for use in image alignment. Here, $\x \in \Re^n$, $\q \in \Re^p$, $\y, \e \in \R
 \y - A\x - B\q &\le& \u \\
 -\y + A \x + B\q &\le& \u
 \end{eqnarray*}
-To the three inequality constraints associate Lagrange multiplier vectors $\llambda_{x,+} \in \Re^n$, $\llambda_{e,+}, \llambda_{e,-} \in \Re^m$. Here, we have simply eliminated the equality constraint. The combined primal variables are 
+To the three inequality constraints associate Lagrange multiplier vectors $\blambda_{x,+} \in \Re^n$, $\blambda_{e,+}, \blambda_{e,-} \in \Re^m$. Here, we have simply eliminated the equality constraint. The combined primal variables are 
 \begin{equation}
 \tilde \x = [ \, \x^* \;\, \q^* \;\, \u^* \, ]^* \in \Re^{n+m+p}
 \end{equation}
@@ -36,30 +36,30 @@ Define
 The inequality constraint is then $$\Phi \tilde \x + \g \le \0_{n+2m}.$$
 The combined dual variables are 
 \begin{equation}
-\llambda = [ \llambda_{x} \; \llambda_{e,+} \; \llambda_{e,-} ]^* \in \Re^{n+2m}
+\blambda = [ \blambda_{x} \; \blambda_{e,+} \; \blambda_{e,-} ]^* \in \Re^{n+2m}
 \end{equation}
 The KKT equations are 
 \begin{eqnarray}
 \Phi \tilde \x + \g &\le& \0_{n+2m} \\
-\llambda &\ge& \0_{n+2m} \\
-\f + \Phi^* \llambda &=& \0_{n+p+m} \\
-\diag(\llambda) \,( \Phi \, \tilde \x + \g) &=& \0_{n + 2m}.
+\blambda &\ge& \0_{n+2m} \\
+\f + \Phi^* \blambda &=& \0_{n+p+m} \\
+\diag(\blambda) \,( \Phi \, \tilde \x + \g) &=& \0_{n + 2m}.
 \end{eqnarray}
 As usual in barrier methods, we take a $t^{-1}$-relaxation of the complementarity constraint. The relaxed KKT residuals are 
 \begin{eqnarray}
-\r_{dual}  &=&  \f + \Phi^* \llambda \\
-\r_{central} &=& -\diag(\llambda) (\Phi \tilde \x + \g) - t^{-1} \1_{n+p+m}
+\r_{dual}  &=&  \f + \Phi^* \blambda \\
+\r_{central} &=& -\diag(\blambda) (\Phi \tilde \x + \g) - t^{-1} \1_{n+p+m}
 \end{eqnarray}
 The Newton system is then simply
 \begin{equation}
-\left[ \begin{array}{cc} 0 & \Phi^* \\ - \diag(\llambda) \Phi & -\diag(\Phi \tilde \x + \g) \end{array} \right] \left[ \begin{array}{c} \Delta \tilde \x \\ \Delta \llambda \end{array} \right] = - \left[ \begin{array}{c} \r_{dual} \\ \r_{central} \end{array} \right]
+\left[ \begin{array}{cc} 0 & \Phi^* \\ - \diag(\blambda) \Phi & -\diag(\Phi \tilde \x + \g) \end{array} \right] \left[ \begin{array}{c} \Delta \tilde \x \\ \Delta \blambda \end{array} \right] = - \left[ \begin{array}{c} \r_{dual} \\ \r_{central} \end{array} \right]
 \end{equation}
 This system has a lot of structure, so simplifications on paper are possible. Let
 $$\Gamma \doteq - \diag(\Phi \tilde \x + \g)$$
 The top $n+p+m$ equations involve only the dual variables. Expanding them
 \begin{equation} \label{eqn:d-lambda-only}
 \left[ \begin{array}{ccc} -\Id_{n\times n} &  -A^* & A^* \\  0_{p \times n} & -B^* & B^* \\ 
-0_{m \times n} & -\Id_{m \times m} & -\Id_{m \times m} \end{array} \right] \left[ \begin{array}{c} \Delta \llambda_{x} \\ \Delta \llambda_{e,+} \\ \Delta \llambda_{e,-} \end{array} \right] = - \left[ \begin{array}{c} \r_{d,1} \\ \r_{d,2} \\ \r_{d,3} \end{array} \right]
+0_{m \times n} & -\Id_{m \times m} & -\Id_{m \times m} \end{array} \right] \left[ \begin{array}{c} \Delta \blambda_{x} \\ \Delta \blambda_{e,+} \\ \Delta \blambda_{e,-} \end{array} \right] = - \left[ \begin{array}{c} \r_{d,1} \\ \r_{d,2} \\ \r_{d,3} \end{array} \right]
 \end{equation}
 where 
 \begin{eqnarray*} 
@@ -69,29 +69,29 @@ where
 \end{eqnarray*} 
 Immediately, we see that 
 \begin{eqnarray}
-\Delta \llambda_{e,-} &=& \r_{d,3} - \Delta \llambda_{e,+}
+\Delta \blambda_{e,-} &=& \r_{d,3} - \Delta \blambda_{e,+}
 \end{eqnarray}
 Substituting into the top two equations of \eqref{eqn:d-lambda-only}, we have
 \begin{eqnarray}
--\Delta \llambda_{x} - 2 A^* \Delta \llambda_{e,+} &=& - \r_{d,1} - A^* \r_{d,3} \\
--2 B^* \Delta \llambda_{e,+} &=& -\r_{d,2} - B^* \r_{d,3}
+-\Delta \blambda_{x} - 2 A^* \Delta \blambda_{e,+} &=& - \r_{d,1} - A^* \r_{d,3} \\
+-2 B^* \Delta \blambda_{e,+} &=& -\r_{d,2} - B^* \r_{d,3}
 \end{eqnarray}
 yielding
 \begin{equation}
-\Delta \llambda_{x} = -2 A^* \Delta \llambda_{e,+} +  \r_{d,1} + A^* \r_{d,3} .
+\Delta \blambda_{x} = -2 A^* \Delta \blambda_{e,+} +  \r_{d,1} + A^* \r_{d,3} .
 \end{equation}
 If you trace back all of the substitutions, what we have left is the following system of equations
 \begin{eqnarray*}
-B^* \Delta \llambda_{e,+} &=& \frac{1}{2} ( \r_{d,2} + B^* \r_{d,3} ) \;\doteq\; \a \\
+B^* \Delta \blambda_{e,+} &=& \frac{1}{2} ( \r_{d,2} + B^* \r_{d,3} ) \;\doteq\; \a \\
 \hspace{-.75in}\left[ \begin{array}{cccc} \Lambda_{x} & 0 & 0 & -2 \ \Gamma_{x} A^* \\ \Lambda_{e,+}A & \Lambda_{e,+} B & \Lambda_{e,+} & \Gamma_{e,+} \\ 
--\Lambda_{e,-} A& -\Lambda_{e,-} B & \Lambda_{e,-} & -\Gamma_{e,-} \end{array} \right] \left[ \begin{array}{c} \Delta \x \\ \Delta \q \\ \Delta \u \\ \Delta \llambda_{e,+} \end{array} \right] &=& \left[ \begin{array}{c} -\Gamma_{x} (\r_{d,1} + A^*\r_{d,3}) -\r_{c,1} \\ -\r_{c,2} \\ -\r_{c,3}-\Gamma_{e,-} \r_{d,3} \end{array} \right]
+-\Lambda_{e,-} A& -\Lambda_{e,-} B & \Lambda_{e,-} & -\Gamma_{e,-} \end{array} \right] \left[ \begin{array}{c} \Delta \x \\ \Delta \q \\ \Delta \u \\ \Delta \blambda_{e,+} \end{array} \right] &=& \left[ \begin{array}{c} -\Gamma_{x} (\r_{d,1} + A^*\r_{d,3}) -\r_{c,1} \\ -\r_{c,2} \\ -\r_{c,3}-\Gamma_{e,-} \r_{d,3} \end{array} \right]
 \end{eqnarray*}
 We're in great shape here -- the $\Lambda$ and $\Gamma$ are diagonal, easy to invert. The subtlety is that for each equation $j$, exactly one of $\Lambda_j$ and $\Gamma_j$ is converging to zero. To continue analytically eliminating terms, we'll need to choose ``well-conditioned subsets'' for each of these matrices. 
 
 \paragraph{Eliminating $\Delta \u$.}
 
 From $[2m]$, select one element from each $\{ i, i+m\}$ (with ties broken at random):
-$$L^e_g \doteq \{ i : | [\llambda_{e,+} \; \llambda_{e,-}]_i | > | [\llambda_{e,+} \\ \llambda_{e,-} ]_{i+m} | \}.$$
+$$L^e_g \doteq \{ i : | [\blambda_{e,+} \; \blambda_{e,-}]_i | > | [\blambda_{e,+} \\ \blambda_{e,-} ]_{i+m} | \}.$$
 Let $\Lambda_g$ be the diagonal matrix such that
 $$\Lambda_g(i,i) = \left\{ \begin{array}{cc} \Lambda_{e,+}(i,i) & i \in L^e_g \\ \Lambda_{e,-}(i,i) & else \end{array}\right.$$ 
 Let $\Sigma_g \in \Re^{n \times n}$ be the diagonal matrix such that 
@@ -101,20 +101,20 @@ Let $\Lambda_b$, $\Sigma_b$, $M_b$ be defined in the natural (complement) manner
 
 Then again we have two equations 
 \begin{eqnarray}
-\Sigma_g \Lambda_g A \Delta \x \; + \Sigma_g \Lambda_g B \Delta \q + \Lambda_g \Delta \u + M_g \Delta \llambda_{e,+} &=& \ggamma_g \\
-\Sigma_b \Lambda_b A \Delta \x \; +  \Sigma_b \Lambda_b B \Delta \q + \Lambda_b \Delta \u + M_b \Delta \llambda_{e,+} &=& \ggamma_b. \label{eqn:bot-bad}
+\Sigma_g \Lambda_g A \Delta \x \; + \Sigma_g \Lambda_g B \Delta \q + \Lambda_g \Delta \u + M_g \Delta \blambda_{e,+} &=& \ggamma_g \\
+\Sigma_b \Lambda_b A \Delta \x \; +  \Sigma_b \Lambda_b B \Delta \q + \Lambda_b \Delta \u + M_b \Delta \blambda_{e,+} &=& \ggamma_b. \label{eqn:bot-bad}
 \end{eqnarray}
 Eliminate $\Delta \u$ via the good part:
 \begin{equation}
-\Delta \u = - \Sigma_g A \Delta \x - \Sigma_g B \Delta \q - \Lambda_g^{-1} M_g \Delta \llambda_{e,+} + \Lambda_g^{-1} \ggamma_g
+\Delta \u = - \Sigma_g A \Delta \x - \Sigma_g B \Delta \q - \Lambda_g^{-1} M_g \Delta \blambda_{e,+} + \Lambda_g^{-1} \ggamma_g
 \end{equation}
 leaving 
 \begin{equation}
-2 \Sigma^e_b \Lambda^e_b A \Delta \x + 2 \Sigma^e_b \Lambda^e_b B \Delta \q + (M^e_b - \Lambda^e_b (\Lambda^e_g)^{-1} M^e_g) \Delta \llambda_{e,+} = \ggamma_b - \Lambda^e_b (\Lambda^e_g)^{-1} \ggamma_g.
+2 \Sigma^e_b \Lambda^e_b A \Delta \x + 2 \Sigma^e_b \Lambda^e_b B \Delta \q + (M^e_b - \Lambda^e_b (\Lambda^e_g)^{-1} M^e_g) \Delta \blambda_{e,+} = \ggamma_b - \Lambda^e_b (\Lambda^e_g)^{-1} \ggamma_g.
 \end{equation}
-Thankfully, $\Psi \doteq M_b^e - (\Lambda^e_g)^{-1} \Lambda^e_b M^e_g$ is a well-conditioned diagonal matrix, allowing us to next eliminate $\Delta \llambda_{e,+}$:
+Thankfully, $\Psi \doteq M_b^e - (\Lambda^e_g)^{-1} \Lambda^e_b M^e_g$ is a well-conditioned diagonal matrix, allowing us to next eliminate $\Delta \blambda_{e,+}$:
 \begin{equation}
-\Delta \llambda_{e,+} = P\Delta x + T \Delta \q + \h
+\Delta \blambda_{e,+} = P\Delta x + T \Delta \q + \h
 \end{equation}
 where 
 \begin{equation}
