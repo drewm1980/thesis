@@ -1,6 +1,5 @@
 \section{Derivation of the Augmented Lagrange Multiplier (ALM) Method for $\ell^1$-norm minimization}
 
-
 \subsection{Error correction}
 
 The problem at hand is 
@@ -103,74 +102,4 @@ Algorithm \ref{alg:exact} is not very fast in practice. This is mainly because t
 Typically, on a single-core MATLAB implementation, if $\rho$ is close to 1, most of the time is spent on matrix-vector multiplications. If $\rho$ is large, then the shrinkage operator in the innermost loop is used very frequently, and the time associated with it (including reading in vectors, etc) becomes significant. 
 \smallbreak
 {\bf YALL1 package.} We have been using this MATLAB package so far. From what I understood from their paper, they consider the extreme approximation by limiting each inner loop to just 1 iteration. My hunch is this can be made to work if $\rho$ is chosen very close to 1 (say around 1.005-1.01), thereby allowing the number of outer loop iterations to increase a lot. 
-
-\subsection{Compressed sensing}
-
-The problem at hand is 
-\begin{equation}
-\min_{\x} \, \|\x\|_1 \quad \mathrm{s.t.} \quad \y = A\x,
-\end{equation}
-where $\x \in Re^n$ and $A \in Re^{m\times n}$. 
-\smallbreak
-We set $f(\x) = \|\x\|_1$, and $h(\x) = \y - A\x$. Clearly, $f$ and $h$ are convex functions in $\x$. In the ALM formulation, the basic steps in each iteration can be summarized as follows:
-\begin{equation}
-\left \{ 
-\begin{array}{lll}
-\x_{k+1} & = & \arg\min_{\x} \, \|\x\|_1 + \langle \bl_k, \y - A\x \rangle + \frac{\mu_k}{2}\|\y - A\x\|_2^2 \\
-\bl_{k+1} & = & \bl_k + \mu_k (\y - A\x_{k+1}) \\
-\mu_{k+1} & = & \rho\cdot\mu_k
-\end{array} 
-\right . ,
-\end{equation}
-where $\bl_k$'s represent the Lagrange multipliers, and $\{\mu_k\}$ is a monotonically increasing positive sequence ($\rho > 1$).
-\smallbreak
-We focus our attention on the non-trivial first step:
-\begin{equation}
-\min_{\x} \, \|\x\|_1 + \langle \bl_k, \y - A\x \rangle + \frac{\mu_k}{2}\|\y - A\x\|_2^2.
-\label{eqn:alm_cs}
-\end{equation}
-Since the cost function is convex in $\x$, the optimality conditions can be written as
-\begin{equation}
-\p - A^T\bl_k + \mu_k\,A^T(A\x - \y) = \mathbf{0}
-\end{equation}
-where $\p \in \partial \|\x\|_1$. Since it is difficult to solve this equation to obtain a closed-form solution for the optimal $\x$, we attempt to minimize \eqref{eqn:alm_cs} by an iterative procedure. 
-\smallbreak
-It is tough to come up with a closed-form expression for the solution to the second step in \eqref{eqn:alt}. So, we solve it by yet another iterative procedure.\footnote{We basically use the APG to solve this.} Given $\x_k$ close to $\x$, we construct a first-order approximation to the quadratic term in the cost function in \eqref{eqn:alm} as follows:
-\begin{equation}
-\|\y - A\x\|_2^2 \approx \|\y - A\x_k\|_2^2 + \langle 2A^T(A\x_k-\y), \x - \x_k \rangle + \tau\|\x-\x_k\|_2^2,
-\end{equation}
-where $\tau \geq \lambda_\mathrm{max} (A^TA) = \sigma^2_\mathrm{max}(A)$. With this approximation, the second step of \eqref{eqn:alt} can be solved iteratively using soft-thresholding as derived below:
-\begin{IEEEeqnarray}{rCl}
-& & \arg \min_\x \, \|\x\|_1+ \langle \bl_k, \y - A\x \rangle + \frac{\mu_k}{2} \left(\|\y - A\x_k\|_2^2 + \langle 2A^T(A\x_k-\y), \x - \x_k \rangle + \tau\|\x-\x_k\|_2^2 \right) \IEEEeqnarraynumspace \\
-& = & \arg \min_\x \, \frac{2}{\mu_k}\|\x\|_1 + \left \langle 2A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \tau\|\x-\x_k\|_2^2 \\
-& = & \arg \min_\x \, \frac{2}{\mu_k}\|\x\|_1 - \left \langle 2\tau \x_k - 2A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \tau\|\x\|_2^2 \\
-& = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 - \left \langle \x_k - \frac{1}{\tau}A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \frac{1}{2}\|\x\|_2^2 \\
-& = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 + \frac{1}{2}\left \| \x - \left(\x_k - \frac{1}{\tau}A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right) \right)\right \|_2^2 \\
-& = & \shrink\left(\x_k - \frac{1}{\tau}A^T\left(A\x_k - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)
-\end{IEEEeqnarray}
-\smallbreak
-Thus, the iteration to solve the second step of \eqref{eqn:alt} can be written as:
-\begin{equation}
-\x_{l+1}  =  \shrink\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right).
-\end{equation}
-Thus, the entire algorithm can be summarized as Algorithm \ref{alg:exact}.
-\begin{algorithm}[h]
-\caption{Exact ALM}
-\begin{algorithmic}
-\WHILE{not converged}
-\WHILE{not converged}
-\STATE $t_1 \leftarrow 1$, $\z_1 \leftarrow \x_j$
-\WHILE{not converged}
-\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)$
-\STATE $t_{l+1} = 0.5\left( 1 + \sqrt{1+4t_l^2}\right)$
-\STATE $\z_{l+1} = \x_{l+1} + \frac{t_l - 1}{t_{l+1}}(\x_{l+1} - \x_l)$
-\ENDWHILE
-\ENDWHILE
-\STATE $\bl_{k+1} = \bl_k + \mu_k (\y - A\x_{k+1})$
-\STATE $\mu_{k+1} = \rho\cdot\mu_k$
-\ENDWHILE
-\end{algorithmic}
-\label{alg:exact}
-\end{algorithm}
-
 

@@ -645,7 +645,33 @@ Algm.\ 1 & 91.4 & 90.9 & {\bf 81.0} & {\bf 55.0} & {\bf 43.6} \\
 \caption{Images from the sunglasses category where the alignment method of \cite{Wagner2009-CVPR} failed, resulting in misclassificaion.} \label{fig:registration} \vspace{0mm}
 \end{figure}
 
-\section{Conclusion}
-This chapter has demonstrated improved performance of our recognition algorithm in the presence of large occlusions.  However, in order to isolate the effects of occlusion, all experiments were performed on images that were already aligned using hand-labeled feature points.  Since alignment must be performed automatically for the test image in a production system, the most important issue for future work on the MRF based recognition algorithm is to investigate how to perform robust alignment in the presence of large occlusions.  Given the success shown in Chapter \ref{chap:pipeline} in integrating a deformation model into the algorithm of \cite{Wright2009-PAMI}, the integration of a deformation model into the regression step of our algorithm \cite{Wagner2009-CVPR} seems very promising. 
-However, it remains to be seen to what extent such deformations are compatible with the MRF prior.  
+\section{Conclusion} This chapter has demonstrated improved performance of our
+recognition algorithm in the presence of large occlusions.  However, in order
+to isolate the effects of occlusion, all experiments were performed on images
+that were already aligned using hand-labeled feature points.  Since alignment
+must be performed automatically for the test image in a production system, the
+most important issue for future work on the MRF based recognition algorithm is
+to investigate how to perform robust alignment in the presence of large
+occlusions.  Given the success shown in Chapter \ref{chap:pipeline} in
+integrating a deformation model into the algorithm of \cite{Wright2009-PAMI},
+the integration of a deformation model into the regression step of our
+algorithm \cite{Wagner2009-CVPR} seems very promising.  That said, there
+is some danger that the changing model of occluded areas used by in the MRF
+model will destabilize the iterative alignment.  Ideally, an occlusion model
+needs to be able to distinguish between error caused by misalignment
+and error caused by genuine occlusions; otherwise, error components needed to
+get a correct alignment update direction may be labeled as occlusions and 
+excluded from the computation of the Jacobian.
+
+Due to unresolved issues with combining the MRF occlusion model with iterative
+alignment, the pipeline described in Chapter \ref{chap:pipeline} will remain
+the baseline algorithm for the following chapters.  
+While Chapter \ref{chap:pipeline} and this chapter were concerned with modifications
+to the recognition algorithm that improve recognition accuracy and robustness,
+the following chapters are concerned with modifications that increase the speed
+of the recognition system without sacrificing accuracy.  Chapter \ref{chap:minimization}
+is dedicated to presenting algorithms for solving the required $\ell_1$ minimization problems.
+Chapter \ref{chap:parallel} presents optimized parallel implementations of the full 
+recognition pipeline.
+
 
