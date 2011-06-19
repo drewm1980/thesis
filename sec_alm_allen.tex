@@ -21,12 +21,12 @@ We use Step 14 as an example to illustrate the ALM
 method, since solving Step 6 is very similar. Recall that in
 Step 14 the problem we are interested in is:
 \begin{equation}
-\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \y =
+\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb =
 A \x + \e.
 \end{equation}
 Its corresponding augmented Lagrangian function is
 \begin{equation}
-L_\mu (\x,\e,\blamda) = \|\x\|_1 + \|\e\|_1 + \langle \blamda, \y-A\x - \e \rangle + \frac{\mu}{2} \|\y - A\x - \e\|_2^2,
+L_\mu (\x,\e,\blamda) = \|\x\|_1 + \|\e\|_1 + \langle \blamda, \bb-A\x - \e \rangle + \frac{\mu}{2} \|\bb - A\x - \e\|_2^2,
 \end{equation}
 where $\blamda$ is the Lagrange multiplier and $\mu > 0$ is a
 penalty parameter. The ALM method seeks a saddlepoint of $L_\mu
@@ -37,7 +37,7 @@ $\blamda$, with the other fixed, as follows:
 \left \{
 \begin{array}{lll}
 (\x_{k+1},\e_{k+1})  =  \arg\min_{(\x,\e)} \, L_{\mu} (\x,\e,\blamda_k),\\
-\blamda_{k+1}  =  \blamda_k + \mu (\y - A\x_{k+1} - \e_{k+1}). \\
+\blamda_{k+1}  =  \blamda_k + \mu (\bb - A\x_{k+1} - \e_{k+1}). \\
 \end{array}
 \right .
 \label{eq:alm}
@@ -54,7 +54,7 @@ over $\x$ (with $\e$ fixed) and over $\e$ (with $\x$ fixed). After solving these
 \begin{array}{lll}
 \e_{k+1}  =  \arg\min_{\e} \, L_{\mu} (\x_k,\e,\blamda_k),\\
 \x_{k+1}  =  \arg\min_{\x} \, L_{\mu} (\x,\e_{k+1},\blamda_k),\\
-\blamda_{k+1}  =  \blamda_k + \mu (\y - A\x_{k+1} - \e_{k+1}). \\
+\blamda_{k+1}  =  \blamda_k + \mu (\bb - A\x_{k+1} - \e_{k+1}). \\
 \end{array}
 \right .
 \label{eq:adm}
@@ -72,7 +72,7 @@ where all the operations are performed component-wise. It is
 easy to show that the subproblem with respect to $\e$ has a
 closed-form solution given by the soft-thresholding operator:
 \begin{equation}
-\e_{k+1} = \mathcal{T}(\y - A\x_k + \mu^{-1}\blamda_k, \mu^{-1}).
+\e_{k+1} = \mathcal{T}(\bb - A\x_k + \mu^{-1}\blamda_k, \mu^{-1}).
 \end{equation}
 To solve the subproblem associated with $\x$, we
 apply a first-order $\ell^1$-minimization method,
@@ -84,28 +84,28 @@ carefully chosen in order to achieve a good convergence
 rate. We summarize the entire ALM
 algorithm as Algorithm~\ref{alg:alm}, where $\gamma$ denotes the
 largest eigenvalue of the matrix $A^TA$. For the choice of parameter $\mu$, we take the same strategy as
-in \cite{YangJ2009-pp} and set $\mu = 2m / \|\y\|_1$.
+in \cite{YangJ2009-pp} and set $\mu = 2m / \|\bb\|_1$.
 \begin{algorithm}[t]
 \caption{\bf (Augmented Lagrange Multiplier Method for Global
 Recognition)}
 \begin{algorithmic}[1]
 \begin{small}
-\STATE {\bf Input:} $\y \in \Re^m$, $A \in \Re^{m \times n}$,
-$\x_1 = \mathbf{0}$, $\e_1 = \y$, $\blamda_1 =
+\STATE {\bf Input:} $\bb \in \Re^m$, $A \in \Re^{m \times n}$,
+$\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blamda_1 =
 \mathbf{0}$.
 \WHILE{not converged ($k = 1,2,\ldots$)}
-\STATE $\e_{k+1} = \mathcal{T}\left(\y - A\x_k +
+\STATE $\e_{k+1} = \mathcal{T}\left(\bb - A\x_k +
 \frac{1}{\mu}\blamda_k, \frac{1}{\mu}\right)$;
 \STATE $t_1\leftarrow 1$, $\z_1 \leftarrow \x_k$, $\w_1 \leftarrow \x_k$;
 \WHILE{not converged ($l = 1,2,\ldots$)}
 \STATE $\w_{l+1} \leftarrow \mathcal{T}\left(\z_l +
-\frac{1}{\gamma}A^T\left(\y - A\z_l - \e_{k+1} +
+\frac{1}{\gamma}A^T\left(\bb - A\z_l - \e_{k+1} +
 \frac{1}{\mu}\blamda_k\right), \frac{1}{\mu\gamma}\right)$;
 \STATE $t_{l+1} \leftarrow \frac{1}{2}\left( 1 +
 \sqrt{1+4t_l^2}\right)$;
 \STATE $\z_{l+1} \leftarrow \w_{l+1} + \frac{t_l - 1}{t_{l+1}}(\w_{l+1} - \w_l)$;
 \ENDWHILE
-\STATE $\x_{k+1} \leftarrow \w_{l}$,  \; $\blamda_{k+1} \leftarrow \blamda_k + \mu (\y - A\x_{k+1} - \e_{k+1})$;
+\STATE $\x_{k+1} \leftarrow \w_{l}$,  \; $\blamda_{k+1} \leftarrow \blamda_k + \mu (\bb - A\x_{k+1} - \e_{k+1})$;
 \ENDWHILE \STATE
 {\bf Output:} $\x^* \leftarrow \x_k, \e^* \leftarrow \e_k$.
 \end{small}

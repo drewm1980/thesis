@@ -186,7 +186,7 @@ The images of subject $i$, stacked as vectors, form a matrix
 $A_i \in \Re^{m \times n_i}$. Taken together, all of the images
 form a large matrix $A = [ A_1 \mid A_2 \mid \dots \mid A_K ]
 \in \Re^{m \times n}$. As argued in \cite{Wright2009-PAMI}, a
-well-aligned test image $\y_0$ can be represented as a sparse
+well-aligned test image $\bb_0$ can be represented as a sparse
 linear combination $A \x_0$ of all of the images in the
 database,\footnote{This assumes that the training illuminations are sufficient. The next section will address how to ensure illumination
 sufficiency.} plus a sparse error $\e_0$
@@ -195,16 +195,16 @@ minimizing the $\ell^1$-norm\footnote{The $\ell^1$-norm of a
 vector, denoted by $\|\cdot\|_1$, is the sum of absolute values of its entries.} of
 $\x$ and $\e$:
 \begin{equation}
-\min_{\x,\e} \, \| \x \|_1 + \| \e\|_1 \quad \subj \quad \y_0 = A \x + \e.
+\min_{\x,\e} \, \| \x \|_1 + \| \e\|_1 \quad \subj \quad \bb_0 = A \x + \e.
 \label{eqn:robust-l1}
 \end{equation}
-Now suppose that $\y_0$ is subject to some pose or
-misalignment, so that instead of recording $\y_0$, the camera captures
-a warped image $\y = \y_0 \circ \tau^{-1}$, for some
+Now suppose that $\bb_0$ is subject to some pose or
+misalignment, so that instead of recording $\bb_0$, the camera captures
+a warped image $\bb = \bb_0 \circ \tau^{-1}$, for some
 transformation $\tau \in T$ where $T$ is a finite-dimensional
 group of transformations acting on the image domain.  The
-transformed image $\y$ no longer has a sparse representation of
-the form $\y = A \x_0 + \e_0$, and naively applying the
+transformed image $\bb$ no longer has a sparse representation of
+the form $\bb = A \x_0 + \e_0$, and naively applying the
 algorithm of \cite{Wright2009-PAMI} is no longer appropriate,
 as seen in Figure \ref{fig:promo}(top).
 
@@ -212,13 +212,13 @@ as seen in Figure \ref{fig:promo}(top).
 true deformation $\tau^{-1}$ can be found, then
 its inverse $\tau$ can be applied to the test image and it again becomes
 possible to find a sparse representation of the resulting
-image, as $\y \circ \tau = A \x_0 + \e_0$.\footnote{In the terminology of \cite{baker2004lucas}, this formulation is ``Forward Additive''.}
+image, as $\bb \circ \tau = A \x_0 + \e_0$.\footnote{In the terminology of \cite{baker2004lucas}, this formulation is ``Forward Additive''.}
   This sparsity
 provides a strong cue for finding the correct deformation
 $\tau$: conceptually, one would like to seek a transformation
 $\tau$ that allows the sparsest representation, via
 \begin{equation} \label{eqn:L1-L1-conceptual}
-\hat{\tau} = \arg\hspace{-2.5mm}\min_{\x,\e,\tau \in T} \| \x \|_1 + \| \e \|_1 \quad \subj \quad \y \circ \tau = A \x + \e.
+\hat{\tau} = \arg\hspace{-2.5mm}\min_{\x,\e,\tau \in T} \| \x \|_1 + \| \e \|_1 \quad \subj \quad \bb \circ \tau = A \x + \e.
 \end{equation}
 For fixed $\tau$, this problem is jointly convex in $\x$ and
 $\e$. However, as a simultaneous optimization over the
@@ -227,7 +227,7 @@ transformation $\tau$, it is a difficult, non-convex
 optimization problem. One source of difficulty is the presence
 of multiple faces in the matrix $A$:
 \eqref{eqn:L1-L1-conceptual} has many local minima that
-correspond to aligning $\y$ to different subjects. In this
+correspond to aligning $\bb$ to different subjects. In this
 sense, the misaligned recognition problem differs from the
 well-aligned version studied in \cite{Wright2009-PAMI}. For the
 well-aligned case, it is possible to directly solve for a
@@ -235,7 +235,7 @@ global representation, with no concern for local minima. With
 possible misalignment, it is more appropriate to seek the best
 alignment of the test face with each subject $i$:
 \begin{equation} \label{eqn:per-subject-L1}
-\hat \tau_i = \arg\hspace{-2.5mm}\min_{\x,\e,\tau_i \in T} \| \e \|_1 \quad \subj \quad \y \circ \tau_i = A_i \x + \e.
+\hat \tau_i = \arg\hspace{-2.5mm}\min_{\x,\e,\tau_i \in T} \| \e \|_1 \quad \subj \quad \bb \circ \tau_i = A_i \x + \e.
 \end{equation}
 It no makes sense to penalize $\| \x \|_1$, since $A_i$ consists of
 only images of subject $i$ and therefore $\x$ is no longer expected to
@@ -248,9 +248,9 @@ e.g., from the output of a face detector. This initialization can be refined to
 approach an estimate of the true transformation by repeatedly linearizing about  the
 current estimate of $\tau$, and seeking representations of the form:
 \begin{equation}
-\y\circ \tau + J \Delta \tau = A_i \x + \e.
+\bb\circ \tau + J \Delta \tau = A_i \x + \e.
 \end{equation}
-Here, $J = \frac{\partial}{\partial \tau} \y \circ \tau$ is the Jacobian of $\y
+Here, $J = \frac{\partial}{\partial \tau} \bb \circ \tau$ is the Jacobian of $\bb
 \circ \tau$ with respect to the transformation parameters $\tau$, and $\Delta
 \tau$ is the step in $\tau$. The above equation is under-determined if the
 registration error $\e$ is allowed to be arbitrary. At the correct alignment it
@@ -259,22 +259,22 @@ minority of the pixels corrupted by occlusions. Thus, the algorithm computes a
 deformation step $\Delta \tau$ that best sparsifies the registration error
 $\e$, in terms of its $\ell^1$-norm:
 \begin{equation}
-\Delta\hat{\tau}_1 = \arg\hspace{-3.5mm}\min_{\x,\e,\Delta\tau \in T} \| \e \|_1 \quad \subj \quad \y\circ\tau + J \Delta \tau = A_i \x + \e.
+\Delta\hat{\tau}_1 = \arg\hspace{-3.5mm}\min_{\x,\e,\Delta\tau \in T} \| \e \|_1 \quad \subj \quad \bb\circ\tau + J \Delta \tau = A_i \x + \e.
 \label{eqn:L1-align}
 \end{equation}
 This is different from the popular choice that
 minimizes the $\ell^2$-norm of the registration error:
 \begin{equation}
-\Delta\hat{\tau}_2 = \arg\hspace{-3.5mm}\min_{\x,\e,\Delta\tau \in T} \| \e \|_2 \quad \subj \quad \y\circ\tau + J \Delta \tau = A_i \x + \e,
+\Delta\hat{\tau}_2 = \arg\hspace{-3.5mm}\min_{\x,\e,\Delta\tau \in T} \| \e \|_2 \quad \subj \quad \bb\circ\tau + J \Delta \tau = A_i \x + \e,
 \label{eqn:L2-align}
 \end{equation}
 which is also equivalent to finding the deformation step
 $\Delta  \tau$ by solving the least-square problem:
-$\min_{\x,\Delta \tau} \|\y \circ \tau + J\Delta \tau - A_i \x
+$\min_{\x,\Delta \tau} \|\bb \circ \tau + J\Delta \tau - A_i \x
 \|_2$. Empirically, if there is only small noise
-between $\y_0$ and $A_i\x$, both \eqref{eqn:L1-align} and
+between $\bb_0$ and $A_i\x$, both \eqref{eqn:L1-align} and
 $\eqref{eqn:L2-align}$ have similar performance.  However, if
-there are occlusions in $\y_0$, sequential
+there are occlusions in $\bb_0$, sequential
 $\ell^1$-minimization \eqref{eqn:L1-align} is significantly
 better than sequential $\ell^2$-minimization
 \eqref{eqn:L2-align}. Figure \ref{fig:L1-L2-align} shows an
@@ -313,18 +313,18 @@ $\ell^1$ and $\ell^2$ minimization.}
 {\bf Top:} alignment result of minimizing $\|\e\|_1$; {\bf Bottom:}
 result of minimizing $\|\e\|_2$. (a) {\em Green (dotted):} Initial face boundary
 given by the face detector, {\em Red (solid):} Alignment result shown on the same
-face; (b) warped testing image using the estimated transformation $\y_0$;
+face; (b) warped testing image using the estimated transformation $\bb_0$;
 (c) reconstructed face $A_i\x$ using the training; (d) image of error $\e$. }\label{fig:L1-L2-align}
 \end{figure}
 
 In addition to normalizing the training images (which is done
 once), it is important to normalize the warped testing image
-$\y \circ \tau$ as the algorithm runs.  Without normalization,
+$\bb \circ \tau$ as the algorithm runs.  Without normalization,
 the algorithm may fall into a degenerate global minimum
 corresponding to zooming in on a dark region of the test
 image.  Normalization is done by replacing the linearization of
-$\y \circ \tau$ with a linearization of the normalized version
-$\tilde \y(\tau) = \frac{\y \circ \tau}{\|\y \circ \tau\|_2}$.
+$\bb \circ \tau$ with a linearization of the normalized version
+$\tilde \bb(\tau) = \frac{\bb \circ \tau}{\|\bb \circ \tau\|_2}$.
 The proposed alignment algorithm can be easily extended to work
 in a {\em multiscale} fashion, with benefits both in
 convergence behavior and computational cost.  The alignment
@@ -334,7 +334,7 @@ the result of one level to initialize the next.
 
 \subsection{Robust Recognition by Sparse Representation} Once
 the best transformation $\tau_i$ has been computed for each
-subject $i$, the training sets $A_i$ can be aligned to $\y$,
+subject $i$, the training sets $A_i$ can be aligned to $\bb$,
 and a global sparse representation problem of the form
 \eqref{eqn:robust-l1} can be solved to obtain a discriminative
 representation in terms of the entire training set. Moreover,
@@ -367,9 +367,9 @@ Algorithm \ref{alg:deformable-src}, also implements a simple heuristic
 motivated by the observation that the face detector output may be poorly
 centered on the face and may contain a significant amount of the background:
 before the recognition stage, instead of aligning the training sets to the
-original $\y$ directly obtained from the face detector, the transformations of
+original $\bb$ directly obtained from the face detector, the transformations of
 the top $S$ classes $\tau_{k_1}, \tau_{k_2}, \ldots, \tau_{k_S}$ are averaged
-into a transformation $\bar{\tau}$.  Updating $\y$ according to $\bar{\tau}$
+into a transformation $\bar{\tau}$.  Updating $\bb$ according to $\bar{\tau}$
 results in a better centered test image. For the 2D similarity transformations,
 which are used in our system when initialized by the face detector, a
 transformation $\tau$ can be parameterized as $\tau = (\tau^1, \tau^2, \tau^3,
@@ -381,7 +381,7 @@ component-wise mean:
 \bar{\tau}^i = (\tau_{k_1}^i + \tau_{k_2}^i + \cdots +
 \tau_{k_S}^i) / S, i = 1,2,3,4.
 \end{displaymath}
-Finally, the training sets are aligned to the new $\y$.
+Finally, the training sets are aligned to the new $\bb$.
 
 \input{deformable-src.tex}
 

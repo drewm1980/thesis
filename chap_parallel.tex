@@ -1,6 +1,3 @@
-\chapter{Parallelization of $\ell_1$-Minimization}
-\label{chap:parallel}
-
 \section{Introduction} 
 %
 
@@ -132,42 +129,42 @@ infeasible points. ALM methods differ from other penalty-based approaches by
 simultaneously estimating the optimal solution and Lagrange multipliers in an
 iterative fashion.  For $\ell_1$-minimization \eqref{eq:l1min}, the augmented Lagrange
 function is defined as: 
-\begin{equation} L_\mu(\xx,\yy) = \|\xx\|_1 +
-\yy^T(\bb - A\xx) + \frac{\mu}{2} \| \bb-A\xx \|_2^2, 
+\begin{equation} L_\mu(\xx,\blambda) = \|\xx\|_1 +
+\blambda^T(\bb - A\xx) + \frac{\mu}{2} \| \bb-A\xx \|_2^2, 
 \end{equation}
-where $\mu > 0$ is a constant that penalizes infeasibility and $\yy$ is a
+where $\mu > 0$ is a constant that penalizes infeasibility and $\blambda$ is a
 vector of Lagrange multipliers.
 
-In Lagrange Multiplier Theory \cite{BertsekasD2003}, if there exists a multiplier $\y^*$ that
+In Lagrange Multiplier Theory \cite{BertsekasD2003}, if there exists a multiplier $\blambda^*$ that
 satisfies the second-order sufficiency conditions for optimality, then for a sufficiently large $\mu$, the optimal
 $\ell_1$-minimization solution also minimizes
 \begin{equation}
-\xx^* = \arg \min L_\mu(\xx,\yy^*).
+\xx^* = \arg \min L_\mu(\xx,\blambda^*).
 \label{eq:optimal-ALM}
 \end{equation}
 
-In practice, the optimal values for the triplet $(\xx^*, \yy^*, \mu)$ are all
+In practice, the optimal values for the triplet $(\xx^*, \blambda^*, \mu)$ are all
 unknown. Furthermore, it has been observed that solving
 \eqref{eq:optimal-ALM} with a large initial value of $\mu$ tends to lead to
 slower convergence speed \cite{WrightS2008,YangA2010-ICIP}. In
 \cite{BertsekasD2003,YangJ2009}, an alternating procedure has been shown to
-iteratively update $\xx$ and $\yy$:
+iteratively update $\xx$ and $\blambda$:
 \begin{equation}
 \left \{
 \begin{array}{lll}
-\xx_{k+1} & = & \arg\min_{\xx} \, L_{\mu_k} (\xx,\yy_k)\\
-\yy_{k+1} & = & \yy_k + \mu_k (\bb - A\xx_{k+1}) \\
+\xx_{k+1} & = & \arg\min_{\xx} \, L_{\mu_k} (\xx,\blambda_k)\\
+\blambda_{k+1} & = & \blambda_k + \mu_k (\bb - A\xx_{k+1}) \\
 \end{array}
 \right . ,
 \label{eq:alm}
 \end{equation}
 where $\mu_{k}\rightarrow \infty$ increases monotonically.
-The iteration terminates when the estimates $(\xx_k, \yy_k)$ converge.
+The iteration terminates when the estimates $(\xx_k, \blambda_k)$ converge.
 
 Note that in the iterative procedure \eqref{eq:alm}, the second
 step only involves vector algebra and matrix-vector multiplication. Therefore,
 the procedure is computationally efficient only if it is easier to minimize the
-augmented Lagrangian $L_{\mu_k} (\xx,\yy_k)$ compared to solving the original problem
+augmented Lagrangian $L_{\mu_k} (\xx,\blambda_k)$ compared to solving the original problem
 \eqref{eq:l1min} directly. In fact, this problem can be solved element-wise
 iteratively by a soft-thresholding algorithm \cite{WrightS2008,BeckA2009},
 whose time complexity is bounded by $O(n^2)$ and can be easily parallelized.
@@ -184,12 +181,12 @@ The soft-thresholding algorithm involves the element-wise operator $\shrink(x) =
 \WHILE{not converged ($k = 1,2,\ldots$)} 
 \STATE $t_1 \leftarrow 1$, $\zz_1 \leftarrow \xx_k$, $\uu_1 \leftarrow \xx_k$ 
 \WHILE{not converged ($l = 1,2,\ldots$)} 
-\STATE $\uu_{l+1}  \leftarrow \shrink(\zz_l - \frac{1}{\tau}A^T(A\zz_l - \bb - \frac{1}{\mu_k}\yy_k), \frac{1}{\mu_k\tau})$
+\STATE $\uu_{l+1}  \leftarrow \shrink(\zz_l - \frac{1}{\tau}A^T(A\zz_l - \bb - \frac{1}{\mu_k}\blambda_k), \frac{1}{\mu_k\tau})$
 \STATE $t_{l+1} \leftarrow \frac{1}{2}( 1 + \sqrt{1+4t_l^2})$
 \STATE $\zz_{l+1} \leftarrow \uu_{l+1}+ \frac{t_l - 1}{t_{l+1}}(\uu_{l+1} - \uu_l)$ 
 \ENDWHILE 
 \STATE $\xx_{k+1} \leftarrow \uu_{l+1}$ 
-\STATE $\yy_{k+1} \leftarrow \yy_k + \mu_k (\bb - A\xx_{k+1})$ 
+\STATE $\blambda_{k+1} \leftarrow \blambda_k + \mu_k (\bb - A\xx_{k+1})$ 
 \STATE $\mu_{k+1} \leftarrow \rho\cdot\mu_k$ 
 \ENDWHILE 
 \end{algorithmic}
@@ -375,15 +372,15 @@ The per-class alignment algorithm via ALM is summarized in Algorithm
 \begin{algorithmic}[1]
 \WHILE{not converged ($j = 1,2,\ldots$)}
 \STATE Update $\bb_j \leftarrow \frac{\bb\circ \tau_{j-1}}{\|\bb\circ \tau_{j-1}\|}$; $B_j= [A_i, -J_{j-1}]$ and corresponding $(B_j^\dagger)^T$
-\STATE Initialize $\ww_0 = \mathbf 0$, $\yy_0 = \mathbf 0$
+\STATE Initialize $\ww_0 = \mathbf 0$, $\blambda_0 = \mathbf 0$
 \WHILE{not converged ($k = 1,2,\ldots$)}
 \STATE $\uu_0\leftarrow \ww_{k-1}$; $\zz_0\leftarrow \ee_{k-1}$
 \WHILE{not converged ($l = 1,2,\ldots$)}
-\STATE $\zz_l \leftarrow \shrink\left(\bb_j - B_j\uu_{l-1} + \frac{\yy_{k}}{\mu_{k-1}}, \frac{1}{\mu_{k-1}}\right)$
-\STATE $\uu_l \leftarrow B_j^\dagger \left(\bb_j - \zz_{l} + \frac{\yy_{k-1}}{\mu_{k-1}} \right) $
+\STATE $\zz_l \leftarrow \shrink\left(\bb_j - B_j\uu_{l-1} + \frac{\blambda_{k}}{\mu_{k-1}}, \frac{1}{\mu_{k-1}}\right)$
+\STATE $\uu_l \leftarrow B_j^\dagger \left(\bb_j - \zz_{l} + \frac{\blambda_{k-1}}{\mu_{k-1}} \right) $
 \ENDWHILE
 \STATE $\ww_k \leftarrow \uu_l$; $\ee_k \leftarrow \zz_l$
-\STATE $\yy_{k} \leftarrow \yy_{k-1} + \mu_{k-1} (\bb_j - B_j\ww_{k} - \e_{k})$
+\STATE $\blambda_{k} \leftarrow \blambda_{k-1} + \mu_{k-1} (\bb_j - B_j\ww_{k} - \e_{k})$
 \STATE $\mu_{k} \leftarrow \rho\mu_{k-1}$
 \ENDWHILE
 \STATE Update $\ee_j$, $\tau_j$, and $J_j$
@@ -536,21 +533,21 @@ gains achieved by our proposed implementations over previously published impleme
 \begin{algorithmic}[1]
 \begin{small}
 \STATE {\bf Input:} $\bb \in \Re^m$, $A \in \Re^{m \times n}$,
-$\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\y_1 =
+$\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blambda_1 =
 \mathbf{0}$.
 \WHILE{not converged ($k = 1,2,\ldots$)}
 \STATE $\e_{k+1} = \shrink(\bb - A\x_k +
-\frac{1}{\mu}\y_k, \frac{1}{\mu})$;
+\frac{1}{\mu}\blambda_k, \frac{1}{\mu})$;
 \STATE $t_1\leftarrow 1$, $\z_1 \leftarrow \x_k$, $\w_1 \leftarrow \x_k$;
 \WHILE{not converged ($l = 1,2,\ldots$)}
 \STATE $\w_{l+1} \leftarrow \shrink(\z_l +
 \frac{1}{\gamma}A^T(\bb - A\z_l - \e_{k+1} +
-\frac{1}{\mu}\y_k), \frac{1}{\mu\gamma})$;
+\frac{1}{\mu}\blambda_k), \frac{1}{\mu\gamma})$;
 \STATE $t_{l+1} \leftarrow \frac{1}{2}( 1 +
 \sqrt{1+4t_l^2})$;
 \STATE $\z_{l+1} \leftarrow \w_{l+1} + \frac{t_l - 1}{t_{l+1}}(\w_{l+1} - \w_l)$;
 \ENDWHILE
-\STATE $\x_{k+1} \leftarrow \w_{l}$,  \; $\y_{k+1} \leftarrow \y_k + \mu (\bb - A\x_{k+1} - \e_{k+1})$;
+\STATE $\x_{k+1} \leftarrow \w_{l}$,  \; $\blambda_{k+1} \leftarrow \blambda_k + \mu (\bb - A\x_{k+1} - \e_{k+1})$;
 \ENDWHILE \STATE
 {\bf Output:} $\x^* \leftarrow \x_k, \e^* \leftarrow \e_k$.
 \end{small}

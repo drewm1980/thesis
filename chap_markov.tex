@@ -62,12 +62,12 @@ training images of each subject $i$ under varying illuminations are stacked as
 columns of a matrix $A_i \in \Re^{m\times n_i}$. Concatenating the training
 images of all $K$ subjects gives a large matrix $A = [A_1,A_2,\ldots,A_K] \in
 \Re^{m\times n}$, ($n = \sum_i n_i$).  \cite{Wright2009-PAMI} then represents
-the given test image $\y \in \Re^m$ as a sparse linear combination $A \x$ of
-all images in the data set, plus a sparse error $\e$ due to occlusion: $\y = A
+the given test image $\bb \in \Re^m$ as a sparse linear combination $A \x$ of
+all images in the data set, plus a sparse error $\e$ due to occlusion: $\bb = A
 \x + \e$. The sparse coefficients $\x$ and sparse error $\e$ are recovered by
 solving the $\ell^1$-norm minimization problem
 \begin{equation}
-\min \|\x\|_1 + \|\e\|_1\quad \textup{s.t.} \quad \y = A \x + \e.
+\min \|\x\|_1 + \|\e\|_1\quad \textup{s.t.} \quad \bb = A \x + \e.
 \end{equation}
 This approach has demonstrated good potential in handling occlusion, especially
 when the dimension of the image signal is high \cite{Wright2008-IT}.
@@ -98,16 +98,16 @@ prior information into the sparse representation framework, significantly
 improving its robustness to all types of realistic occlusions.
 
 \section{Motivation for imposing local spatial continuity for sparse error correction}
-Before introducing a model for the contiguous occlusion and incorporating it into a solution for face recognition, let us first justify why imposing spatial continuity could potentially help with finding the sparse errors (in our case, the occluded pixels). As discussed above, face recogntion can be cast as a problem of recovering an input signal $\x\in \Re^n$ from corrupted measurements $\y = A\x+\e$, where $A\in
+Before introducing a model for the contiguous occlusion and incorporating it into a solution for face recognition, let us first justify why imposing spatial continuity could potentially help with finding the sparse errors (in our case, the occluded pixels). As discussed above, face recogntion can be cast as a problem of recovering an input signal $\x\in \Re^n$ from corrupted measurements $\bb = A\x+\e$, where $A\in
 \Re^{m\times n}$ with $m>n$. Let $F$ be a matrix whoose rows span the left nullspace of
 $A$\footnote{$\mathrm{rank}(F) = m - \mathrm{rank}(A)$ and $FA=0$}. Applying $F$ to both sides of the measurement equation gives \vspace{0mm}
 \begin{displaymath}
-\tilde{\y} \doteq F \y = F(A \x+ \e) = F\e. \vspace{0mm}
+\tilde{\bb} \doteq F \bb = F(A \x+ \e) = F\e. \vspace{0mm}
 \end{displaymath}
 So the recovery problem is reduced to the problem of reconstructing
 a sparse error vector $\e$ from the observation $F \e$. While this problem is very hard in general, in many situations solving the convex relaxation \vspace{0mm}
 \begin{equation*}
-\min \| \mathbf{v} \|_1 \quad \textup{s.t.} \quad F \mathbf{v} = \tilde{\y} = F \e \vspace{0mm}
+\min \| \mathbf{v} \|_1 \quad \textup{s.t.} \quad F \mathbf{v} = \tilde{\bb} = F \e \vspace{0mm}
 \end{equation*}
 exactly recovers $\e$.
 
@@ -174,23 +174,23 @@ We normalize the range of error values to $[0,1]$, and approximate the log-likel
 This corresponds to the piecewise-constant likelihood function $p(\e\mid \s)$ pictured in Figure \ref{fig:likelihood}. While the precise form of the approximation is not essential to the success of the method, in this model $\tau$ effectively acts as a threshold for considering pixels as errors, subject to the spatial continuity prior. The constant $\tau$ should be set so that it is larger than the noise level and within-class variability of the non-occluded pixels, but smaller than the magnitude of the errors due to occlusion.  In Section \ref{sec:tau} we will see how this threshold can be chosen adaptively without prior knowledge of the statistics of the training and test images.
 
 \subsection{Error correction with both MRF and sparsity}
-Now consider an image $\y$ of subject $k$. Without occlusion, it can be well-approximated as a linear combination of training images of the same subject: $\y = A_k \x_k$. If, however, a portion of the image is occluded, we need to discard that portion in order for the same linear equation to hold. Thus, a natural goal is to identify the most likely portion  on which $\y = A_k \x_k$ holds for some $\x_k$. In terms of the error model introduced above, we want to solve the following optimization problem:
+Now consider an image $\bb$ of subject $k$. Without occlusion, it can be well-approximated as a linear combination of training images of the same subject: $\bb = A_k \x_k$. If, however, a portion of the image is occluded, we need to discard that portion in order for the same linear equation to hold. Thus, a natural goal is to identify the most likely portion  on which $\bb = A_k \x_k$ holds for some $\x_k$. In terms of the error model introduced above, we want to solve the following optimization problem:
 \begin{equation}
-\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_k \x_k + \e.
+\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \bb = A_k \x_k + \e.
 \end{equation}
 This is a difficult nonconvex optimization problem in many variables $\s, \e, \x_k$. We will locally optimize this objective function by iterating between estimating the support $\s$ and estimating the regressor $\x_k$, with the other fixed.
 
 \paragraph{1. Estimating Linear Regressor $\x_k$ with Sparsity.}
-Given an initial estimate of the error support $\s$,\footnote{We initialize the algorithm with empty error support ($\s = -1$).} we simply exclude that part, and use the rest of the image to estimate the linear regressor $\x_k$. Let $A_k^*$ and $\y^*$ denote $A_k$ and $y_k$ with the rows marked as occlusion ($\s = -1$) removed.
-If estimate of $\s$ was exactly correct, then we would have $\y^* = A_k^* \x_k$ for some $\x_k$, and could simply estimate $\x_k$ by linear regression. However, it is more reasonable to assume that the intermediate estimate of the support $\s$ could be wrong in a subset of its entries, and some pixels in $\y^*$ might be still corrupted. If $\s$ is a reasonable guess, however, these violations will be relatively few and we can estimate $\x_k$ via the following convex program:
+Given an initial estimate of the error support $\s$,\footnote{We initialize the algorithm with empty error support ($\s = -1$).} we simply exclude that part, and use the rest of the image to estimate the linear regressor $\x_k$. Let $A_k^*$ and $\bb^*$ denote $A_k$ and $y_k$ with the rows marked as occlusion ($\s = -1$) removed.
+If estimate of $\s$ was exactly correct, then we would have $\bb^* = A_k^* \x_k$ for some $\x_k$, and could simply estimate $\x_k$ by linear regression. However, it is more reasonable to assume that the intermediate estimate of the support $\s$ could be wrong in a subset of its entries, and some pixels in $\bb^*$ might be still corrupted. If $\s$ is a reasonable guess, however, these violations will be relatively few and we can estimate $\x_k$ via the following convex program:
 \begin{equation}
-(\hat{\x}_k,\hat{\e}^*) = \arg\min \|\e^*\|_1  \; \textup{ s.t. } \; \y^* = A_k^*\x+\e^*, \x\geq
+(\hat{\x}_k,\hat{\e}^*) = \arg\min \|\e^*\|_1  \; \textup{ s.t. } \; \bb^* = A_k^*\x+\e^*, \x\geq
 0.
 \end{equation}
-That is, we look for a regressor $\x_k$ such that the $\ell^1$-norm of the error $\e^*$ is minimized. The complete error vector $\e \in \Re^m$ can then be estimated as $\hat \e = \y - A \hat{\x}_k$.
+That is, we look for a regressor $\x_k$ such that the $\ell^1$-norm of the error $\e^*$ is minimized. The complete error vector $\e \in \Re^m$ can then be estimated as $\hat \e = \bb - A \hat{\x}_k$.
 
 \paragraph{2. Estimating Error Support $\s$ with MRF.} 
-Given an initial estimate of the regressor $\x_k$ and corresponding estimate of the error vector $\e = \y - A \x_k$, we may re-estimate the support vector $\s$ as the one that maximizes the log likelihood $\log p(\e,\s)$:\vspace{0mm}
+Given an initial estimate of the regressor $\x_k$ and corresponding estimate of the error vector $\e = \bb - A \x_k$, we may re-estimate the support vector $\s$ as the one that maximizes the log likelihood $\log p(\e,\s)$:\vspace{0mm}
 \begin{equation}
 \hat{\s} = \arg\hspace{-2mm}\max_{\s \in \{-1,1\}^m}\hspace{-2mm} \sum_{(i,j)\in E} \hspace{-2mm} \lambda \s[i]\s[j] +
 \sum_{i\in V} \log p(\e[i] | \s[i]). \vspace{0mm}
@@ -199,7 +199,7 @@ This is an integer programming problem, but due to the special structure of the 
 
 \vspace{1 em}
 Empirically, we observe that the above iteration between steps {\bf1.} and {\bf2.} converges in about five or six iterations. Once we have obtained final estimates of the error support $\s$, error values $\e$, and regressors $\x$, we still need to identify the subject based on some measure of goodness-of-fit within the unoccluded region. Here, we choose to assign the test image to the class that minimizes the $\ell^1$-error in that region, divided by the square of the number of unoccluded pixels:\vspace{0mm}
-$$\text{identity}(\y) = \arg \min_k \; \frac{\| \y^* - A_k^* \x_k \|_1}{|\{ i \mid \s_k[i] = -1 \}|^2}. \vspace{0mm}$$
+$$\text{identity}(\bb) = \arg \min_k \; \frac{\| \bb^* - A_k^* \x_k \|_1}{|\{ i \mid \s_k[i] = -1 \}|^2}. \vspace{0mm}$$
 Here, squaring encourages the algorithm to choose solutions with as few occluded pixels as possible.
 %While the precise form of the classification heuristic is less important than the correct estimation of the occlusion, we note in passing that the scaling is correct: both the numerator and denominator are linear in the number of image pixels.
 
@@ -210,7 +210,7 @@ We summarize the overall procedure as Algorithm 1 below. Since this algorithm op
 \begin{algorithmic}[1]
 \STATE {\bf Input:} A matrix of normalized training samples $A =
 [A_1,A_2,\ldots,A_K] \in \Re^{m\times n}$ for $K$ classes, a test
-sample $\y \in \Re^{m}$.
+sample $\bb \in \Re^{m}$.
 
 \FOR{each subject $k$}
 
@@ -218,14 +218,14 @@ sample $\y \in \Re^{m}$.
 
 \STATE {\bf repeat}
 
-\STATE \hspace{3mm}$A_k^* = A_k[\s^{(t-1)}_k=-1,\, :\, ]$, $\y^* =
-\y[s^{(t-1)}_k=-1]$;
+\STATE \hspace{3mm}$A_k^* = A_k[\s^{(t-1)}_k=-1,\, :\, ]$, $\bb^* =
+\bb[s^{(t-1)}_k=-1]$;
 
 \STATE \hspace{3mm}Solve the convex program\\
 \hspace{5mm} $(\hat{\x}_k,\hat{\e}^*) \;=\; \arg\min \|\e^*\|_1 $\\
-\hspace{24mm} $\mathrm{ s.t. } \quad \y^* = A_k^*\x+\e^*, \, \x\geq 0;$
+\hspace{24mm} $\mathrm{ s.t. } \quad \bb^* = A_k^*\x+\e^*, \, \x\geq 0;$
 
-\STATE \hspace{3mm}$\hat{\e}_k\leftarrow \y-A_k\hat{\x}_k$;
+\STATE \hspace{3mm}$\hat{\e}_k\leftarrow \bb-A_k\hat{\x}_k$;
 
 \STATE \hspace{3mm}Update error support via graph cuts:\vspace{0mm}
 $$\s^{(t)}_k = \arg\hspace{-4mm}\max_{\s\in\{-1,1\}^m}\hspace{-2mm}\sum_{i,j\in
@@ -233,11 +233,11 @@ E}\hspace{-2mm}{\lambda} \s[i]\s[j]+\sum_{i\in
 V}\log\big(p(\hat{\e}_k[i]|\s[i])\big);$$\vspace{0mm}
 \STATE {\bf until} maximum iterations or convergence.
 
-\STATE Compute the normalized error $$\mathbf{r}_k(\y) =
-\frac{\|\y^*-A_k^*\hat{\x}_k\|_1}{|\{ i \mid \s_k[i] = -1 \}|^2}. \vspace{0mm}$$
+\STATE Compute the normalized error $$\mathbf{r}_k(\bb) =
+\frac{\|\bb^*-A_k^*\hat{\x}_k\|_1}{|\{ i \mid \s_k[i] = -1 \}|^2}. \vspace{0mm}$$
 \ENDFOR
 
-\STATE {\bf Output:} identity$(\y) = \arg\min_k \r_k(\y)$.
+\STATE {\bf Output:} identity$(\bb) = \arg\min_k \r_k(\bb)$.
 \end{algorithmic}
 \end{algorithm}
 
@@ -587,7 +587,7 @@ low.}\label{fig:AR_result} \vspace{0in}
 We next test our algorithm's ability to reject invalid test images
 (subjects not present in the database) despite significant occlusion.
 We declare an image to be invalid if the smallest normalized error
-$\min_k \| \y^* - A_k^* \hat{\x}_k \|_1 / | \{ i \mid \s_k[i] = -1 \} |^2$ exceeds a threshold.
+$\min_k \| \bb^* - A_k^* \hat{\x}_k \|_1 / | \{ i \mid \s_k[i] = -1 \} |^2$ exceeds a threshold.
 We divide the Extended Yale B dataset into two parts.
 The training database contains the images of the first 19 subjects, while the other 19 subjects
 are considered invalid and should be rejected. Figure \ref{fig:yale-roc} plots

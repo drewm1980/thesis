@@ -4,32 +4,32 @@
 
 The problem at hand is 
 \begin{equation}
-\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 \quad \mathrm{s.t.} \quad \y = A\x + \e,
+\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 \quad \mathrm{s.t.} \quad \bb = A\x + \e,
 \end{equation}
 where $\x \in Re^n$, $\e \in Re^m$, and $W \in Re^{m \times m}$ is a fixed diagonal matrix with non-negative entries. 
 \smallbreak
-We set $f(\x,\e) = \|\x\|_1 + \|W\e\|_1$, and $h(\x,\e) = \y - A\x - \e$. Clearly, $f$ and $h$ are convex functions in $\x$ and $\e$. In the ALM formulation, the basic steps in each iteration can be summarized as follows:
+We set $f(\x,\e) = \|\x\|_1 + \|W\e\|_1$, and $h(\x,\e) = \bb - A\x - \e$. Clearly, $f$ and $h$ are convex functions in $\x$ and $\e$. In the ALM formulation, the basic steps in each iteration can be summarized as follows:
 \begin{equation}
 \left \{ 
 \begin{array}{lll}
-(\x_{k+1},\e_{k+1}) & = & \arg\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \bl_k, \y - A\x - \e \rangle + \frac{\mu_k}{2}\|\y - A\x - \e\|_2^2 \\
-\bl_{k+1} & = & \bl_k + \mu_k (\y - A\x_{k+1} - \e_{k+1}) \\
+(\x_{k+1},\e_{k+1}) & = & \arg\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e\|_2^2 \\
+\blambda_{k+1} & = & \blambda_k + \mu_k (\bb - A\x_{k+1} - \e_{k+1}) \\
 \mu_{k+1} & = & \rho\cdot\mu_k
 \end{array} 
 \right . ,
 \end{equation}
-where $\bl_k$'s represent the Lagrange multipliers, and $\{\mu_k\}$ is a monotonically increasing positive sequence ($\rho > 1$).
+where $\blambda_k$'s represent the Lagrange multipliers, and $\{\mu_k\}$ is a monotonically increasing positive sequence ($\rho > 1$).
 \smallbreak
 We focus our attention on the non-trivial first step:
 \begin{equation}
-\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \bl_k, \y - A\x - \e \rangle + \frac{\mu_k}{2}\|\y - A\x - \e\|_2^2.
+\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e\|_2^2.
 \label{eqn:alm}
 \end{equation}
 Since the cost function is convex in $(\x,\e)$, the optimality conditions can be written as
 \begin{equation}
 \begin{array}{lll}
-\p - A^T\bl_k + \mu_k\,A^T(A\x + \e - \y) & = & \mathbf{0}, \\
-W\q - \bl_k + \mu_k\, (A\x + \e -\y) & = & \mathbf{0},
+\p - A^T\blambda_k + \mu_k\,A^T(A\x + \e - \bb) & = & \mathbf{0}, \\
+W\q - \blambda_k + \mu_k\, (A\x + \e -\bb) & = & \mathbf{0},
 \end{array}
 \end{equation}
 where $\p \in \partial \|\x\|_1$, and $\q \in \partial \|\e\|_1$. Since it is difficult to solve these equations to obtain a closed-form solution for the optimal $\x$ and $\e$, we attempt to minimize \eqref{eqn:alm} by an iterative procedure. 
@@ -38,8 +38,8 @@ Instead of minimizing wrt $\x$ and $\e$ simultaneously, we adopt an alternating 
 \begin{equation}
 \left \{
 \begin{array}{lll}
-\e_{j+1} & = & \arg \min_{\e}  \|W\e\|_1 + \langle \bl_k, \y - A\x_j - \e \rangle + \frac{\mu_k}{2}\|\y - A\x_j - \e\|_2^2 \\
-\x_{j+1} & = & \arg \min_{\x} \|\x\|_1 + \langle \bl_k, \y - A\x - \e_{j+1} \rangle + \frac{\mu_k}{2}\|\y - A\x - \e_{j+1}\|_2^2
+\e_{j+1} & = & \arg \min_{\e}  \|W\e\|_1 + \langle \blambda_k, \bb - A\x_j - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x_j - \e\|_2^2 \\
+\x_{j+1} & = & \arg \min_{\x} \|\x\|_1 + \langle \blambda_k, \bb - A\x - \e_{j+1} \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e_{j+1}\|_2^2
 \end{array}
 \right .
 \label{eqn:alt}
@@ -52,27 +52,27 @@ where $\alpha > 0$.\footnote{If $\alpha = 0$, then the $\shrink(.)$ operator red
 \smallbreak
 Now, the first step in \eqref{eqn:alt} has the following closed-form solution:
 \begin{equation}
-\,[\e_{j+1}]_i  =  \shrink \left(\left[ \y + \frac{1}{\mu_k}\bl_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m,
+\,[\e_{j+1}]_i  =  \shrink \left(\left[ \bb + \frac{1}{\mu_k}\blambda_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m,
 \end{equation}
 where $[\e]_i$ represents the $i$th component of $\e$.
 \smallbreak
 It is tough to come up with a closed-form expression for the solution to the second step in \eqref{eqn:alt}. So, we solve it by yet another iterative procedure.\footnote{We basically use the APG to solve this.} Given $\x_k$ close to $\x$, we construct a first-order approximation to the quadratic term in the cost function in \eqref{eqn:alm} as follows:
 \begin{equation}
-\|\y - A\x - \e\|_2^2 \approx \|\y - A\x_k - \e\|_2^2 + \langle 2A^T(A\x_k+\e-\y), \x - \x_k \rangle + \tau\|\x-\x_k\|_2^2,
+\|\bb - A\x - \e\|_2^2 \approx \|\bb - A\x_k - \e\|_2^2 + \langle 2A^T(A\x_k+\e-\bb), \x - \x_k \rangle + \tau\|\x-\x_k\|_2^2,
 \end{equation}
 where $\tau \geq \lambda_\mathrm{max} (A^TA) = \sigma^2_\mathrm{max}(A)$. With this approximation, the second step of \eqref{eqn:alt} can be solved iteratively using soft-thresholding as derived below:
 \begin{IEEEeqnarray}{rCl}
-& & \arg \min_\x \, \|\x\|_1+ \langle \bl_k, \y - A\x - \e \rangle + \frac{\mu_k}{2} \left(\|\y - A\x_k - \e\|_2^2 + \langle 2A^T(A\x_k+\e-\y), \x - \x_k \rangle + \tau\|\x-\x_k\|_2^2 \right) \IEEEeqnarraynumspace \\
-& = & \arg \min_\x \, \frac{2}{\mu_k}\|\x\|_1 + \left \langle 2A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \tau\|\x-\x_k\|_2^2 \\
-& = & \arg \min_\x \, \frac{2}{\mu_k}\|\x\|_1 - \left \langle 2\tau \x_k - 2A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \tau\|\x\|_2^2 \\
-& = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 - \left \langle \x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right), \x \right \rangle + \frac{1}{2}\|\x\|_2^2 \\
-& = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 + \frac{1}{2}\left \| \x - \left(\x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right) \right)\right \|_2^2 \\
-& = & \shrink\left(\x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)
+& & \arg \min_\x \, \|\x\|_1+ \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2} \left(\|\bb - A\x_k - \e\|_2^2 + \langle 2A^T(A\x_k+\e-\bb), \x - \x_k \rangle + \tau\|\x-\x_k\|_2^2 \right) \IEEEeqnarraynumspace \\
+& = & \arg \min_\x \, \frac{2}{\mu_k}\|\x\|_1 + \left \langle 2A^T\left(A\x_k + \e - \bb - \frac{1}{\mu_k}\blambda_k\right), \x \right \rangle + \tau\|\x-\x_k\|_2^2 \\
+& = & \arg \min_\x \, \frac{2}{\mu_k}\|\x\|_1 - \left \langle 2\tau \x_k - 2A^T\left(A\x_k + \e - \bb - \frac{1}{\mu_k}\blambda_k\right), \x \right \rangle + \tau\|\x\|_2^2 \\
+& = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 - \left \langle \x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \bb - \frac{1}{\mu_k}\blambda_k\right), \x \right \rangle + \frac{1}{2}\|\x\|_2^2 \\
+& = & \arg \min_\x \, \frac{1}{\mu_k\tau}\|\x\|_1 + \frac{1}{2}\left \| \x - \left(\x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \bb - \frac{1}{\mu_k}\blambda_k\right) \right)\right \|_2^2 \\
+& = & \shrink\left(\x_k - \frac{1}{\tau}A^T\left(A\x_k + \e - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right)
 \end{IEEEeqnarray}
 \smallbreak
 Thus, the iteration to solve the second step of \eqref{eqn:alt} can be written as:
 \begin{equation}
-\x_{l+1}  =  \shrink\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + \e_{j+1} - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right).
+\x_{l+1}  =  \shrink\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + \e_{j+1} - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right).
 \end{equation}
 Thus, the entire algorithm can be summarized as Algorithm \ref{alg:exact}.
 \begin{algorithm}[h]
@@ -80,15 +80,15 @@ Thus, the entire algorithm can be summarized as Algorithm \ref{alg:exact}.
 \begin{algorithmic}
 \WHILE{not converged}
 \WHILE{not converged}
-\STATE $[\e_{j+1}]_i  =  \shrink \left(\left[ \y + \frac{1}{\mu_k}\bl_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m$
+\STATE $[\e_{j+1}]_i  =  \shrink \left(\left[ \bb + \frac{1}{\mu_k}\blambda_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m$
 \STATE $t_1 \leftarrow 1$, $\z_1 \leftarrow \x_j$
 \WHILE{not converged}
-\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l + \e_{j+1} - \y - \frac{1}{\mu_k}\bl_k\right), \frac{1}{\mu_k\tau}\right)$
+\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l + \e_{j+1} - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right)$
 \STATE $t_{l+1} = 0.5\left( 1 + \sqrt{1+4t_l^2}\right)$
 \STATE $\z_{l+1} = \x_{l+1} + \frac{t_l - 1}{t_{l+1}}(\x_{l+1} - \x_l)$
 \ENDWHILE
 \ENDWHILE
-\STATE $\bl_{k+1} = \bl_k + \mu_k (\y - A\x_{k+1} - \e_{k+1})$
+\STATE $\blambda_{k+1} = \blambda_k + \mu_k (\bb - A\x_{k+1} - \e_{k+1})$
 \STATE $\mu_{k+1} = \rho\cdot\mu_k$
 \ENDWHILE
 \end{algorithmic}

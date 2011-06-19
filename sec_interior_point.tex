@@ -4,14 +4,14 @@
 
 This note outlines the derivation of an interior point solver for the optimization problem
 \begin{equation}
-\min_{\x,\e,\q}\;  \| \e \|_1 \quad \mathrm{subj} \quad \y = A \x + B \q + \e, \quad \x \ge \0.
+\min_{\x,\e,\q}\;  \| \e \|_1 \quad \mathrm{subj} \quad \bb = A \x + B \q + \e, \quad \x \ge \0.
 \end{equation}
-for use in image alignment. Here, $\x \in \Re^n$, $\q \in \Re^p$, $\y, \e \in \Re^m$, so $A \in \Re^{m \times n}$, $B \in \Re^{m\times p}$. Our development will follow Chapter 11 of Boyd and Vandenbergh. We begin by recasting this as an inequality-constrained linear program in the usual fashion
+for use in image alignment. Here, $\x \in \Re^n$, $\q \in \Re^p$, $\bb, \e \in \Re^m$, so $A \in \Re^{m \times n}$, $B \in \Re^{m\times p}$. Our development will follow Chapter 11 of Boyd and Vandenbergh. We begin by recasting this as an inequality-constrained linear program in the usual fashion
 \begin{eqnarray*}
 \min \qquad 1^* \u \\
 \subj \qquad -\x &\le& \0 \\
-\y - A\x - B\q &\le& \u \\
--\y + A \x + B\q &\le& \u
+\bb - A\x - B\q &\le& \u \\
+-\bb + A \x + B\q &\le& \u
 \end{eqnarray*}
 To the three inequality constraints associate Lagrange multiplier vectors $\blambda_{x,+} \in \Re^n$, $\blambda_{e,+}, \blambda_{e,-} \in \Re^m$. Here, we have simply eliminated the equality constraint. The combined primal variables are 
 \begin{equation}
@@ -31,7 +31,7 @@ A  &   B  &  - \Id_{m \times m} \\
 \end{equation}
 Define 
 \begin{equation}
-\g \doteq \left[ \, \0_n \;\; \y^* \;\, -\y^* \, \right]^* \in \Re^{n + 2m}
+\g \doteq \left[ \, \0_n \;\; \bb^* \;\, -\bb^* \, \right]^* \in \Re^{n + 2m}
 \end{equation}
 The inequality constraint is then $$\Phi \tilde \x + \g \le \0_{n+2m}.$$
 The combined dual variables are 
