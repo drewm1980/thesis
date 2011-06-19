@@ -1,11 +1,5 @@
 \section{Derivation of the Augmented Lagrange Multiplier (ALM) Method for $\ell^1$-norm minimization}
 
-%\newcommand{\bl}{\boldsymbol{\lambda}}
-%\newcommand{\p}{\mathbf{p}}
-%\newcommand{\q}{\mathbf{q}}
-%\newcommand{\shrink}{\mathrm{shrink}}
-%\newcommand{\z}{\mathbf{z}}
-\newcommand{\sgn}{\mathrm{sign}}
 
 \subsection{Error correction}
 
@@ -45,15 +39,15 @@ Instead of minimizing wrt $\x$ and $\e$ simultaneously, we adopt an alternating 
 \begin{equation}
 \left \{
 \begin{array}{lll}
-\e_{j+1} & = & \arg \min_\e  \|W\e\|_1 + \langle \bl_k, \y - A\x_j - \e \rangle + \frac{\mu_k}{2}\|\y - A\x_j - \e\|_2^2 \\
-\x_{j+1} & = & \arg \min_\x \|\x\|_1 + \langle \bl_k, \y - A\x - \e_{j+1} \rangle + \frac{\mu_k}{2}\|\y - A\x - \e_{j+1}\|_2^2
+\e_{j+1} & = & \arg \min_{\e}  \|W\e\|_1 + \langle \bl_k, \y - A\x_j - \e \rangle + \frac{\mu_k}{2}\|\y - A\x_j - \e\|_2^2 \\
+\x_{j+1} & = & \arg \min_{\x} \|\x\|_1 + \langle \bl_k, \y - A\x - \e_{j+1} \rangle + \frac{\mu_k}{2}\|\y - A\x - \e_{j+1}\|_2^2
 \end{array}
 \right .
 \label{eqn:alt}
 \end{equation}
 Before discussing the solution to the above iterations, we introduce the soft-thresholding (or shrinkage) operator for scalars as follows:
 \begin{equation}
-\shrink(x,\alpha) = \sgn(x)\cdot \max\{|x| - \alpha, 0\},
+\shrink(x,\alpha) = \sign(x)\cdot \max\{|x| - \alpha, 0\},
 \end{equation}
 where $\alpha > 0$.\footnote{If $\alpha = 0$, then the $\shrink(.)$ operator reduces to the identity operator.} When applied to vectors or matrices, the $\shrink(.)$ operator acts elementwise. 
 \smallbreak
