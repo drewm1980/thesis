@@ -80,7 +80,7 @@ a wide variety of practical indoor and outdoor illuminations.
 be Enforced?} 
 \label{sec:positivity}
 One critical issue in linear illumination models
-is whether to enforce nonnegativity in the coefficients $\x$,
+is whether to enforce non-negativity in the coefficients $\x$,
 i.e. whether to model illumination using a cone or a subspace.
 Some authors, i.e. \cite{Basri2003-PAMI}, have chosen to allow
 negative components in the coefficient vector $\x$ when
@@ -113,7 +113,7 @@ over-fitting), we decided to enforce non-negativity of the coefficients.
 Non-negative combinations of images are guaranteed to correspond to physically
 plausible images.  Because we have a flexible acquisition system, we can
 directly generate a set of illuminations that span most of the illumination
-cone, without resorting to negative coefficients and risking overfitting.  In
+cone, without resorting to negative coefficients and risking over-fitting.  In
 situations where many training illuminations were captured (and the ambient
 light image is subtracted), we typically enforce that the coefficients $\x$ be
 non-negative.  This additional restriction of the solution has also been found

@@ -1,6 +1,7 @@
 \chapter{Future work}
 \label{chap:future}
 
+
 \section{Introduction}
 
 %solving this problem (speed) will be a major
@@ -163,24 +164,14 @@ Not all of the above strategies may turn out to be feasible; in particular, the 
 %\end{itemize} 
 
 \section{Conclusion}
-Accelerating the algorithm to the point where it can be used for access control
-will initially be the highest priority.  Almost all parts of the algorithm will
-need to be re-implemented to take advantage of hardware specific optimizations
-on a new architecture, and this will be a major undertaking.  However this is
-effort is necessary not only to demonstrate that the recognition system can be
-applied to access control, but also so that the L1 optimization routines we use
-can be useful to others in the vision community.  Furthermore a faster
-implementation will enable me to perform experiments in the optimization of the
-training illuminations at a granularity that has never been attempted before.
-It will be very interesting to see how much a more thoroughly optimized set of
-training illuminations can improve the recognition rate, and what those
-illuminations look like.  If the optimization of the training illuminations
-reliably converges to a particular set of illuminations, this work could settle
-once and for all how training illuminations for face recognition should be
-selected.  The robustness of the recognition algorithm to occlusions can likely
-be improved by integrating our new MRF results with our existing iterative
-alignment algorithm, and the quality of the training images can be improved
-through improved hardware integration.  The overall goal of the project is to
-deliver a face recognition system that is easy to implement, is robust to
-illumination variation, mild occlusions, and mild pose variations, and is
-scalable up to hundreds of users.
+
+%In other words, the algorithm 
+%extends Lucas-Kanade iterative alignment \cite{LucasB1981} to use the
+%$\ell_1$-norm as a robust error function, while simultaneously estimating
+%the coefficients of the linear illumination model $A_i\x$.  
+
+%We argue that in addition to vendor supplied libraries
+%that attempt to leverage both levels of concurrency of the GPU, there is a need
+%for standard libraries that operate at the SM level of concurrency.
+
+

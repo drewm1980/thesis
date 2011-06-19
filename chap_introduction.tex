@@ -87,9 +87,9 @@ variables. However, in the context of this thesis, we will be primarily concerne
 the class of optimization problems that minimize the $\ell_1$-norm of a vector that
 is affine in the optimization variables, under constraints that are also affine in the optimization variables.
 One common sparse representation formulation finds the minimum $\ell_1$-norm solution to an
-underdetermined linear system $\bb=A\xx$:
+underdetermined linear system $\bb=A\x$:
 %
-\begin{equation} \min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx.
+\begin{equation} \min \|\x\|_1\quad \mbox{ subj. to }\quad \bb = A\x.
 \label{eqn:l1min} \end{equation}
 %
 It is now well established that, under certain conditions
@@ -104,12 +104,12 @@ the matrices into a larger matrix $A = [A_1, \cdots, A_K]\in\Re^{m\times n}$, an
 query image into a vector $\bb\in\Re^m$, \emph{sparsity-based
 classification} (SBC) solves the following minimization problem:
 \begin{equation}
-\min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
+\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
 \label{eqn:l1min_denoise}
 \end{equation}
-If the sparsest solutions for $\x$ and $\e$ are recovered, $\ee$ provides a
+If the sparsest solutions for $\x$ and $\e$ are recovered, $\e$ provides a
 means to compensate for pixels that are corrupted due to occlusion of some part of the query
-image, and the dominant nonzero coefficients of $\xx$ reveal the membership of
+image, and the dominant nonzero coefficients of $\x$ reveal the membership of
 $\bb$ based on the training image labels associated with $A$. 
 If $A$ contains images of each subject taken under different illuminations, 
 $A_i\x_i$ acts as a linear illumination model for the test image $\bb$.  The motivation

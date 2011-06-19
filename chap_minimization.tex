@@ -2,20 +2,94 @@
 \label{chap:minimization}
 
 \section{Introduction}
-While the previous chapters were dedicated to presenting a design for a highly robust
-recognition pipeline, the remaining chapters are dedicated to optimized implementation
-of the pipeline presented in Chapter \ref{chap:pipeline}.  To recap, the core of the recognition
-pipeline consisted of solving $\ell_1$ minimization problems with the following to forms:
+While the previous chapters were dedicated to presenting a design for a highly
+robust recognition pipeline, the remaining chapters are dedicated to speed optimized
+algorithms and implementations of the pipeline presented in Chapter
+\ref{chap:pipeline}.  
 
-\begin{equation}
-\min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
-\label{eqn:l1min_denoise}
-%\tag{\ref{eqn:l1min_denoise}}
-\end{equation}
+% Interior Point Intro
+Traditionally, $\ell_1$-minimization (a.k.a.
+basis pursuit (BP)) has been formulated as a linear program
+\cite{ChenS2001-SIAM}. 
+Several variations of the solution are also well known
+in optimization, including a noisy approximation via quadratic programming
+called the LASSO \cite{TibshiraniR1996} and truncated Newton interior-point
+method (TNIPM) \cite{KimS2007}.
+Recently, a number of accelerated algorithms have been proposed that
+explicitly take advantage of the special structure of $\ell_1$-minimization
+problems \cite{LorisI2009,YangA2010-ICIP}. 
+The first published prototype of the face recognition pipeline utilized a customized
+interior point solver \cite{WagnerA2009-CVPR}.  
+
+
+% ALM intro
+One of the drawbacks of most interior-point methods for $\ell_1$-minimization
+is that they require the solution sequence to follow an interior path via
+gradient descent or conjugate gradient methods, which are computationally
+expensive.  To mitigate these issues, an approach called \emph{Homotopy} has
+been recently studied to accelerate the speed of $\ell_1$-minimization
+\cite{OsborneM2000,EfronB2004,MalioutovD2005,DonohoD2006}.  Although Homotopy
+can be shown to exactly estimate BP when the solution is sufficiently sparse
+\cite{DonohoD2006}, the algorithm still involves computationally expensive
+operations such as matrix-matrix multiplication and linear least-squares
+problems with varying $A$ matrices.  To overcome this, a state-of-the-art
+$\ell_1$-minimization solution based on \emph{augmented Lagrangian methods}
+(ALM) \cite{BertsekasD2003,YangA2010-ICIP} has been developed.
+
+The ALM algorithm belongs to a
+category of approximate $\ell_1$-minimization solutions called \emph{iterative
+shrinkage-thresholding} (IST) methods \cite{WrightS2008,BeckA2009}.  IST
+algorithms mainly involve elementary operations such as vector algebra and
+matrix-vector multiplication. Therefore, when the dimension of the problem
+becomes high, IST-type algorithms are particularly suitable for hardware
+systems with a high degree of concurrency. In \cite{YangA2010-ICIP}, the
+authors showed that ALM is able to significantly improve the solver speed,
+while achieving estimation accuracy competitive with other $\ell_1$-minimization
+solutions. Therefore, we choose ALM as the core algorithm for
+implementation of $\ell_1$-minimization in the parallel face recognition pipeline.
+
+
+%The second published prototype of the face recognition pipeline, as presented in 
+%Chapter \ref{chap:pipeline} and in \cite{WagnerA2011-PAMI}, achieved a significant
+%increase in recognition speed by using
+
+%To recap, the core of the recognition
+%pipeline consisted of solving $\ell_1$ minimization problems with the following two forms:
+%\begin{equation}
+%\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
+%\label{eqn:l1min_denoise}
+%%\tag{\ref{eqn:l1min_denoise}}
+%\end{equation}
+%\begin{equation}
+%\min_{\x, \e} \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
+%%\label{eqn:l1min_denoise}
+%%\tag{\ref{eqn:l1min_denoise}}
+%\end{equation}
+
+
+We investigate parallelization of a
+
+
+
+Although ALM succeeded in improving the speed of the face recognition pipeline
+\cite{WagnerA2011-PAMI}, due to the high per-class cost of the alignment step,
+the recognition system still fails to achieve \emph{real-time} performance
+against datasets of hundreds or thousands of subjects.  
+
+We contend that ALM is a better choice for implementation on many-core CPUs and
+GPUs than interior point methods. 
+
+In the next chapter,
+in addition to accelerating the generic
+$\ell_1$-minimization objectives \eqref{eq:l1min} and \eqref{eq:l1min_denoise}, we 
+also discuss how to efficiently accelerate the face alignment step
+\eqref{eq:l1min_alignment} on multi-core CPUs and GPUs.
+
+
 
 \input{sec_interior_point}
 \input{sec_alm_arvind}
-\input{sec_subgradient}
+%\input{sec_subgradient}
 
 %\input{sec_alm_allen}
 %\input{sec_trapezoid}
