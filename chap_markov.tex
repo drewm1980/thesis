@@ -116,7 +116,7 @@ The $k$-restricted isometry constant $\delta_k \in \Re$ is defined as the smalle
 quantity such that for any $k$-sparse $\x$,
 \begin{equation}
 (1-\delta_k)\|\x\|_2 \leq \|F\x\|_2 \leq (1+\delta_k)\|\x\|_2.
-\label{eq-rip}
+\label{eqn-rip}
 \end{equation}
 A typical result states $\ell^1$-minimization is guaranteed to recover any $k$-sparse $\x$ whenever the matrix
 $F$ satisfies $\delta_{2k}<1$. Notice that this argument treats every
@@ -126,7 +126,7 @@ distribution of the supports. To extend the theory to such
 structured sparsity, \cite{Cevher2008-NIPS} introduced the
 $(k,\epsilon)$-probabilistic RIP (PRIP). A matrix $F$ is said to
 satisfy the PRIP if there exists a constant $\delta_k>0$ such that
-for a $k$-sparse signal $\x$ whose support is a considered as a random variable, \eqref{eq-rip} holds with probability $\ge 1-\epsilon$.
+for a $k$-sparse signal $\x$ whose support is a considered as a random variable, \eqref{eqn-rip} holds with probability $\ge 1-\epsilon$.
 
 Based on results from Compressed Sensing theory, for a randomly chosen matrix to have RIP of order $k$ requires at least $m =\mathcal{O}(k\log(n/k))$ measurements \cite{CandesE2005-IT}. However, it has been shown that a matrix can have PRIP of order $k$ with only $m =\mathcal {O}(k + \log(D))$ measurements, where $D$ is the cardinality of the smallest set of supports of size $k$ for which the probability that the support of a $k$-sparse signal $\x$ does not belong to the set is less than $\epsilon$ \cite{Cevher2008-NIPS}. Then for distributions that allow a small $D$, the required number of measurements essentially grows linearly in $k$, much less than the general case. The distribution of contiguous supports precisely falls into this category\footnote{Simple counting arguments similar to that in \cite{Cevher2008-NIPS} indicate that $D$ can be upper-bounded by a polynomial of the dimension $m$.}. Thus, we should expect to recover sparse errors with such supports from much fewer measurements. Or equivalently, from a fixed number measurements, we should expect to correct a larger fraction of errors from $\ell^1$-minimization {\em if} we know how to properly harness information about the distribution.
 

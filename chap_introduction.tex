@@ -1,7 +1,6 @@
 \chapter{Introduction}
 \label{chap:introduction}
-
-\section{Motivating Applications for Face Recognition}
+ 
 The ability of humans to quickly and accurately recognize each-other by sight
 is one of the foundations of offline social interaction.  As digital devices
 (both mobile and embedded in our infrastructure) increase in importance for our
@@ -19,80 +18,39 @@ automated face recognition is its potential to make the initiation of
 authenticated interaction with a machine as natural as making eye contact with
 another human.
 
-While many of the applications of face recognition could be addressed using
-other biometrics such as fingerprint recognition, iris recognition, face
-recognition has the potential of being much less intrusive to users of the
-system; it is non-contact, and the user need not take any action beyond turning
-their head towards the device they want to interact with (even iris recognition
-typically requires the user to carefully position their head and keep their
-eyes open).  
+\section{Positioning of this work} Face recognition applications to date have
+fallen into roughly two categories.  Face recognition has recently seen a lot
+of success in a family of less-demanding applications such as online image
+search and family photo album organization (e.g.\ Google Picassa, Microsoft
+Photo Gallery, and Apple iPhoto). At the other end of the tractability spectrum
+there are the terrorist watchlist and mass surveillance applications that have
+for the most part dominated the field of face recognition research.  However,
+there are many face recognition applications that fall roughly between these
+extremes, where very high recognition performance is desired, but the users in
+the gallery are still allies of the system rather than adversaries.  These
+applications include access control for secure facilities (e.g., prisons,
+office buildings), computer systems, automobiles, or automatic teller machines,
+where controlled gallery images can be obtained in advance.  These applications
+are very interesting due to their potential sociological impact.  Since the
+gallery subjects are allies, rather than opponents, of the recognition system,
+this creates the possibility of carefully controlling the acquisition of the
+training data. While the same can be said for other biometrics such as
+fingerprints and iris recognition, face recognition has the potential of
+working with test data that is much less controlled, allowing the access
+control system to be made less intrusive to the users of the system.  The scope
+of this thesis is to show how a reliable face recognition system can be built
+for this restricted, but still important, scenario.  
 
-It is important to maintain a clear distinction between face {\em recognition}
-and face {\em verification}.  In face recognition the task is to both determine
-if the probe subject is one of the gallery subjects, and if so, to accurately
-determine the identity of the probe subject within the gallery subjects.  In
-face verification, the task is only to determine if the probe subject is the
-same as a specific user of claimed identity.  Using these definitions, face
-verification is a special case of face recognition when there is only a single
-gallery user.  Examples of automated face recognition are automated checking of electronic
-passports and automated login to laptops and single user computer systems.  While some
-of the techniques described in this work are also applicable to automated face
-verification, the emphasis is on the more challenging face recognition problem.
 
-If one were to create a taxonomy of face recognition techniques, a likely first
-step would be to divide them into systems that rely on 2D face images, and
-systems that rely on either 3D face data as an input, or attempt to estimate
-such a 3D model from 2D input \cite{amberg2007reconstructing,Blanz2003-PAMI}.
-While 3D techniques can achieve better robustness to pose variation given a
-sufficiently accurate 3D model, for applications where only moderate pose
-variation is present, the proposed method will be sufficient.  2D images of
-faces under varying illuminations already contain 3D shape-related
-information,\footnote{In principle, one can recover the 3D shape of the face
-from multiple illuminations using photometric stereo.} and this information can
-be leveraged by 2D algorithms for alignment and recognition even if shape is
-not reconstructed explicitly.  Furthermore, hardware for directly capturing 3D
-data is still in the early development stages; compared to 2D sensors, they are
-significantly more expensive, have much lower resolution, and to date have not
-been used in any consumer products.\footnote{Note that the Nintendo 3DS game
-system uses a stereo camera pair, and the Microsoft Kinect game system uses
-infrared structured light; neither use a time-of-flight depth sensor.}  The
-face recognition system presented here is based purely on 2D techniques.
-
-Face recognition applications (and research) can be further categorized by the
-recognition rate required, and by the quality of available data.  Low-stakes
-applications such as online image search and family photo album organization
-(e.g.\ Google Picassa, Microsoft Photo Gallery, and Apple iPhoto) have been
-tackled successfully in large part since they are useful at low recognition
-rates when combined with a good user interface.  The detection of attempts to
-register for state identification twice is another such application; for the
-system to be useful it is sufficient to narrow down the gallery to a subset
-small enough to be checked by a human investigator.
-
-Another category of face recognition applications involves recognition using
-many (often uncooperative) users using poorly controlled gallery images (often
-no more than one.  This category includes terrorist watchlist applications,
-applications in mass surveillance and tracking, and electronic advertisements
-capable of recognizing people.  While this category is the most thoroughly
-studied, it is largely unsolved due to the combination of a need to operate
-with many gallery users, as well as the need to be able to operate with
-restricted gallery images.  Law enforcement requires compatibility with old
-mugshots for the gallery, and often the probe image may not be frontal in
-surveillance images.
-
-This thesis argues that there is a large and under-studied category of
-recognition applications where very high recognition accuracy is desired, but
-the users in the gallery are still allies of the system rather than
-adversaries.  These applications include access control for secure facilities
-(e.g., prisons, office buildings), computer systems, automobiles, or automatic
-teller machines, where controlled gallery images can be obtained in advance.
-Since the gallery subjects are allies, rather than opponents, of the
-recognition system, it is feasible to carefully control the acquisition of the
-gallery images. 
-
-\input{abstract}
+Unfortunately, it turns out that human faces are rather difficult to recognize
+in images. for reasons that are inherent in the imaging process.  Obstacles to
+highly accurate face recognition include an (initial) absence of information
+about the mapping between a person's face and an image, variations in nature of
+the light illuminating a person's face, and (unlabeled) portions of a person's
+face that may not have even been captured on camera due to occlusion.  
 
 \section{Previous Work} Very few recognition systems specifically target
-applications where many well-controlled training images are available.  Of
+applications where many well- controlled training images are available.  Of
 these, the classical holistic subspace-based face recognition methods
 \cite{Turk1991-CVPR,Belhumeur1997-PAMI} are well known for their speed and
 simplicity, as well as for their natural extension to linear illumination
@@ -111,13 +69,12 @@ recognition research is conducted almost exclusively on public data sets.
 While public face databases play an important role in allowing researchers to
 compare the performance of their algorithms, relying on them exclusively for
 research prevents the researcher from tightly integrating their algorithm with
-their training image acquisition system.  In particular, many published
-algorithms implicitly make photometric assumptions that are (often
-unnecessarily) violated by the data sets they run on.  This thesis demonstrates
-that tight integration between the training image acquisition system and the
-recognition system enables the very high recognition rates that are needed for
-access control applications, while allowing more flexibility in the acquisition
-of the test image.
+their training image acquisition system.  This thesis demonstrates that, in
+order to achieve the very high recognition rates that are needed for access
+control applications, tight integration between the training image acquisition
+system and the recognition system is a practical necessity.  In particular,
+many published algorithms implicitly make photometric assumptions that are
+(often unnecessarily) violated by the data sets they run on.  
 
 \section{Introduction to $\ell_1$ minimization and sparse representation based classification}
 %
@@ -125,35 +82,30 @@ $\ell_1$-minimization has received much attention in recent years due to
 important applications in compressive sensing \cite{BrucksteinA2007} and sparse
 representation \cite{WrightJ2010-PIEEE}.  
 In general, $\ell_1$-minimization can refer to any minimization problem involving the 
-$\ell_1$-norm (sum of absolute values, noted as $||\cdot||_1$) of a vector of expressions involving the optimization
+$ell_1$-norm (sum of absolute values, noted as $||\cdot||_1$) of a vector of expressions involving the optimization
 variables. However, in the context of this thesis, we will be primarily concerned with
 the class of optimization problems that minimize the $\ell_1$-norm of a vector that
 is affine in the optimization variables, under constraints that are also affine in the optimization variables.
 One common sparse representation formulation finds the minimum $\ell_1$-norm solution to an
-under-determined linear system $\bb=A\xx$:
+underdetermined linear system $\bb=A\xx$:
 %
 \begin{equation} \min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx.
-\label{eq:l1min} \end{equation}
+\label{eqn:l1min} \end{equation}
 %
 It is now well established that, under certain conditions
 \cite{CandesE2005-IT_1,DonohoD2004}, the minimum $\ell_1$-norm solution is also
-the \emph{sparsest} solution to the system \eqref{eq:l1min}.
+the \emph{sparsest} solution to the system \eqref{eqn:l1min}.
 
-In addition to numerous other applications, $\ell_1$-minimization has been 
-recently used to reformulate image-based face recognition as a sparse representation problem
-\cite{WrightJ2009-PAMI}.  This is done by arranging the $m$ pixels of each gallery image into a corresponding
-column of a matrix 
-$A = [A_1, \cdots, A_K]\in\Re^{m\times n}$,
-where 
-$(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$
-are the sub-matrices containing 
-the $n_i$ training images each for subjects $1 \cdots K$.
-The pixels of the query image are arranged (in the same order) into a vector $\bb\in\Re^m$. 
-\emph{Sparse Representation Based
-Classification} (SRC) then solves the following minimization problem:
+In addition to numerous other applications, $\ell_1$-minimization has been recently used to reformulate
+image-based face recognition as a sparse representation problem
+\cite{WrightJ2009-PAMI}.  If we stack the $m$ pixels of the $n_i$ training images of $K$ subject
+classes into the columns of matrices $(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$, combine
+the matrices into a larger matrix $A = [A_1, \cdots, A_K]\in\Re^{m\times n}$, and arrange the pixels of a new
+query image into a vector $\bb\in\Re^m$, \emph{sparsity-based
+classification} (SBC) solves the following minimization problem:
 \begin{equation}
 \min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
-\label{eq:l1min_denoise}
+\label{eqn:l1min_denoise}
 \end{equation}
 If the sparsest solutions for $\x$ and $\e$ are recovered, $\ee$ provides a
 means to compensate for pixels that are corrupted due to occlusion of some part of the query
@@ -162,26 +114,26 @@ $\bb$ based on the training image labels associated with $A$.
 If $A$ contains images of each subject taken under different illuminations, 
 $A_i\x_i$ acts as a linear illumination model for the test image $\bb$.  The motivation
 for this illumination model will be further discussed in Chapter \ref{chap:pipeline}, Section \ref{sec:illumination}.
-SRC has demonstrated strikingly high recognition accuracy
+SRC has demonstrated striking recognition performance
 despite severe occlusion or corruption by solving a simple convex program.  For
-this reason, the final recognition stage of the recognition pipeline consists of
-SRC, and the iterative face alignment stage that precedes it is based on
+this reason, the final recognition stage of the recognition pipeline will consist of
+SRC, and the iterative face alignment stage that precedes it will be based on
 similar techniques.
 
 \section{Document Structure}
 %
 Chapter \ref{chap:pipeline} is devoted to presenting a complete face
-recognition pipeline based on the SRC concept described above. 
-This pipeline was developed in collaboration with John Wright,
-Zihan Zhou, Arvind Ganesh, Hossein Mobahi, and Yi Ma, and was
-presented at the 2009 IEEE Conference on Computer Vision and Pattern Recognition
+recognition pipeline, which was developed in collaboration with John Wright,
+Zihan Zhou, Arvind Ganesh, Hossein Mobahi, and Yi Ma.  This pipeline was
+presented at the IEEE Conference on Computer Vision and Pattern Recognition
 \cite{WagnerA2009-CVPR}.  An improved version of this recognition pipeline that
-is both faster and more accurate is to be published in \cite{WagnerA2011-PAMI}.
+is both faster and more accurate was was published in \cite{WagnerA2011-PAMI}.
 %
 Chapter \ref{chap:markov} presents an extension of the algorithm that better
 handles image occlusions by making use of the knowledge that occluded image
 pixels tend to be adjacent to each other, modeling the occlusion distribution
-with a Markov Random Field.  This work was presented in \cite{ZhouZ2009}.
+with a Markov Random Field.  This work was presented at the IEEE International
+Conference on Computer vision \cite{ZhouZ2009}.
 %
 Chapter \ref{chap:minimization} discusses the application of several numerical
 optimization techniques to the core minimization problems required by the face
@@ -189,8 +141,7 @@ recognition pipeline.
 %
 Chapter \ref{chap:parallel} presents the optimized parallel implementations of
 the core numerical solvers, as well as the alignment algorithm, on highly
-concurrent multicore CPU and on GPU hardware.  A paper describing this work
-is under review for the International Joint Conference on Biometrics, 2011.
+concurrent multicore CPU and on GPU hardware.
 %
 Finally, Chapter \ref{chap:future} discusses a variety of ideas for future
 improvements to the recognition system, and some of the remaining

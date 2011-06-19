@@ -1,8 +1,11 @@
+\chapter{Parallelization of $\ell_1$-Minimization Based Face Recognition}
+\label{chap:parallel}
+
 \section{Introduction} 
 %
 
 In this chapter, we study parallelization of $\ell$-minimization on many-core CPU and GPU
-architectures. Although $\ell_1$-minimization \eqref{eq:l1min} is a convex
+architectures. Although $\ell_1$-minimization \eqref{eqn:l1min} is a convex
 program, conventional algorithms such as interior-point methods
 \cite{ChenS2001-SIAM,TibshiraniR1996} scale poorly
 for applications such as face recognition. Recently, a number of
@@ -12,14 +15,14 @@ the special structure of $\ell_1$-minimization problems
 state-of-the-art $\ell_1$-minimization solution based on
 \emph{augmented Lagrangian methods} (ALM) \cite{BertsekasD2003,YangA2010-ICIP}.
 
-In addition, the accuracy of the solution given by \eqref{eq:l1min_denoise} relies on the assumption
+In addition, the accuracy of the solution given by \eqref{eqn:l1min_denoise} relies on the assumption
 that the query image is well aligned with the training images.
 In \cite{WagnerA2009-CVPR}, SBC was extended to align
 a query image to each subject class individually. The alignment algorithm solves
 the following problem:
 \begin{equation}
 \hat{\tau}_i = \arg\min_{\xx, \ee, \tau_i} \|\ee\|_1\quad \mbox{subj. to}\quad \tilde\bb\circ\tau_i = A_i\xx + \ee,
-\label{eq:l1min_alignment}
+\label{eqn:l1min_alignment}
 \end{equation}
 where $\tau_i\in T$ is in a finite-dimensional group $T$ of transformations
 (e.g., affine or homography) acting on the image domain.  The sequence
@@ -34,9 +37,9 @@ due to the high per-class cost
 of the alignment step, the system still fails to achieve \emph{real-time}
 performance against datasets of hundreds or thousands of subjects.  In this chapter,
 in addition to accelerating the generic
-$\ell_1$-minimization objectives \eqref{eq:l1min} and \eqref{eq:l1min_denoise}, we 
+$\ell_1$-minimization objectives \eqref{eqn:l1min} and \eqref{eqn:l1min_denoise}, we 
 also discuss how to efficiently accelerate the face alignment step
-\eqref{eq:l1min_alignment} on multi-core CPUs and GPUs.
+\eqref{eqn:l1min_alignment} on multi-core CPUs and GPUs.
 
 To clarify discussion, we clearly distinguish between {\em parallelism},
 which is a property of an algorithm, and {\em concurrency}, which is a
@@ -122,12 +125,12 @@ the same GPU architecture addressed in this chapter.
 \section{Augmented Lagrangian Method}
 \label{sec:ALM}
 In this section, we briefly describe the ALM algorithm for $\ell_1$-minimization
-\eqref{eq:l1min} \cite{YangA2010-ICIP} and analyze its complexity. Lagrange
+\eqref{eqn:l1min} \cite{YangA2010-ICIP} and analyze its complexity. Lagrange
 multipliers have been frequently used in convex programming to eliminate
 equality constraints via adding a penalty term to the cost function for
 infeasible points. ALM methods differ from other penalty-based approaches by
 simultaneously estimating the optimal solution and Lagrange multipliers in an
-iterative fashion.  For $\ell_1$-minimization \eqref{eq:l1min}, the augmented Lagrange
+iterative fashion.  For $\ell_1$-minimization \eqref{eqn:l1min}, the augmented Lagrange
 function is defined as: 
 \begin{equation} L_\mu(\xx,\blambda) = \|\xx\|_1 +
 \blambda^T(\bb - A\xx) + \frac{\mu}{2} \| \bb-A\xx \|_2^2, 
@@ -140,12 +143,12 @@ satisfies the second-order sufficiency conditions for optimality, then for a suf
 $\ell_1$-minimization solution also minimizes
 \begin{equation}
 \xx^* = \arg \min L_\mu(\xx,\blambda^*).
-\label{eq:optimal-ALM}
+\label{eqn:optimal-ALM}
 \end{equation}
 
 In practice, the optimal values for the triplet $(\xx^*, \blambda^*, \mu)$ are all
 unknown. Furthermore, it has been observed that solving
-\eqref{eq:optimal-ALM} with a large initial value of $\mu$ tends to lead to
+\eqref{eqn:optimal-ALM} with a large initial value of $\mu$ tends to lead to
 slower convergence speed \cite{WrightS2008,YangA2010-ICIP}. In
 \cite{BertsekasD2003,YangJ2009}, an alternating procedure has been shown to
 iteratively update $\xx$ and $\blambda$:
@@ -156,16 +159,16 @@ iteratively update $\xx$ and $\blambda$:
 \blambda_{k+1} & = & \blambda_k + \mu_k (\bb - A\xx_{k+1}) \\
 \end{array}
 \right . ,
-\label{eq:alm}
+\label{eqn:alm}
 \end{equation}
 where $\mu_{k}\rightarrow \infty$ increases monotonically.
 The iteration terminates when the estimates $(\xx_k, \blambda_k)$ converge.
 
-Note that in the iterative procedure \eqref{eq:alm}, the second
+Note that in the iterative procedure \eqref{eqn:alm}, the second
 step only involves vector algebra and matrix-vector multiplication. Therefore,
 the procedure is computationally efficient only if it is easier to minimize the
 augmented Lagrangian $L_{\mu_k} (\xx,\blambda_k)$ compared to solving the original problem
-\eqref{eq:l1min} directly. In fact, this problem can be solved element-wise
+\eqref{eqn:l1min} directly. In fact, this problem can be solved element-wise
 iteratively by a soft-thresholding algorithm \cite{WrightS2008,BeckA2009},
 whose time complexity is bounded by $O(n^2)$ and can be easily parallelized.
 Algorithm \ref{alg:alm} summarizes the generic ALM $\ell_1$-minimization algorithm. \footnote{For conciseness, we
@@ -329,11 +332,11 @@ pipeline, and propose techniques for exploiting this parallelism on the GPU and 
 described in the previous section.  In this section we first focus on the
 face alignment stage (see Figure \ref{fig:pipeline}).
 
-Face alignment \eqref{eq:l1min_alignment} estimates an image transformation
+Face alignment \eqref{eqn:l1min_alignment} estimates an image transformation
 $\tau$ that rectifies the query image $\tilde{\bb}$ with possible pose
 variation w.r.t. each training class $A_i$, which leads to the minimal sparsity
 in error $\ee$ after the alignment. Note that directly solving
-\eqref{eq:l1min_alignment} is inefficient since it is a non-convex problem
+\eqref{eqn:l1min_alignment} is inefficient since it is a non-convex problem
 and may exhibit local minima.
 However, given a good initial estimate of the
 transformation $\tau$ (\eg, provided by an accurate face detector), the optimal
@@ -349,7 +352,7 @@ $\Delta \tau$ is a step update to $\tau$. Denote $\bb_j =
 following linear program:
 \begin{equation}
 \min_{\ww, \ee}\|\ee\|_1\quad \subj\quad \bb_j = B_j\ww + \ee.
-\label{eq:alignment-linearization}
+\label{eqn:alignment-linearization}
 \end{equation}
 %If the warping $\tau$ is constrained to be a similarity transform,
 %it can be paramaterized in such a way that the computation of $\frac{\partial \bb}{\partial \tau_p}$
@@ -424,7 +427,7 @@ for the inner loop, most notably $B_j$ and $B_j^\dagger$, fit in L2 cache.
 
 In contrast, our manually optimized implementation maps problem-level parallelism onto core-level
 concurrency, and maps pixel-level parallelism onto SSE-level concurrency.  In
-other words, eight instances of \eqref{eq:alignment-linearization} are executed
+other words, eight instances of \eqref{eqn:alignment-linearization} are executed
 in parallel with each problem running on one of the eight cores.  The advantage
 of this implementation is that since the cores are operating on different
 alignment problem instances, no data is shared between cores, and therefore no
@@ -515,7 +518,7 @@ alignment error are selected for recognition, $\bb$ and $A_i$ are re-sampled to 
 using $\tau_i$, and $A_i$ are concatenated into a new matrix $A$.
 A sparse representation of $\bb$ w.r.t $A$ is then recovered
 by solving a single $\ell_1$-minimization problem, as shown
-in \eqref{eq:l1min_denoise}, using Algorithm \ref{alg:alm_rec}.  The
+in \eqref{eqn:l1min_denoise}, using Algorithm \ref{alg:alm_rec}.  The
 coefficients in $\x$ are then used to compute error residuals that are used for
 classification.  
 %This recognition algorithm has
