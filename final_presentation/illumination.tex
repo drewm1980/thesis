@@ -1,0 +1,141 @@
+\section{Illumination}
+\frame{\tableofcontents[currentsection, currentsubsection]}
+\subsection{Illumination Model}
+
+\frame{\frametitle{Compound Effect of Alignment and Illumination}
+\renewcommand{\imagesizestring}{height}
+\renewcommand{\imagesizea}{0.25\textheight}
+\renewcommand{\imagesizeb}{0.15\textheight}
+\renewcommand{\gapsizea}{-0mm}
+\begin{tabular}[b]{cc@{}b{.5\textwidth}}
+% Example for setting the heights of the images
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case1/detector.png}& \hspace{\gapsizea}
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case1/sci_with_axis_face_case1.png} & 
+Poor alignment, {\bf Sufficient training illuminations} \vfill\\
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/alignment_and_detector.png}& \hspace{\gapsizea}
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case2/sci_with_axis_face_case2.png} & 
+{Good alignment, {\bf Insufficient training illuminations}}\vfill\\
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case3/alignment.png} & \hspace{\gapsizea}
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case3/sci_with_axis_face_case3.png} &
+{Good alignment, {\bf Sufficient training illuminations}}\vfill
+\end{tabular}
+}
+
+\frame{
+\frametitle{Linear Illumination Models}
+\hspace{.1\textwidth}\includegraphics[height=0.8\textheight]{images/linear_illumination_model.pdf}
+}
+
+\frame{
+\frametitle{Cows are not spherical}
+\vspace{-5mm}\begin{center}
+\includegraphics[width=0.9\textwidth]{images/basri4.pdf}
+\end{center}\vspace{-5mm}
+\begin{itemize}
+\item Images still linear WRT illumination
+\item {\em Experimentally} determine which training illuminations needed
+\end{itemize}
+}
+
+\subsection{Acquisition System}
+\frame{
+\frametitle{Training Rig Background}
+\begin{columns}
+
+\begin{column}{0.7\textwidth}
+Traditional Flash-Based system
+\begin{itemize}
+\item Used for most public data sets
+\item Difficult to reconfigure
+\item Does not scale well in the number of flashes
+\item Need room sized dome for good angular coverage, distant illumination
+\end{itemize}
+Projector-Based system
+\begin{itemize}
+\item Easy to re-configure projector geometry
+\item Trivial to change illumination patterns
+\item Easier to construct and deploy
+\item Very complete angular illumination coverage
+\end{itemize}
+\end{column}
+
+\begin{column}{0.3\textwidth}
+\includegraphics[width=\textwidth]{images/yale_dome.jpg}\\ 
+\includegraphics[width=\textwidth]{images/projector_photo.jpg} \\ \vspace{0\textheight}
+\end{column}
+\end{columns}
+}
+
+\frame{
+\frametitle{Training Illumination Rig}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{images/camera_rig_drawings/perspective.pdf}
+\end{center}
+}
+
+\frame{
+\frametitle{Training Illumination Rig}
+\begin{columns}
+\begin{column}{.5\textwidth}
+\begin{center}
+Side View\\
+\includegraphics[width=\textwidth]{images/camera_rig_drawings/coverage_side.pdf}
+\end{center}
+\end{column}
+\begin{column}{.5\textwidth}
+\begin{center}
+Top View\\
+\includegraphics[width=\textwidth]{images/camera_rig_drawings/coverage_top.pdf}
+\end{center}
+\end{column}
+\end{columns}
+}
+
+\frame{
+\frametitle{So many projector pixels, so little time}
+\begin{itemize}
+\item Need to narrow down the illumination possibilities.
+\item How densely do we need to sample the illumination sphere?
+\begin{itemize}
+\item Try multiple sets of illuminations
+\item Double the resolution in one direction each time
+\end{itemize}
+\item How much coverage do we need?
+\begin{itemize}
+\item Try multiple sets of illuminations
+\item Gradually increase the coverage radially out from known-important illuminations
+\end{itemize}
+\end{itemize}
+\begin{center}
+\includegraphics[height=.4\textheight]{figures_cvpr/coverage_experiment_asplode_white.png}
+\end{center}
+}
+
+\renewcommand{\imagesizestring}{height}
+\frame{\frametitle{Illumination Experiment Results}
+\renewcommand{\imagesizea}{0.55\textheight}
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/illum_results/granularity_sunset.pdf} &
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/illum_results/coverage_sunset.pdf} \\
+(a) Granularity & (b) Coverage
+\end{tabular}\vspace{2mm}
+\end{center}
+}
+
+\frame{
+\renewcommand{\imagesizestring}{height}
+\renewcommand{\imagesizea}{0.41\textheight}
+\frametitle{Final Illuminations}
+\begin{tabular}{cc}
+\includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_front.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/front.png}\\
+\includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_back.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/back.png}
+\end{tabular}
+}
+
+
+\frame{\frametitle{Sample Training Images, Originals}
+\includegraphics[width=\textwidth]{images/training_contact_sheet.png}
+}
+
+
