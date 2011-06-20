@@ -18,14 +18,94 @@ University of Illinois at Urbana-Champaign\\
 
 \frame{\titlepage}
 
-\include{introduction}
+\section{Recap of Prelim}
+\subsection{Linear Illumination Model}
+\frame{ \frametitle{ Linear Illumination Model} }
+\frame{ \frametitle{ Linear Illumination Model} }
+\frame{ \frametitle{ Linear Illumination Model} }
+\subsection{Iterative Alignment}
+\frame{ \frametitle{ Iterative Alignment} }
+\frame{ \frametitle{ Iterative Alignment} }
+\frame{ \frametitle{ Iterative Alignment} }
+\frame{ \frametitle{ Pipeline Diagram} }
+\subsection{Occlusion Handling}
+\frame{ \frametitle{Occlusion Handling} }
+\frame{ \frametitle{Occlusion Handling} }
+\frame{ \frametitle{Occlusion Handling} }
 
-\include{illumination}
-\include{alignment}
-\include{occlusion}
+\section{Improved Pipeline}
+\subsection{Improved Face Mask}
+\frame{ \frametitle{Improved Face Mask} Quick Explanation, hardly necessary}
+\frame{ \frametitle{Improved Face Mask} Experiment Result}
+\subsection{Simultaneously Handling Occlusion and Misalignment}
+\frame{ \frametitle{Difficulty with MRF Model} Explain weakness of MRF model w.r.t. 
+poor alignment initialization.  MRF Good, but doesn't solve chicken and egg problem.}
+\frame{ \frametitle{Overlapping Block Model} Explain Overlapping Block Model; Blocks small enough
+to sometimes miss occlusions, but large enough to converge independently.}
+\frame{ \frametitle{Robustness to Sunglasses} Experiment Result for block occlusion.}
+\subsection{Updated Experiments on Large Datasets}
+\frame{ \frametitle{Comparisons with LBP} LBP+alignment better recognition rate, 
+SRC+alignment better subject validation}
 
-\include{conclusion}
-\include{publications}
-\include{acknowledgments}
+\section{Fast $\ell_1$-Min}
+\subsection{Augmented Lagrange Multipier Method}
+\frame{ \frametitle{Overview} Talk about Interior Point, Homotopy, etc...}
+\frame{ \frametitle{Augmented Lagrange Multiplier} Condensed Derivation of error correction solver}
+\frame{ \frametitle{ALM} Modified derivation for alignment}
+\frame{ \frametitle{ALM} Rearrangement of code to reduce loads of A}
+\frame{ \frametitle{ALM} Discuss pixel-level parallelism.  Can't get rid of synchronization, 
+and it will influence GPU implementation}
+
+\section{Parallelized Solvers}
+\subsection{GPU Hardware Overview}
+\frame{ \frametitle{GPU Hardware Overview}}
+\frame{ \frametitle{GPU Hardware Overview}}
+\frame{ \frametitle{Limitations of programming model}}
+\subsection{CPU Hardware Overview}
+\frame{ \frametitle{CPU Hardware Overview}}
+\frame{ \frametitle{CPU Hardware Overview}}
+\subsection{Parallelization of Recognition Stage}
+\frame{ \frametitle{Implementation via BLAS, OpenMP, CUBLAS} Fairly straightforward.}
+\frame{ \frametitle{Benchmarks on public datasets} Speed improvements!  In fact, no longer the most expensive
+part of the pipeline}
+\frame{ \frametitle{Scalability} Discuss effect of CPU cache, better scalability of GPU for huge problems}
+\subsection{GPU Alignment Parallelization}
+\frame{ \frametitle{Microbenchmarks} Motivate single solver per core for alignment}
+\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
+\frame{ \frametitle{GPU Implementation} Performance optimization, array storage}
+\frame{ \frametitle{GPU Implementation} Performance optimization, tuning}
+\frame{ \frametitle{GPU Implementation} Performance optimization, numerical precision}
+\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
+\frame{ \frametitle{Benchmarks} Code runs fast on public datasets.}
+\subsection{CPU Alignment Parallelization}
+\frame{ \frametitle{Microbenchmarks} Motivate single solver per core}
+\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
+\subsection{Recap}
+\frame{ \frametitle{Existing Architectures are already fast} CPU and GPU architectures competitive, and
+both benefit dramatically from proper parallelization.  Implementation on GPU much more painful; no SM level
+libraries}
+\frame{ \frametitle{Improving hardware architectures} CPU/GPU hybrids: Intel Knight's Corner and AMD's APU}
+
+\section{Conclusion}
+\subsection{Recap}
+\frame{ \frametitle{Recap} By prelim had proposed a complete face recognition pipeline for face recognition,
+but it wasn't fast enough yet for commercial application}
+\frame{ \frametitle{Recap} Since prelim, have dramatically improved the speed of the system without sacrificing
+performance.}
+\subsection{Future Work}
+\frame{ \frametitle{Improve acquisition system using multiplexed illuminations } }
+\frame{ \frametitle{Merge iterative alignment, SRC, and LBP} }
+\frame{ \frametitle{Increase arithmetic intensity} Mention work in progress on subgradient descent methods.
+take advantage of tallness of the arrays, geometry of the $\ell_1$ minimization problem}
+
+%\include{introduction}
+
+%\include{illumination}
+%\include{alignment}
+%\include{occlusion}
+
+%\include{conclusion}
+%\include{publications}
+%\include{acknowledgments}
 
 \end{document} 
