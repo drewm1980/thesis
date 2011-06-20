@@ -1,0 +1,54 @@
+
+------- Background -------- (2)
+
+The current state of image based face recognition
+	Barely works for entertainment purposes with a small number of users
+		iPhoto
+		Picassa
+		Windows Live Photo Gallery (Beta)
+	A near complete failure for security applications
+		65% true positive rate at 50% false positive rate at Boston Logan Airport
+		Toshiba laptop face recognition can be broken by holding up a picture
+
+What will it take to make image based face recognition ~really work?
+	Illumination variation must work FOR us instead of AGAINST us
+	Occlusion in the test image must not break the algorithm
+	Alignment variation in the test image must not break the algorithm
+
+------- Illumination ------- 
+
+Illumination Model (6-7?)
+	Basri, Jacobs, need to do better.
+
+Training Illumination Rig
+
+Illumination experiment
+
+-------  Occlusion ------- 
+Sparsity, John's algorithm
+
+Improved occlusion handling using MRF
+
+------- Alignment ------- 
+
+Per-user alignment
+
+
+------- Future Work -------
+
+Optimizing the Speed of the Recognition Algorithm . . . . . . . . . . . . . . . 52 
+
+Loading the training database . . . . . . . . . . . . . . . . . . . . . . 53 
+
+4.2.2 Per-user alignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54 
+4.2.3 Resampling the training images . . . . . . . . . . . . . . . . . . . . . 55 
+4.2.4 Final recognition step . . . . . . . . . . . . . . . . . . . . . . . . . . . 55 
+4.3 Optimizing the training illuminations . . . . . . . . . . . . . . . . . . . . . . . 56 
+4.3.1 Optimize illuminations within the set of training images we already have 57 
+4.3.2 Optimize illuminations with the illumination system in the loop . . . . 57 
+4.3.3 Leverage color information to improve occlusion robustness . . . . . . 58 
+4.4 Combining MRF recognition with alignment . . . . . . . . . . . . . . . . . . . 60 
+4.5 Improving the acquisition system hardware . . . . . . . . . . . . . . . . . . . 60 
+
+	
+	
