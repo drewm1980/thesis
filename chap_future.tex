@@ -122,29 +122,41 @@
 %while the optimization runs, a movie-grade dummy head would be a good candidate
 %for the training subject.  
 
-%This still leaves several interesting questions.  Even with an automated search, we are going to have to make some assumptions to reduce the search space.  Should we allow for pixels to be partially turned on, or should they be binary?  Should we require illuminations to have pixels that are all adjacent?  What metric should we use to measure the quality of the training images?  Ideally we'd be using a large database of real subjects, but that is not an option if we want to search over the full set of illuminations the projectors can generate.  How many training images should we allow?  How do we quantify the tradeoff between speed and accuracy?
+%This still leaves several interesting questions.  Even with an automated
+%search, we are going to have to make some assumptions to reduce the search
+%space.  Should we allow for pixels to be partially turned on, or should they
+%be binary?  Should we require illuminations to have pixels that are all
+%adjacent?  What metric should we use to measure the quality of the training
+%images?  Ideally we'd be using a large database of real subjects, but that is
+%not an option if we want to search over the full set of illuminations the
+%projectors can generate.  How many training images should we allow?  How do we
+%quantify the tradeoff between speed and accuracy?
 
-%There are few other things that make this experiment appealing.  Since the dummy head is inanimate, we will completely eliminate the influence of pose variation on the experiment, and all of our training images will already be perfectly aligned; the cameras can be manually positioned such that the frontal and rear illuminations match up perfectly. \footnote{Since we want to capture training illuminations from both sides, the dummy head can be mounted on a stepper-motor driven pivot for the purpose of rotating the dummy head by 180 degrees.  }
+%There are few other things that make this experiment appealing.  Since the
+%dummy head is inanimate, we will completely eliminate the influence of pose
+%variation on the experiment, and all of our training images will already be
+%perfectly aligned; the cameras can be manually positioned such that the
+%frontal and rear illuminations match up perfectly. \footnote{Since we want to
+%capture training illuminations from both sides, the dummy head can be mounted
+%on a stepper-motor driven pivot for the purpose of rotating the dummy head by
+%180 degrees.  }
 
-%\subsection{Leverage color information to improve occlusion robustness}  Color information is unused for the current system.  This was a simplifying assumption that made implementation of the algorithm significantly easier and faster.  There are several different ways in which the algorithms presented in this thesis could be extended to handle color information.  One of the main reasons that color is not as important in face recognition as it is in some other vision applications is that the pixels in the image of a given person's face generally vary primarily in intensity.  Furthermore, the variation of skin tone from person to person usually varies less than the color variation resulting from the color of the illumination.  For these reasons, color may be especially useful for the improvement of occlusion handling, since occluding objects are likely to vary in color more than human faces do.  
+%\subsection{Leverage color information to improve occlusion robustness}  Color
+%information is unused for the current system.  This was a simplifying
+%assumption that made implementation of the algorithm significantly easier and
+%faster.  There are several different ways in which the algorithms presented in
+%this thesis could be extended to handle color information.  One of the main
+%reasons that color is not as important in face recognition as it is in some
+%other vision applications is that the pixels in the image of a given person's
+%face generally vary primarily in intensity.  Furthermore, the variation of
+%skin tone from person to person usually varies less than the color variation
+%resulting from the color of the illumination.  For these reasons, color may be
+%especially useful for the improvement of occlusion handling, since occluding
+%objects are likely to vary in color more than human faces do.  
 
 
-\section{Combining MRF recognition with alignment} Chapter \ref{chap:markov}
-demonstrated that it is possible to improve recognition performance by
-leveraging the information that occlusions are typically spatially coherent.
-However, all of the experiments were performed on images that had already been
-aligned.  Combining this technique with alignment is an important topic for
-further research, and my collaboration with Zihan Zhou will continue on this
-topic.  The first attempt at integrating the MRF extension with alignment will
-be a straightforward combination of the two ideas.  Alignment is achieved by
-including a linearization of the warped test image with respect to the
-transformation parameters in the L1 optimization.  MRF simply restricts the
-subset of pixels on which the L1 optimization is performed.  Therefore, these
-two ideas are neatly orthogonal from an implementation standpoint.  The
-challenging part will be to understand exactly how the alignment and occlusion
-rejection interact in the early iterations of the algorithm, where the
-estimates of both the occlusion and the alignment have not yet converged
-significantly.
+
+
 
 
 \section{Improving the acquisition system hardware}
@@ -159,14 +171,6 @@ The current design has proven to be very satisfactory in a research environment 
 Not all of the above strategies may turn out to be feasible; in particular, the last two ideas would require some degree of reverse engineering of proprietary hardware inside the projector.  While the modifications are conceptually very simple, there may be unforeseen difficulties depending on the design of the projector.  In the worst case, the manufacturer may have deliberately implemented features to prevent tampering.
 
 % TODO Mention scheneker illumination patterns.
-
-%{\bf Radical departures from the current design}
-%The training image acquisition system detailed in Chapter \ref{chap:pipeline} requires several reasonably high quality DLP projectors and cameras for its operation.  While this is an investment that a large institution using face recognition  for access control might be willing to make, it pretty much rules outs application in less mission critical applications. There are several substitute techniques that may be worth pursuing:
-%\begin{itemize}
-%\item {\em Replace the projectors with many smaller light sources}  The main disadvantage of this technique is that it necessitates either building a large structure to hold the light sources or mounting them on the walls and ceiling.  Either way, a network of wires will be required to power and the actuate the lights, which further complicates installation.
-%\item {\em Replace the projectors with a moving light source}  The main reason the projectors are not very cost effective in this application is that most of the light they produce is wasted.  This dramatically increases the need for thermal design, reduces the life of the components, and increases the power usage.  There are a variety of possible designs that get around this including the use of a moving light source, moving light-directing mirrors, or an array of focused light sources.
-%\item {\em Replace the projectors with ambient lighting}  One face recognition application that has already hit the market is for securing user login on laptops.  Unfortunately, most individual users won't have access to a system that takes many pictures of them under controlled lighting.  One potential solution to this could be to have the user turn on a single light in their room, and then turn around in a circle while holding their (camera equipped) laptop.  The biggest hurdle for this technique will be that the training images will need to be aligned, since the user's head will likely move significantly during use.
-%\end{itemize} 
 
 \section{Conclusion}
 
