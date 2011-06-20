@@ -1,6 +1,3 @@
-\chapter{Introduction}
-\label{chap:introduction}
- 
 The ability of humans to quickly and accurately recognize each-other by sight
 is one of the foundations of offline social interaction.  As digital devices
 (both mobile and embedded in our infrastructure) increase in importance for our
@@ -87,14 +84,14 @@ variables. However, in the context of this thesis, we will be primarily concerne
 the class of optimization problems that minimize the $\ell_1$-norm of a vector that
 is affine in the optimization variables, under constraints that are also affine in the optimization variables.
 One common sparse representation formulation finds the minimum $\ell_1$-norm solution to an
-underdetermined linear system $\bb=A\x$:
+underdetermined linear system $\bb=A\xx$:
 %
-\begin{equation} \min \|\x\|_1\quad \mbox{ subj. to }\quad \bb = A\x.
-\label{eqn:l1min} \end{equation}
+\begin{equation} \min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx.
+\label{eq:l1min} \end{equation}
 %
 It is now well established that, under certain conditions
 \cite{CandesE2005-IT_1,DonohoD2004}, the minimum $\ell_1$-norm solution is also
-the \emph{sparsest} solution to the system \eqref{eqn:l1min}.
+the \emph{sparsest} solution to the system \eqref{eq:l1min}.
 
 In addition to numerous other applications, $\ell_1$-minimization has been recently used to reformulate
 image-based face recognition as a sparse representation problem
@@ -104,16 +101,16 @@ the matrices into a larger matrix $A = [A_1, \cdots, A_K]\in\Re^{m\times n}$, an
 query image into a vector $\bb\in\Re^m$, \emph{sparsity-based
 classification} (SBC) solves the following minimization problem:
 \begin{equation}
-\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
-\label{eqn:l1min_denoise}
+\min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
+\label{eq:l1min_denoise}
 \end{equation}
-If the sparsest solutions for $\x$ and $\e$ are recovered, $\e$ provides a
+If the sparsest solutions for $\x$ and $\e$ are recovered, $\ee$ provides a
 means to compensate for pixels that are corrupted due to occlusion of some part of the query
-image, and the dominant nonzero coefficients of $\x$ reveal the membership of
+image, and the dominant nonzero coefficients of $\xx$ reveal the membership of
 $\bb$ based on the training image labels associated with $A$. 
 If $A$ contains images of each subject taken under different illuminations, 
 $A_i\x_i$ acts as a linear illumination model for the test image $\bb$.  The motivation
-for this illumination model will be further discussed in Chapter \ref{chap:pipeline}, Section \ref{sec:illumination}.
+for this illumination model will be further discussed in Chapter \ref{chap_pipeline}, Section \ref{sec:illumination}.
 SRC has demonstrated striking recognition performance
 despite severe occlusion or corruption by solving a simple convex program.  For
 this reason, the final recognition stage of the recognition pipeline will consist of
@@ -129,7 +126,7 @@ presented at the IEEE Conference on Computer Vision and Pattern Recognition
 \cite{WagnerA2009-CVPR}.  An improved version of this recognition pipeline that
 is both faster and more accurate was was published in \cite{WagnerA2011-PAMI}.
 %
-Chapter \ref{chap:markov} presents an extension of the algorithm that better
+Chapter \ref{chap:iccv} presents an extension of the algorithm that better
 handles image occlusions by making use of the knowledge that occluded image
 pixels tend to be adjacent to each other, modeling the occlusion distribution
 with a Markov Random Field.  This work was presented at the IEEE International
@@ -143,7 +140,7 @@ Chapter \ref{chap:parallel} presents the optimized parallel implementations of
 the core numerical solvers, as well as the alignment algorithm, on highly
 concurrent multicore CPU and on GPU hardware.
 %
-Finally, Chapter \ref{chap:future} discusses a variety of ideas for future
+Finally, Chapter \ref{chap:conclusion} discusses a variety of ideas for future
 improvements to the recognition system, and some of the remaining
 implementation challenges that will be required for the system to be ready for
 commercial application.

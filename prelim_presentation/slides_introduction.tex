@@ -1,0 +1,91 @@
+%!TEX root = prelim.tex
+
+
+
+%\frame{
+%\frametitle{Why is face recognition a good way to recognize people?}
+%\begin{itemize}
+%\item Non-contact
+%\item Potentially faster than gait or voice recognition
+%\item No special hardware needed for recognition (unlike Iris recognition)
+%\item Attacks would probably be obvious to bystanders
+%\item Recognized person need not do anything
+%\end{itemize}
+%}
+
+%\frame{
+%\frametitle{Importance for humans}
+%\begin{itemize}
+%\item 
+%Humans seem to have evolved domain specific "wetware" for recognizing faces, called the fusiform face area.  \footnote{"Early (M170) activation of face-specific cortex by face-like objects", Hadjikhani N, et al., Feb 2009, Neuroreport 20: 403.}
+%\includegraphics[width=0.9\textwidth]{images/fusiform_face_area.jpg}
+%\item Face Blindness (Prosopagnosia) congenital in 2.5\% of population \\
+%%\item Capgras syndrome
+%\end{itemize}
+%}
+
+%\subsection{Review of Problem}
+\frame{
+\frametitle{Status of image based face recognition in industry}
+\begin{itemize}
+\item Barely works for entertainment purposes with a small number of users.
+\begin{itemize}
+\item iPhoto
+\item Picassa
+\item Windows Live Photo Gallery (Beta)
+\end{itemize}
+\item A failure for security applications
+\begin{itemize}
+\item High profile trial at Boston Logan Airport failed over half of the time.
+\item Toshiba laptop face recognition can be broken by holding up a picture
+\end{itemize}
+\end{itemize}
+}
+
+%DREW: PICTURES
+
+\frame{
+\frametitle{Status of image based face recognition in academia}
+\begin{itemize}
+\item Classical algorithms, such as Eigenfaces, LDA, Nearest Neighbor, and Nearest Subspace perform poorly when confronted with test images taken outside of the lab.
+\item Three factors dramatically affect the appearance of a face:
+\begin{enumerate}
+\item Illumination Variation: The appearance of the face depends very strongly on the illumination
+\item Alignment Variation: The image depends on the orientation between the camera and subject 
+\item Occlusion: Often parts of the face image are covered by other objects
+\end{enumerate}
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{A promising recent direction in face recognition research}
+\begin{center}
+\vspace{-.2in}
+\includegraphics[width=.3\textwidth]{images/bouqet.pdf}\\
+\vspace{-.2in}
+\end{center}
+\begin{itemize}
+\item One very promising direction in face recognition research,
+{\bf Sparse Representation based Classification (SRC)} [Wright et.\ al. PAMI 2009], achieved state-of-the-art results on Extended Yale B and AR databases.
+\item This is a solid foundation, but it is incomplete:
+	\begin{itemize}
+	\item Assumed perfectly aligned images
+	\item Assumed a sufficient number of training illuminations taken under different illuminations
+\end{itemize}
+\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{The Goal of the Proposed Research}
+{\large The goal of my research is to build a complete and scalable face recognition system that can handle  {\bf illumination variation, alignment error, and realistic occlusions.}}\\
+\vspace{.2in}
+This will entail the following major contributions:
+\begin{itemize}
+\item Determine what {\bf training illuminations} are sufficient and build an {\bf acquisition system} capable of capturing them
+\item Design algorithm for {\bf automatically aligning} test images to training images
+\item Improve performance on {\bf contiguous occlusions}
+\end{itemize}
+}

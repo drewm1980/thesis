@@ -1,0 +1,36 @@
+%!TEX root = prelim.tex
+%!TEX root = fakeroot.tex
+
+\frame{
+\frametitle{Improving the acquisition system hardware}
+\begin{itemize}
+	\item Users have a hard time holding still $\Rightarrow$ limit on the number and quality of training images we can take
+	\item Best way to improve training images: increase training image acquisition speed!
+	\item Better Cameras $\Rightarrow$ Higher image transfer rate
+	\item Better Cameras $\Rightarrow$ Better Synchronization features allowing interleaved transfer
+	\item Projector Improvement: Automatic exposure control
+	\begin{itemize}
+		\item Save time on illuminations where there is plenty of intensity
+		\item Avoid saturation
+		\item Avoid low SNR
+	\end{itemize}
+\end{itemize}
+}
+
+\frame{\frametitle{Improving the acquisition system hardware (Contd.)}
+\begin{itemize}	
+	\item Projector Improvement: Better Synchronization
+	\begin{itemize}
+		\item Take apart projector, gain access to frame sync signal
+		\item Use this sync signal to begin/end exposure
+		\item Avoids need to be conservative with the timing
+	\end{itemize}
+	\item Projector Improvement: Boost intensity and uniformity
+	\begin{itemize}
+		\item Currently have slight aliasing between color wheel and camera exposure
+		\item Color wheel wastes illumination intensity
+		\item $\Rightarrow$ Rip out or disable the color wheel!
+	\end{itemize}
+	\item Not all proposed modifications will work out; element of luck when modifying proprietary hardware!
+\end{itemize}
+}
