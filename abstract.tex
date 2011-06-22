@@ -10,19 +10,19 @@ illumination variation, image misalignment, and partial occlusion.  First, well
 registered training images taken under many illumination directions are
 captured using a novel projector-based acquisition system.  The recognition
 system then uses tools from sparse representation to align a test face image to
-a set of frontal training images.  To better handle severe occlusions an
+a set of frontal training images.  To better handle severe occlusions, an
 extension to the algorithm is described that makes use of the knowledge that
 occluded pixels tend to be spatially correlated.  Due to the use of multiple
 face images as features and as the non-smooth nature of the optimization
 problems, these techniques have far greater computational requirements than
 techniques that extract low-dimensional features.  Several custom $\ell_1$
 solvers are presented that achieve faster convergence on face data than general
-solvers.  optimized implementations for modern parallel computing architectures
-are investigated in order to a build a system capable of perform highly
+solvers.  Optimized implementations for modern parallel computing architectures
+are investigated in order to build a system capable of performing highly
 accurate and robust recognition while remaining fast enough for use in access
-control system.  Optimized parallel implementations for contemporary CPU and
+control systems.  Optimized parallel implementations for contemporary CPU and
 GPU hardware are demonstrated to achieve near real-time face recognition for
-acces control applications with hundreds of gallery users.
+access control applications with hundreds of gallery users.
 
 
 
