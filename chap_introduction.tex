@@ -99,7 +99,7 @@ image-based face recognition as a sparse representation problem
 classes into the columns of matrices $(A_1\in\Re^{m\times n_1}, \cdots, A_K\in\Re^{m\times n_K})$, combine
 the matrices into a larger matrix $A = [A_1, \cdots, A_K]\in\Re^{m\times n}$, and arrange the pixels of a new
 query image into a vector $\bb\in\Re^m$, \emph{sparsity-based
-classification} (SBC) solves the following minimization problem:
+classification} (SRC) solves the following minimization problem:
 \begin{equation}
 \min_{\xx, \ee} \| \xx \|_1 + \|\ee\|_1 \quad \subj \quad \bb = A \xx + \ee.
 \label{eq:l1min_denoise}
