@@ -1,6 +1,8 @@
 \section{Prelim Review}
 \frame{\tableofcontents}
 
+\subsection{Introduction}
+
 \frame{
 \frametitle{Why is face recognition important?}
 {\em Make the initiation of
@@ -72,6 +74,7 @@ This encompases the following major contributions:
 }
 
 \subsection{Illumination Model}
+\frame{\tableofcontents[currentsection, currentsubsection]}
 \input{promo}
 
 %\frame{
@@ -82,7 +85,7 @@ This encompases the following major contributions:
 \frame{
 \frametitle{Linear Illumination Models}
 \vspace{-5mm}\begin{center}
-\includegraphics[width=0.9\textwidth]{images/shadow_example}
+\includegraphics[width=0.3\textwidth]{images/shadow_example}
 \end{center}\vspace{-5mm}
 \begin{itemize}
 \item Despite Shadowing and Specularities Images still linear WRT illumination
@@ -94,7 +97,8 @@ This encompases the following major contributions:
 \frame{
 \frametitle{Acquisition System}
 \includegraphics[width=0.3\textwidth]{images/camera_rig_drawings/perspective.pdf}
-Projector-Based system
+
+Projector-Based System:
 \begin{itemize}
 \item Easy to re-configure projector geometry
 \item Trivial to change illumination patterns
@@ -136,6 +140,7 @@ Top View\\
 %}
 
 \subsection{Alignment}
+\frame{\tableofcontents[currentsection, currentsubsection]}
 %\input{promo.tex}
 
 \frame{
@@ -223,28 +228,28 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 }
 
 
-\frame{\frametitle{Alignment Examples}
-{\footnotesize
-\vspace{-.1in}
-Comparison of $\ell^1$ and $\ell^2$ minimization:
-\renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.15\textheight}
-\vspace{-.05in}
-\begin{center}
-\begin{tabular}[t]{b{.3in}cccc}
-$\min \|\e\|_2$\vfill &
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/L2_cropped} &
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_warp_L2} &
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_hat_L2} &
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/e_L2} \\
-$\min \|\e\|_1$\vfill &
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/L1_cropped} &
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_warp_L1} &
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_hat_L1} &
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/e_L1} \\
-& {\tiny Face Boundary} & {\tiny Aligned Test} & {\tiny Reconstruction} & {\tiny $|$Error$|$}
-\end{tabular}
-\end{center}
+%\frame{\frametitle{Alignment Examples}
+%{\footnotesize
+%\vspace{-.1in}
+%Comparison of $\ell^1$ and $\ell^2$ minimization:
+%\renewcommand{\imagesizestring}{height}
+%\renewcommand{\imagesizea}{0.15\textheight}
+%\vspace{-.05in}
+%\begin{center}
+%\begin{tabular}[t]{b{.3in}cccc}
+%$\min \|\e\|_2$\vfill &
+%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/L2_cropped} &
+%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_warp_L2} &
+%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_hat_L2} &
+%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/e_L2} \\
+%$\min \|\e\|_1$\vfill &
+%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/L1_cropped} &
+%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_warp_L1} &
+%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_hat_L1} &
+%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/e_L1} \\
+%& {\tiny Face Boundary} & {\tiny Aligned Test} & {\tiny Reconstruction} & {\tiny $|$Error$|$}
+%\end{tabular}
+%\end{center}
 
 %$\ell^1$ and $\ell^2$ minimization alignment comparison
 \renewcommand{\imagesizestring}{height}
@@ -359,8 +364,8 @@ Testing: 19 images of 14 subjects with sunglasses $\Rightarrow \textbf{\color{re
 }}
 
 
-\frame{\tableofcontents[currentsection, currentsubsection]}
 \subsection{Contiguous Occlusion}
+\frame{\tableofcontents[currentsection, currentsubsection]}
 
 \renewcommand{\imagesizestring}{height}
 \renewcommand{\imagesizea}{0.25\textheight}

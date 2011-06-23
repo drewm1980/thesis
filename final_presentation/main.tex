@@ -10,8 +10,7 @@
 		via Parallelized $\ell_1$ Minimization}
 \author{Andrew W. Wagner} 
 \institute{Department of Electrical and Computer Engineering\\
-University of Illinois at Urbana-Champaign\\
-}
+University of Illinois at Urbana-Champaign }
 \date{July 1, 2011}
 
 %\includeonly{pipeline}
@@ -20,58 +19,50 @@ University of Illinois at Urbana-Champaign\\
 
 \frame{\titlepage}
 
-\include{introduction}
-\include{pipeline}
+%\include{introduction}
+%\include{pipeline}
+\include{alm}
 
-\section{Fast $\ell_1$-Min}
-\subsection{Augmented Lagrange Multipier Method}
-\frame{ \frametitle{Overview} Talk about Interior Point, Homotopy, etc...}
-\frame{ \frametitle{Augmented Lagrange Multiplier} Condensed Derivation of error correction solver}
-\frame{ \frametitle{ALM} Modified derivation for alignment}
-\frame{ \frametitle{ALM} Rearrangement of code to reduce loads of A}
-\frame{ \frametitle{ALM} Discuss pixel-level parallelism.  Can't get rid of synchronization, 
-and it will influence GPU implementation}
+%\section{Parallelized Solvers}
+%\subsection{Hardware Overview}
+%\frame{ \frametitle{GPU Hardware Overview}}
+%\frame{ \frametitle{GPU Hardware Overview}}
+%\frame{ \frametitle{Limitations of programming model}}
+%\frame{ \frametitle{CPU Hardware Overview}}
+%\frame{ \frametitle{CPU Hardware Overview}}
+%\subsection{Parallelization of Recognition Stage}
+%\frame{ \frametitle{Implementation via BLAS, OpenMP, CUBLAS} Fairly straightforward.}
+%\frame{ \frametitle{Benchmarks on public datasets} Speed improvements!  In fact, no longer the most expensive
+%part of the pipeline}
+%\frame{ \frametitle{Scalability} Discuss effect of CPU cache, better scalability of GPU for huge problems}
+%\subsection{GPU Alignment Parallelization}
+%\frame{ \frametitle{Microbenchmarks} Motivate single solver per core for alignment}
+%\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
+%\frame{ \frametitle{GPU Implementation} Performance optimization, array storage}
+%\frame{ \frametitle{GPU Implementation} Performance optimization, tuning}
+%\frame{ \frametitle{GPU Implementation} Performance optimization, numerical precision}
+%\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
+%\frame{ \frametitle{Benchmarks} Code runs fast on public datasets.}
+%\subsection{CPU Alignment Parallelization}
+%\frame{ \frametitle{Microbenchmarks} Motivate single solver per core}
+%\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
+%%\subsection{Recap}
+%\frame{ \frametitle{Existing Architectures are already fast} CPU and GPU architectures competitive, and
+%both benefit dramatically from proper parallelization.  Implementation on GPU much more painful; no SM level
+%libraries}
+%\frame{ \frametitle{Improving hardware architectures} CPU/GPU hybrids: Intel Knight's Corner and AMD's APU}
 
-\section{Parallelized Solvers}
-\subsection{Hardware Overview}
-\frame{ \frametitle{GPU Hardware Overview}}
-\frame{ \frametitle{GPU Hardware Overview}}
-\frame{ \frametitle{Limitations of programming model}}
-\frame{ \frametitle{CPU Hardware Overview}}
-\frame{ \frametitle{CPU Hardware Overview}}
-\subsection{Parallelization of Recognition Stage}
-\frame{ \frametitle{Implementation via BLAS, OpenMP, CUBLAS} Fairly straightforward.}
-\frame{ \frametitle{Benchmarks on public datasets} Speed improvements!  In fact, no longer the most expensive
-part of the pipeline}
-\frame{ \frametitle{Scalability} Discuss effect of CPU cache, better scalability of GPU for huge problems}
-\subsection{GPU Alignment Parallelization}
-\frame{ \frametitle{Microbenchmarks} Motivate single solver per core for alignment}
-\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
-\frame{ \frametitle{GPU Implementation} Performance optimization, array storage}
-\frame{ \frametitle{GPU Implementation} Performance optimization, tuning}
-\frame{ \frametitle{GPU Implementation} Performance optimization, numerical precision}
-\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
-\frame{ \frametitle{Benchmarks} Code runs fast on public datasets.}
-\subsection{CPU Alignment Parallelization}
-\frame{ \frametitle{Microbenchmarks} Motivate single solver per core}
-\frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
-%\subsection{Recap}
-\frame{ \frametitle{Existing Architectures are already fast} CPU and GPU architectures competitive, and
-both benefit dramatically from proper parallelization.  Implementation on GPU much more painful; no SM level
-libraries}
-\frame{ \frametitle{Improving hardware architectures} CPU/GPU hybrids: Intel Knight's Corner and AMD's APU}
-
-\section{Conclusion and Future Work}
-%\subsection{Recap}
-\frame{ \frametitle{Recap} By prelim had proposed a complete face recognition pipeline for face recognition,
-but it wasn't fast enough yet for commercial application}
-\frame{ \frametitle{Recap} Since prelim, have dramatically improved the speed of the system without sacrificing
-performance.}
-%\subsection{Future Work}
-\frame{ \frametitle{Improve acquisition system using multiplexed illuminations } }
-\frame{ \frametitle{Merge iterative alignment, SRC, and LBP} }
-\frame{ \frametitle{Increase arithmetic intensity} Mention work in progress on subgradient descent methods.
-take advantage of tallness of the arrays, geometry of the $\ell_1$ minimization problem}
+%\section{Conclusion and Future Work}
+%%\subsection{Recap}
+%\frame{ \frametitle{Recap} By prelim had proposed a complete face recognition pipeline for face recognition,
+%but it wasn't fast enough yet for commercial application}
+%\frame{ \frametitle{Recap} Since prelim, have dramatically improved the speed of the system without sacrificing
+%performance.}
+%%\subsection{Future Work}
+%\frame{ \frametitle{Improve acquisition system using multiplexed illuminations } }
+%\frame{ \frametitle{Merge iterative alignment, SRC, and LBP} }
+%\frame{ \frametitle{Increase arithmetic intensity} Mention work in progress on subgradient descent methods.
+%take advantage of tallness of the arrays, geometry of the $\ell_1$ minimization problem}
 
 %\include{conclusion}
 %\include{publications}

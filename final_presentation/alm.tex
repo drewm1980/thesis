@@ -1,0 +1,116 @@
+
+\section{Fast $\ell_1$-Min}
+\frame{\tableofcontents[currentsection, currentsubsection]}
+\subsection{Introduction}
+
+\frame{ \frametitle{$\ell_1$ Minimization Problems}
+The core of the recognition
+pipeline consisted of solving $\ell_1$ minimization problems with the following two forms:
+\begin{equation}
+\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
+\end{equation}
+\begin{equation}
+\min_{\x, \e} \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
+\end{equation}
+}
+
+\frame{ \frametitle{$ell_1$ Minimization Algorithms} 
+\begin{itemize}
+\item Interior point method converges in small number of steps,  but each
+step is very expensive, involves solving linear system and re-ordering data in inner loop.
+\item To overcome this, a state-of-the-art
+$\ell_1$-minimization solution based on \emph{augmented Lagrangian methods}
+(ALM) [BertsekasD2003,YangA2010-ICIP] has been developed.
+\item Belongs to family of iterative shrinkage-thresholding methods, contains only
+first-order operations in its inner loop.
+\end{itemize}
+}
+
+\subsection{Augmented Lagrange Multipier Method}
+\frame{\tableofcontents[currentsection, currentsubsection]}
+
+
+\frame{\frametitle{ALM Derivation}
+In the ALM formulation, the basic steps in each iteration can be summarized as follows:
+\begin{equation}
+\left \{ 
+\begin{array}{lll}
+(\x_{k+1},\e_{k+1}) & = & \arg\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e\|_2^2 \\
+\blambda_{k+1} & = & \blambda_k + \mu_k (\bb - A\x_{k+1} - \e_{k+1}) \\
+\mu_{k+1} & = & \rho\cdot\mu_k
+\end{array} 
+\right . ,
+\end{equation}
+where $\blambda_k$'s represent the Lagrange multipliers, and $\{\mu_k\}$ is a
+monotonically increasing positive sequence ($\rho > 1$).  
+}
+
+\frame{\frametitle{ALM Derivation}
+We focus our attention on the non-trivial first step:
+
+\begin{equation}
+\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e\|_2^2.
+%\label{eqn:alm}
+\end{equation}
+
+Instead of minimizing wrt $\x$ and $\e$ simultaneously, we adopt an alternating solution strategy:
+
+\begin{equation}
+%\left \{
+\begin{array}{lll}
+\e_{j+1} & = & \arg \min_{\e}  \|W\e\|_1 + \langle \blambda_k, \bb - A\x_j - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x_j - \e\|_2^2 \\
+\x_{j+1} & = & \arg \min_{\x} \|\x\|_1 + \langle \blambda_k, \bb - A\x - \e_{j+1} \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e_{j+1}\|_2^2
+\end{array}
+\end{equation}
+}
+
+\frame{\frametitle{ALM Derivation}
+Now, the first step in {eqn:alt} has the following closed-form solution:
+\begin{equation}
+\,[\e_{j+1}]_i  =  \shrink \left(\left[ \bb + \frac{1}{\mu_k}\blambda_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m,
+\end{equation}
+where $[\e]_i$ represents the $i$th component of $\e$, and the shrinkage operator is:
+\begin{equation}
+\shrink(x,\alpha) = \sign(x)\cdot \max\{|x| - \alpha, 0\},
+\end{equation}
+
+An iterative method to solve the second step of {eqn:alt} can be written as:
+\begin{equation}
+\x_{l+1}  =  \shrink\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + \e_{j+1} - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right).
+\end{equation}
+
+We focus our attention on the non-trivial first step:
+\begin{equation}
+\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e\|_2^2.
+%\label{eqn:alm}
+\end{equation}
+}
+
+\frame{\frametitle{Complete ALM Algorithm}
+%\begin{algorithm}
+\begin{algorithmic}
+\WHILE{not converged}
+\WHILE{not converged}
+\STATE $[\e_{j+1}]_i  =  \shrink \left(\left[ \bb + \frac{1}{\mu_k}\blambda_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m$
+\STATE $t_1 \leftarrow 1$, $\z_1 \leftarrow \x_j$
+\WHILE{not converged}
+\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l + \e_{j+1} - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right)$
+\STATE $t_{l+1} = 0.5\left( 1 + \sqrt{1+4t_l^2}\right)$
+\STATE $\z_{l+1} = \x_{l+1} + \frac{t_l - 1}{t_{l+1}}(\x_{l+1} - \x_l)$
+\ENDWHILE
+\ENDWHILE
+\STATE $\blambda_{k+1} = \blambda_k + \mu_k (\bb - A\x_{k+1} - \e_{k+1})$
+\STATE $\mu_{k+1} = \rho\cdot\mu_k$
+\ENDWHILE
+\end{algorithmic}
+%\end{algorithm}
+}
+
+\frame{ \frametitle{ALM Modified derivation for alignment}
+The above derivation can be modified to solve the second $\ell_1$ minimization algorithm:
+\begin{itemize}
+\item Inner loop can be replaced by a single computation of $A^\dagger$.
+\item The code can further be arranged to group similar operations and reduce loads of $A$.
+\end{itemize}
+}
+

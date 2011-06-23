@@ -2,40 +2,36 @@
 \frame{\tableofcontents[currentsection, currentsubsection]}
 
 \subsection{Improved Face Window}
+
 \frame{ \frametitle{Improved Face Window} 
 \centering
+{
 \begin{tabular}{@{}cc@{}}
 \includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.8in]{../figures_pami/example.png} &
 \includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.8in]{../figures_pami/example_new.png} \\
 Default window. & Proposed window.
 \end{tabular}
-\small
+}
 {\small Recognition rates on the Multi-PIE database for
-different pairings of alignment and recognition stages:}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c| }
+Algorithm 1 and [Yang2010-CVPR]}
+\centerline{
+\begin{tabular}{|c|c|c|c|c| }
 \hline
-\backslashbox{Rec.}{Align.}
-& \multicolumn{3}{|c|}{Face Detector}
-& \multicolumn{3}{|c|}{Manual}
-& \multicolumn{3}{|c|}{Iterative Alignment}
-\\
+Recognition rate & Session 2 & Session 3 & Session 4  \\
 \hline
-Session $\rightarrow$	& 2		&3			&4			& 2		&3			&4			& 2		&3			&4		\\
+{Alg. 1, $S=1$} & 90.7\% & 89.6\% & 87.5\% \\
 \hline
-NS	& 30.8\%	& 29.4\%	& 24.6\%	& 77.6\%	& 74.3\%	& 73.4\%	& 84.5\%	& 82.3\%	& 81.4\% \\
+{Alg. 1} & 93.9\% & 93.8\% & 92.3\% \\
 \hline
-NN	& 26.4\%	& 24.7\%	& 21.9\%	& 67.3\%	& 66.2\%	& 62.8\%	& 73.5\%	& 69.6\%	& 69.3\% \\
+{Alg. 1 with improved window} & 95.0\% & {\bf 96.3}\% & {\bf 97.3}\% \\
 \hline
-LDA	& 5.1\%		& 5.9\%		& 4.3\%		& 49.4\%	& 44.3\%	& 47.9\%	& 91.0\%	& 89.9\%	& 88.1\% \\
-\hline
-LBP	& 39.9\%	& 38.1\%	& 33.9\%	& 93.3\%	& 91.2\%	& 92.9\%	& {\bf 95.2\%}	& {\bf 94.7\%}	& {\bf 93.5\%} \\
-\hline
-SRC	& -- & -- & -- & -- & -- & -- & 93.9\%	& 93.8\%	& 92.3\% \\
+\cite{Yang2010-CVPR} & {\bf 95.2}\% & 93.4\% & 95.1\% \\
 \hline
 \end{tabular}
 }
 
 \subsection{Improved Occlusion Handling}
+\frame{\tableofcontents[currentsection, currentsubsection]}
 
 \frame{ \frametitle{Difficulty with MRF Model} 
 MRF showed improved occlusion handling for the aligned case.
@@ -79,13 +75,15 @@ Bottom row: examples where the overlapping blocks method failed.
 
 
 \subsection{Updated Experiments on Large Datasets}
-
+\frame{\tableofcontents[currentsection, currentsubsection]}
 
 \frame{\frametitle{Large Scale Experiments on Multi-PIE}
 {\small Recognition rates on the Multi-PIE database for
 different pairings of alignment and recognition stages.}
+
 \centerline{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c| }
+\small
 \hline
 \backslashbox{Rec.}{Align.}
 & \multicolumn{3}{|c|}{Face Detector}
@@ -106,14 +104,15 @@ LBP	& 39.9\%	& 38.1\%	& 33.9\%	& 93.3\%	& 91.2\%	& 92.9\%	& {\bf 95.2\%}	& {\bf 
 SRC	& -- & -- & -- & -- & -- & -- & 93.9\%	& 93.8\%	& 92.3\% \\
 \hline
 \end{tabular}
+}
 A combination of iterative alignment and LBP achieves highest recognition rate.
-}}
+}
 
 \frame{ \frametitle{Comparisons with LBP} 
 \centerline{
 \begin{tabular}{@{}cc@{}}
-\includegraphics[height=2.5in]{../figures_pami/pami_roc_revision2} &
-\includegraphics[height=2.5in]{../figures_pami/pami_roc2} \\
+\includegraphics[height=2.0in]{../figures_pami/pami_roc_revision2} &
+\includegraphics[height=2.0in]{../figures_pami/pami_roc2} \\
 (a) & (b) \\
 \end{tabular}
 }
@@ -124,6 +123,7 @@ A combination of iterative alignment and LBP achieves highest recognition rate.
 
 \frame{ \frametitle{Improved performance on private dataset}
 \centering 
+{
 Recognition rates on a more realistic private database.
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -132,6 +132,7 @@ Test Category & C1 & C2 & C3 & C4  \\
 \hline
 Recognition Rate & 98.4\% & 95.8\% & 95.1\% & 40.9\% \\
 \hline
+}
 \end{tabular}
 }
 
