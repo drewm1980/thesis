@@ -4,12 +4,12 @@
 \subsection{Contiguous Occlusion}
 
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.25\textheight}
-\renewcommand{\imagesizeb}{0.15\textheight}
+\setlength{\imagesizea}{0.25\textheight}
+\setlength{\imagesizeb}{0.15\textheight}
 
 \frame{\frametitle{SRC on Random Corruption}
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.10\textheight}
+\setlength{\imagesizea}{0.10\textheight}
 \vspace{-.1in}
 \begin{itemize}
 \item<1-> SRC is provably optimal for {\em randomized} corruption. 
@@ -194,7 +194,7 @@ V}\log\big(p(\hat{\e}_k[i]|\s[i])\big);$$\vspace{0mm}
 
 
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.15\textheight}
+\setlength{\imagesizea}{0.15\textheight}
 \frame{\frametitle{Effect of $\tau$ and $\lambda$}
 Example test image from AR database, occluded by scarf: \\
 \begin{center}
@@ -223,7 +223,7 @@ $\lambda = 3$&
 }
 
 \renewcommand{\imagesizestring}{width}
-\renewcommand{\imagesizea}{0.2\textwidth}
+\setlength{\imagesizea}{0.2\textwidth}
 \frame{\frametitle{Example Recovery from Synthetic Occlusion}
 \begin{columns}
 \begin{column}{0.4\textwidth}
@@ -236,7 +236,7 @@ $\lambda = 3$&
 \end{itemize}
 \end{column}
 \begin{column}{0.6\textwidth}
-\renewcommand{\imagesizea}{0.15\textheight}
+\setlength{\imagesizea}{0.15\textheight}
 \begin{tabular}{cccc}
 {\footnotesize Iteration} & {\footnotesize $\e$} & {\footnotesize $\s$} & {\footnotesize $Reconstruction$} \\
 {\footnotesize 1} &
@@ -265,7 +265,7 @@ The MRF based algorithm (Algorithm 1) out-performs SRC (L1)
 }
 
 \renewcommand{\imagesizestring}{width}
-\renewcommand{\imagesizea}{0.2\textwidth}
+\setlength{\imagesizea}{0.2\textwidth}
 \frame{\frametitle{Natural Occlusion Example on AR Database}
 \begin{columns}
 \begin{column}{0.4\textwidth}
@@ -278,7 +278,7 @@ The MRF based algorithm (Algorithm 1) out-performs SRC (L1)
 \end{itemize}
 \end{column}
 \begin{column}{0.6\textwidth}
-\renewcommand{\imagesizea}{0.15\textheight}
+\setlength{\imagesizea}{0.15\textheight}
 \begin{tabular}{cccc}
 {\footnotesize Iteration} & {\footnotesize $\e$} & {\footnotesize $\s$} & {\footnotesize $Reconstruction$} \\
 {\footnotesize 1} &
@@ -299,7 +299,7 @@ The MRF based algorithm (Algorithm 1) out-performs SRC (L1)
 }
 
 \frame{\frametitle{Natural Occlusion Results on AR Database}
-\renewcommand{\imagesizea}{0.30\textwidth}
+\setlength{\imagesizea}{0.30\textwidth}
 \vspace{-.2in}
 \begin{columns}
 \begin{column}{.33\textwidth}

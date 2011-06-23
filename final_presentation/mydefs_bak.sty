@@ -10,27 +10,21 @@
 %\newcommand{\dimI}{\mathcal{D}}
 
 % Drew's Macros for easily keeping a bunch of images at uniform size
-\newcommand{\imagesizea}{\textwidth}
-\newcommand{\imagesizeb}{\textwidth}
-\newcommand{\imagesizec}{\textwidth}
 \newcommand{\imagesizestring}{width}
-
-\newcommand{\gapsizea}{0mm}
-\newcommand{\gapsizeb}{0mm}
-\newcommand{\gapsizec}{0mm}
-
+\newlength{\imagesizea}
+\newlength{\imagesizeb}
+\newlength{\imagesizec}
+\setlength{\imagesizea}{\textwidth}
+\setlength{\imagesizeb}{\textwidth}
+\setlength{\imagesizec}{\textwidth}
+\newlength{\gapsizea}
+\newlength{\gapsizeb}
+\newlength{\gapsizec}
+\setlength{\gapsizea}{0.0mm}
+\setlength{\gapsizeb}{0.0mm}
+\setlength{\gapsizec}{0.0mm}
 \setlength\fboxsep{0pt}
 \setlength\fboxrule{1pt}
-
-% Example for setting the heights of the images
-\renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.2\textheight}
-\renewcommand{\imagesizeb}{0.2\textheight}
-
-% Example for setting the widths of the images
-\renewcommand{\imagesizestring}{width}
-\renewcommand{\imagesizea}{0.2\textwidth}
-\renewcommand{\imagesizeb}{0.3\textwidth}
 
 % Minimizations.
 \newcommand{\Min}[1]{{\hbox{$\underset{#1}{\mbox{min}}\;$}}}\long\def\commentOUT#1{} 

@@ -5,9 +5,9 @@
 \subsection{Sparse Representation with Warping}
 \frame{\frametitle{Compound Effect of Alignment and Illumination}
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.25\textheight}
-\renewcommand{\imagesizeb}{0.15\textheight}
-\renewcommand{\gapsizea}{-0mm}
+\setlength{\imagesizea}{0.25\textheight}
+\setlength{\imagesizeb}{0.15\textheight}
+\setlength{\gapsizea}{-0mm}
 \begin{tabular}[b]{cc@{}b{.5\textwidth}}
 % Example for setting the heights of the images
 \includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case1/detector.png}& \hspace{\gapsizea}
@@ -98,54 +98,11 @@ A \leftarrow \left[ A_1 \circ \tau_1^-1 \ldots A_i \circ \tau_i^-1\ldots \right]
 \end{center}
 }
 
-
-%\frame{\frametitle{Alignment Examples}
-%$\ell^1$ and $\ell^2$ minimization alignment comparison
-%\begin{columns}
-%\begin{column}{0.5\textwidth}
-%\renewcommand{\imagesizestring}{height}
-%\renewcommand{\imagesizea}{0.2\textheight}
-%\begin{tabular}[t]{@{}c@{}c@{}c@{}c@{}m{.2\textwidth}}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/L1_cropped} &
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_warp_L1} &
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_hat_L1} &
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/e_L1} &
-%$\|\e\|_1$\\[-.05in]
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/L2_cropped} &
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_warp_L2} &
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_hat_L2} &
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/e_L2} &
-%$\|\e\|_2$ \\[-.1in]
-%{\tiny Face Boundary} & {\tiny Aligned Test} & {\tiny Reconstruction} & {\tiny $|$Error$|$}
-%\end{tabular}
-%\end{column}
-%\begin{column}{0.5\textwidth}
-%\renewcommand{\imagesizestring}{height}
-%\renewcommand{\imagesizea}{0.2\textheight}
-%Alignment tolerance for out-of-plane pose variation
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/21}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/19}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/17}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/15}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/13}\\
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/11}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/09}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/7}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/5}
-%\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/3}\\
-%Alignment using a projective transformation works up to about $45^{\circ}$.
-%\end{column}
-%\end{columns}
-%}
-
 \subsection{Experiments}
 
-
-
-
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.36\textheight}
-\renewcommand{\gapsizea}{-0mm}
+\setlength{\imagesizea}{0.36\textheight}
+\setlength{\gapsizea}{-0mm}
 \frame{\frametitle{Alignment region of attraction}
 %\begin{tabular}{cc}
 \begin{center}
@@ -172,7 +129,7 @@ A \leftarrow \left[ A_1 \circ \tau_1^-1 \ldots A_i \circ \tau_i^-1\ldots \right]
 \vspace{-.1in}
 Comparison of $\ell^1$ and $\ell^2$ minimization:
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.15\textheight}
+\setlength{\imagesizea}{0.15\textheight}
 \vspace{-.05in}
 \begin{center}
 \begin{tabular}[t]{b{.3in}cccc}
@@ -192,7 +149,7 @@ $\min \|\e\|_1$\vfill &
 
 %$\ell^1$ and $\ell^2$ minimization alignment comparison
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.15\textheight}
+\setlength{\imagesizea}{0.15\textheight}
 \vspace{-.1in}
 
 %Alignment tolerance for out-of-plane pose variation
@@ -256,7 +213,7 @@ NS$_d$ (NS$_m$) &  30.8 (77.6)\% & 29.4 (74.3)\% & 24.6 (73.4)\% \\
 %%%\begin{figure}
 
 \renewcommand{\imagesizestring}{width}
-\renewcommand{\imagesizea}{0.16\textwidth}
+\setlength{\imagesizea}{0.16\textwidth}
 \frame{
 \frametitle{Representative examples of failed Multi-PIE subjects}
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/079_01_01_051_08.png} 
@@ -282,7 +239,7 @@ Trouble when large changes in the appearance between training and testing
 % Experiments on our own training images
 
 \renewcommand{\imagesizestring}{width}
-\renewcommand{\imagesizea}{0.2\textwidth}
+\setlength{\imagesizea}{0.2\textwidth}
 \frame{\frametitle{Experiments on our data set}
 \small{
 Training (common to all): 74 users, 38 images per user

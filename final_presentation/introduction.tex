@@ -3,10 +3,10 @@
 
 \subsection{Introduction}
 
-\newcommand{\imagesizestring}{height}
-\newcommand{\imagesizea}{0.25\textheight}
-\newcommand{\imagesizeb}{0.15\textheight}
-\newcommand{\gapsizea}{-0mm}
+\renewcommand{\imagesizestring}{height}
+\setlength{\imagesizea}{0.25\textheight}
+\setlength{\imagesizeb}{0.15\textheight}
+\setlength{\gapsizea}{-0mm}
 
 \frame{
 \frametitle{Why is face recognition important?}
@@ -132,7 +132,7 @@ Top View\\
 
 \frame{
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.41\textheight}
+\setlength{\imagesizea}{0.41\textheight}
 \frametitle{Experimentally Motivated Illumination Set}
 \begin{tabular}{cc}
 \includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_front.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/front.png}\\
@@ -174,7 +174,7 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 %\begin{columns}
 %\begin{column}{0.5\textwidth}
 %\renewcommand{\imagesizestring}{height}
-%\renewcommand{\imagesizea}{0.2\textheight}
+%\setlength{\imagesizea}{0.2\textheight}
 %\begin{tabular}[t]{@{}c@{}c@{}c@{}c@{}m{.2\textwidth}}
 %\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/L1_cropped} &
 %\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/y_warp_L1} &
@@ -191,7 +191,7 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 %\end{column}
 %\begin{column}{0.5\textwidth}
 %\renewcommand{\imagesizestring}{height}
-%\renewcommand{\imagesizea}{0.2\textheight}
+%\setlength{\imagesizea}{0.2\textheight}
 %Alignment tolerance for out-of-plane pose variation
 %\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/21}
 %\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/19}
@@ -210,8 +210,8 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 
 
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.36\textheight}
-\renewcommand{\gapsizea}{-0mm}
+\setlength{\imagesizea}{0.36\textheight}
+\setlength{\gapsizea}{-0mm}
 \frame{\frametitle{Alignment region of attraction}
 %\begin{tabular}{cc}
 \begin{center}
@@ -238,7 +238,7 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 %\vspace{-.1in}
 %Comparison of $\ell^1$ and $\ell^2$ minimization:
 %\renewcommand{\imagesizestring}{height}
-%\renewcommand{\imagesizea}{0.15\textheight}
+%\setlength{\imagesizea}{0.15\textheight}
 %\vspace{-.05in}
 %\begin{center}
 %\begin{tabular}[t]{b{.3in}cccc}
@@ -258,7 +258,7 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 
 %$\ell^1$ and $\ell^2$ minimization alignment comparison
 %\renewcommand{\imagesizestring}{height}
-%\renewcommand{\imagesizea}{0.15\textheight}
+%\setlength{\imagesizea}{0.15\textheight}
 %\vspace{-.1in}
 
 %%Alignment tolerance for out-of-plane pose variation
@@ -318,7 +318,7 @@ NS$_d$ (NS$_m$) &  30.8 (77.6)\% & 29.4 (74.3)\% & 24.6 (73.4)\% \\
 
 
 %\renewcommand{\imagesizestring}{width}
-%\renewcommand{\imagesizea}{0.16\textwidth}
+%\setlength{\imagesizea}{0.16\textwidth}
 %\frame{
 %\frametitle{Representative examples of failed Multi-PIE subjects}
 %\includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/079_01_01_051_08.png} 
@@ -344,7 +344,7 @@ NS$_d$ (NS$_m$) &  30.8 (77.6)\% & 29.4 (74.3)\% & 24.6 (73.4)\% \\
 % Experiments on our own training images
 
 \renewcommand{\imagesizestring}{width}
-\renewcommand{\imagesizea}{0.2\textwidth}
+\setlength{\imagesizea}{0.2\textwidth}
 \frame{\frametitle{Experiments on our data set}
 \small{
 Training (common to all): 74 users, 38 images per user
@@ -373,12 +373,12 @@ Testing: 19 images of 14 subjects with sunglasses $\Rightarrow \textbf{\color{re
 \frame{\tableofcontents[currentsection, currentsubsection]}
 
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.25\textheight}
-\renewcommand{\imagesizeb}{0.15\textheight}
+\setlength{\imagesizea}{0.25\textheight}
+\setlength{\imagesizeb}{0.15\textheight}
 
 \frame{\frametitle{SRC on Random Corruption}
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.10\textheight}
+\setlength{\imagesizea}{0.10\textheight}
 \vspace{-.1in}
 \begin{itemize}
 \item<1-> SRC is provably optimal for {\em randomized} corruption. 
@@ -460,7 +460,8 @@ Model probability of adjacent pixels agreeing, and probability of pixel being oc
 \item Want to solve 
 $\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_k \x_k + \e.$
 \item Difficult non-convex optimization problem!
-\item $\Rightarrow$ alternate between: \begin{enumerate} 
+\item $\Rightarrow$ alternate between: 
+\begin{enumerate} 
 \item Solving SRC on the image region currently defined by $\s$:
 	\begin{equation*}(\hat{\x}_k,\hat{\e}^*) = \argmin{\x,\e^*} \|\e^*\|_1  \; \textup{ s.t. } \; \y^* = A_k^*\x+\e^*, \x\geq 0 \end{equation*}
 \item Using graph cuts and our statistical model do update $\s$:
@@ -515,7 +516,7 @@ $\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_
 %}
 
 \renewcommand{\imagesizestring}{height}
-\renewcommand{\imagesizea}{0.15\textheight}
+\setlength{\imagesizea}{0.15\textheight}
 \frame{\frametitle{Tuning MRF Model Parameters}
 Example test image from AR database, occluded by scarf: \\
 \begin{center}

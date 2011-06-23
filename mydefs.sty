@@ -1,5 +1,22 @@
 %% Old stuff provided by the template, we're going to get rid of all of this eventually
 
+% Drew's Macros for easily keeping a bunch of images at uniform size
+\newcommand{\imagesizestring}{width}
+\newlength{\imagesizea}
+\newlength{\imagesizeb}
+\newlength{\imagesizec}
+\setlength{\imagesizea}{\textwidth}
+\setlength{\imagesizeb}{\textwidth}
+\setlength{\imagesizec}{\textwidth}
+\newlength{\gapsizea}
+\newlength{\gapsizeb}
+\newlength{\gapsizec}
+\setlength{\gapsizea}{0.0mm}
+\setlength{\gapsizeb}{0.0mm}
+\setlength{\gapsizec}{0.0mm}
+\setlength\fboxsep{0pt}
+\setlength\fboxrule{1pt}
+
 % 2 theta with ` ' marks
 \providecommand{\tth}{\mbox{`}2 \theta \mbox{'}}
 % chemical formulas -- doesn't work in headings!  
@@ -18,6 +35,7 @@
 %% Minimizations.
 \newcommand{\Min}[1]{{\hbox{$\underset{#1}{\mbox{min}}\;$}}}\long\def\commentOUT#1{} 
 \newcommand{\argmin}[1]{{\hbox{$\underset{#1}{\mbox{argmin}}\;$}}}\long\def\commentOUT#1{}
+\newcommand{\argmax}[1]{{\hbox{$\underset{#1}{\mbox{argmax}}\;$}}}\long\def\commentOUT#1{}
 
 \newcommand{\ie}{{i.e., }}
 \newcommand{\eg}{{e.g., }}
@@ -38,9 +56,9 @@
 \newcommand{\fie}{\mathbf{\phi}}
 \newcommand{\alfa}{\mathbf{\alpha}}
 
-\def\chat{\mathbf{\hat{c}}}
-\def\xhat{\mathbf{\hat{x}}}
-\def\nhat{\mathbf{\hat{n}}}
+%\def\chat{\mathbf{\hat{c}}}
+%\def\xhat{\mathbf{\hat{x}}}
+%\def\nhat{\mathbf{\hat{n}}}
 
 %%% The rest I stole ... err ... borrowed from Yi's gpcabook
 %\newtheorem{problem}{Problem}
