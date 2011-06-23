@@ -38,8 +38,10 @@ can perform 4 single precision floating point operations concurrently.
 }
 
 \frame{ \frametitle{GPU Hardware Overview}
+\begin{itemize}
 \item High memory bandwidth compared to CPU
 \item Much higher degree of concurrency compared to CPU
+\end{itemize}
 }
  
 \frame{ \frametitle{GPU Hardware Overview}
@@ -61,21 +63,59 @@ operations concurrently.
 \end{itemize}
 }
 
-\renewcommand{\tempscale}[0]{0.5}
+\newcommand{\tempscale}[0]{0.7}
 \frame{ \frametitle{CPU and GPU cache comparison}
 \centering
-The larger algorithm data structures:
-\includegraphics[scale=\tempscale]{../figures_ijcb/arrays.pdf}
-
-The caches on a E5530 CPU:
-\includegraphics[scale=\tempscale]{../figures_ijcb/cpu_caches.pdf}
-
-The caches on a GTX480 GPU:
-\includegraphics[scale=\tempscale]{../figures_ijcb/gpu_caches.pdf}
+The larger algorithm data structures: \\
+\includegraphics[scale=\tempscale]{../figures_ijcb/arrays.pdf} \\
+The caches on a E5530 CPU: \\
+\includegraphics[scale=\tempscale]{../figures_ijcb/cpu_caches.pdf} \\
+The caches on a GTX480 GPU: \\
+\includegraphics[scale=\tempscale]{../figures_ijcb/gpu_caches.pdf} \\
 }
 
 %\frame{ \frametitle{Limitations of CUDA programming model}
 %}
+
+\frame{ \frametitle{Parallelism in the recognition stage}
+For Recognition stage:
+\begin{itemize}
+\item Single large $\ell_1$ minimization problem
+\item Only one level of parallelism available: {\em pixel-level}
+\end{itemize}
+}
+
+\frame{ \frametitle{Parallel implementation of the recognition stage}
+\begin{itemize}
+\item Most operations map directly onto calls in the BLAS API.
+\item On the CPU, Intel's MKL BLAS can exploit both levels of concurrency on the CPU.
+\item On the GPU, Nvidia's CUBLAS exploits both levels of concurrency on the CPU.
+\item On the CPU, the remaining operations can be parallelized via manual threading (via OpenMP),
+and automatic vectorization (via the Intel ICC compiler).
+\item On the GPU, the remaining operations can be parallelized manually as CUDA kernels.
+\end{itemize}
+}
+
+\frame{ \frametitle{Parallelism in the alignment stage}
+For Alignment stage:
+\begin{itemize}
+\item Many relatively small $\ell_1$ minimization problems that are solved repeatedly
+\item Two levels of parallelism available: \emph{problem-level} and \emph{pixel-level}
+\item $\ell_1$ minimization is interleaved with image rewarping.
+\end{itemize}
+}
+
+\frame{ \frametitle{Parallel implementation of the alignment stage}
+\begin{itemize}
+\item TODO
+%\item Most operations map directly onto calls in the BLAS API.
+%\item On the CPU, Intel's MKL BLAS can exploit both levels of concurrency on the CPU.
+%\item On the GPU, Nvidia's CUBLAS exploits both levels of concurrency on the CPU.
+%\item On the CPU, the remaining operations can be parallelized via manual threading (via OpenMP),
+%and automatic vectorization (via the Intel ICC compiler).
+%\item On the GPU, the remaining operations can be parallelized manually as CUDA kernels.
+\end{itemize}
+}
 
 \subsection{Parallelization of Recognition Stage}
 \frame{ \frametitle{Implementation via BLAS, OpenMP, CUBLAS} Fairly straightforward.}
