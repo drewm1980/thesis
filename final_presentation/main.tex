@@ -14,25 +14,14 @@ University of Illinois at Urbana-Champaign\\
 }
 \date{July 1, 2011}
 
+%\includeonly{pipeline}
+
 \begin{document}
 
 \frame{\titlepage}
 
 \include{introduction}
-
-\section{Improved Pipeline}
-\subsection{Improved Face Mask}
-\frame{ \frametitle{Improved Face Mask} Quick Explanation, hardly necessary}
-\frame{ \frametitle{Improved Face Mask} Experiment Result}
-\subsection{Simultaneously Handling Occlusion and Misalignment}
-\frame{ \frametitle{Difficulty with MRF Model} Explain weakness of MRF model w.r.t. 
-poor alignment initialization.  MRF Good, but doesn't solve chicken and egg problem.}
-\frame{ \frametitle{Overlapping Block Model} Explain Overlapping Block Model; Blocks small enough
-to sometimes miss occlusions, but large enough to converge independently.}
-\frame{ \frametitle{Robustness to Sunglasses} Experiment Result for block occlusion.}
-\subsection{Updated Experiments on Large Datasets}
-\frame{ \frametitle{Comparisons with LBP} LBP+alignment better recognition rate, 
-SRC+alignment better subject validation}
+\include{pipeline}
 
 \section{Fast $\ell_1$-Min}
 \subsection{Augmented Lagrange Multipier Method}
