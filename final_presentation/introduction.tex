@@ -1,5 +1,5 @@
 \frame{\tableofcontents}
-\section{Introduction}
+\section{Prelim Review}
 
 \frame{
 \frametitle{Why is face recognition important?}
@@ -11,9 +11,9 @@ another human.}
 \item Access Control: Workplace, Home, Automobile
 \item Home automation: Light switches, HVAC
 \item Computer Access: ATM, grocery store checkout
+\end{itemize}
 }
 
-\subsection{Introduction}
 \frame{
 \frametitle{Why is 2D face recognition important for these applications?}
 \begin{itemize}
@@ -85,17 +85,15 @@ This encompases the following major contributions:
 \vspace{-5mm}\begin{center}
 \includegraphics[width=0.9\textwidth]{images/shadow_example}
 \end{center}\vspace{-5mm}
+\begin{itemize}
 \item Despite Shadowing and Specularities Images still linear WRT illumination
 \item We can make Shadows and Specularities our Friends rather than our Enemies
 \item {\em Experimentally} determine which training illuminations needed
 \end{itemize}
 }
 
-%\subsection{Acquisition System}
 \frame{
 \frametitle{Acquisition System}
-\begin{columns}
-
 \includegraphics[width=0.3\textwidth]{images/camera_rig_drawings/perspective.pdf}
 Projector-Based system
 \begin{itemize}
@@ -201,7 +199,6 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 %\end{columns}
 %}
 
-%\subsection{Experiments}
 
 \renewcommand{\imagesizestring}{height}
 \renewcommand{\imagesizea}{0.36\textheight}
@@ -363,10 +360,7 @@ Testing: 19 images of 14 subjects with sunglasses $\Rightarrow \textbf{\color{re
 }}
 
 
-
-\subsection{Occlusion}
 \frame{\tableofcontents[currentsection, currentsubsection]}
-
 \subsection{Contiguous Occlusion}
 
 \renewcommand{\imagesizestring}{height}
@@ -437,14 +431,6 @@ Testing: 19 images of 14 subjects with sunglasses $\Rightarrow \textbf{\color{re
 \end{itemize}
 }
 
-
-
-
-%\includegraphics[width=2.9in]{IEEEPAMI_Occlusion/figures/yb_result_bab.pdf}
-
-
-
-
 \frame{\frametitle{Markov Random Field Model}
 \vspace{-.1in}
 \begin{center}
@@ -454,45 +440,11 @@ Testing: 19 images of 14 subjects with sunglasses $\Rightarrow \textbf{\color{re
 \vspace{-.1in}
 \begin{itemize}
 \item Represent the image domain as an adjacency graph $G=(V,E)$
-\item Let $\s\in \{-1,1\}^m$ be the support of $\e[i]$ :\\  $\s[i] = \left\{\begin{array}{cl} -1 & \mbox{for } \e[i] = 0\\ 1 & \mbox{for } \e[i] \neq 0 \end{array}\right.$
-\item Model probability mass function of $\s$ using classical Ising model:
-\begin{equation*}
-p(\s) \propto \exp\Bigl\{\underbrace{\sum_{(i,j)\in E}\lambda_{ij}\s[i]\s[j]}_{\tiny \mbox{edge prior}} + \underbrace{\sum_{i\in V}\lambda_i \s[i]}_{\tiny \mbox{vertex prior}}\Bigr\}
-\end{equation*}
+\item Let $\s$ be the support of $\e[i]$
+\item Use classical Ising Model as statistical model for $\s$:\\
+Model probability of adjacent pixels agreeing, and probability of pixel being occluded.
 \end{itemize}
 }
-
-\frame{\frametitle{Applying MRF to Occlusion}
-\vspace{-.1in}
-\begin{itemize}
-\item Use simplified Ising Model: $p(\s) \propto \exp\Bigl\{\sum_{(i,j)\in E}\lambda \s[i]\s[j] \Bigr\}$
-\item joint p.d.f of $\e$: \\ 
-\vspace{-.15in}
-\begin{eqnarray*}
-p(\e,\s) &=& p(\s) p(\e|\s) = p(\s) \prod_i p(\e[i]|\s[i])\\  
-&\propto&  \exp\Big\{\hspace{-0mm}\sum_{(i,j)\in E} \hspace{-0mm}\lambda\s[i]\s[j] + \sum_{i\in V} \log p(\e[i] \mid \s[i]) \Big\}
-\end{eqnarray*}
-\item approximate p($\e|\s$):\\
-\begin{center}\includegraphics[width=0.5\textwidth]{figures_iccv/function.pdf}\end{center}
-\end{itemize}
-}
-
-%\item Isolate effect of occlusion by assuming aligned images
-
-%
-%\frame{\frametitle{Solving Sparse Representation under MRF assumption}
-%\begin{itemize}
-%\item Want to solve 
-%$\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_k \x_k + \e.$
-%\item Difficult non-convex optimization problem!
-%\item $\Rightarrow$ alternate between: \begin{enumerate} 
-%\item Performing sparse representation using pixels labeled as un-occluded: \\
-%\begin{equation*}(\hat{\x}_k,\hat{\e}^*) = \argmin{\x,\e^*} \|\e^*\|_1  \; \textup{ s.t. } \; \y^* = A_k^*\x+\e^*, \x\geq 0 \end{equation*}
-%\item Estimating the support of the occlusion given the representation error: \\
-%\begin{equation*} \hat{\s} = \argmax{\s \in \{-1,1\}^m}  \sum_{(i,j)\in E}  \lambda \s[i]\s[j] + \sum_{i\in V} \log p(\e[i] | \s[i]).\end{equation*}
-%\end{enumerate}
-%\end{itemize}
-%}
 
 \frame{\frametitle{Solving Sparse Representation under MRF assumption}
 \begin{itemize}
@@ -500,68 +452,62 @@ p(\e,\s) &=& p(\s) p(\e|\s) = p(\s) \prod_i p(\e[i]|\s[i])\\
 $\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_k \x_k + \e.$
 \item Difficult non-convex optimization problem!
 \item $\Rightarrow$ alternate between: \begin{enumerate} 
-\item Solving $(\hat \x_k, \hat \e) = \mbox{arg}\max_{\x_k,\e} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_k \x_k + \e.$\\
-	 For very small $\tau$, this reduces (approximately) to solving SRC on a restricted domain:
+\item Solving SRC on the image region currently defined by $\s$:
 	\begin{equation*}(\hat{\x}_k,\hat{\e}^*) = \argmin{\x,\e^*} \|\e^*\|_1  \; \textup{ s.t. } \; \y^* = A_k^*\x+\e^*, \x\geq 0 \end{equation*}
-\item Solving $\hat \s = \mbox{arg}\max_{\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_k \x_k + \e.$\\
-	Under our assumptions this reduces to:
+\item Using graph cuts and our statistical model do update $\s$:
 	\begin{equation*} \hat{\s} = \argmax{\s \in \{-1,1\}^m}  \sum_{(i,j)\in E}  \lambda \s[i]\s[j] + \sum_{i\in V} \log p(\e[i] | \s[i]).\end{equation*}
 \end{enumerate}
 \end{itemize}
 }
 
+%\frame{\frametitle{The Complete MRF Recognition Algorithm}
+%{\footnotesize
+%\begin{algorithmic}[1]
+%\STATE {\bf Input:} A matrix of normalized training samples $A =
+%[A_1,A_2,\ldots,A_K] \in \Re^{m\times n}$ for $K$ classes, a test
+%sample $\y \in \Re^{m}$.
 
-\frame{\frametitle{The Complete MRF Recognition Algorithm}
-{\footnotesize
-\begin{algorithmic}[1]
-\STATE {\bf Input:} A matrix of normalized training samples $A =
-[A_1,A_2,\ldots,A_K] \in \Re^{m\times n}$ for $K$ classes, a test
-sample $\y \in \Re^{m}$.
+%\FOR{each subject $k$}
 
-\FOR{each subject $k$}
+%\STATE Initialize the error support $\s^{(0)}_k = \mathbf{-1}_m$.
 
-\STATE Initialize the error support $\s^{(0)}_k = \mathbf{-1}_m$.
+%\STATE {\bf repeat}
 
-\STATE {\bf repeat}
+%\STATE \hspace{3mm}$A_k^* = A_k[\s^{(t-1)}_k=-1,\, :\, ]$, $\y^* =
+%\y[s^{(t-1)}_k=-1]$;
 
-\STATE \hspace{3mm}$A_k^* = A_k[\s^{(t-1)}_k=-1,\, :\, ]$, $\y^* =
-\y[s^{(t-1)}_k=-1]$;
+%\STATE \hspace{3mm}Solve the convex program\\
+%\hspace{5mm} $(\hat{\x}_k,\hat{\e}^*) \;=\; \arg\min \|\e^*\|_1 $\\
+%\hspace{24mm} $\mathrm{ s.t. } \quad \y^* = A_k^*\x+\e^*, \, \x\geq 0;$
 
-\STATE \hspace{3mm}Solve the convex program\\
-\hspace{5mm} $(\hat{\x}_k,\hat{\e}^*) \;=\; \arg\min \|\e^*\|_1 $\\
-\hspace{24mm} $\mathrm{ s.t. } \quad \y^* = A_k^*\x+\e^*, \, \x\geq 0;$
+%\STATE \hspace{3mm}$\hat{\e}_k\leftarrow \y-A_k\hat{\x}_k$;
 
-\STATE \hspace{3mm}$\hat{\e}_k\leftarrow \y-A_k\hat{\x}_k$;
+%\STATE \hspace{3mm}Update error support via graph cuts:\vspace{0mm}
+%$$\s^{(t)}_k = \arg\hspace{-4mm}\max_{\s\in\{-1,1\}^m}\hspace{-2mm}\sum_{i,j\in
+%E}\hspace{-2mm}{\lambda} \s[i]\s[j]+\sum_{i\in
+%V}\log\big(p(\hat{\e}_k[i]|\s[i])\big);$$\vspace{0mm}
+%\STATE {\bf until} maximum iterations or convergence.
 
-\STATE \hspace{3mm}Update error support via graph cuts:\vspace{0mm}
-$$\s^{(t)}_k = \arg\hspace{-4mm}\max_{\s\in\{-1,1\}^m}\hspace{-2mm}\sum_{i,j\in
-E}\hspace{-2mm}{\lambda} \s[i]\s[j]+\sum_{i\in
-V}\log\big(p(\hat{\e}_k[i]|\s[i])\big);$$\vspace{0mm}
-\STATE {\bf until} maximum iterations or convergence.
+%\STATE Compute the normalized error $$\mathbf{r}_k(\y) =
+%\frac{\|\y^*-A_k^*\hat{\x}_k\|_1}{|\{ i \mid \s_k[i] = -1 \}|^2}. \vspace{0mm}$$
+%\ENDFOR
 
-\STATE Compute the normalized error $$\mathbf{r}_k(\y) =
-\frac{\|\y^*-A_k^*\hat{\x}_k\|_1}{|\{ i \mid \s_k[i] = -1 \}|^2}. \vspace{0mm}$$
-\ENDFOR
+%\STATE {\bf Output:} identity$(\y) = \arg\min_k \r_k(\y)$.
+%\end{algorithmic}
+%}}
 
-\STATE {\bf Output:} identity$(\y) = \arg\min_k \r_k(\y)$.
-\end{algorithmic}
-}}
-
-\subsection{Experiments}
-
-\frame{\frametitle{Choosing Model Parameters}
-\begin{itemize}
-\item Meaning of $\tau$ and $\lambda$: \begin{itemize}\item larger $\lambda$ smoothes $\s$ at the expense of increasing $\e$. \item $\tau$ is a threshold on $\e$, above which pixel is considered occluded \end{itemize}
-\item For a given $\lambda$, the support of $\e$ will drop off suddenly as $\tau$ is decreased:
-\begin{center}\includegraphics[width=0.5\textwidth]{figures_iccv/n_of_goodentry.pdf}\end{center}
-\item{Beyond red point many unoccluded pixels get mis-labelled as occluded.}
-\end{itemize}
-}
-
+%\frame{\frametitle{Choosing Model Parameters}
+%\begin{itemize}
+%\item Meaning of $\tau$ and $\lambda$: \begin{itemize}\item larger $\lambda$ smoothes $\s$ at the expense of increasing $\e$. \item $\tau$ is a threshold on $\e$, above which pixel is considered occluded \end{itemize}
+%\item For a given $\lambda$, the support of $\e$ will drop off suddenly as $\tau$ is decreased:
+%\begin{center}\includegraphics[width=0.5\textwidth]{figures_iccv/n_of_goodentry.pdf}\end{center}
+%\item{Beyond red point many unoccluded pixels get mis-labelled as occluded.}
+%\end{itemize}
+%}
 
 \renewcommand{\imagesizestring}{height}
 \renewcommand{\imagesizea}{0.15\textheight}
-\frame{\frametitle{Effect of $\tau$ and $\lambda$}
+\frame{\frametitle{Tuning MRF Model Parameters}
 Example test image from AR database, occluded by scarf: \\
 \begin{center}
 \fbox{\includegraphics[height=0.225\textheight]{figures_iccv/test_epsilon.png}}\\
@@ -588,113 +534,6 @@ $\lambda = 3$&
 \end{tabular}
 }
 
-\renewcommand{\imagesizestring}{width}
-\renewcommand{\imagesizea}{0.2\textwidth}
-\frame{\frametitle{Example Recovery from Synthetic Occlusion}
-\begin{columns}
-\begin{column}{0.4\textwidth}
-\begin{itemize}
-\item Image from Yale Database
-\item $60\%$ occlusion
-\item $\lambda = 3$
-\item Test Image: \\
-\fbox{\includegraphics[\imagesizestring=.3\textwidth]{figures_iccv/yale_exp/1/y.png}}\\
-\end{itemize}
-\end{column}
-\begin{column}{0.6\textwidth}
-\renewcommand{\imagesizea}{0.15\textheight}
-\begin{tabular}{cccc}
-{\footnotesize Iteration} & {\footnotesize $\e$} & {\footnotesize $\s$} & {\footnotesize $Reconstruction$} \\
-{\footnotesize 1} &
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/1/e.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/1/L.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/1/y_rec.png}}\\
-{\footnotesize 2} &
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/2/e.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/2/L.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/2/y_rec.png}}\\
-{\footnotesize last} &
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/6/e.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/6/L.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/yale_exp/6/y_rec.png}}
-\end{tabular}
-\end{column}
-\end{columns}\renewcommand{\imagesizestring}{height}
-}
-
-\frame{\frametitle{Yale Results}
-%\includegraphics[width=.5\textwidth]{figures_iccv/results/yale_lambda.pdf}\\
-\begin{center}
-\includegraphics[width=.5\textwidth]{figures_iccv/results/yale_cmp.pdf}\\
-The MRF based algorithm (Algorithm 1) out-performs SRC (L1)
-\end{center}
-}
-
-\renewcommand{\imagesizestring}{width}
-\renewcommand{\imagesizea}{0.2\textwidth}
-\frame{\frametitle{Natural Occlusion Example on AR Database}
-\begin{columns}
-\begin{column}{0.4\textwidth}
-\begin{itemize}
-\item Image from AR Database
-\item Scarf occlusion
-\item $\lambda = 3$
-\item Test Image: \\
-\fbox{\includegraphics[\imagesizestring=.3\textwidth]{figures_iccv/AR_exp/1/y.png}}
-\end{itemize}
-\end{column}
-\begin{column}{0.6\textwidth}
-\renewcommand{\imagesizea}{0.15\textheight}
-\begin{tabular}{cccc}
-{\footnotesize Iteration} & {\footnotesize $\e$} & {\footnotesize $\s$} & {\footnotesize $Reconstruction$} \\
-{\footnotesize 1} &
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/1/e.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/1/L.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/1/y_rec.png}}\\
-{\footnotesize 2} &
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/2/e.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/2/L.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/2/y_rec.png}}\\
-{\footnotesize last} &
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/7/e.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/7/L.png}}&
-\fbox{\includegraphics[\imagesizestring = \imagesizea]{figures_iccv/AR_exp/7/y_rec.png}}\\
-\end{tabular}
-\end{column}
-\end{columns}\renewcommand{\imagesizestring}{height}
-}
-
-\frame{\frametitle{Natural Occlusion Results on AR Database}
-\renewcommand{\imagesizea}{0.30\textwidth}
-\vspace{-.2in}
-\begin{columns}
-\begin{column}{.33\textwidth}
-{\tiny AR Database, 100 subjects, 800 images per subject. 200 test images, full size is $83\times 60$ }\\
-\vspace{.3in} \ \\
-{\tiny Extended Yale B Database Training: 19 subjects, Testing: 19 of same, 19 of different subjects, $96\times 84$ pixels.  Applied threshold to $\min_k \frac{\| \y^* - A_k^* \hat{\x}_k \|_1}{  | \{ i \mid \s_k[i] = -1 \} |^2}$ } \\
-%{\tiny 60\% occlusion} & {\tiny 80\% occlusion}\\
-%{\tiny Scarf} & {\tiny Sunglasses}\\
-\end{column}
-\begin{column}{.33\textwidth}
-\begin{center}
-\includegraphics[width=.9\textwidth]{figures_iccv/results/AR_scarf_new.pdf}\\
-\vspace{-.1in}{\tiny Scarf}
-\includegraphics[width=.9\textwidth]{figures_iccv/roc/eYB-60.pdf}\\
-\vspace{-.1in}{\tiny 60\% occlusion}
-\end{center}
-\end{column}
-\begin{column}{.33\textwidth}
-\begin{center}
-\includegraphics[width= .9\textwidth]{figures_iccv/results/AR_sunglasses_new.pdf}\\
-\vspace{-.1in}{\tiny Sunglasses}
-\includegraphics[width=.9\textwidth]{figures_iccv/roc/eYB-80.pdf}\\
-\vspace{-.1in}{\tiny 80\% occlusion}
-\end{center}
-\end{column}
-\end{columns}
-
-}
-
 \frame{\frametitle{MRF vs. SRC on Our Dataset}
 \newcommand{\imagewidth}{.55in}
 \vspace{-.12in}
@@ -711,4 +550,28 @@ The MRF based algorithm (Algorithm 1) out-performs SRC (L1)
 {\small SRC Recognition} & {\bf 99.4}\% & {\bf 98.3}\% & 65.6\% & 40.0\% & 37.8\%
 \end{tabular}
 \end{center}
+}
+
+\frame{\frametitle{Recap}
+The proposed SRC based alignment and recognition algorithm is already:
+\begin{itemize}
+\item very robust to illumination variation
+\item robust to minor occlusions
+\item robust to large in-plane pose variation
+\end{itemize}
+Unfortunately:
+\begin{itemize}
+\item Performance still poor for moderate to severe occlusions
+\item Way to slow for commercial applications in current state 
+\end{itemize}
+}
+
+\frame{\frametitle{Recognition Pipeline Demonstration}
+\begin{itemize}
+\item Test image taken today
+\item Training images taken over 1 year ago
+\item 38 illuminations per subject, ??? subjects in gallery.
+\item Implemented in OpenCV
+\item Running on XYZ machine
+\end{itemize}
 }

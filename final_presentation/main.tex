@@ -44,11 +44,10 @@ SRC+alignment better subject validation}
 and it will influence GPU implementation}
 
 \section{Parallelized Solvers}
-\subsection{GPU Hardware Overview}
+\subsection{Hardware Overview}
 \frame{ \frametitle{GPU Hardware Overview}}
 \frame{ \frametitle{GPU Hardware Overview}}
 \frame{ \frametitle{Limitations of programming model}}
-\subsection{CPU Hardware Overview}
 \frame{ \frametitle{CPU Hardware Overview}}
 \frame{ \frametitle{CPU Hardware Overview}}
 \subsection{Parallelization of Recognition Stage}
@@ -67,19 +66,19 @@ part of the pipeline}
 \subsection{CPU Alignment Parallelization}
 \frame{ \frametitle{Microbenchmarks} Motivate single solver per core}
 \frame{ \frametitle{GPU Implementation} Discuss implementation challenges}
-\subsection{Recap}
+%\subsection{Recap}
 \frame{ \frametitle{Existing Architectures are already fast} CPU and GPU architectures competitive, and
 both benefit dramatically from proper parallelization.  Implementation on GPU much more painful; no SM level
 libraries}
 \frame{ \frametitle{Improving hardware architectures} CPU/GPU hybrids: Intel Knight's Corner and AMD's APU}
 
-\section{Conclusion}
-\subsection{Recap}
+\section{Conclusion and Future Work}
+%\subsection{Recap}
 \frame{ \frametitle{Recap} By prelim had proposed a complete face recognition pipeline for face recognition,
 but it wasn't fast enough yet for commercial application}
 \frame{ \frametitle{Recap} Since prelim, have dramatically improved the speed of the system without sacrificing
 performance.}
-\subsection{Future Work}
+%\subsection{Future Work}
 \frame{ \frametitle{Improve acquisition system using multiplexed illuminations } }
 \frame{ \frametitle{Merge iterative alignment, SRC, and LBP} }
 \frame{ \frametitle{Increase arithmetic intensity} Mention work in progress on subgradient descent methods.

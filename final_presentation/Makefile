@@ -1,4 +1,4 @@
-TARGETS=final_presentation.pdf 
+TARGETS=main.pdf 
 
 .PHONY:all
 all: ${TARGETS} 
