@@ -151,9 +151,6 @@ Top View\\
 \frame{
 \frametitle{Image Embedding}
 \vspace{-3mm}
-\begin{equation*}
-(\hat \x, \hat \e,\hat \tau_i) = \argmin{\x,\e,\tau_i \in T} \| \e \|_1 \quad \subj \quad \y \circ \tau_i = A_i \x + \e
-\end{equation*}
 \begin{center}
 \includegraphics[width=.50\textwidth]{figures_embedding/training_embedding.pdf}\\
 $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
@@ -163,6 +160,9 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 
 \frame{
 \frametitle{Recognition Pipeline}
+\begin{equation*}
+(\hat \x, \hat \e,\hat \tau_i) = \argmin{\x,\e,\tau_i \in T} \| \e \|_1 \quad \subj \quad \y \circ \tau_i = A_i \x + \e
+\end{equation*}
 \begin{center}
 \includegraphics[width=.75\textwidth]{figures_embedding/pipeline.pdf}
 \end{center}
