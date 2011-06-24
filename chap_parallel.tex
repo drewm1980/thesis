@@ -10,9 +10,9 @@ $\ell$-minimization solver routines presented in Chapter
 Chapter \ref{chap:pipeline}, on many-core CPU and GPU architectures. 
 
 \subsection{Literature Review} 
-The litterature related to the $\ell_1$ solvers
+The literature related to the $\ell_1$ solvers
 used can be found in Chapter \ref{chap:minimization}.  In this section we
-briefly review litterature specifically related to parallel implementation of
+briefly review literature specifically related to parallel implementation of
 these algorithms.  In terms of the past works in parallel
 $\ell_1$-minimization, the literature has been limited. In \cite{BorghiA2010},
 Borghi et al.  developed a special proximal gradient $\ell_1$-minimization
@@ -50,7 +50,7 @@ as well as Intel x86-64 CPUs, will be made available for peer evaluation.
 \begin{figure}
 \centering
 %{\tiny \input{figures_ijcb/pipeline_simplified.tex}}
-\includegraphics[scale=1]{figures_ijcb/pipeline_simplified.pdf}
+\includegraphics[scale=1.2]{figures_ijcb/pipeline_simplified.pdf}
 \caption{The face recognition pipeline.  }
 \label{fig:pipeline}
 \end{figure}
@@ -453,11 +453,38 @@ recognition problem.
 %makes the best use of the entire GPU chip (most GPU boards have a single GPU
 %chip).  
 
+\begin{algorithm}[h]
+\caption{Augmented Lagrangian Method (ALM)}
+\small
+{\bf INPUT:} $\bb \in \Re^m$, $A=[A_1,\cdots, A_K] \in \Re^{m \times n}$, $\tau\leftarrow \max\mbox{eig}(A^TA)$, and constant $\rho>1$.
+\begin{algorithmic}[1]
+\WHILE{not converged ($k = 1,2,\ldots$)} 
+\STATE $t_1 \leftarrow 1$, $\zz_1 \leftarrow \xx_k$, $\uu_1 \leftarrow \xx_k$ 
+\WHILE{not converged ($l = 1,2,\ldots$)} 
+\STATE $\uu_{l+1}  \leftarrow \shrink(\zz_l - \frac{1}{\tau}A^T(A\zz_l - \bb - \frac{1}{\mu_k}\blambda_k), \frac{1}{\mu_k\tau})$
+\STATE $t_{l+1} \leftarrow \frac{1}{2}( 1 + \sqrt{1+4t_l^2})$
+\STATE $\zz_{l+1} \leftarrow \uu_{l+1}+ \frac{t_l - 1}{t_{l+1}}(\uu_{l+1} - \uu_l)$ 
+\ENDWHILE 
+\STATE $\xx_{k+1} \leftarrow \uu_{l+1}$ 
+\STATE $\blambda_{k+1} \leftarrow \blambda_k + \mu_k (\bb - A\xx_{k+1})$ 
+\STATE $\mu_{k+1} \leftarrow \rho\cdot\mu_k$ 
+\ENDWHILE 
+\end{algorithmic}
+{\bf OUTPUT:} $\xx^* \leftarrow \xx_k$.
+\label{alg:alm} 
+\end{algorithm}
+
 \subsection{Simulations on Random Data}
 \label{sec:simulation}
 
 The first experiment compares the performance of our proposed CPU and GPU
-implementations of the general $\ell_1$-minimization solver (Algorithm \eqref{alg:alm}).
+implementations of a general $\ell_1$-minimization solver (Algorithm \eqref{alg:alm})
+used for solving the generic basis pursuit problem:
+\begin{equation} 
+\min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx
+%\label{eq:l1min} 
+\tag{\ref{eq:l1min}}
+\end{equation}
 The $m \times n$ measurement matrix $A$ is a random Gaussian matrix, with each
 entry generated from the standard normal distribution and normalized to unit
 column norm.  The ratio of $m/n$ is fixed at $1/2$ with $n$ varying from 1000 to 8000.

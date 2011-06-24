@@ -566,8 +566,8 @@ low.}\label{fig:AR_result} \vspace{0in}
 \begin{figure}
 \centering
 \begin{tabular}{cc}
-\includegraphics[height=2in]{figures_iccv/roc/eYB-60.pdf}&
-\includegraphics[height=2in]{figures_iccv/roc/eYB-80.pdf}\\
+\includegraphics[height=2.2in]{figures_iccv/roc/eYB-60.pdf}&
+\includegraphics[height=2.2in]{figures_iccv/roc/eYB-80.pdf}\\
 (a) & (b)
 \end{tabular}
 \caption{ROC curve for outlier rejection. (a) 60\% occlusion. (b)
@@ -598,7 +598,7 @@ We apply both algorithms\footnote{We consider a more scalable variant of \cite{W
 
 \begin{figure}
 \centering
-\newcommand{\imagewidth}{.9in}
+\newcommand{\imagewidth}{.7in}
 \begin{tabular}{ccccc}
 Normal & Eyeglasses & Sunglasses & Hats & Disguises \\
 \includegraphics[width=\imagewidth]{figures_iccv/real_data_examples/normal_1.jpg} & \includegraphics[width=\imagewidth]{figures_iccv/real_data_examples/glasses_1.jpg} & \includegraphics[width=\imagewidth]{figures_iccv/real_data_examples/sunglasses_1.jpg} & \includegraphics[width=\imagewidth]{figures_iccv/real_data_examples/hats_1.jpg} & \includegraphics[width=\imagewidth]{figures_iccv/real_data_examples/disguise_1.jpg} \\
@@ -642,14 +642,9 @@ that were already aligned using hand-labeled feature points.  Since alignment
 must be performed automatically for the test image in a production system, the
 most important issue for future work on the MRF based recognition algorithm is
 to investigate how to perform robust alignment in the presence of large
-occlusions.  Given the success shown in Chapter \ref{chap:pipeline} in
-integrating a deformation model into the algorithm of \cite{Wright2009-PAMI},
-the integration of a deformation model into the regression step of our
-algorithm \cite{Wagner2009-CVPR} seems very promising.  Since MRF simply
-restricts the subset of pixels on which the L1 optimization is performed, 
-iterative alignment and occlusion modeling using MRF are neatly
-orthogonal from an implementation standpoint.  
-
+occlusions.  Since MRF essentially just restricts the subset of pixels on which
+the L1 optimization is performed, iterative alignment and occlusion modeling
+using MRF are neatly orthogonal from an implementation standpoint.  
 Unfortunately, there is danger that the changing model of occluded areas
 used by in the MRF model will destabilize the iterative alignment.  Ideally, an
 occlusion model needs to be able to distinguish between error caused by
