@@ -7,7 +7,7 @@ and even if only a portion of the face is visible.  While we take it for
 granted, the ability to quickly identify the people around us is critical to
 our social interaction and often to our personal safety.  While we are often
 able to recognize people we know by their gait, their voice, or even what they
-are wearing, for those with good eyesight, face recognition is the fastest and
+are wearing, face recognition is the fastest and
 most reliable way to identify people in our surroundings.  We are comforted by
 seeing the faces of people we know and trust, and we are often ill at ease when
 we are in the vicinity of someone who is concealing their identity with a mask.  
@@ -24,104 +24,110 @@ matching the robustness of the human recognition system, it demonstrates that
 there is a largely ignored class of recognition applications for which face
 recognition is tractable.  By gathering a sufficient set of images of each
 subject under different illuminations and fixed pose, we are able to robustly
-recognize subjects under lighting from any direction.  While the necessity of
-gathering these gallery images is admittedly a downside of the technique, it is
-hardly unreasonable.  Note that even if we only meet someone briefly, we see
-their face under varying illumination: as a person's head moves, so does the
-relative direction of the light illuminating it.
+recognize subjects under lighting from any direction.  This parallels how
+humans become familiar with the appearance of a face. Even if we only meet
+someone briefly, as their head moves, so does the relative direction of the
+light illuminating it, and thus we always see their face under varying
+illumination.  While the necessity of gathering these gallery images increases
+the cost of the system, this is outweighed by the robustness advantages.
 
 Until quite recently, a recognition system of the type presented in this thesis
 would have been extremely impractical.  In particular, until the advent of
 Digital Micro-mirror Devices (a.k.a. DLP) by Texas Instruments, most projectors
 had far lower contrast and lower brightness, and were thus much less suitable
-for building a light stage like the proposed acquisition system.  Furthermore,
+for building a light stage like the described acquisition system.  Furthermore,
 without the recent dramatic increases in computational bandwidth achieved by
-modern parallel processors, the use of low dimensional features extracted from
-a small number of gallery images was a practical necessity.  Finally, the
-mathematical properties of the $\ell_1$-norm, both as a robust error function,
-and also as a sparsity-encouraging regularization term, enable formulation of
-recognition in terms of convex optimization problems without sacrificing
-robustness to sparse error (as with traditional $\ell_2$ norm error based
-methods).  While good engineering and design of the system remains critical for
-good recognition performance, the recognition system presented here would have
-not been possible prior to the emergence of these three technologies.
+modern parallel processors, the use of direct use of raw images as features was
+prohibitively expensive; low dimensional feature extraction was a practical
+necessity.  Finally, an improved understanding of the mathematical properties
+of the $\ell_1$-norm, both as a robust error function, and also as a
+sparsity-encouraging regularization term, enabled the formulation of recognition in
+terms of convex optimization problems without sacrificing robustness to sparse
+error (as with traditional $\ell_2$ norm error based methods).  The recognition
+system presented here would have not been possible prior to the emergence of
+these three technologies.
 
 \section{Summary of Contributions}
-While the primary value of this research is in the overall approach taken by
-the recognition system, there are several contributions that stand out.  These
+While the primary value of this research is in the overall integrated approach taken by
+the recognition system, there are several contributions that stand out, and could be
+integrated into other recognition systems.  These contributions
 are the acquisition system, the robust iterative alignment formulation,
 improved $\ell_1$ minimization algorithms, and optimized parallel
 implementations for both CPU and GPU architectures.  Each of these
 contributions is briefly reviewed.
 
-The acquisition system achieves a set of illuminations that is quite capable at
-modelling the wide range of lighting distributions in the real world.  The
-lighting is distant, and with only two projectors it covers well over a
-hemisphere of incident illumination directions; only a cone of illumination
-directions from below horizontal is not covered.\footnote{With an additional
-projector bouncing light off of the floor a similar system could achieve true
-omnidirectional illumination coverage.  Determining if it is worth the extra
-cost in hardware and in mounting something in the ceiling is a topic for future
-research}  All of the hardware used is available off the shelf, and the cost of
-the components is dropping rapidly.  The cost of DLP projectors has roughly
-halved since the construction of the first prototype, and the cost of the
-overall system is already comparable to the cost of the illumination equipment
-already used in photography studios.  It was shown empirically that 38
-illuminations are sufficient to accurately model a variety of real-world
-illumination conditions.  In particular, experiments demonstrate that rear
-illuminations are important.
+The acquisition system quickly captures images of the subject under a set of
+illuminations that closely models the wide range of lighting distributions in
+the real world.  It was shown empirically that 38 illuminations are sufficient
+to accurately model a variety of real-world illumination conditions.  In
+particular, experiments demonstrate that rear illuminations are important.  The
+illumination generated by the system is distant, and with only two projectors
+it covers well over a hemisphere of incident illumination directions; only a
+cone of illumination directions from below horizontal is not covered.  With the
+addition of a projector that bounces light off of the floor, the system could
+even achieve true omnidirectional illumination coverage, though it remains to
+be seen if this is worthwhile.  All of the hardware used is available off the
+shelf, and the cost of the components is dropping rapidly.\footnote{The cost of
+DLP projectors has roughly halved since the construction of the first
+prototype.} The cost of the overall system is already comparable to the cost of
+the illumination equipment already used in photography studios.  
 
 The robust iterative alignment formulation successfully combines Lucas-Kanade
 style iterative alignment with the $\ell_1$ norm as a robust error function,
 and with an illumination model formed from the linear span of multiple gallery
-images per subject.  In addition to boosting the performance of a SRC-based
-recognition stage, it also is shown to boost the performance of a recognition
-stage based on local binary patterns.  Doing this improves recognition rate on
-public datasets, but is significantly worse than SRC at rejecting impostors.
-The iterative alignment algorithm exhibits a region of attraction that is more
-than sufficient to work with the de-facto standard Viola-Jones face detector.
+images per subject.  It exhibits a region of attraction that is more than
+sufficient to work with the output of the de-facto standard Viola-Jones face
+detector.  In addition to boosting the performance of a SRC-based recognition
+stage, iterative alignment is also shown to boost the performance of a
+recognition stage based on local binary patterns.  Experiments on the Multi-PIE
+dataset demonstrate that while this improves recognition rate, SRC remains
+significantly better at rejecting impostors.  Isolating the cause of this and
+designing a recognition stage with the strengths of both is an important topic
+of future research.
 
-In addition to the interior-point based $\ell_1$ solvers used in the first
-prototype, solvers based on ALM have been developed that significantly reduce
-the amount of required computation, while simplifying implementation on
-parallel architectures.  In contrast to the matrix-matrix operations and data
-re-ordering that are required by interior point solvers, the inner loops of the
-ALM solvers are composed primarily of matrix-vector multiplications and
-vector-vector operations.
+In addition to the interior-point based $\ell_1$ solvers that were developed
+for the first system prototype, solvers based on ALM were developed that
+significantly reduce the amount of required computation, and are simpler 
+to implement on parallel architectures.  In contrast to the matrix-matrix
+operations and data re-ordering that are required by interior point solvers,
+the inner loops of the ALM solvers are composed primarily of matrix-vector
+multiplications and vector-vector operations.
 
-Even with the improved solvers, optimized implementations on powerful parallel
-hardware is necessary to achieve recognition speeds that are practical for
-access control systems (and many other applications by extension).  While use
-of vendor-supplied parallel BLAS libraries is sufficient to achieve efficient
-parallelization of the SRC based recognition stage, for the alignment stage it
-is necessary to take advantage of the additional level of parallelism in the
-algorithm that arises from performing alignment individually for each gallery
-user.  On the CPU, this can be achieved by using a combination of
-single-threaded BLAS libraries, manual threading via the OpenMP API, and
-auto-vectorization compiler features.  For alignment on the CPU, the highest
-performing parallelization is achieved by solving one iterative alignment
-problem per CPU core.  In contrast with the CPU, on the GPU, there are no
-vendor-supplied libraries that operate at the granularity of a single core
-(Streaming Multiprocessor).  The vendor supplied CUBLAS library is designed to
-take advantage of the whole GPU to solve single large problems.  It was
-determined experimentally that the alignment problems are too small to run
-efficiently on the GPU, even if CUDA streams are used to launch several CUBLAS
-calls concurrently.  It was therefore necessary to develop an implementation of
-the alignment stage from scratch (i.e. no library dependencies) that solves
-many alignment problems concurrently.  The optimized implementations on both
-architectures are at least an order of magnitude faster than their
-sub-optimally parallelized predecessors.  The architectures are competitive
-with each-other in speed.  On the CPU the problem fits in L3 cache and speed is
-governed by the number of available cores.  On the GPU the data must be
-streamed from DRAM, and speed is governed by memory bandwidth.  Furthermore,
-new architectures are emerging that combine the best aspects of CPUs (ample
-amounts of cache) and GPUs (massive concurrency).  Examples of this are
-AMD's Fusion Accelerated Processing Unit and Intel's Knights Corner.  The
-parallelization lessons learned on the current generation of hardware will
-almost certainly apply to the next generation of hardware as well.
+Even with the improved solvers, optimized implementations running on powerful
+parallel hardware are necessary to achieve recognition speeds that are
+practical for access control systems (and many other applications by
+extension).  While use of vendor-supplied parallel BLAS libraries is sufficient
+to achieve efficient parallelization of the SRC based recognition stage, for
+the alignment stage it is necessary to take advantage of the additional level
+of parallelism in the algorithm that arises from performing alignment
+individually for each gallery user.  On the CPU, this was achieved by using a
+combination of single-threaded BLAS libraries, manual threading via the OpenMP
+API, and auto-vectorization compiler features.  For alignment on the CPU, the
+highest performing parallelization is achieved by solving one iterative
+alignment problem per CPU core.  In contrast with the CPU, on the GPU, there
+are no vendor-supplied libraries that operate at the granularity of a single
+core (Streaming Multiprocessor).  The vendor supplied CUBLAS library is
+designed to take advantage of the whole GPU to solve a single large problem.
+It was determined experimentally that the alignment problems are much too small
+to run efficiently on the GPU sequentially. It was therefore necessary to
+develop an implementation of the alignment stage from scratch (i.e. no library
+dependencies) that solves many alignment problems concurrently.  The optimized
+implementations on both architectures are at least an order of magnitude faster
+than their sub-optimally parallelized predecessors.  The CPU and GPU
+architectures are competitive with each-other in speed.  On the CPU the problem
+fits in L3 cache and speed is governed by the number of available cores.  On
+the GPU the data must be streamed from DRAM, and speed is governed by memory
+bandwidth.  Furthermore, new architectures are emerging that combine the best
+aspects of CPUs (ample amounts of cache) and GPUs (massive concurrency).
+Examples of this are AMD's Fusion Accelerated Processing Unit and Intel's
+Knights Corner.  The parallelization lessons learned on the current generation
+of hardware will almost certainly apply to the next generation of hardware as
+well.
 
 
-%\section{Future Work}
+\section{Future Work}
+
+%Schenker
 
 %\section{Optimizing the Speed of the Recognition Algorithm}
 
