@@ -2,22 +2,22 @@
 FILENAME_NOEXT=thesis_`date +%Y_%m_%d_%H_%M`
 FILENAME=$FILENAME_NOEXT.zip
 FILEPATH=../dist/$FILENAME
-echo "Archiving to $FILEPATH..."
-git archive --output $FILEPATH master
 
-#echo "Uploading main.pdf to http://cpanel.cs.illinois.edu/~percept/Hidden/drew/$FILENAME_NOEXT.pdf"
-#scp main.pdf percept@cpanel.cs.illinois.edu:public_html/Hidden/drew/$FILENAME_NOEXT.pdf
+echo "Uploading main.pdf to http://cpanel.cs.illinois.edu/~percept/Hidden/drew/$FILENAME_NOEXT.pdf"
+scp main.pdf percept@cpanel.cs.illinois.edu:public_html/Hidden/drew/$FILENAME_NOEXT.pdf
 
-echo "Uploading full archive to..."
-echo ""
-echo "http://cpanel.cs.illinois.edu/~percept/Hidden/drew/$FILENAME"
-echo ""
-echo "Cheers,"
-echo "Drew"
+#echo "Archiving to $FILEPATH..."
+#git archive --output $FILEPATH master
+#echo "Uploading full archive to..."
+#echo ""
+#echo "http://cpanel.cs.illinois.edu/~percept/Hidden/drew/$FILENAME"
+#echo ""
+#echo "Cheers,"
+#echo "Drew"
 
-echo ""
-echo ""
-echo ""
-echo "http://cpanel.cs.illinois.edu/~percept/Hidden/drew/$FILENAME"
-scp $FILEPATH percept@cpanel.cs.illinois.edu:public_html/Hidden/drew/$FILENAME
-echo "Done..."
+#echo ""
+#echo ""
+#echo ""
+#echo "http://cpanel.cs.illinois.edu/~percept/Hidden/drew/$FILENAME"
+#scp $FILEPATH percept@cpanel.cs.illinois.edu:public_html/Hidden/drew/$FILENAME
+#echo "Done..."
