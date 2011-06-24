@@ -46,6 +46,7 @@ methods).  While good engineering and design of the system remains critical for
 good recognition performance, the recognition system presented here would have
 not been possible prior to the emergence of these three technologies.
 
+\section{Summary of Contributions}
 While the primary value of this research is in the overall approach taken by
 the recognition system, there are several contributions that stand out.  These
 are the acquisition system, the robust iterative alignment formulation,
@@ -90,11 +91,37 @@ vector-vector operations.
 
 Even with the improved solvers, optimized implementations on powerful parallel
 hardware is necessary to achieve recognition speeds that are practical for
-access control systems (and many other applications by extension).
+access control systems (and many other applications by extension).  While use
+of vendor-supplied parallel BLAS libraries is sufficient to achieve efficient
+parallelization of the SRC based recognition stage, for the alignment stage it
+is necessary to take advantage of the additional level of parallelism in the
+algorithm that arises from performing alignment individually for each gallery
+user.  On the CPU, this can be achieved by using a combination of
+single-threaded BLAS libraries, manual threading via the OpenMP API, and
+auto-vectorization compiler features.  For alignment on the CPU, the highest
+performing parallelization is achieved by solving one iterative alignment
+problem per CPU core.  In contrast with the CPU, on the GPU, there are no
+vendor-supplied libraries that operate at the granularity of a single core
+(Streaming Multiprocessor).  The vendor supplied CUBLAS library is designed to
+take advantage of the whole GPU to solve single large problems.  It was
+determined experimentally that the alignment problems are too small to run
+efficiently on the GPU, even if CUDA streams are used to launch several CUBLAS
+calls concurrently.  It was therefore necessary to develop an implementation of
+the alignment stage from scratch (i.e. no library dependencies) that solves
+many alignment problems concurrently.  The optimized implementations on both
+architectures are at least an order of magnitude faster than their
+sub-optimally parallelized predecessors.  The architectures are competitive
+with each-other in speed.  On the CPU the problem fits in L3 cache and speed is
+governed by the number of available cores.  On the GPU the data must be
+streamed from DRAM, and speed is governed by memory bandwidth.  Furthermore,
+new architectures are emerging that combine the best aspects of CPUs (ample
+amounts of cache) and GPUs (massive concurrency).  Examples of this are
+AMD's Fusion Accelerated Processing Unit and Intel's Knights Corner.  The
+parallelization lessons learned on the current generation of hardware will
+almost certainly apply to the next generation of hardware as well.
 
-\section{Introduction}
 
-\section{Future Work}
+%\section{Future Work}
 
 %\section{Optimizing the Speed of the Recognition Algorithm}
 
@@ -248,23 +275,19 @@ access control systems (and many other applications by extension).
 
 
 
-
-
-
-\section{Improving the acquisition system hardware}
-The current design has proven to be very satisfactory in a research environment where the subjects are very cooperative and make an effort to hold very still while the images are being taken.  Unfortunately, not all users of this technology will be so careful.  The best way to improve the quality of the training images is to increase the speed at which they are acquired.  The primary motive for this is to reduce the amount of movement of the user's head between consecutive training images.  There are several possible ways in which this goal can be pursued:
-%{\bf Refinements to the current design}
-\begin{itemize}
-\item {\em Increase the image acquisition rate by upgrading the cameras.}  Some newer IEEE1394 cameras contain features that could facilitate this.  One is the ability to trigger off of an external signal while still interleaving image exposure with transfer of the previous frame over the bus.  With our current cameras transfer and integration is serialized.  
-\item {\em Implementing some type automatic exposure control}  Some illuminations cause more light to fall on the subject's face than others.  Therefore, the optimal exposure time depends on which illumination is being displayed.  Automatic compensation for this could reduce the average exposure time without hurting the SNR.
-\item {\em Reduce synchronization delays by modifying the projectors}  There is a clock signal that drives the switching of the Digital Micromirror Device in each projector.  Synchronizing the camera exposure with a whole number of projector frames would greatly increase acquisition time; currently we have to be very conservative with the amount of time a given illumination is displayed to prevent problems synchronizing with the camera.
-\item {\em Reduce exposure time by modifying the projectors}  The only way to decrease the exposure time without hurting signal to noise ratio is to increase the intensity of the lighting.  Most Digital Light Processor (DLP) based projectors achieve color by spinning a wheel with either a colored mirror or a transmissive color filters in front of the light source.  Since color is not needed for  the training image acquisition, it would be desirable to remove the color wheel, effectively turning the projector into a black and white projector with a higher maximum intensity.
-\end{itemize}
-Not all of the above strategies may turn out to be feasible; in particular, the last two ideas would require some degree of reverse engineering of proprietary hardware inside the projector.  While the modifications are conceptually very simple, there may be unforeseen difficulties depending on the design of the projector.  In the worst case, the manufacturer may have deliberately implemented features to prevent tampering.
+%\section{Improving the acquisition system hardware}
+%The current design has proven to be very satisfactory in a research environment where the subjects are very cooperative and make an effort to hold very still while the images are being taken.  Unfortunately, not all users of this technology will be so careful.  The best way to improve the quality of the training images is to increase the speed at which they are acquired.  The primary motive for this is to reduce the amount of movement of the user's head between consecutive training images.  There are several possible ways in which this goal can be pursued:
+%%{\bf Refinements to the current design}
+%\begin{itemize}
+%\item {\em Increase the image acquisition rate by upgrading the cameras.}  Some newer IEEE1394 cameras contain features that could facilitate this.  One is the ability to trigger off of an external signal while still interleaving image exposure with transfer of the previous frame over the bus.  With our current cameras transfer and integration is serialized.  
+%\item {\em Implementing some type automatic exposure control}  Some illuminations cause more light to fall on the subject's face than others.  Therefore, the optimal exposure time depends on which illumination is being displayed.  Automatic compensation for this could reduce the average exposure time without hurting the SNR.
+%\item {\em Reduce synchronization delays by modifying the projectors}  There is a clock signal that drives the switching of the Digital Micromirror Device in each projector.  Synchronizing the camera exposure with a whole number of projector frames would greatly increase acquisition time; currently we have to be very conservative with the amount of time a given illumination is displayed to prevent problems synchronizing with the camera.
+%\item {\em Reduce exposure time by modifying the projectors}  The only way to decrease the exposure time without hurting signal to noise ratio is to increase the intensity of the lighting.  Most Digital Light Processor (DLP) based projectors achieve color by spinning a wheel with either a colored mirror or a transmissive color filters in front of the light source.  Since color is not needed for  the training image acquisition, it would be desirable to remove the color wheel, effectively turning the projector into a black and white projector with a higher maximum intensity.
+%\end{itemize}
+%Not all of the above strategies may turn out to be feasible; in particular, the last two ideas would require some degree of reverse engineering of proprietary hardware inside the projector.  While the modifications are conceptually very simple, there may be unforeseen difficulties depending on the design of the projector.  In the worst case, the manufacturer may have deliberately implemented features to prevent tampering.
 
 % TODO Mention scheneker illumination patterns.
 
-\section{Conclusion}
 
 %In other words, the algorithm 
 %extends Lucas-Kanade iterative alignment \cite{LucasB1981} to use the
