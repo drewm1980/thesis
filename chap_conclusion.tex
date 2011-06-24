@@ -1,7 +1,7 @@
 \chapter{Conclusion}
 \label{chap:conclusion}
 
-Humans have evolved an amazing capacity to recognize each-other with just a
+Humans have evolved an amazing capacity to recognize each other with just a
 glance at a person's face, from any angle, under almost any lighting condition,
 and even if only a portion of the face is visible.  While we take it for
 granted, the ability to quickly identify the people around us is critical to
@@ -37,7 +37,7 @@ Digital Micro-mirror Devices (a.k.a. DLP) by Texas Instruments, most projectors
 had far lower contrast and lower brightness, and were thus much less suitable
 for building a light stage like the described acquisition system.  Furthermore,
 without the recent dramatic increases in computational bandwidth achieved by
-modern parallel processors, the use of direct use of raw images as features was
+modern parallel processors, the direct use of raw images as features was
 prohibitively expensive; low dimensional feature extraction was a practical
 necessity.  Finally, an improved understanding of the mathematical properties
 of the $\ell_1$-norm, both as a robust error function, and also as a
@@ -114,7 +114,7 @@ develop an implementation of the alignment stage from scratch (i.e. no library
 dependencies) that solves many alignment problems concurrently.  The optimized
 implementations on both architectures are at least an order of magnitude faster
 than their sub-optimally parallelized predecessors.  The CPU and GPU
-architectures are competitive with each-other in speed.  On the CPU the problem
+architectures are competitive with each other in speed.  On the CPU the problem
 fits in L3 cache and speed is governed by the number of available cores.  On
 the GPU the data must be streamed from DRAM, and speed is governed by memory
 bandwidth.  Furthermore, new architectures are emerging that combine the best
@@ -124,7 +124,7 @@ Knights Corner.  The parallelization lessons learned on the current generation
 of hardware will almost certainly apply to the next generation of hardware as
 well.
 
-\section{Future Work} Experience with the recognition suggests that there are
+\section{Future Work} Experience with the recognition pipeline suggests that there are
 several important directions for future research.  It will be important to
 determine exactly why SRC has such a strong ability to reject impostors, so
 that this effect can be engineered into other systems.  Furthermore, broadening
@@ -132,13 +132,13 @@ the range of applications will require further improvements in robustness to
 occlusions, robustness to pose variation, and further optimization of the
 gallery images.  These three directions are discussed below.  
 
-Our experience so far indicate that that it is difficult to find an occlusion
+Our experience so far indicates that that it is difficult to find an occlusion
 model that improves robustness without de-stabilizing iterative alignment or
 sacrificing generality.  Unless a suitable occlusion model can be found, it may
 be necessary to resort to more expensive brute force techniques. For example,
 taking inspiration from \em{Random Sampling and Consensus} (RANSAC), candidate
 occlusion regions could be randomly sampled, and a voting scheme could be used
-to chose among candidate alignment update directions.  Similarly, multiple
+to choose among candidate alignment update directions.  Similarly, multiple
 alignment initializations could be tried. 
 
 Research into robustness to pose variation could go in several directions.  One
@@ -156,16 +156,17 @@ already mentioned, it may be advantageous to to capture below horizontal
 illumination directions.  Furthermore, it may be possible to capture images
 with a better SNR in a shorter time by using multiplexed illuminations
 \cite{schechner2007multiplexing}.  Multiplexed illuminations do have an
-important downside: Enforcing positivity of the illumination coefficients seems
+important downside. Enforcing positivity of the illumination coefficients 
 $\x$ improves robustness in images that are taken with very poor SNR.  For this
 to be possible, the multiplexing must be invertible.  This in turn requires
 that the camera and projectors must either be carefully calibrated, or the
 brightness of the illumination for each image must be measured, increasing the
 cost and complexity of the acquisition system.  For data sets such as
 Multi-PIE, where the test images do not have gross errors, non-negativity of
-$\x$ need not be enforced, and inversion of the multiplexing become
+$\x$ need not be enforced, and inversion of the multiplexing becomes
 unnecessary.  It is likely also possible to find a smaller set of illuminations
-that still sufficiently model real world illuminations, especially additional
+that still sufficiently model real-world illuminations, especially if
+additional
 information about the illumination in the test image is available.  For
 example, for access control applications, a subject entering a building is
 typically strongly backlit.
@@ -181,9 +182,11 @@ typically strongly backlit.
 %images?  Ideally we'd be using a large database of real subjects, but that is
 %not an option if we want to search over the full set of illuminations the
 %projectors can generate.  How many training images should we allow?  How do we
-%quantify the tradeoff between speed and accuracy?
+%quantify the trade-off between speed and accuracy?
 
-%There are few other things that make this experiment appealing.  Since the
+%There are a few other things that make this experiment 
+% STEPH: what experiment?
+% appealing.  Since the
 %dummy head is inanimate, we will completely eliminate the influence of pose
 %variation on the experiment, and all of our training images will already be
 %perfectly aligned; the cameras can be manually positioned such that the
