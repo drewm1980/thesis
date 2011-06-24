@@ -1,14 +1,96 @@
 \chapter{Conclusion}
 \label{chap:conclusion}
 
-acquisition system
-ALM on CPU
-Big speedup on CPU
+Humans have evolved an amazing capacity to recognize each-other with just a
+glance at a person's face, from any angle, under almost any lighting condition,
+and even if only a portion of the face is visible.  While we take it for
+granted, the ability to quickly identify the people around us is critical to
+our social interaction and often to our personal safety.  While we are often
+able to recognize people we know by their gait, their voice, or even what they
+are wearing, for those with good eyesight, face recognition is the fastest and
+most reliable way to identify people in our surroundings.  We are comforted by
+seeing the faces of people we know and trust, and we are often ill at ease when
+we are in the vicinity of someone who is concealing their identity with a mask.  
 
-parallelized ALM on GPU
-parallelized ALM on CPU
+Face recognition is such a key component of human interaction that automatic
+face recognition has the potential to be useful in almost any situation where a
+human is interacting with a machine.  Indeed, automatic face recognition has
+already become a large industry, even though, despite three decades of
+research, the technology is still immature and very few applications have
+actually been successful.
 
+While the recognition system developed in this thesis is still far from
+matching the robustness of the human recognition system, it demonstrates that
+there is a largely ignored class of recognition applications for which face
+recognition is tractable.  By gathering a sufficient set of images of each
+subject under different illuminations and fixed pose, we are able to robustly
+recognize subjects under lighting from any direction.  While the necessity of
+gathering these gallery images is admittedly a downside of the technique, it is
+hardly unreasonable.  Note that even if we only meet someone briefly, we see
+their face under varying illumination: as a person's head moves, so does the
+relative direction of the light illuminating it.
 
+Until quite recently, a recognition system of the type presented in this thesis
+would have been extremely impractical.  In particular, until the advent of
+Digital Micro-mirror Devices (a.k.a. DLP) by Texas Instruments, most projectors
+had far lower contrast and lower brightness, and were thus much less suitable
+for building a light stage like the proposed acquisition system.  Furthermore,
+without the recent dramatic increases in computational bandwidth achieved by
+modern parallel processors, the use of low dimensional features extracted from
+a small number of gallery images was a practical necessity.  Finally, the
+mathematical properties of the $\ell_1$-norm, both as a robust error function,
+and also as a sparsity-encouraging regularization term, enable formulation of
+recognition in terms of convex optimization problems without sacrificing
+robustness to sparse error (as with traditional $\ell_2$ norm error based
+methods).  While good engineering and design of the system remains critical for
+good recognition performance, the recognition system presented here would have
+not been possible prior to the emergence of these three technologies.
+
+While the primary value of this research is in the overall approach taken by
+the recognition system, there are several contributions that stand out.  These
+are the acquisition system, the robust iterative alignment formulation,
+improved $\ell_1$ minimization algorithms, and optimized parallel
+implementations for both CPU and GPU architectures.  Each of these
+contributions is briefly reviewed.
+
+The acquisition system achieves a set of illuminations that is quite capable at
+modelling the wide range of lighting distributions in the real world.  The
+lighting is distant, and with only two projectors it covers well over a
+hemisphere of incident illumination directions; only a cone of illumination
+directions from below horizontal is not covered.\footnote{With an additional
+projector bouncing light off of the floor a similar system could achieve true
+omnidirectional illumination coverage.  Determining if it is worth the extra
+cost in hardware and in mounting something in the ceiling is a topic for future
+research}  All of the hardware used is available off the shelf, and the cost of
+the components is dropping rapidly.  The cost of DLP projectors has roughly
+halved since the construction of the first prototype, and the cost of the
+overall system is already comparable to the cost of the illumination equipment
+already used in photography studios.  It was shown empirically that 38
+illuminations are sufficient to accurately model a variety of real-world
+illumination conditions.  In particular, experiments demonstrate that rear
+illuminations are important.
+
+The robust iterative alignment formulation successfully combines Lucas-Kanade
+style iterative alignment with the $\ell_1$ norm as a robust error function,
+and with an illumination model formed from the linear span of multiple gallery
+images per subject.  In addition to boosting the performance of a SRC-based
+recognition stage, it also is shown to boost the performance of a recognition
+stage based on local binary patterns.  Doing this improves recognition rate on
+public datasets, but is significantly worse than SRC at rejecting impostors.
+The iterative alignment algorithm exhibits a region of attraction that is more
+than sufficient to work with the de-facto standard Viola-Jones face detector.
+
+In addition to the interior-point based $\ell_1$ solvers used in the first
+prototype, solvers based on ALM have been developed that significantly reduce
+the amount of required computation, while simplifying implementation on
+parallel architectures.  In contrast to the matrix-matrix operations and data
+re-ordering that are required by interior point solvers, the inner loops of the
+ALM solvers are composed primarily of matrix-vector multiplications and
+vector-vector operations.
+
+Even with the improved solvers, optimized implementations on powerful parallel
+hardware is necessary to achieve recognition speeds that are practical for
+access control systems (and many other applications by extension).
 
 \section{Introduction}
 
