@@ -2,11 +2,16 @@
 %\section{An Interior Point Solver for Alignment}
 \label{sec:ipm_derivation}
 
-This note outlines the derivation of an interior point solver for the optimization problem
+This section outlines the derivation of an interior point solver for the following optimization problem
 \begin{equation}
 \min_{\x,\e,\q}\;  \| \e \|_1 \quad \mathrm{subj} \quad \bb = A \x + B \q + \e, \quad \x \ge \0.
 \end{equation}
-for use in image alignment. Here, $\x \in \Re^n$, $\q \in \Re^p$, $\bb, \e \in \Re^m$, so $A \in \Re^{m \times n}$, $B \in \Re^{m\times p}$. Our development will follow Chapter 11 of Boyd and Vandenbergh. We begin by recasting this as an inequality-constrained linear program in the usual fashion
+for use in image alignment. This is a slightly more general version of problem \ref{eq:l1min_alignment},
+that constraints a subset of the coefficients ($\x$) to be non-negative. 
+Here, $\x \in \Re^n$, $\q \in \Re^p$, $\bb, \e \in
+\Re^m$, so $A \in \Re^{m \times n}$, $B \in \Re^{m\times p}$. Our development
+will follow Chapter 11 of Boyd and Vandenbergh. We begin by recasting this as
+an inequality-constrained linear program in the usual fashion
 \begin{eqnarray*}
 \min \qquad 1^* \u \\
 \subj \qquad -\x &\le& \0 \\
@@ -121,9 +126,15 @@ where
 P \doteq - 2 \Psi^{-1} \Sigma^e_b \Lambda^e_b A \qquad T \doteq -2 \Psi^{-1}\Sigma^e_b \Lambda^e_b B \qquad \h \doteq \Psi^{-1}( \ggamma_b - \Lambda^e_b (\Lambda^e_g)^{-1} \ggamma_g ).
 \end{equation}
 
-\paragraph{Core system of equations.} All of the above manipulation leaves us with our core linear system of equations in unknowns $\Delta \x, \Delta \q$ ($n + p$ unknowns total):
-\begin{eqnarray}
-(W+FP) \Delta \x + F T \Delta \q &=& \v - F \h \\
-B^* P \Delta \x + B^* T \Delta \q &=& \a - B^* \h .
-\end{eqnarray}
+\paragraph{Core system of equations.} All of the above manipulation leaves us
+with our core linear system of equations in unknowns $\Delta \x, \Delta \q$ ($n
++ p$ unknowns total): \begin{eqnarray} (W+FP) \Delta \x + F T \Delta \q &=& \v
+- F \h \\ B^* P \Delta \x + B^* T \Delta \q &=& \a - B^* \h .  \end{eqnarray}
+Thus through algebraic manipulation and re-ordering of the data, the linear
+system that must be solved to compute the updates for $\x$ and $\q$ reduced to
+size $(n+p)$.  Unfortunately, having to solve this system of equations each
+time the step direction is computed results in an algorithm that is has a high
+cost per iteration.  Fortunately, the algorithm converges in a relatively 
+small number of iterations.  In contrast, the ALM algorithm derived in the next
+section is significantly cheaper per iteration, but requires more iterations.
 

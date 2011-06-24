@@ -1,18 +1,6 @@
 \section{L1 Minimization via Augmented Lagrange Multiplier} 
 \label{sec:alm_derivation}
 
- 
-%We refer the interested reader to \cite{YangA2010-pp}
-%for a more comprehensive survey of the developments in this area.  
-
-%This section suggests that \emph{Augmented Lagrange Multiplier} (ALM) algorithms
-%\cite{Bertsekas1982} strike a good balance between scalability and accuracy: as
-%first order methods, they require only lightweight vector operations and
-%matrix-vector multiplications at each iteration, making them preferable to more
-%classical solutions such as interior point methods.  However, compared to other
-%first-order methods, they achieve higher accuracy with a fixed computational
-%budget.
-
 This section provides a mathematical derivation for an Augmented Lagrange Method solver
 for the optimization problem:
 \begin{equation}
@@ -111,20 +99,8 @@ $\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blambda_1 =
 %\vspace{-4mm}
 \end{algorithm}
 
-We have selected this algorithm because it strikes the best
-balance between speed, accuracy, and scalability for our problem out of
-many algorithms that we have tested. We refer the interested reader to
-\cite{YangA2010-pp} for a more detailed discussion of competing
-approaches.  On a Mac Pro with
-Dual-Core 2.66GHz Xeon processors and 4GB memory,
-running on our database containing images size $80\times 60$
-pixels from 109 subjects under 38 illuminations,
-our C implementation of Algorithm 1 takes
-about 0.60 seconds per subject for alignment and about 2.0
-seconds for global recognition. Compared to the highly
-customized interior point method used in the conference version
-of this paper \cite{Wagner2009-CVPR}, this new algorithm is
-only slightly faster for per subject alignment. However, it is
-much simpler to implement and it achieves a
-\emph{speedup of more than a factor of 10} for global
-recognition!
+Compared to the highly customized interior point method used in the conference
+version of this paper \cite{Wagner2009-CVPR}, this new algorithm is only
+slightly faster for per subject alignment. However, it is much simpler to
+implement and, as discussed in Section \label{sec:pipeline_implementation}, it
+achieves a \emph{speedup of more than a factor of 10} for global recognition!

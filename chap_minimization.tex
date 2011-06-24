@@ -71,38 +71,22 @@ discussed in Section \ref{sec:pipeline_implementation}.  A derivation of the
 ALM based $\ell_1$ minimization solvers is presented in Section
 \ref{sec:alm_derivation}.
 
-%The second published prototype of the face recognition pipeline, as presented in 
-%Chapter \ref{chap:pipeline} and in \cite{WagnerA2011-PAMI}, achieved a significant
-%increase in recognition speed by using
-
-%To recap, the core of the recognition
-%pipeline consisted of solving $\ell_1$ minimization problems with the following two forms:
-%\begin{equation}
-%\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
-%\label{eqn:l1min_denoise}
-%%\tag{\ref{eqn:l1min_denoise}}
-%\end{equation}
-%\begin{equation}
-%\min_{\x, \e} \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
-%%\label{eqn:l1min_denoise}
-%%\tag{\ref{eqn:l1min_denoise}}
-%\end{equation}
-
-Although ALM succeeded in improving the speed of the face recognition pipeline
-\cite{WagnerA2011-PAMI}, due to the high per-class cost of the alignment step,
-the recognition system still fails to achieve \emph{real-time} performance
-against datasets of hundreds or thousands of subjects.  
-Therefore, in Chapter \ref{chap:parallel} presents optimized parallel implementations
-of both the SRC based recognition stage, as well as the iterative alignment stage,
-that are based on the ALM solvers derived in this chapter.
-
 \input{sec_interior_point}
 \input{sec_alm_allen}
-
 %\input{sec_alm_arvind}
 %\input{sec_subgradient}
 %\input{sec_trapezoid}
 
 \section{Conclusion}
+The second prototype of the face recognition pipeline, as presented in Chapter
+\ref{chap:pipeline} and in \cite{WagnerA2011-PAMI}, achieved a significant
+increase in recognition speed for ALM based solvers compared to Interior Point
+Method based solvers.  Although ALM succeeded in improving the speed of the
+face recognition pipeline, due to the high per-class cost of the alignment
+step, the recognition system still failed to achieve \emph{real-time}
+performance against datasets of hundreds or thousands of subjects.  Therefore,
+Chapter \ref{chap:parallel} presents optimized parallel implementations of both
+the SRC based recognition stage, as well as the iterative alignment stage, that
+are based on the ALM solvers derived in this chapter.
 
 
