@@ -1,5 +1,5 @@
-\chapter{Parallelization of $\ell_1$ minimization and the face recognition
-pipeline}
+\chapter{Parallelization of the face recognition
+pipeline on CPU and GPU architectures}
 \label{chap:parallel}
 
 \section{Introduction} 
@@ -8,10 +8,12 @@ In this chapter, we study parallelization of the state-of-the-art ALM-based
 $\ell$-minimization solver routines presented in Chapter
 \ref{chap:minimization}, as well the entire face recognition pipeline from
 Chapter \ref{chap:pipeline}, on many-core CPU and GPU architectures. 
+This work is driven by the need to execute the entire face recognition
+pipeline fast enough for access control applications, where most subjects
+will lose patience if recognition takes more than one or two seconds.
 
-\subsection{Literature Review} 
-The literature related to the $\ell_1$ solvers
-used can be found in Chapter \ref{chap:minimization}.  In this section we
+While the literature related to the $\ell_1$ solvers
+used can be found in Chapter \ref{chap:minimization}, here we
 briefly review literature specifically related to parallel implementation of
 these algorithms.  In terms of the past works in parallel
 $\ell_1$-minimization, the literature has been limited. In \cite{BorghiA2010},
@@ -33,10 +35,10 @@ architectures.
 
 We will present extensive benchmarks to compare the performance of the
 generic ALM $\ell_1$-minimization algorithm and the corresponding face recognition
-routines on massively parallel CPUs and GPUs.  To this end, a face
-recognition system for security and access control applications has been implemented, 
-and is diagrammed in Figure \ref{fig:pipeline}. This pipeline follows the work of \cite{WagnerA2011-PAMI}, but
-the fast implementations presented in this chapter are novel.
+routines on massively parallel CPUs and GPUs.  
+A fully parallelized implementation of the recognition pipeline described in Chapter
+\ref{chap:pipeline} has been developed.  For easy reference, the pipeline is 
+diagrammed in Figure \ref{fig:pipeline}.
 Since the parallelization of any algorithm
 is highly dependent on the target hardware, we will give a brief overview of
 the architecture of our test system in detail in Section
@@ -47,14 +49,14 @@ applications targeting thousands of subjects or more will likely require computa
 distributed over a cluster or network of computers. These systems are not addressed here.
 The source code of our implementations, which target NVIDIA Fermi GPUs
 as well as Intel x86-64 CPUs, will be made available for peer evaluation.
+
 \begin{figure}
 \centering
 %{\tiny \input{figures_ijcb/pipeline_simplified.tex}}
-\includegraphics[scale=1.2]{figures_ijcb/pipeline_simplified.pdf}
+\includegraphics[scale=1.4]{figures_ijcb/pipeline_simplified.pdf}
 \caption{The face recognition pipeline.  }
 \label{fig:pipeline}
 \end{figure}
-
 
 \section{Hardware Concurrency} \label{sec:concurrency}
 In this section we discuss the levels of concurrency available in the hardware
@@ -94,17 +96,17 @@ by the algorithms, and is not an important performance consideration.
 \centering
 \subfigure[The larger algorithm data structures]
 {
-	\includegraphics[scale=1.2]{figures_ijcb/arrays.pdf}
+	\includegraphics[scale=1.7]{figures_ijcb/arrays.pdf}
 	\label{fig:arrays}
 }
 \subfigure[The caches on a E5530 CPU]
 {
-	\includegraphics[scale=1.2]{figures_ijcb/cpu_caches.pdf}
+	\includegraphics[scale=1.7]{figures_ijcb/cpu_caches.pdf}
 	\label{fig:cpu_caches}
 }
 \subfigure[The caches on a GTX480 GPU]
 {
-	\includegraphics[scale=1.2]{figures_ijcb/gpu_caches.pdf}
+	\includegraphics[scale=1.7]{figures_ijcb/gpu_caches.pdf}
 	\label{fig:gpu_caches}
 }
 \label{fig:caches}
@@ -531,6 +533,7 @@ cap on the number of concurrent streams in the current version of CUDA}
 %The results are shown below:
 \begin{table}[t!]
 \caption{\small Benchmark of implementations of alignment $\ell_1$-minimization.}
+\centerline{
 \small
 \begin{tabular}{|l|c|}
 \hline
@@ -542,6 +545,7 @@ Four problems per SM using single kernel & {\bf 36\,ms} \\
 \hline
 \end{tabular} 
 \label{tbl:ubench}
+}
 \end{table}
  
 Using an implementation motivated by the previous result, we now benchmark our
@@ -612,7 +616,7 @@ inversion and vector reduction routines.
 \end{figure}
 
 \section{Conclusion}
-We have demonstrated that on both CPU and GPU algorithms, parallelizations of
+We have demonstrated that on both CPU and GPU architectures, parallelizations of
 ALM that solve multiple face alignment problems concurrently are significantly
 faster than implementations that rely purely on vendor-supplied BLAS libraries.
 Furthermore, thanks to a combination of faster hardware and more efficient use
