@@ -15,10 +15,9 @@ to occlusion.
 
 Occlusion is a common difficulty encountered in applications of automatic face
 recognition. Sources of occlusion include apparel such as  eyeglasses,
-sunglasses, hats, or scarves, as well as objects such as cell phones placed in
-front of the face. Moreover, even in the absence of an occluding object,
-violations of an assumed model for face appearance may act like occlusions:
-e.g., shadows due to extreme illumination violate the assumption of a
+sunglasses, hats, or scarves. 
+Moreover, even in the absence of an occluding object,
+violations of an assumed model for face appearance may act like occlusions. For example, shadows due to extreme illumination violate the assumption of a
 low-dimensional linear illumination model\footnote{see \cite{Basri2003-PAMI} and Appendix
 \ref{chap:appendix_illumination} for more discussion}. Robustness to
 occlusion is therefore essential to practical face recognition.
@@ -68,7 +67,7 @@ maintaining recognition rates higher than $90\%$ on the Yale B database.
 
 However, in experiments on face images the $\ell^1$-minimization algorithm is
 not nearly as robust to contiguous occlusion as it is to random pixel
-corruption.  On the AR database sunglasses and scarf occlusions it achieves
+corruption.  On the sunglasses and scarf occlusions in the AR database, it achieves
 only 87\% and 59.5\% respectively.  This algorithm does not exploit any prior
 information about the corruption or occlusion (it is invariant to pixel
 ordering).  To try to improve performance for these cases,
@@ -109,7 +108,7 @@ quantity such that for any $k$-sparse $\x$,
 (1-\delta_k)\|\x\|_2 \leq \|F\x\|_2 \leq (1+\delta_k)\|\x\|_2.
 \label{eqn-rip}
 \end{equation}
-A typical result states $\ell^1$-minimization is guaranteed to recover any $k$-sparse $\x$ whenever the matrix
+A typical result states that $\ell^1$-minimization is guaranteed to recover any $k$-sparse $\x$ whenever the matrix
 $F$ satisfies $\delta_{2k}<1$. Notice that this argument treats every
 possible $k$-sparse supports equally. However, in many
 applications, we have prior information about the
@@ -647,8 +646,8 @@ occlusions.  Given the success shown in Chapter \ref{chap:pipeline} in
 integrating a deformation model into the algorithm of \cite{Wright2009-PAMI},
 the integration of a deformation model into the regression step of our
 algorithm \cite{Wagner2009-CVPR} seems very promising.  Since MRF simply
-restricts the subset of pixels on which the L1 optimization is performed.
-Therefore, iterative alignment and occlution modeling using MRF are neatly
+restricts the subset of pixels on which the L1 optimization is performed, 
+iterative alignment and occlusion modeling using MRF are neatly
 orthogonal from an implementation standpoint.  
 
 Unfortunately, there is danger that the changing model of occluded areas
@@ -658,7 +657,7 @@ misalignment and error caused by genuine occlusions; otherwise, error
 components needed to get a correct alignment update direction may be labeled as
 occlusions and excluded from the computation of the Jacobian.
 
-Due to the unresolved issues with combining the MRF occlusion model with
+Due to the unresolved issues with combining the MRF occlusion model with the
 iterative alignment mentioned above, the pipeline described in Chapter
 \ref{chap:pipeline} will remain the baseline algorithm for the following
 chapters.  While Chapter \ref{chap:pipeline} and this chapter were concerned
