@@ -39,7 +39,8 @@ Recently, a number of accelerated algorithms have been proposed that
 explicitly take advantage of the special structure of $\ell_1$-minimization
 problems \cite{LorisI2009,YangA2010-ICIP}. 
 The first published prototype of the face recognition pipeline utilized a customized
-interior point solver \cite{WagnerA2009-CVPR}.  
+interior point solver \cite{WagnerA2009-CVPR}.  A derivation of the Interior Point
+Method based solver is presented in Section \ref{sec:ipm_derivation}.
 
 % ALM intro
 One of the drawbacks of most interior-point methods for $\ell_1$-minimization
@@ -55,18 +56,20 @@ problems with varying $A$ matrices.  To overcome this, a state-of-the-art
 $\ell_1$-minimization solution based on \emph{augmented Lagrangian methods}
 (ALM) \cite{BertsekasD2003,YangA2010-ICIP} has been developed.
 
-The ALM algorithm belongs to a
-category of approximate $\ell_1$-minimization solutions called \emph{iterative
-shrinkage-thresholding} (IST) methods \cite{WrightS2008,BeckA2009}.  IST
-algorithms mainly involve elementary operations such as vector algebra and
-matrix-vector multiplication. Therefore, when the dimension of the problem
-becomes high, IST-type algorithms are particularly suitable for hardware
-systems with a high degree of concurrency. In \cite{YangA2010-ICIP}, the
-authors showed that ALM is able to significantly improve the solver speed,
-while achieving estimation accuracy competitive with other $\ell_1$-minimization
-solutions. Therefore, we choose ALM as the core algorithm for
-implementation of $\ell_1$-minimization in the parallel face recognition pipeline.
-
+The ALM algorithm belongs to a category of approximate $\ell_1$-minimization
+solutions called \emph{iterative shrinkage-thresholding} (IST) methods
+\cite{WrightS2008,BeckA2009}.  IST algorithms mainly involve elementary
+operations such as vector algebra and matrix-vector multiplication. Therefore,
+when the dimension of the problem becomes high, IST-type algorithms are
+particularly suitable for hardware systems with a high degree of concurrency.
+In \cite{YangA2010-ICIP}, the authors showed that ALM is able to significantly
+improve the solver speed, while achieving estimation accuracy competitive with
+other $\ell_1$-minimization solutions. Therefore, we choose ALM as the core
+algorithm for the implementation of $\ell_1$-minimization in the second
+prototype of the face recognition pipeline, the implementation of which was
+discussed in Section \ref{sec:pipeline_implementation}.  A derivation of the
+ALM based $\ell_1$ minimization solvers is presented in Section
+\ref{sec:alm_derivation}.
 
 %The second published prototype of the face recognition pipeline, as presented in 
 %Chapter \ref{chap:pipeline} and in \cite{WagnerA2011-PAMI}, achieved a significant
@@ -85,28 +88,19 @@ implementation of $\ell_1$-minimization in the parallel face recognition pipelin
 %%\tag{\ref{eqn:l1min_denoise}}
 %\end{equation}
 
-
 Although ALM succeeded in improving the speed of the face recognition pipeline
 \cite{WagnerA2011-PAMI}, due to the high per-class cost of the alignment step,
 the recognition system still fails to achieve \emph{real-time} performance
 against datasets of hundreds or thousands of subjects.  
-
-We contend that ALM is a better choice for implementation on many-core CPUs and
-GPUs than interior point methods. 
-
-In the next chapter,
-in addition to accelerating the generic
-$\ell_1$-minimization objectives \eqref{eq:l1min_alignment} and \eqref{eq:l1min_denoise}, we 
-also discuss how to efficiently accelerate the face alignment step
-\eqref{eq:l1min_alignment} on multi-core CPUs and GPUs.
+Therefore, in Chapter \ref{chap:parallel} presents optimized parallel implementations
+of both the SRC based recognition stage, as well as the iterative alignment stage,
+that are based on the ALM solvers derived in this chapter.
 
 \input{sec_interior_point}
+\input{sec_alm_allen}
 
 %\input{sec_alm_arvind}
-
 %\input{sec_subgradient}
-
-\input{sec_alm_allen}
 %\input{sec_trapezoid}
 
 \section{Conclusion}
