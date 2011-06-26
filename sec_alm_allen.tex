@@ -1,6 +1,7 @@
 \section{L1 Minimization via Augmented Lagrange Multiplier} 
 \label{sec:alm_derivation}
 
+\subsection{ALM derivation for the Recognition Stage}
 This section provides a mathematical derivation for an Augmented Lagrange Method solver
 for the optimization problem:
 \begin{equation}
@@ -99,6 +100,63 @@ $\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blambda_1 =
 \label{alg:alm}
 %\vspace{-4mm}
 \end{algorithm}
+
+
+\subsection{ALM derivation for the Alignment Stage}
+This section provides a mathematical derivation for an Augmented Lagrange Method solver
+for the optimization problem:
+\begin{equation}
+\min_{\x, \e} \|\e\|_1 \quad \subj \quad \bb =
+A \x + \e.
+%\label{eqn:l1min_denoise}
+%\tag{\ref{eqn:l1min_denoise}}
+\end{equation}
+For this problem, the corresponding augmented Lagrangian function is:
+\begin{equation}
+L_\mu (\x,\e,\blambda) = \|\e\|_1 + \langle \blambda, \bb-A\x - \e \rangle + \frac{\mu}{2} \|\bb - A\x - \e\|_2^2,
+\end{equation}
+
+For the alternating minimizations, while the subproblem associated with $\e$
+has the same closed-form solution as before, the subproblem associated with
+$\x$ can now be solved in closed form:
+\begin{eqnarray}
+\x^* = \argmin_{\x} \langle \blambda, \bb-A\x - \e \rangle + \frac{\mu}{2} \|\bb - A\x - \e\|_2^2 \\
+\x^* = \argmin_{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x + (\e-\bb)^T (\e-\bb)) \\
+\x^* = \argmin_{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x) \\
+\x^* = \argmin_{\x} (-\blambda^T -\bb -\frac{\blambda}{\mu}^T A x + \frac{1}{2} \x^T (A^T A) \x \\
+0 = A^T(\e - \bb -\frac{\blambda}{mu}) + (A^T A) \x^*\\
+(A^T A) \x^* =  A^T (\bb - \e + \frac{\blambda}{mu})\\
+\x^* =  (A^T A)^{-1} A^T (\bb - \e + \frac{\blambda}{mu})\\
+\x^* =  A^\Dagger (\bb - \e + \frac{\blambda}{mu})\\
+\end{eqnarray}
+
+%\begin{algorithm}[t]
+%\caption{\bf (Augmented Lagrange Multiplier Method for Iterative Alignment)}
+%\begin{algorithmic}[1]
+%\begin{small}
+%\STATE {\bf Input:} $\bb \in \Re^m$, $A \in \Re^{m \times n}$,
+%$\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blambda_1 =
+%\mathbf{0}$.
+%\WHILE{not converged ($k = 1,2,\ldots$)}
+%\STATE $\e_{k+1} = \mathcal{T}\left(\bb - A\x_k +
+%\frac{1}{\mu}\blambda_k, \frac{1}{\mu}\right)$;
+%\STATE $t_1\leftarrow 1$, $\z_1 \leftarrow \x_k$, $\w_1 \leftarrow \x_k$;
+%\WHILE{not converged ($l = 1,2,\ldots$)}
+%\STATE $\w_{l+1} \leftarrow \mathcal{T}\left(\z_l +
+%\frac{1}{\gamma}A^T\left(\bb - A\z_l - \e_{k+1} +
+%\frac{1}{\mu}\blambda_k\right), \frac{1}{\mu\gamma}\right)$;
+%\STATE $t_{l+1} \leftarrow \frac{1}{2}\left( 1 +
+%\sqrt{1+4t_l^2}\right)$;
+%\STATE $\z_{l+1} \leftarrow \w_{l+1} + \frac{t_l - 1}{t_{l+1}}(\w_{l+1} - \w_l)$;
+%\ENDWHILE
+%\STATE $\x_{k+1} \leftarrow \w_{l}$,  \; $\blambda_{k+1} \leftarrow \blambda_k + \mu (\bb - A\x_{k+1} - \e_{k+1})$;
+%\ENDWHILE \STATE
+%{\bf Output:} $\x^* \leftarrow \x_k, \e^* \leftarrow \e_k$.
+%\end{small}
+%\end{algorithmic}
+%\label{alg:alm}
+%%\vspace{-4mm}
+%\end{algorithm}
 
 Compared to the highly customized interior point method used in the conference
 version of this paper \cite{Wagner2009-CVPR}, this new algorithm is only

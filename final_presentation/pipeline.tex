@@ -1,7 +1,8 @@
-\section{Improved Pipeline}
-\frame{\tableofcontents[currentsection, currentsubsection]}
+\section{Improving Recognition Accuracy}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
 
-\subsection{Improved Face Window}
+
+%\subsection{Improved Face Window}
 
 \frame{ \frametitle{Improved Face Window} 
 \centering
@@ -29,8 +30,22 @@ Recognition rate & Session 2 & Session 3 & Session 4  \\
 \end{tabular}
 } }
 
-\subsection{Improved Occlusion Handling}
-\frame{\tableofcontents[currentsection, currentsubsection]}
+
+\frame{ \frametitle{Centering the test subject's face in the window} 
+First prototype: Test image keeps initial alignment, training images
+are warped to match.
+
+Second prototyte: Test image is centered in the window using an average
+of the alignments from the alignment stage, training images are warped
+to match.
+
+Reduces likelihood of background pixels in the frame.
+
+Alignment of test image relative to training images same in both prototypes.
+}
+
+%\subsection{Improved Occlusion Handling}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
 
 \frame{ \frametitle{Difficulty with MRF Model} 
 MRF showed improved occlusion handling for the aligned case.
@@ -73,8 +88,8 @@ Bottom row: examples where the overlapping blocks method failed.
 }
 
 
-\subsection{Updated Experiments on Large Datasets}
-\frame{\tableofcontents[currentsection, currentsubsection]}
+%\subsection{Updated Experiments on Large Datasets}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
 
 \frame{\frametitle{Large Scale Experiments on Multi-PIE}
 {\tiny Recognition rates on the Multi-PIE database for

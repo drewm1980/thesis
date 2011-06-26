@@ -1,18 +1,17 @@
+\section{Fast ALM Based Algorithms for $\ell_1$-Minimization}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
+%\subsection{Introduction}
 
-\section{Fast $\ell_1$-Min}
-\frame{\tableofcontents[currentsection, currentsubsection]}
-\subsection{Introduction}
-
-\frame{ \frametitle{$\ell_1$ Minimization Problems}
-The core of the recognition
-pipeline consisted of solving $\ell_1$ minimization problems with the following two forms:
-\begin{equation}
-\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
-\end{equation}
-\begin{equation}
-\min_{\x, \e} \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
-\end{equation}
-}
+%\frame{ \frametitle{$\ell_1$ Minimization Problems}
+%The core of the recognition
+%pipeline consisted of solving $\ell_1$ minimization problems with the following two forms:
+%\begin{equation}
+%\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
+%\end{equation}
+%\begin{equation}
+%\min_{\x, \e} \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
+%\end{equation}
+%}
 
 \frame{ \frametitle{$ell_1$ Minimization Algorithms} 
 \begin{itemize}
@@ -26,89 +25,160 @@ first-order operations in its inner loop.
 \end{itemize}
 }
 
-\subsection{Augmented Lagrange Multipier Method}
-\frame{\tableofcontents[currentsection, currentsubsection]}
+%\subsection{Augmented Lagrange Multipier Method}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
 
 
 \frame{\frametitle{ALM Derivation}
-In the ALM formulation, the basic steps in each iteration can be summarized as follows:
+The following minimization problem is used in the recognition stage:
 \begin{equation}
-\left \{ 
-\begin{array}{lll}
-(\x_{k+1},\e_{k+1}) & = & \arg\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e\|_2^2 \\
-\blambda_{k+1} & = & \blambda_k + \mu_k (\bb - A\x_{k+1} - \e_{k+1}) \\
-\mu_{k+1} & = & \rho\cdot\mu_k
-\end{array} 
-\right . ,
+\min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
 \end{equation}
-where $\blambda_k$'s represent the Lagrange multipliers, and $\{\mu_k\}$ is a
-monotonically increasing positive sequence ($\rho > 1$).  
+The corresponding augmented Lagrangian function is:
+\begin{equation}
+L_\mu (\x,\e,\blambda) = \|\x\|_1 + \|\e\|_1 + \langle \blambda, \bb-A\x - \e \rangle
++ \frac{\mu}{2} \|\bb - A\x - \e\|_2^2,
+\end{equation}
+where $\blambda$ is the Lagrange multiplier and $\mu > 0$ is a
+penalty parameter. 
 }
 
 \frame{\frametitle{ALM Derivation}
-We focus our attention on the non-trivial first step:
-
+The ALM method seeks a saddlepoint of $L_\mu
+(\x,\e,\blambda)$ by alternating between optimizing with respect
+to the primal variables $\x, \e$ and updating the dual variable
+$\blambda$, with the other fixed, as follows:
 \begin{equation}
-\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e\|_2^2.
-%\label{eqn:alm}
-\end{equation}
-
-Instead of minimizing wrt $\x$ and $\e$ simultaneously, we adopt an alternating solution strategy:
-
-\begin{equation}
-%\left \{
+\left \{
 \begin{array}{lll}
-\e_{j+1} & = & \arg \min_{\e}  \|W\e\|_1 + \langle \blambda_k, \bb - A\x_j - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x_j - \e\|_2^2 \\
-\x_{j+1} & = & \arg \min_{\x} \|\x\|_1 + \langle \blambda_k, \bb - A\x - \e_{j+1} \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e_{j+1}\|_2^2
+(\x_{k+1},\e_{k+1})  =  \arg\min_{(\x,\e)} \, L_{\mu} (\x,\e,\blambda_k),\\
+\blambda_{k+1}  =  \blambda_k + \mu (\bb - A\x_{k+1} - \e_{k+1}). \\
 \end{array}
+\right .
+\label{eqn:alm}
 \end{equation}
+Although updating $\blambda$ is trivial,
+minimizing $L_{\mu} (\x,\e,\blambda_k)$ with respect to both
+$\x$ and $\e$ could still be costly. 
 }
 
-\frame{\frametitle{ALM Derivation}
-Now, the first step in {eqn:alt} has the following closed-form solution:
-\begin{equation}
-\,[\e_{j+1}]_i  =  \shrink \left(\left[ \bb + \frac{1}{\mu_k}\blambda_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m,
-\end{equation}
-where $[\e]_i$ represents the $i$th component of $\e$, and the shrinkage operator is:
-\begin{equation}
-\shrink(x,\alpha) = \sign(x)\cdot \max\{|x| - \alpha, 0\},
-\end{equation}
+\frame{\frametitle{ALM Derivation} 
+To further reduce the complexity of the
+problem, we adopt an approach used in alternates between minimizing 
+$L_{\mu} (\x,\e,\blambda_k)$ over $\x$ (with $\e$ fixed) and over $\e$ (with $\x$
+fixed). After solving these two subproblems, the Lagrange multiplier $\blambda$
+is updated, yielding an iteration of the form:
 
-An iterative method to solve the second step of {eqn:alt} can be written as:
-\begin{equation}
-\x_{l+1}  =  \shrink\left(\x_l - \frac{1}{\tau}A^T\left(A\x_l + \e_{j+1} - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right).
-\end{equation}
-
-We focus our attention on the non-trivial first step:
-\begin{equation}
-\min_{\x,\e} \, \|\x\|_1 + \|W\e\|_1 + \langle \blambda_k, \bb - A\x - \e \rangle + \frac{\mu_k}{2}\|\bb - A\x - \e\|_2^2.
-%\label{eqn:alm}
-\end{equation}
+%\begin{equation}
+%%\left \{
+%\begin{array}{lll}
+%\e_{k+1}  =  \argmin{\e} L_{\mu} (\x_k,\e,\blambda_k) 
+%\x_{k+1}  =  \argmin_{\x} \, L_{\mu} (\x,\e_{k+1},\blambda_k),\\
+%\blambda_{k+1}  =  \blambda_k + \mu (\bb - A\x_{k+1} - \e_{k+1}).
+%\end{array}
+%%\right \. 
+%\end{equation}
+%As the objective function is convex and alternation is between two
+%terms, this procedure is guaranteed to converge to a global optimum (see [YangJ2009-pp] and references therein).
 }
 
-\frame{\frametitle{Complete ALM Algorithm}
-\begin{algorithmic}
-\WHILE{not converged}
-\WHILE{not converged}
-\STATE $[\e_{j+1}]_i  =  \shrink \left(\left[ \bb + \frac{1}{\mu_k}\blambda_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m$
-\STATE $t_1 \leftarrow 1$, $\z_1 \leftarrow \x_j$
-\WHILE{not converged}
-\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l + \e_{j+1} - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right)$
-\STATE $t_{l+1} = 0.5\left( 1 + \sqrt{1+4t_l^2}\right)$
-\STATE $\z_{l+1} = \x_{l+1} + \frac{t_l - 1}{t_{l+1}}(\x_{l+1} - \x_l)$
-\ENDWHILE
-\ENDWHILE
-\STATE $\blambda_{k+1} = \blambda_k + \mu_k (\bb - A\x_{k+1} - \e_{k+1})$
-\STATE $\mu_{k+1} = \rho\cdot\mu_k$
-\ENDWHILE
-\end{algorithmic}
-}
+%In order to discuss the solution to the above subproblems, we
+%need to define the following soft-thresholding operator for a
+%vector $\x$ and a scalar $\alpha \geq 0$:
+%\begin{equation}
+%\mathcal{T}(\x,\alpha) = \textup{sign}(\x)\cdot \max \{|\x| - \alpha, 0\},
+%\end{equation}
+%where all the operations are performed component-wise. It is
+%easy to show that the subproblem with respect to $\e$ has a
+%closed-form solution given by the soft-thresholding operator:
+%\begin{equation}
+%\e_{k+1} = \mathcal{T}(\bb - A\x_k + \mu^{-1}\blambda_k, \mu^{-1}).
+%\end{equation}
+%To solve the subproblem associated with $\x$, we
+%apply a first-order $\ell^1$-minimization method,
+%called \emph{fast iterative shrinkage-threshold algorithm}
+%(FISTA) \cite{BeckA2009}. The main idea of FISTA is to
+%iteratively minimize a quadratic approximation $Q(\x, \z)$ to
+%$L_{\mu} (\x,\e_{k+1},\blambda_k)$ around a point $\z$, which is
+%carefully chosen in order to achieve a good convergence
+%rate. We summarize the entire ALM
+%algorithm as Algorithm~\ref{alg:alm}, where $\gamma$ denotes the
+%largest eigenvalue of the matrix $A^TA$. For the choice of parameter $\mu$, we take the same strategy as
+%in \cite{YangJ2009-pp} and set $\mu = 2m / \|\bb\|_1$.
 
-\frame{ \frametitle{ALM Modified derivation for alignment}
-The above derivation can be modified to solve the second $\ell_1$ minimization algorithm:
-\begin{itemize}
-\item Inner loop can be replaced by a single computation of $A^\dagger$.
-\item The code can further be arranged to group similar operations and reduce loads of $A$.
-\end{itemize}
-}
+%\begin{algorithm}[t]
+%\caption{\bf (Augmented Lagrange Multiplier Method for Global
+%Recognition)}
+%\begin{algorithmic}[1]
+%\begin{small}
+%\STATE {\bf Input:} $\bb \in \Re^m$, $A \in \Re^{m \times n}$,
+%$\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blambda_1 =
+%\mathbf{0}$.
+%\WHILE{not converged ($k = 1,2,\ldots$)}
+%\STATE $\e_{k+1} = \mathcal{T}\left(\bb - A\x_k +
+%\frac{1}{\mu}\blambda_k, \frac{1}{\mu}\right)$;
+%\STATE $t_1\leftarrow 1$, $\z_1 \leftarrow \x_k$, $\w_1 \leftarrow \x_k$;
+%\WHILE{not converged ($l = 1,2,\ldots$)}
+%\STATE $\w_{l+1} \leftarrow \mathcal{T}\left(\z_l +
+%\frac{1}{\gamma}A^T\left(\bb - A\z_l - \e_{k+1} +
+%\frac{1}{\mu}\blambda_k\right), \frac{1}{\mu\gamma}\right)$;
+%\STATE $t_{l+1} \leftarrow \frac{1}{2}\left( 1 +
+%\sqrt{1+4t_l^2}\right)$;
+%\STATE $\z_{l+1} \leftarrow \w_{l+1} + \frac{t_l - 1}{t_{l+1}}(\w_{l+1} - \w_l)$;
+%\ENDWHILE
+%\STATE $\x_{k+1} \leftarrow \w_{l}$,  \; $\blambda_{k+1} \leftarrow \blambda_k + \mu (\bb - A\x_{k+1} - \e_{k+1})$;
+%\ENDWHILE \STATE
+%{\bf Output:} $\x^* \leftarrow \x_k, \e^* \leftarrow \e_k$.
+%\end{small}
+%\end{algorithmic}
+%\label{alg:alm}
+%%\vspace{-4mm}
+%\end{algorithm}
+
+%\subsection{ALM derivation for the Alignment Stage}
+%This section provides a mathematical derivation for an Augmented Lagrange Method solver
+%for the optimization problem:
+%\begin{equation}
+%\min_{\x, \e} \|\e\|_1 \quad \subj \quad \bb =
+%A \x + \e.
+%%\label{eqn:l1min_denoise}
+%%\tag{\ref{eqn:l1min_denoise}}
+%\end{equation}
+%For this problem, the corresponding augmented Lagrangian function is:
+%\begin{equation}
+%L_\mu (\x,\e,\blambda) = \|\e\|_1 + \langle \blambda, \bb-A\x - \e \rangle + \frac{\mu}{2} \|\bb - A\x - \e\|_2^2,
+%\end{equation}
+
+%For the alternating minimizations, while the subproblem associated with $\e$
+%has the same closed-form solution as before, the subproblem associated with
+%$\x$ can now be solved in closed form:
+%\begin{eqnarray}
+%\x^* = \argmin_{\x} \langle \blambda, \bb-A\x - \e \rangle + \frac{\mu}{2} \|\bb - A\x - \e\|_2^2 \\
+%\x^* = \argmin_{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x + (\e-\bb)^T (\e-\bb)) \\
+%\x^* = \argmin_{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x) \\
+%\x^* = \argmin_{\x} (-\blambda^T -\bb -\frac{\blambda}{\mu}^T A x + \frac{1}{2} \x^T (A^T A) \x \\
+%0 = A^T(\e - \bb -\frac{\blambda}{mu}) + (A^T A) \x^*\\
+%(A^T A) \x^* =  A^T (\bb - \e + \frac{\blambda}{mu})\\
+%\x^* =  (A^T A)^{-1} A^T (\bb - \e + \frac{\blambda}{mu})\\
+%\x^* =  A^\Dagger (\bb - \e + \frac{\blambda}{mu})\\
+%\end{eqnarray}
+%}
+
+%\frame{\frametitle{Complete ALM Algorithm}
+%\begin{algorithmic}
+%\WHILE{not converged}
+%\WHILE{not converged}
+%\STATE $[\e_{j+1}]_i  =  \shrink \left(\left[ \bb + \frac{1}{\mu_k}\blambda_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m$
+%\STATE $t_1 \leftarrow 1$, $\z_1 \leftarrow \x_j$
+%\WHILE{not converged}
+%\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l + \e_{j+1} - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right)$
+%\STATE $t_{l+1} = 0.5\left( 1 + \sqrt{1+4t_l^2}\right)$
+%\STATE $\z_{l+1} = \x_{l+1} + \frac{t_l - 1}{t_{l+1}}(\x_{l+1} - \x_l)$
+%\ENDWHILE
+%\ENDWHILE
+%\STATE $\blambda_{k+1} = \blambda_k + \mu_k (\bb - A\x_{k+1} - \e_{k+1})$
+%\STATE $\mu_{k+1} = \rho\cdot\mu_k$
+%\ENDWHILE
+%\end{algorithmic}
+%}
 

@@ -1,7 +1,7 @@
-\section{Prelim Review}
+\section{Review of Prelim on Robust Face Recognition}
 \frame{\tableofcontents}
 
-\subsection{Introduction}
+%\subsection{Introduction}
 
 \renewcommand{\imagesizestring}{height}
 \setlength{\imagesizea}{0.25\textheight}
@@ -10,36 +10,38 @@
 
 \frame{
 \frametitle{Why is face recognition important?}
-{\em Make the initiation of
+{\em Face Recognition make the initiation of
 authenticated interaction with a machine as natural as making eye contact with
 another human.}
+
 \begin{itemize}
-\item Consumer Electronics: Phones, Televisions, Music Systems, Game Systems
-\item Access Control: Workplace, Home, Automobile
-\item Home automation: Light switches, HVAC
-\item Computer Access: ATM, grocery store checkout
+\item Automated door locks for buildings and automobiles
+\item Automatic login to computers and smart phones
+\item Automatic bill payment in restaurants, stores, and ATMs
+\item Automatic login on TVs, Sound Systems, and Game Systems 
 \end{itemize}
 }
 
 \frame{
 \frametitle{Why is 2D face recognition important for these applications?}
+Face Recognition is uniquely {\em Unobtrusive, Fast, and Non-Contact}.
+
+Also,
 \begin{itemize}
-\item Non-contact
-\item Potentially faster than gait or voice recognition
-\item No special hardware needed for recognition (unlike Iris recognition)
-\item Attacks would probably be obvious to bystanders
-\item Recognized person need not do anything
+\item Faster than gait or voice recognition
+\item Unlike iris recognition, no special hardware is needed
+\item Almost everyone has a face, so enrolment always succeeds
 \end{itemize}
 }
 
 \frame{
 \frametitle{Why is face recognition challenging?}
 \begin{itemize}
-\item Three factors dramatically affect the appearance of a face:
+\item Three factors {\em dramatically} affect the appearance of a face:
 \begin{enumerate}
-\item Illumination Variation: The appearance of the face depends very strongly on the illumination
-\item Alignment Variation: The image depends on the orientation between the camera and subject 
-\item Occlusion: Often parts of the face image are covered by other objects
+\item The appearance of the face depends very strongly on the illumination
+\item The image depends on the orientation between the camera and subject 
+\item The face may be partially hidden/occluded
 \end{enumerate}
 \end{itemize}
 }
@@ -54,8 +56,7 @@ another human.}
 \vspace{-.2in}
 \end{center}
 \begin{itemize}
-\item One very promising direction in face recognition research,
-{\bf Sparse Representation based Classification (SRC)} [Wright et.\ al. PAMI 2009] achieves state-of-the-art performance on aligned public datasets.
+\item {\bf Sparse Representation based Classification (SRC)} [Wright et.\ al. PAMI 2009] achieves state-of-the-art performance on aligned public datasets.
 \item This is a solid foundation, but it is incomplete:
 	\begin{itemize}
 	\item Assumed perfectly aligned images
@@ -78,8 +79,8 @@ This encompases the following major contributions:
 \end{itemize}
 }
 
-\subsection{Illumination Model}
-\frame{\tableofcontents[currentsection, currentsubsection]}
+%\subsection{Illumination Model}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
 \input{promo}
 
 %\frame{
@@ -144,8 +145,8 @@ Top View\\
 %\includegraphics[width=\textwidth]{images/training_contact_sheet.png}
 %}
 
-\subsection{Alignment}
-\frame{\tableofcontents[currentsection, currentsubsection]}
+%\subsection{Alignment}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
 %\input{promo.tex}
 
 \frame{
@@ -369,8 +370,8 @@ Testing: 19 images of 14 subjects with sunglasses $\Rightarrow \textbf{\color{re
 }}
 
 
-\subsection{Contiguous Occlusion}
-\frame{\tableofcontents[currentsection, currentsubsection]}
+%\subsection{Contiguous Occlusion}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
 
 \renewcommand{\imagesizestring}{height}
 \setlength{\imagesizea}{0.25\textheight}
