@@ -1,51 +1,45 @@
 \section{Improving Recognition Accuracy}
 %\frame{\tableofcontents[currentsection, currentsubsection]}
-
-
-%\subsection{Improved Face Window}
+\frame{\tableofcontents[currentsection]}
 
 \frame{ \frametitle{Improved Face Window} 
 \centering
 \begin{tabular}{@{}cc@{}}
-\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.0in]{../figures_pami/example.png} &
-\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.0in]{../figures_pami/example_new.png} \\
+\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.1in]{../figures_pami/example.png} &
+\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.1in]{../figures_pami/example_new.png} \\
 Default window. & Proposed window.
 \end{tabular}
 
-{\tiny Recognition rates on the Multi-PIE database for
-Algorithm 1 and [Yang2010-CVPR]}
+{Recognition rates on the Multi-PIE database
+ %and [Yang2010-CVPR]
+}
 \centerline{
 \begin{tabular}{|c|c|c|c|c| }
 \hline
 Recognition rate & Session 2 & Session 3 & Session 4  \\
 \hline
-{Alg. 1, $S=1$} & 90.7\% & 89.6\% & 87.5\% \\
+%{Alg. 1, $S=1$} & 90.7\% & 89.6\% & 87.5\% \\
+%\hline
+{Rectangular Window} & 93.9\% & 93.8\% & 92.3\% \\
 \hline
-{Alg. 1} & 93.9\% & 93.8\% & 92.3\% \\
+{Improved window} & 95.0\% & {\bf 96.3}\% & {\bf 97.3}\% \\
 \hline
-{Alg. 1 with improved window} & 95.0\% & {\bf 96.3}\% & {\bf 97.3}\% \\
-\hline
-\cite{Yang2010-CVPR} & {\bf 95.2}\% & 93.4\% & 95.1\% \\
-\hline
+%\cite{Yang2010-CVPR} & {\bf 95.2}\% & 93.4\% & 95.1\% \\
+%\hline
 \end{tabular}
 } }
 
-
-\frame{ \frametitle{Centering the test subject's face in the window} 
-First prototype: Test image keeps initial alignment, training images
-are warped to match.
-
-Second prototyte: Test image is centered in the window using an average
-of the alignments from the alignment stage, training images are warped
-to match.
-
-Reduces likelihood of background pixels in the frame.
-
-Alignment of test image relative to training images same in both prototypes.
+\frame{ \frametitle{Centering the test image before recognition} 
+\begin{itemize}
+\item After iterative alignment, test and training images can be transformed
+together as a set without breaking the model.
+\item In first prototype, test image was kept at initial (face detector) position.
+\item In second prototyte, average of alignments is used to better position test
+image in window.
+\item In both prototypes, training images stay aligned relative to test image.
+\item Fewer background pixels in the frame.
+\end{itemize}
 }
-
-%\subsection{Improved Occlusion Handling}
-%\frame{\tableofcontents[currentsection, currentsubsection]}
 
 \frame{ \frametitle{Difficulty with MRF Model} 
 MRF showed improved occlusion handling for the aligned case.
