@@ -28,9 +28,10 @@ Face Recognition is uniquely {\em Unobtrusive, Fast, and Non-Contact}.
 
 Also,
 \begin{itemize}
-\item Faster than gait or voice recognition
+\item No time series $\Rightarrow$ Faster than gait or voice recognition
 \item Unlike iris recognition, no special hardware is needed
 \item Almost everyone has a face, so enrolment always succeeds
+\item Easier to cut off someone's finger than their head
 \end{itemize}
 }
 
@@ -59,7 +60,7 @@ Also,
 \item {\bf Sparse Representation based Classification (SRC)} [Wright et.\ al. PAMI 2009] achieves state-of-the-art performance on aligned public datasets.
 \item This is a solid foundation, but it is incomplete:
 	\begin{itemize}
-	\item Assumed perfectly aligned images
+	\item Assumed {\em perfectly} aligned training {\em and testing} images
 	\item Assumed a sufficient number of training illuminations taken under different illuminations
 \end{itemize}
 \end{itemize}
@@ -71,46 +72,77 @@ Also,
 \vspace{.2in}
 This encompases the following major contributions:
 \begin{itemize}
-\item Determine what {\bf training illuminations} are sufficient and build an {\bf acquisition system} capable of capturing them
-\item Design algorithm for {\bf automatically aligning} test images to training images
+%\item Determine what {\bf training illuminations} are sufficient and build an {\bf acquisition system} capable of capturing them
+%\item Design algorithm for {\bf automatically aligning} test images to training images
+\item System for capturing images of subject under many illuminations
+\item Algorithm for aligning test images to gallery
 \item Algorithmic improvements to improve recognition rate
 \item Algorithmic improvements to improve recognitieon speed
 \item Highly optimized parallel implementations for real-time face recognition
 \end{itemize}
 }
 
-%\subsection{Illumination Model}
-%\frame{\tableofcontents[currentsection, currentsubsection]}
-\input{promo}
-
-%\frame{
-%\frametitle{Linear Illumination Models}
-%\hspace{.1\textwidth}\includegraphics[height=0.8\textheight]{images/linear_illumination_model.pdf}
-%}
+\frame{\frametitle{Compound Effect of Alignment and Illumination}
+\renewcommand{\imagesizestring}{height}
+\setlength{\imagesizea}{0.25\textheight}
+\setlength{\imagesizeb}{0.15\textheight}
+\setlength{\gapsizea}{-0mm}
+\begin{tabular}[b]{cc@{}b{.5\textwidth}}
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case1/detector.png}& \hspace{\gapsizea}
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case1/sci_with_axis_face_case1.png} & 
+\begin{itemize}
+%\vspace{0.25in}
+\item {\bf Poor alignment}
+\item Sufficient training illuminations 
+\item Red: Weight of correct subject \newline in linear representation 
+\end{itemize}
+%\vfill
+\\
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/alignment_and_detector.png}& \hspace{\gapsizea}
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case2/sci_with_axis_face_case2.png} & 
+\begin{itemize}
+\item {\bf Good alignment}
+\item Insufficient training illuminations 
+\end{itemize}
+\vfill\\
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case3/alignment.png} & \hspace{\gapsizea}
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case3/sci_with_axis_face_case3.png} &
+\begin{itemize}
+\item {\bf Good alignment}
+\item Sufficient training illuminations 
+\end{itemize}
+\vfill
+\end{tabular}
+}
 
 \frame{
 \frametitle{Linear Illumination Models}
 \vspace{-5mm}\begin{center}
-\includegraphics[width=0.3\textwidth]{images/shadow_example}
+\includegraphics[width=0.35\textwidth]{images/shadow_example}
 \end{center}\vspace{-5mm}
 \begin{itemize}
-\item Despite Shadowing and Specularities Images still linear WRT illumination
-\item We can make Shadows and Specularities our Friends rather than our Enemies
-\item {\em Experimentally} determine which training illuminations needed
+\item Shadows and Specularities do {\em not} break linear illumination model.
+\item They actually {\em help} by encoding 3D and photometric information!
+\item With enough training images, our 2D pipline uses this info implicitly.
+\item Need to {\em Experimentally} determine which training illuminations needed
 \end{itemize}
 }
 
 \frame{
-\frametitle{Acquisition System}
-\includegraphics[width=0.3\textwidth]{images/camera_rig_drawings/perspective.pdf}
-
-Projector-Based System:
+\frametitle{Projector-Based Acquisition System}
+\includegraphics[width=0.6\textwidth]{images/camera_rig_drawings/perspective.pdf}
+\centering
+{
 \begin{itemize}
+\item {\em Very} complete angular illumination coverage
+\item Captures {\em many} illuminations {\em quickly} and {\em easily}:
+\begin{itemize}
+\item Easy to construct and deploy
+\item Easy to change illumination patterns
 \item Easy to re-configure projector geometry
-\item Trivial to change illumination patterns
-\item Easier to construct and deploy
-\item Very complete angular illumination coverage
 \end{itemize}
+\end{itemize}
+}
 }
 
 \frame{
@@ -150,10 +182,10 @@ Top View\\
 %\input{promo.tex}
 
 \frame{
-\frametitle{Image Embedding}
+\frametitle{Training Image Embedding}
 \vspace{-3mm}
 \begin{center}
-\includegraphics[width=.50\textwidth]{figures_embedding/training_embedding.pdf}\\
+\includegraphics[height=0.8\textheight]{figures_embedding/training_embedding.pdf}\\
 $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 \end{center}
 }
@@ -165,7 +197,14 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 (\hat \x, \hat \e,\hat \tau_i) = \argmin{\x,\e,\tau_i \in T} \| \e \|_1 \quad \subj \quad \y \circ \tau_i = A_i \x + \e
 \end{equation*}
 \begin{center}
-\includegraphics[width=.75\textwidth]{figures_embedding/pipeline.pdf}
+\includegraphics[width=.70\textwidth]{figures_embedding/pipeline.pdf}
+\end{center}
+}
+
+\frame{
+\frametitle{Recognition Pipeline}
+\begin{center}
+\includegraphics[height=0.9\textheight]{../figures_ijcb/pipeline_simplified.pdf}
 \end{center}
 }
 
@@ -213,16 +252,21 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 \renewcommand{\imagesizestring}{height}
 \setlength{\imagesizea}{0.36\textheight}
 \setlength{\gapsizea}{-0mm}
-\frame{\frametitle{Alignment region of attraction}
-%\begin{tabular}{cc}
+\frame{\frametitle{Robustness to misalignment}
 \begin{center}
 \includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/alignment_and_detector.png}
 \includegraphics[\imagesizestring= \imagesizea]{figures_cvpr/translation_fig3.png}
 \includegraphics[\imagesizestring= \imagesizea]{figures_cvpr/translation_rotation_fig1.png}
 \end{center}
-%\end{tabular}
 \vspace{0mm}
 {\tiny
+\hspace{2in}\begin{tabular}{|c|c|}
+\hline
+Axes & Amount of misalignment \\
+\hline
+Color & Probability of correct alignment \\
+\hline
+\end{tabular}
 \begin{itemize}
 \item Translation is expressed as a fraction of outer eye corner distance.
 \item In-plane rotation is expressed in degrees. 
@@ -292,7 +336,7 @@ NN$_d$ (NN$_m$)  & 26.4 (67.3)\% & 24.7 (66.2)\% & 21.9 (62.8)\%  \\
 \hline
 NS$_d$ (NS$_m$) &  30.8 (77.6)\% & 29.4 (74.3)\% & 24.6 (73.4)\% \\
 \hline
-{Algorithm 1} & {\bf 91.4} \% & {\bf 90.3} \% & {\bf 90.2} \% \\
+{Our Algorithm} & {\bf 91.4} \% & {\bf 90.3} \% & {\bf 90.2} \% \\
 \hline
 \end{tabular}
 \end{center}
@@ -345,28 +389,29 @@ NS$_d$ (NS$_m$) &  30.8 (77.6)\% & 29.4 (74.3)\% & 24.6 (73.4)\% \\
 % Experiments on our own training images
 
 \renewcommand{\imagesizestring}{width}
-\setlength{\imagesizea}{0.2\textwidth}
-\frame{\frametitle{Experiments on our data set}
+\setlength{\imagesizea}{0.19\textwidth}
+\frame{\frametitle{Experiments on UIUC data set}
 \small{
+With iterative alignment initialized by face detector\newline
 Training (common to all): 74 users, 38 images per user
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/1/DSC_1319.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/1/DSC_1531.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/1/DSC_1574.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/1/DSC_1622.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/1/DSC_1786.JPG}\\
-Testing: 242 images of 47 subjects, no glasses, frontal view $\Rightarrow \textbf{\color{red} 95.9\%}$ recognition.
+1. 242 images of 47 subjects, no glasses, $\Rightarrow \textbf{\color{red} 95.9\%}$ recognition. Illumination Robustness!
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/2/DSC_1448.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/2/DSC_1585.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/2/DSC_1588.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/2/DSC_1666.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/2/DSC_1874.JPG}\\
-Testing: 109 images of 23 subjects with eyeglasses  $\Rightarrow \textbf{\color{red} 91.5\%}$ recognition.
+2. 109 images of 23 subjects with eyeglasses  $\Rightarrow \textbf{\color{red} 91.5\%}$ recognition. Occlusion Robustness!
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/3/DSC_1572.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/3/DSC_1587.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/3/DSC_1623.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/3/DSC_1652.JPG} 
 \includegraphics[\imagesizestring =\imagesizea]{figures_cvpr/examples/3/DSC_1675.JPG}\\
-Testing: 19 images of 14 subjects with sunglasses $\Rightarrow \textbf{\color{red}63.2\%}$ recognition.
+3. 19 images of 14 subjects with sunglasses $\Rightarrow \textbf{\color{red}63.2\%}$ recognition.
 }}
 
 
@@ -458,14 +503,14 @@ Model probability of adjacent pixels agreeing, and probability of pixel being oc
 
 \frame{\frametitle{Solving Sparse Representation under MRF assumption}
 \begin{itemize}
-\item Want to solve 
+\item Want to find most likely linear representation and occlusion mask given error measurement:
 $\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_k \x_k + \e.$
 \item Difficult non-convex optimization problem!
 \item $\Rightarrow$ alternate between: 
 \begin{enumerate} 
-\item Solving SRC on the image region currently defined by $\s$:
+\item Solve for $\x,\e$ on subset of pixels $\s$ that are unlikely to be occluded
 	\begin{equation*}(\hat{\x}_k,\hat{\e}^*) = \argmin{\x,\e^*} \|\e^*\|_1  \; \textup{ s.t. } \; \y^* = A_k^*\x+\e^*, \x\geq 0 \end{equation*}
-\item Using graph cuts and our statistical model do update $\s$:
+\item Given updated $\e$, re-estimate most likely $\s$ (via Graph Cuts):
 	\begin{equation*} \hat{\s} = \argmax{\s \in \{-1,1\}^m}  \sum_{(i,j)\in E}  \lambda \s[i]\s[j] + \sum_{i\in V} \log p(\e[i] | \s[i]).\end{equation*}
 \end{enumerate}
 \end{itemize}
@@ -573,16 +618,6 @@ The proposed SRC based alignment and recognition algorithm is already:
 Unfortunately:
 \begin{itemize}
 \item Performance still poor for moderate to severe occlusions
-\item Way to slow for commercial applications in current state 
-\end{itemize}
-}
-
-\frame{\frametitle{Recognition Pipeline Demonstration}
-\begin{itemize}
-\item Test image taken today
-\item Training images taken over 1 year ago
-\item 38 illuminations per subject, ??? subjects in gallery.
-\item Implemented in OpenCV
-\item Running on XYZ machine
+\item Way too slow for commercial applications in current state 
 \end{itemize}
 }
