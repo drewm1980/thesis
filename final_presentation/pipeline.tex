@@ -42,22 +42,29 @@ image in window.
 }
 
 \frame{ \frametitle{Difficulty with MRF Model} 
-MRF showed improved occlusion handling for the aligned case.
-Unfortunately, when MRF model and iterative alignment are combined,
-alignment stability problems arise.  The core problem: the algorithm
-is unable to differentiate between the error caused by occlusion and
-the error caused by initial misalignment. 
+\begin{itemize} 
+\item Success! MRF improves occlusion handling for the aligned case.
+\item When MRF model and iterative alignment are combined,
+alignment stability problems arise.  
+\item The core problem: unable to differentiate error caused by occlusion and
+error caused by initial misalignment. 
+\item Need occlusion model that don't destabilize alignment.
+\end{itemize}
 }
 
 \frame{ \frametitle{Overlapping Block Model} 
-\includegraphics[width=4in]{../figures_pami/occ_block.png}
-In order to better handle sunglasses, try overlapping Block Model: 
-Perform recognition on a set of reduced size windows (Blocks) that are:
+\centering
+{
+	\includegraphics[width=3in]{../figures_pami/occ_block.png}
+}
+\begin{itemize} \item Want to better handle sunglasses
+\item Perform recognition {\em independently} on a set of \newline reduced size overlapping blocks that are:
 \begin{itemize}
 \item small enough to sometimes miss occlusions
 \item large enough to converge independently
 \end{itemize}
-...and vote to complete the classification.
+\item...and vote to complete the classification.
+\end{itemize}
 }
 
 \newcommand{\tempwidth}{0.1667\textwidth}
@@ -81,64 +88,61 @@ Top row: examples where the overlapping blocks method succeeded.
 Bottom row: examples where the overlapping blocks method failed.
 }
 
-
-%\subsection{Updated Experiments on Large Datasets}
-%\frame{\tableofcontents[currentsection, currentsubsection]}
-
-\frame{\frametitle{Large Scale Experiments on Multi-PIE}
-{\tiny Recognition rates on the Multi-PIE database for
-different pairings of alignment and recognition stages.}
-\tiny{ \centerline{
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c| }
+\frame{\frametitle{Large Scale Experiments}
+\begin{itemize}
+\item Recognition rates on the Multi-PIE session 1 
+\item Different pairings of alignment and recognition stages
+\end{itemize}
+\centering
+\begin{tabular}{|c|c|c|c|}
 \hline
-\backslashbox{Rec.}{Align.}
-& \multicolumn{3}{|c|}{Face Detector}
-& \multicolumn{3}{|c|}{Manual}
-& \multicolumn{3}{|c|}{Iterative Alignment}
-\\
+\backslashbox{Rec.}{Align.} & Face Detector & Manual & Iterative \\
 \hline
-Session $\rightarrow$	& 2		&3			&4			& 2		&3			&4			& 2		&3			&4		\\
+NS	& 30.8\%	& 77.6\%	& 84.5\%	\\
 \hline
-NS	& 30.8\%	& 29.4\%	& 24.6\%	& 77.6\%	& 74.3\%	& 73.4\%	& 84.5\%	& 82.3\%	& 81.4\% \\
+NN	& 26.4\%	& 67.3\%	& 73.5\%	\\
 \hline
-NN	& 26.4\%	& 24.7\%	& 21.9\%	& 67.3\%	& 66.2\%	& 62.8\%	& 73.5\%	& 69.6\%	& 69.3\% \\
+LDA	& 5.1\%		& 49.4\%	& 91.0\%	\\
 \hline
-LDA	& 5.1\%		& 5.9\%		& 4.3\%		& 49.4\%	& 44.3\%	& 47.9\%	& 91.0\%	& 89.9\%	& 88.1\% \\
+LBP	& 39.9\%	& 93.3\%	& {\bf 95.2\%}	\\
 \hline
-LBP	& 39.9\%	& 38.1\%	& 33.9\%	& 93.3\%	& 91.2\%	& 92.9\%	& {\bf 95.2\%}	& {\bf 94.7\%}	& {\bf 93.5\%} \\
+SRC	Prototype 1& -- & -- & 91.4\%	\\
 \hline
-SRC	& -- & -- & -- & -- & -- & -- & 93.9\%	& 93.8\%	& 92.3\% \\
+SRC	Prototype 2& -- & -- & 93.9\%	 \\
 \hline
 \end{tabular}
-}} %centerline small
-A combination of iterative alignment and LBP achieves highest recognition rate.
+\begin{itemize}
+\item Our iterative alignment algorithm improves all algorithms tested!
+\item Second prototype pipeline shows improved performance!
+\end{itemize}
 }
 
-\frame{ \frametitle{Comparisons with LBP} 
+\frame{ \frametitle{Impostor Rejection} 
 \centerline{
 \begin{tabular}{@{}cc@{}}
-\includegraphics[height=2.0in]{../figures_pami/pami_roc_revision2} &
-\includegraphics[height=2.0in]{../figures_pami/pami_roc2} \\
+\includegraphics[height=1.5in]{../figures_pami/pami_roc_revision2} &
+\includegraphics[height=1.5in]{../figures_pami/pami_roc2} \\
 (a) & (b) \\
 \end{tabular}
 }
-\small {\bf ROC curves} for subject validation on Multi-PIE database,
-(a) for all algorithms with iterative alignment, and
-(b) for the classical algorithms with manual alignment (indicated by a subscript ``m'').
+(a) Iterative alignment for all agorithms \newline
+(b) The classical algorithms with manual alignment (indicated by a subscript ``m'').
+
+\begin{itemize}
+\item Again, iterative alignment helps in all cases
+\item SRC based pipeline still better at rejecting impostors!
+\end{itemize}
 }
 
-\frame{ \frametitle{Improved performance on private dataset}
-Recognition rates on a more realistic private database.
-
-{\tiny
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-Test Category & C1 & C2 & C3 & C4  \\
-\hline
-\hline
-Recognition Rate & 98.4\% & 95.8\% & 95.1\% & 40.9\% \\
-\hline
-\end{tabular}
-}
-}
+%\frame{ \frametitle{Improved performance on private dataset}
+%Recognition rates on a more realistic private database.
+%\begin{tabular}{|c|c|c|c|c|}
+%\hline
+%Test Category & C1 & C2 & C3 & C4  \\
+%\hline
+%\hline
+%Recognition Rate & 98.4\% & 95.8\% & 95.1\% & 40.9\% \\
+%\hline
+%\end{tabular}
+%}
 

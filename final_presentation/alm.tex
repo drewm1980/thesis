@@ -1,15 +1,16 @@
-\section{Fast ALM Based Algorithms for $\ell_1$-Minimization}
-\frame{\tableofcontents[currentsection, currentsubsection]}
+\section[ALM]{Fast ALM Based Algorithms for $\ell_1$-Minimization}
+%\frame{\tableofcontents[currentsection, currentsubsection]}
+\frame{\tableofcontents[currentsection]}
 
 \frame{ \frametitle{$\ell_1$ Minimization Algorithms} 
 \begin{itemize}
+\item Main computational load of pipeline is solving linear programs
 \item Interior point method converges in small number of steps,  but each
 step is very expensive, involves solving linear system and re-ordering data in inner loop.
 \item To overcome this, a state-of-the-art
-$\ell_1$-minimization solution based on \emph{augmented Lagrangian methods}
-(ALM) [BertsekasD2003,YangA2010-ICIP] has been developed.
-\item Belongs to family of iterative shrinkage-thresholding methods, contains only
-first-order operations in its inner loop.
+$\ell_1$-minimization solution based on \emph{augmented Lagrangian methods} (ALM) has been developed.
+\item Belongs to family of iterative shrinkage/thresholding methods
+\item Contains only $O(mn)$ operations in its inner loop.
 \end{itemize}
 }
 
@@ -28,10 +29,10 @@ penalty parameter.
 }
 
 \frame{\frametitle{ALM Derivation}
-The ALM method seeks a saddlepoint of $L_\mu
-(\x,\e,\blambda)$ by alternating between optimizing with respect
-to the primal variables $\x, \e$ and updating the dual variable
-$\blambda$, with the other fixed, as follows:
+\begin{itemize}
+\item Seek a saddlepoint of $L_\mu(\x,\e,\blambda)$ 
+\item Alternate between optimizing with respect $\x, \e$ and updating $\blambda$:
+\end{itemize}
 \begin{equation}
 \left \{
 \begin{array}{lll}
@@ -41,17 +42,20 @@ $\blambda$, with the other fixed, as follows:
 \right .
 \label{eqn:alm}
 \end{equation}
-Although updating $\blambda$ is trivial,
-minimizing $L_{\mu} (\x,\e,\blambda_k)$ with respect to both
-$\x$ and $\e$ could still be costly. 
+\begin{itemize}
+\item Updating $\blambda$ is trivial
+\item Minimizing $L_{\mu} (\x,\e,\blambda_k)$ with respect to $\x$ and $\e$ simultaneously is costly.
+\end{itemize}
 }
 
 \frame{\frametitle{ALM Derivation} 
-To further reduce the complexity of the
-problem, we adopt an approach used in alternates between minimizing 
-$L_{\mu} (\x,\e,\blambda_k)$ over $\x$ (with $\e$ fixed) and over $\e$ (with $\x$
-fixed). After solving these two subproblems, the Lagrange multiplier $\blambda$
-is updated, yielding an iteration of the form:
+\begin{itemize} 
+\item Alternate between minimizing $L_{\mu} (\x,\e,\blambda_k)$
+\begin{itemize} 
+\item over $\x$ (with $\e$ fixed) and 
+\item over $\e$ (with $\x$ fixed):
+\end{itemize}
+\end{itemize}
 \begin{equation}
 \left\{
 \begin{array}{lll}
@@ -61,14 +65,13 @@ is updated, yielding an iteration of the form:
 \end{array}
 \right\}
 \end{equation}
-As the objective function is convex and alternation is between two
-terms, this procedure is guaranteed to converge to a global optimum (see [YangJ2009-pp] and references therein).
+\begin{itemize}
+\item The objective function is convex and alternation is guaranteed to coneverge to global optimum.
+\end{itemize}
 }
 
 \frame{\frametitle{ALM Derivation} 
-In order to discuss the solution to the above subproblems, we
-need to define the following soft-thresholding operator for a
-vector $\x$ and a scalar $\alpha \geq 0$:
+Soft-thresholding operator for $\x \in \Re^n, \alpha \in \Re$:
 \begin{equation}
 \mathcal{T}(\x,\alpha) = \textup{sign}(\x)\cdot \max \{|\x| - \alpha, 0\},
 \end{equation}
