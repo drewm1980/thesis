@@ -12,29 +12,27 @@
 }
 
 \frame{ \frametitle{CPU vs. GPU Architecture Comparison}
-\begin{tabular}[l|l|l]
+\begin{itemize}
+\item CPU: Intel E5530, Dual-socket, quad-core Xeon
+\item GPU: Nvidia GTX480 Single-socket GPU on PCIe card
+\end{itemize}
+
+\centering
+\begin{tabular}{l|c|c}
 Attribute & CPU & GPU \\
 \hline
-DRAM Bandwidth & 25 GB/s & {\color{red} 177 GB/s} \\
-\hline
 Cache Size & {\color{red} 8MB} & 768 KB \\
-\hline
+Clock & {\color{red} 2.4 GHz} & 1.4 GHz \\
+DRAM Bandwidth & 25 GB/s & {\color{red} 177 GB/s} \\
 Vector Width & 4 & {\color{red} 64} \\
-\hline
-Cores	& 8 & {\color{red} 15} \\
-\hline
-Clock & {\color{red} 2.4 GHz} & 1.4 GHz
-\end{tabular}
-}
+Cores	& 8 & {\color{red} 15} 
+\end{tabular} 
 
-%\frame{ \frametitle{Hardware Overview}
-%\begin{itemize}
-%\item GPU has two levels of concurrency: {\em core-level} and {\em SSE-level}
-%\item GPU has two levels of concurrency: {\em SM-level} and {\em thread-level} 
-%\item CPU: Intel E5530, Dual-socket, quad-core Xeon
-%\item GPU: Nvidia GTX480 Single-socket GPU on PCIe card
-%\end{itemize}
-%}
+\begin{itemize}
+\item CPU has two levels of concurrency: {\em core-level} and {\em SSE-level}
+\item GPU has two levels of concurrency: {\em SM-level} and {\em thread-level} 
+\end{itemize}
+}
 
 \newcommand{\tempscale}[0]{0.8}
 \frame{ \frametitle{CPU and GPU cache comparison}
