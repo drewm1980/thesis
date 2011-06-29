@@ -150,11 +150,11 @@ $\x$ can now be solved in closed form:
 \frame{
 \frametitle{ALM for Linearized Per-User Alignment}
 \small
-{\bf Input:} $\bb$, $A_i$, $\x_0 = \mathbf{0}$, $\tau_0$, and $J_0$.
+{\bf Input:} $\bb$, $A_i$, $\x_0 = \mathbf{0}$, $\tau_0$, and $J_0$.  
 \begin{algorithmic}[1]
 \WHILE{not converged ($j = 1,2,\ldots$)}
 \STATE Update $\bb_j \leftarrow \frac{\bb\circ \tau_{j-1}}{\|\bb\circ \tau_{j-1}\|}$; $B_j= [A_i, -J_{j-1}]$ and corresponding $(B_j^\dagger)^T$
-\STATE Initialize $\ww_0 = \mathbf 0$, $\blambda_0 = \mathbf 0$
+\STATE Initialize $\ww_0 = \mathbf 0$, $\blambda_0 = \mathbf 0$, $\w = [\x; \Delta \tau_j]$
 \WHILE{not converged ($k = 1,2,\ldots$)}
 \STATE $\uu_0\leftarrow \ww_{k-1}$; $\zz_0\leftarrow \e_{k-1}$
 \WHILE{not converged ($l = 1,2,\ldots$)}
@@ -170,49 +170,4 @@ $\x$ can now be solved in closed form:
 \end{algorithmic}
 {\bf Output:} $\tau_i^*\leftarrow \tau_j, \e_i^*\leftarrow \e_j$
 }
-
-%% INCORRECT???
-%\frame{
-%\frametitle{ALM for Iterative Alignment}
-%\begin{algorithmic}[1]
-%\begin{small}
-%\STATE {\bf Input:} $\bb \in \Re^m$, $A \in \Re^{m \times n}$,
-%$\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blambda_1 =
-%\mathbf{0}$.
-%\WHILE{not converged ($k = 1,2,\ldots$)}
-%\STATE $\e_{k+1} = \mathcal{T}\left(\bb - A\x_k +
-%\frac{1}{\mu}\blambda_k, \frac{1}{\mu}\right)$;
-%\STATE $t_1\leftarrow 1$, $\z_1 \leftarrow \x_k$, $\w_1 \leftarrow \x_k$;
-%\WHILE{not converged ($l = 1,2,\ldots$)}
-%\STATE $\w_{l+1} \leftarrow \mathcal{T}\left(\z_l +
-%\frac{1}{\gamma}A^T\left(\bb - A\z_l - \e_{k+1} +
-%\frac{1}{\mu}\blambda_k\right), \frac{1}{\mu\gamma}\right)$;
-%\STATE $t_{l+1} \leftarrow \frac{1}{2}\left( 1 +
-%\sqrt{1+4t_l^2}\right)$;
-%\STATE $\z_{l+1} \leftarrow \w_{l+1} + \frac{t_l - 1}{t_{l+1}}(\w_{l+1} - \w_l)$;
-%\ENDWHILE
-%\STATE $\x_{k+1} \leftarrow \w_{l}$,  \; $\blambda_{k+1} \leftarrow \blambda_k + \mu (\bb - A\x_{k+1} - \e_{k+1})$;
-%\ENDWHILE \STATE
-%{\bf Output:} $\x^* \leftarrow \x_k, \e^* \leftarrow \e_k$.
-%\end{small}
-%\end{algorithmic}
-%}
-
-%\frame{\frametitle{Complete ALM Algorithm}
-%\begin{algorithmic}
-%\WHILE{not converged}
-%\WHILE{not converged}
-%\STATE $[\e_{j+1}]_i  =  \shrink \left(\left[ \bb + \frac{1}{\mu_k}\blambda_k - A\x_j \right] _i, \frac{W_{ii}}{\mu_k}\right), \quad i = 1,2,\ldots,m$
-%\STATE $t_1 \leftarrow 1$, $\z_1 \leftarrow \x_j$
-%\WHILE{not converged}
-%\STATE $\x_{l+1}  =  \shrink\left(\z_l - \frac{1}{\tau}A^T\left(A\z_l + \e_{j+1} - \bb - \frac{1}{\mu_k}\blambda_k\right), \frac{1}{\mu_k\tau}\right)$
-%\STATE $t_{l+1} = 0.5\left( 1 + \sqrt{1+4t_l^2}\right)$
-%\STATE $\z_{l+1} = \x_{l+1} + \frac{t_l - 1}{t_{l+1}}(\x_{l+1} - \x_l)$
-%\ENDWHILE
-%\ENDWHILE
-%\STATE $\blambda_{k+1} = \blambda_k + \mu_k (\bb - A\x_{k+1} - \e_{k+1})$
-%\STATE $\mu_{k+1} = \rho\cdot\mu_k$
-%\ENDWHILE
-%\end{algorithmic}
-%}
 

@@ -1,6 +1,44 @@
 \section{Conclusion}
-%!TEX root = prelim.tex
-%!TEX root = fakeroot.tex
+
+
+% Future Work
+
+\frame{ \frametitle{Improving Recognition Performance} 
+Why does global representation (i.e. via SRC) improve imposter rejection so much?
+\begin{itemize}
+\item LBP achieves better R.R. but SRC has better ROC curve. 
+\item CVPR paper from another group (under review) claims explanation for $\ell_2$ case, but result is flawed.
+\end{itemize}
+How can we perform iterative alignment even with severe occlusions?
+\begin{itemize}
+\item Explore alternative convex norms that encourage contiguous error (i.e. C-norm)
+\item Attempt to distinguish between occlusion and misalignment error components.
+\item Random initialization techniques [Yang, Shia] are investigating this in face tracking context.
+\end{itemize}
+}
+
+\frame{ \frametitle{Improving Pipeline Speed} 
+\begin{itemize}
+\item Faster training image acquisition 
+\begin{itemize}
+\item Multiplexed Illuminations can be used to increase SNR or decrease exposure time...
+\item ...but require calibrated projectors.
+\item Automatically calibrate projectors? 
+\end{itemize}
+\item Improve Recognition Speed
+\begin{itemize}
+\item On GPU, parallelized ALM implementations are bandwidth limited
+\item Want to reduce number of loads of $A$ per iteration, \# of iterations.
+\item Can afford to spend more FLOPS on any subproblem that fits in cache
+\end{itemize}
+\item Try to leverage geometry of $\ell_1$ minimization problem:
+\begin{itemize}
+\item Exact line search only costs $m \log m$ with small constant
+\item Expensive part of descent direction computation operates on $n \times n$ subarray
+\item Multi-Scale within solver to leverage correlation of adjacent pixels
+\end{itemize}
+\end{itemize}
+}
 
 
 
