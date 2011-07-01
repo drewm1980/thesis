@@ -1,9 +1,15 @@
-\frame{\frametitle{Recognition pipeline demonstration}
+\frame{\frametitle{Demonstration: Parallelized Alignment Stage} 
+Experiment Setup:
 \begin{itemize}
-\item Test image taken today
-\item Training images taken over 1 year ago
-\item 38 illuminations per subject, 109 subjects in gallery.
-\item Implemented in OpenCV
-\item Running on XYZ machine
+\item Multipie Session 1 for training (249 subjects)
+\item 20 training images per subject
+\item Dual-Socket Quad-Core Intel Xeon 2.66GHz
+\item ALM based solvers
+\end{itemize}
+
+Timings for iterative alignment stage:
+\begin{itemize}
+\item Single threaded implementation in OpenCV: $\approx$ 91.4\ s
+\item Optimized Parallelization using OpenMP, vectorized MKl BLAS $\approx$ 8\ s!
 \end{itemize}
 }

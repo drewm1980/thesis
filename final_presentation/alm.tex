@@ -13,6 +13,7 @@ $\ell_1$-minimization solution based on \emph{augmented Lagrangian methods} (ALM
 }
 
 \frame{\frametitle{ALM derivation}
+\vspace{-8mm}
 Recall that the following minimization problem \\
 is used in the recognition stage:
 \begin{equation}
@@ -28,6 +29,7 @@ penalty parameter.
 }
 
 \frame{\frametitle{ALM derivation}
+\vspace{-8mm}
 \begin{itemize}
 \item Alternate between optimizing with respect $\x, \e$ and updating $\blambda$:
 \end{itemize}
@@ -63,11 +65,12 @@ closed-form solution:
 \end{equation*}
 given by the soft-thresholding operator:
 \begin{equation*}
-\mathcal{T}(\x,\alpha) = \textup{sign}(\x)\cdot \max \{|\x| - \alpha, 0\},
-\end{equation*}.
+\mathcal{T}(\x,\alpha) = \textup{sign}(\x)\cdot \max \{|\x| - \alpha, 0\}.
+\end{equation*}
 }
 
 \frame{\frametitle{ALM derivation} 
+\vspace{-8mm}
 For subproblem associated with $\x$, no closed form.
 \begin{itemize}
 \item $\Rightarrow$ We apply a first-order $\ell^1$-minimization method,
@@ -83,6 +86,7 @@ $L_{\mu} (\x,\e_{k+1},\blambda_k)$
 
 \frame{
 \frametitle{ALM for global recognition}
+\vspace{-8mm}
 \begin{algorithmic}[1]
 \begin{small}
 \STATE {\bf Input:} $\bb \in \Re^m$, $A \in \Re^{m \times n}$,

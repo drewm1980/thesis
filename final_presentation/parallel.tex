@@ -70,7 +70,6 @@ Map pixel-level parallelism onto both core-level and vector-level concurrency
 
 
 \frame{ \frametitle{Effect of cache size for solving a single minimization problem}
-How does the speed of solving a single ALM problem at a time vary with problem size?
 Benchmark the generic basis pursuit problem (alternate SRC formulation):
 \begin{equation} 
 \min \|\xx\|_1\quad \mbox{ subj. to }\quad \bb = A\xx
@@ -95,6 +94,7 @@ Benchmark the generic basis pursuit problem (alternate SRC formulation):
 }
 
 \frame{ \frametitle{Effect of cache size for solving a single minimization problem}
+%How does the speed of solving a single ALM problem at a time vary with problem size?
 {
 \tiny
 \begin{itemize}
@@ -196,7 +196,7 @@ Four problems per SM using single kernel & {\bf 36\,ms} \\
 
 \frame{ \frametitle{Parallelized pipeline accuracy}
 \centering
-\includegraphics[width=4in]{../figures_ijcb/accuracyVsResolution.pdf} 
+\includegraphics[width=3in]{../figures_ijcb/accuracyVsResolution.pdf} 
 \begin{itemize}
 \item Varied resolution of image resolution for recognition stage.
 \item At the optimal resolution, the GPU implementation reaches 95\% recognition rate, the max
@@ -207,20 +207,17 @@ inversion and vector reduction.
 \end{itemize}
 }
 
-\frame{ \frametitle{Conclusion}
+\frame{ \frametitle{Parallelization Conclusion}
 \begin{itemize}
-\item On both CPU and GPU architectures, parallelizations of
-ALM that solve multiple face alignment problems concurrently are significantly
-faster than implementations than naive BLAS based implementations.
-\item Thanks to more efficient use of faster hardware, dramatic speed improvements
-over previous parallel implementation.
-\item Achieved near real-time recognition performance on 8-core workstation, and 12+-core workstations are already available.
+\item For alignment stage, parallelizations of ALM that solve multiple problems concurrently are significantly
+faster than implementations than naive parallel BLAS based implementations.
+\item Achieved near real-time recognition performance on 8-core workstation
 \item SM-level CUDA BLAS routines were painful to develop, but provide a foundation
 for new $\ell_1$ solvers already under development.
 \end{itemize}
 Promising Future
 \begin{itemize}
-\item CPUs are increasing number of cores and vector widths
+\item CPUs are increasing number of cores (already 12+) and vector widths (doubles with AVX)
 \item GPU are increasing in amount of cache
 \item $\Rightarrow$ Both architectures converging towards an architectural balance
 that is more conducive to face recognition.
