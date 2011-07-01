@@ -1,9 +1,23 @@
-\frame{\frametitle{Recognition pipeline demonstration}
+\frame{\frametitle{Demonstration: Improved Scalability via ALM}
+Experiment Setup:
 \begin{itemize}
-\item Test image taken today
+\item Test image taken yesterday
 \item Training images taken over 1 year ago
-\item 38 illuminations per subject, 109 subjects in gallery.
-\item Implemented in OpenCV
-\item Running on XYZ machine
+\item 38 training images per subject
+\item 20 subjects with lowest alignment residual of the 109 subjects in gallery
+\item Single threaded implementation in OpenCV
+\item Dual-Socket Quad-Core Intel Xeon 2.66GHz
+\end{itemize}
+Timings for {\bf IPM } based pipeline:
+\begin{itemize}
+\item Alignment stage $\approx$ 65\ s
+\item Resampling stage $\approx$ 3\ s
+\item Recognition stage $\approx$ {\color{red} 90}\ s
+\end{itemize}
+Timings for {\bf ALM } based pipeline:
+\begin{itemize}
+\item Alignment stage $\approx$ 65\ s
+\item Resampling stage $\approx$ 3\ s
+\item Recognition stage $\approx$ {\color{red} 8}\ s!
 \end{itemize}
 }
