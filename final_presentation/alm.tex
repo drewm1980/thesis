@@ -2,7 +2,7 @@
 %\frame{\tableofcontents[currentsection, currentsubsection]}
 \frame{\tableofcontents[currentsection]}
 
-\frame{ \frametitle{$\ell_1$ Minimization Algorithms} 
+\frame{ \frametitle{$\ell_1$ minimization algorithms} 
 \begin{itemize}
 \item Main computational load of pipeline is solving linear programs
 \item Interior point method converges in small number of steps,  but each
@@ -14,7 +14,7 @@ $\ell_1$-minimization solution based on \emph{augmented Lagrangian methods} (ALM
 \end{itemize}
 }
 
-\frame{\frametitle{ALM Derivation}
+\frame{\frametitle{ALM derivation}
 Recall that the following minimization problem is used in the recognition stage:
 \begin{equation}
 \min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
@@ -28,7 +28,7 @@ where $\blambda$ is the Lagrange multiplier and $\mu > 0$ is a
 penalty parameter. 
 }
 
-\frame{\frametitle{ALM Derivation}
+\frame{\frametitle{ALM derivation}
 \begin{itemize}
 \item Seek a saddlepoint of $L_\mu(\x,\e,\blambda)$ 
 \item Alternate between optimizing with respect $\x, \e$ and updating $\blambda$:
@@ -48,7 +48,7 @@ penalty parameter.
 \end{itemize}
 }
 
-\frame{\frametitle{ALM Derivation} 
+\frame{\frametitle{ALM derivation} 
 \begin{itemize} 
 \item Alternate between minimizing $L_{\mu} (\x,\e,\blambda_k)$
 \begin{itemize} 
@@ -66,11 +66,11 @@ penalty parameter.
 \right\}
 \end{equation}
 \begin{itemize}
-\item The objective function is convex and alternation is guaranteed to coneverge to global optimum.
+\item The objective function is convex and alternation is guaranteed to converge to global optimum.
 \end{itemize}
 }
 
-\frame{\frametitle{ALM Derivation} 
+\frame{\frametitle{ALM derivation} 
 Soft-thresholding operator for $\x \in \Re^n, \alpha \in \Re$:
 \begin{equation}
 \mathcal{T}(\x,\alpha) = \textup{sign}(\x)\cdot \max \{|\x| - \alpha, 0\},
@@ -83,7 +83,7 @@ closed-form solution given by the soft-thresholding operator:
 \end{equation}
 }
  
-\frame{\frametitle{ALM Derivation} 
+\frame{\frametitle{ALM derivation} 
 To solve the subproblem associated with $\x$, we
 apply a first-order $\ell^1$-minimization method,
 called \emph{fast iterative shrinkage-threshold algorithm}
@@ -98,7 +98,7 @@ in \cite{YangJ2009-pp} and set $\mu = 2m / \|\bb\|_1$.
 }
 
 \frame{
-\frametitle{ALM for Global Recognition}
+\frametitle{ALM for global recognition}
 \begin{algorithmic}[1]
 \begin{small}
 \STATE {\bf Input:} $\bb \in \Re^m$, $A \in \Re^{m \times n}$,
@@ -124,7 +124,7 @@ $\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blambda_1 =
 }
 
 \frame{
-\frametitle{ALM for Linearized Per-User Alignment}
+\frametitle{ALM for linearized per-user alignment}
 The alignment stage requires the solution of the optimization problem:
 \begin{equation}
 \min_{\x, \e} \|\e\|_1 \quad \subj \quad \bb =
@@ -151,7 +151,7 @@ $\x$ can now be solved in closed form:
 }
 
 \frame{
-\frametitle{ALM for Linearized Per-User Alignment}
+\frametitle{ALM for linearized per-user alignment}
 \small
 {\bf Input:} $\bb$, $A_i$, $\x_0 = \mathbf{0}$, $\tau_0$, and $J_0$.  
 \begin{algorithmic}[1]

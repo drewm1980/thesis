@@ -10,7 +10,7 @@
 \end{itemize}
 }
 
-\frame{ \frametitle{CPU vs. GPU Architecture Comparison}
+\frame{ \frametitle{CPU vs. GPU architecture comparison}
 \begin{itemize}
 \item CPU: Intel E5530, Dual-socket, quad-core Xeon
 \item GPU: Nvidia GTX480 Single-socket GPU on PCIe card
@@ -47,7 +47,7 @@ The caches on a GTX480 GPU: \\
 %\frame{ \frametitle{Limitations of CUDA programming model}
 %}
 
-\frame{ \frametitle{Parallelization of SRC Recognition Stage}
+\frame{ \frametitle{Parallelization of SRC recognition stage}
 \begin{itemize}
 \item Single large $\ell_1$ minimization problem
 \item Only one level of parallelism available: {\em pixel-level}
@@ -69,7 +69,7 @@ Map pixel-level parallelism onto both core-level and vector-level concurrency
 %}
 
 
-\frame{ \frametitle{Effect of Cache Size for solving a single minimization problem}
+\frame{ \frametitle{Effect of cache size for solving a single minimization problem}
 How does the speed of solving a single ALM problem at a time vary with problem size?
 Benchmark the generic basis pursuit problem (alternate SRC formulation):
 \begin{equation} 
@@ -94,7 +94,7 @@ Benchmark the generic basis pursuit problem (alternate SRC formulation):
 }
 }
 
-\frame{ \frametitle{Effect of Cache Size for solving a single minimization problem}
+\frame{ \frametitle{Effect of cache size for solving a single minimization problem}
 {
 \tiny
 \begin{itemize}
@@ -111,7 +111,7 @@ Benchmark the generic basis pursuit problem (alternate SRC formulation):
 Crossover point occurs exactly where A reaches 8MB L3 cache size!
 }
 
-\frame{ \frametitle{ALM Recognition Stage Benchmark}
+\frame{ \frametitle{ALM recognition stage benchmark}
 Recognition stage runtime vs. face window resolution
 Benchmark ALM based Recognition stage running on real data:
 Images of 10 users from Iterative Alignment Stage, running on Multi-PIE.
@@ -127,9 +127,9 @@ Vary image size: $32\times32$, $48 \times 48$, $64 \times 64$, $96 \times
 \end{itemize}
 }
 
-\frame{ \frametitle{Parallelization of Iterative Alignment}
+\frame{ \frametitle{Parallelization of iterative alignment}
 \begin{itemize}
-\item Need to repeatedly solve many small $\ell_1$ minimization problems 
+\item Need to repeatedly solve many small $\ell_1$-minimization problems 
 \item $\ell_1$ minimization is interleaved with image rewarping
 \item Two levels of parallelism: \emph{problem-level} and \emph{pixel-level}
 \end{itemize}
@@ -148,9 +148,11 @@ We consider two parallelizations of iterative alignment:
 \end{enumerate}
 }
 
-\frame{ \frametitle{Parallelization of Iterative Alignment}
+\frame{ \frametitle{Parallelization of iterative alignment}
 First, in order to measure the impact of solving many
-$\ell_1$ problems-per concurrently on the GPU, we benchmark three implementations of the
+$\ell_1$ problems-per 
+%STEPH: problems-per?
+concurrently on the GPU, we benchmark three implementations of the
 alignment $\ell_1$-minimization solver with $A$ of size $5120 \times 32$, and a fixed
 $50$ inner loop iterations for each of $50$ outer loop iterations. The runtime
 on a GTX480 GPU is averaged over a large number of trials, which are run
@@ -175,7 +177,7 @@ Four problems per SM using single kernel & {\bf 36\,ms} \\
 }
 }
 
-\frame{ \frametitle{Parallelized Alignment Stage Benchmark}
+\frame{ \frametitle{Parallelized alignment stage benchmark}
 {
 	\tiny
 	\begin{itemize}
@@ -195,7 +197,7 @@ Four problems per SM using single kernel & {\bf 36\,ms} \\
 \end{itemize}
 }
 
-\frame{ \frametitle{Parallelized Pipeline Accuracy}
+\frame{ \frametitle{Parallelized pipeline accuracy}
 \centering
 \includegraphics[width=4in]{../figures_ijcb/accuracyVsResolution.pdf} 
 \begin{itemize}
@@ -215,7 +217,7 @@ ALM that solve multiple face alignment problems concurrently are significantly
 faster than implementations than naive BLAS based implementations.
 \item Thanks to more efficient use of faster hardware, dramatic speed improvements
 over previous parallel implementation.
-\item Achieved near real-time recognition performance on 8 core workstation, and 12+ core workstations are already available.
+\item Achieved near real-time recognition performance on 8-core workstation, and 12+-core workstations are already available.
 \item SM-level CUDA BLAS routines were painful to develop, but provide a foundation
 for new $\ell_1$ solvers already under development.
 \end{itemize}

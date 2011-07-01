@@ -3,7 +3,7 @@
 
 % Future Work
 
-\frame{ \frametitle{Improving Recognition Performance} 
+\frame{ \frametitle{Improving recognition performance} 
 Why does global representation (i.e. via SRC) improve imposter rejection so much?
 \begin{itemize}
 \item LBP achieves better R.R. but SRC has better ROC curve. 
@@ -11,13 +11,13 @@ Why does global representation (i.e. via SRC) improve imposter rejection so much
 \end{itemize}
 How can we perform iterative alignment even with severe occlusions?
 \begin{itemize}
-\item Explore alternative convex norms that encourage contiguous error (i.e. C-norm)
+\item Explore alternative convex norms that encourage contiguous error (i.e. C-norm).
 \item Attempt to distinguish between occlusion and misalignment error components.
 \item Random initialization techniques [Yang, Shia] are investigating this in face tracking context.
 \end{itemize}
 }
 
-\frame{ \frametitle{Improving Pipeline Speed} 
+\frame{ \frametitle{Improving pipeline speed} 
 \begin{itemize}
 \item Faster training image acquisition 
 \begin{itemize}
@@ -28,7 +28,7 @@ How can we perform iterative alignment even with severe occlusions?
 \item Improve Recognition Speed
 \begin{itemize}
 \item On GPU, parallelized ALM implementations are bandwidth limited
-\item Want to reduce number of loads of $A$ per iteration, \# of iterations.
+\item Want to reduce number of loads of $A$ per iteration, \# of iterations
 \item Can afford to spend more FLOPS on any subproblem that fits in cache
 \end{itemize}
 \item Try to leverage geometry of $\ell_1$ minimization problem:

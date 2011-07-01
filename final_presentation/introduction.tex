@@ -8,7 +8,7 @@
 
 \frame{
 \frametitle{Why is face recognition important?}
-{\em Face Recognition make the initiation of
+{\em Face Recognition makes the initiation of
 authenticated interaction with a machine as natural as making eye contact with
 another human.}
 
@@ -30,6 +30,7 @@ Also,
 \item Unlike iris recognition, no special hardware is needed
 \item Almost everyone has a face, so enrolment always succeeds
 \item Easier to cut off someone's finger than their head
+%STEPH: are you really going to leave this in here???!!! :D
 \end{itemize}
 }
 
@@ -55,7 +56,7 @@ Also,
 \vspace{-.2in}
 \end{center}
 \begin{itemize}
-\item {\bf Sparse Representation based Classification (SRC)} [Wright et.\ al. PAMI 2009] achieves state-of-the-art performance on aligned public datasets.
+\item {\bf Sparse Representation-based Classification (SRC)} [Wright et.\ al. PAMI 2009] achieves state-of-the-art performance on aligned public datasets.
 \item This is a solid foundation, but it is incomplete:
 	\begin{itemize}
 	\item Assumed {\em perfectly} aligned training {\em and testing} images
@@ -65,7 +66,7 @@ Also,
 }
 
 \frame{
-\frametitle{The Goal of the Research}
+\frametitle{The goal of the research}
 {\large I will demonstrate a complete and scalable face recognition system that can handle  {\bf illumination variation, alignment error, and realistic occlusions.}}\\
 \vspace{.2in}
 This encompases the following major contributions:
@@ -75,12 +76,12 @@ This encompases the following major contributions:
 \item System for capturing images of subject under many illuminations
 \item Algorithm for aligning test images to gallery
 \item Algorithmic improvements to improve recognition rate
-\item Algorithmic improvements to improve recognitieon speed
+\item Algorithmic improvements to improve recognition speed
 \item Highly optimized parallel implementations for real-time face recognition
 \end{itemize}
 }
 
-\frame{\frametitle{Compound Effect of Alignment and Illumination}
+\frame{\frametitle{Compound effect of alignment and illumination}
 \renewcommand{\imagesizestring}{height}
 \setlength{\imagesizea}{0.25\textheight}
 \setlength{\imagesizeb}{0.15\textheight}
@@ -114,7 +115,7 @@ This encompases the following major contributions:
 }
 
 \frame{
-\frametitle{Linear Illumination Models}
+\frametitle{Linear illumination models}
 \vspace{-5mm}\begin{center}
 \includegraphics[width=0.35\textwidth]{images/shadow_example}
 \end{center}\vspace{-5mm}
@@ -122,12 +123,12 @@ This encompases the following major contributions:
 \item Shadows and Specularities do {\em not} break linear illumination model.
 \item They actually {\em help} by encoding 3D and photometric information!
 \item With enough training images, our 2D pipline uses this info implicitly.
-\item Need to {\em Experimentally} determine which training illuminations needed
+\item Need to {\em experimentally} determine which training illuminations needed
 \end{itemize}
 }
 
 \frame{
-\frametitle{Projector-Based Acquisition System}
+\frametitle{Projector-based acquisition system}
 \includegraphics[width=0.6\textwidth]{images/camera_rig_drawings/perspective.pdf}
 \centering
 {
@@ -144,7 +145,7 @@ This encompases the following major contributions:
 }
 
 \frame{
-\frametitle{Training Illumination Rig}
+\frametitle{Training illumination rig}
 \begin{columns}
 \begin{column}{.5\textwidth}
 \begin{center}
@@ -164,7 +165,7 @@ Top View\\
 \frame{
 \renewcommand{\imagesizestring}{height}
 \setlength{\imagesizea}{0.41\textheight}
-\frametitle{Experimentally Motivated Illumination Set}
+\frametitle{Experimentally motivated illumination set}
 \begin{tabular}{cc}
 \includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_front.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/front.png}\\
 \includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_back.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/back.png}
@@ -180,7 +181,7 @@ Top View\\
 %\input{promo.tex}
 
 \frame{
-\frametitle{Training Image Embedding}
+\frametitle{Training image embedding}
 \vspace{-3mm}
 \begin{center}
 \includegraphics[height=0.8\textheight]{figures_embedding/training_embedding.pdf}\\
@@ -190,7 +191,7 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 
 
 \frame{
-\frametitle{Recognition Pipeline}
+\frametitle{Recognition pipeline}
 \begin{equation*}
 (\hat \x, \hat \e,\hat \tau_i) = \argmin{\x,\e,\tau_i \in T} \| \e \|_1 \quad \subj \quad \y \circ \tau_i = A_i \x + \e
 \end{equation*}
@@ -200,7 +201,7 @@ $A = [ A_1 \mid A_2 \mid \dots \mid A_K ] \in \Re^{m \times n}$
 }
 
 \frame{
-\frametitle{Recognition Pipeline}
+\frametitle{Recognition pipeline}
 \begin{center}
 \includegraphics[height=0.9\textheight]{../figures_ijcb/pipeline_simplified.pdf}
 \end{center}
@@ -271,7 +272,7 @@ Color & Probability of correct alignment \\
 \item Probability of convergence from synthetic transformations to hand-clicked ground truth
 \item Training: CMU Multi-PIE, 120 subjects, 11 illuminations, session 2.  Re-sampled to $60 \times 80$ pixels.
 \item Testing: 1 new illumination from session 3
-\item Viola Jones' face detector average error on this data set falls safely within our region of attraction
+\item Viola Jones's face detector average error on this data set falls safely within our region of attraction
 \end{itemize}}
 }
 
@@ -321,7 +322,7 @@ Color & Probability of correct alignment \\
 %\end{center}}
 %}
 
-\frame{\frametitle{Large Scale Multi PIE experiments}
+\frame{\frametitle{Large-scale multi-PIE experiments}
 \begin{center}
 \begin{tabular}{|l|c|c|c|c|}
 \hline
@@ -346,7 +347,7 @@ NS$_d$ (NS$_m$) &  30.8 (77.6)\% & 29.4 (74.3)\% & 24.6 (73.4)\% \\
 \item Testing: all users, from sessions 2-4\\ all 20 illuminations 
 \item Use the 88 users not in session 1 for validation
 \item Our Algorithm 1 used face detector; no manual intervention
-\item subscript m for manual alignment, subscript d for detector
+\item Subscript m for manual alignment, subscript d for detector
 \item neutral expression
 }
 \end{itemize}
@@ -420,7 +421,7 @@ Training (common to all): 74 users, 38 images per user
 \setlength{\imagesizea}{0.25\textheight}
 \setlength{\imagesizeb}{0.15\textheight}
 
-\frame{\frametitle{SRC on Random Corruption}
+\frame{\frametitle{SRC on random corruption}
 \renewcommand{\imagesizestring}{height}
 \setlength{\imagesizea}{0.10\textheight}
 \vspace{-.1in}
@@ -484,7 +485,7 @@ Training (common to all): 74 users, 38 images per user
 \end{itemize}
 }
 
-\frame{\frametitle{Markov Random Field Model}
+\frame{\frametitle{Markov random field model}
 \vspace{-.1in}
 \begin{center}
 \includegraphics[width=.35\textwidth]{images/lattice.pdf}\\
@@ -499,7 +500,7 @@ Model probability of adjacent pixels agreeing, and probability of pixel being oc
 \end{itemize}
 }
 
-\frame{\frametitle{Solving Sparse Representation under MRF assumption}
+\frame{\frametitle{Solving sparse representation under MRF assumption}
 \begin{itemize}
 \item Want to find most likely linear representation and occlusion mask given error measurement:
 $\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_k \x_k + \e.$
@@ -561,7 +562,7 @@ $\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_
 
 \renewcommand{\imagesizestring}{height}
 \setlength{\imagesizea}{0.15\textheight}
-\frame{\frametitle{Tuning MRF Model Parameters}
+\frame{\frametitle{Tuning MRF model parameters}
 Example test image from AR database, occluded by scarf: \\
 \begin{center}
 \fbox{\includegraphics[height=0.225\textheight]{figures_iccv/test_epsilon.png}}\\
@@ -588,7 +589,7 @@ $\lambda = 3$&
 \end{tabular}
 }
 
-\frame{\frametitle{MRF vs. SRC on Our Dataset}
+\frame{\frametitle{MRF vs. SRC on our dataset}
 \newcommand{\imagewidth}{.55in}
 \vspace{-.12in}
 {\tiny Training: 116 subjects, 38 images each, aligned using algorithm in previous section initialized by hand.}\\

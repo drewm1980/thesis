@@ -2,7 +2,7 @@
 %\frame{\tableofcontents[currentsection, currentsubsection]}
 \frame{\tableofcontents[currentsection]}
 
-\frame{ \frametitle{Improved Face Window} 
+\frame{ \frametitle{Improved face window} 
 \centering
 \begin{tabular}{@{}cc@{}}
 \includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.1in]{../figures_pami/example.png} &
@@ -34,31 +34,31 @@ Recognition rate & Session 2 & Session 3 & Session 4  \\
 \item After iterative alignment, test and training images can be transformed
 together as a set without breaking the model.
 \item In first prototype, test image was kept at initial (face detector) position.
-\item In second prototyte, average of alignments is used to better position test
+\item In second prototype, average of alignments is used to better position of test
 image in window.
 \item In both prototypes, training images stay aligned relative to test image.
 \item Fewer background pixels in the frame.
 \end{itemize}
 }
 
-\frame{ \frametitle{Difficulty with MRF Model} 
+\frame{ \frametitle{Difficulty with MRF model} 
 \begin{itemize} 
 \item Success! MRF improves occlusion handling for the aligned case.
 \item When MRF model and iterative alignment are combined,
 alignment stability problems arise.  
 \item The core problem: unable to differentiate error caused by occlusion and
 error caused by initial misalignment. 
-\item Need occlusion model that don't destabilize alignment.
+\item Need occlusion model that doesn't destabilize alignment.
 \end{itemize}
 }
 
-\frame{ \frametitle{Overlapping Block Model} 
+\frame{ \frametitle{Overlapping block model} 
 \centering
 {
 	\includegraphics[width=3in]{../figures_pami/occ_block.png}
 }
 \begin{itemize} \item Want to better handle sunglasses
-\item Perform recognition {\em independently} on a set of \newline reduced size overlapping blocks that are:
+\item Perform recognition {\em independently} on a set of \newline reduced-size overlapping blocks that are:
 \begin{itemize}
 \item small enough to sometimes miss occlusions
 \item large enough to converge independently
@@ -68,7 +68,7 @@ error caused by initial misalignment.
 }
 
 \newcommand{\tempwidth}{0.1667\textwidth}
-\frame{ \frametitle{Robustness to Sunglasses} 
+\frame{ \frametitle{Robustness to sunglasses} 
 \centering
 \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}c@{}}
 \includegraphics[width=\tempwidth,clip=true]{../figures_pami/uiuc_example/sunglasses/DSC_1565.JPG} &
@@ -88,7 +88,7 @@ Top row: examples where the overlapping blocks method succeeded.
 Bottom row: examples where the overlapping blocks method failed.
 }
 
-\frame{\frametitle{Large Scale Experiments}
+\frame{\frametitle{Large-scale experiments}
 \begin{itemize}
 \item Recognition rates on the Multi-PIE session 1 
 \item Different pairings of alignment and recognition stages
@@ -117,7 +117,7 @@ SRC	Prototype 2& -- & -- & 93.9\%	 \\
 \end{itemize}
 }
 
-\frame{ \frametitle{Impostor Rejection} 
+\frame{ \frametitle{Impostor rejection} 
 \centerline{
 \begin{tabular}{@{}cc@{}}
 \includegraphics[height=1.5in]{../figures_pami/pami_roc_revision2} &
@@ -125,7 +125,7 @@ SRC	Prototype 2& -- & -- & 93.9\%	 \\
 (a) & (b) \\
 \end{tabular}
 }
-(a) Iterative alignment for all agorithms \newline
+(a) Iterative alignment for all algorithms \newline
 (b) The classical algorithms with manual alignment (indicated by a subscript ``m'').
 
 \begin{itemize}
