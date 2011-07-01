@@ -26,3 +26,4 @@ diff.pdf
 *.nav
 *.out
 *.snm
+.DS_Store
