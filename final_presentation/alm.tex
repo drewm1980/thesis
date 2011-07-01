@@ -1,5 +1,4 @@
 \section[ALM]{Fast ALM Based Algorithms for $\ell_1$-Minimization}
-%\frame{\tableofcontents[currentsection, currentsubsection]}
 \frame{\tableofcontents[currentsection]}
 
 \frame{ \frametitle{$\ell_1$ minimization algorithms} 
@@ -9,13 +8,13 @@
 step is very expensive, involves solving linear system and re-ordering data in inner loop.
 \item To overcome this, a state-of-the-art
 $\ell_1$-minimization solution based on \emph{augmented Lagrangian methods} (ALM) has been developed.
-\item Belongs to family of iterative shrinkage/thresholding methods
 \item Contains only $O(mn)$ operations in its inner loop.
 \end{itemize}
 }
 
 \frame{\frametitle{ALM derivation}
-Recall that the following minimization problem is used in the recognition stage:
+Recall that the following minimization problem \\
+is used in the recognition stage:
 \begin{equation}
 \min_{\x, \e} \| \x \|_1 + \|\e\|_1 \quad \subj \quad \bb = A \x + \e.
 \end{equation}
@@ -30,7 +29,6 @@ penalty parameter.
 
 \frame{\frametitle{ALM derivation}
 \begin{itemize}
-\item Seek a saddlepoint of $L_\mu(\x,\e,\blambda)$ 
 \item Alternate between optimizing with respect $\x, \e$ and updating $\blambda$:
 \end{itemize}
 \begin{equation}
@@ -40,61 +38,47 @@ penalty parameter.
 \blambda_{k+1}  =  \blambda_k + \mu (\bb - A\x_{k+1} - \e_{k+1}). \\
 \end{array}
 \right .
-\label{eqn:alm}
 \end{equation}
-\begin{itemize}
-\item Updating $\blambda$ is trivial
-\item Minimizing $L_{\mu} (\x,\e,\blambda_k)$ with respect to $\x$ and $\e$ simultaneously is costly.
-\end{itemize}
-}
 
-\frame{\frametitle{ALM derivation} 
-\begin{itemize} 
-\item Alternate between minimizing $L_{\mu} (\x,\e,\blambda_k)$
-\begin{itemize} 
-\item over $\x$ (with $\e$ fixed) and 
-\item over $\e$ (with $\x$ fixed):
-\end{itemize}
-\end{itemize}
-\begin{equation}
+\begin{itemize}
+\item Updating $\blambda$ is trivial.
+\item Alternate between minimizing $L_{\mu} (\x,\e,\blambda_k)$ for $\x$ and $\e$:
+\begin{equation*}
 \left\{
 \begin{array}{lll}
 \e_{k+1}  =  \argmin{\e} L_{\mu} (\x_k,\e,\blambda_k) 
 \x_{k+1}  =  \argmin{\x} \, L_{\mu} (\x,\e_{k+1},\blambda_k),\\
 \blambda_{k+1}  =  \blambda_k + \mu (\bb - A\x_{k+1} - \e_{k+1}).
 \end{array}
-\right\}
-\end{equation}
-\begin{itemize}
-\item The objective function is convex and alternation is guaranteed to converge to global optimum.
+\right .
+\end{equation*}
 \end{itemize}
 }
 
 \frame{\frametitle{ALM derivation} 
-Soft-thresholding operator for $\x \in \Re^n, \alpha \in \Re$:
-\begin{equation}
+The subproblem with respect to $\e$ has a
+closed-form solution:
+\begin{equation*}
+\e_{k+1} = \mathcal{T}(\bb - A\x_k + \mu^{-1}\blambda_k, \mu^{-1})
+\end{equation*}
+given by the soft-thresholding operator:
+\begin{equation*}
 \mathcal{T}(\x,\alpha) = \textup{sign}(\x)\cdot \max \{|\x| - \alpha, 0\},
-\end{equation}
-where all the operations are performed component-wise. It is
-easy to show that the subproblem with respect to $\e$ has a
-closed-form solution given by the soft-thresholding operator:
-\begin{equation}
-\e_{k+1} = \mathcal{T}(\bb - A\x_k + \mu^{-1}\blambda_k, \mu^{-1}).
-\end{equation}
+\end{equation*}.
 }
- 
+
 \frame{\frametitle{ALM derivation} 
-To solve the subproblem associated with $\x$, we
-apply a first-order $\ell^1$-minimization method,
-called \emph{fast iterative shrinkage-threshold algorithm}
-(FISTA) \cite{BeckA2009}. The main idea of FISTA is to
-iteratively minimize a quadratic approximation $Q(\x, \z)$ to
-$L_{\mu} (\x,\e_{k+1},\blambda_k)$ around a point $\z$, which is
-carefully chosen in order to achieve a good convergence
-rate. We summarize the entire ALM
-algorithm as Algorithm~\ref{alg:alm}, where $\gamma$ denotes the
-largest eigenvalue of the matrix $A^TA$. For the choice of parameter $\mu$, we take the same strategy as
-in \cite{YangJ2009-pp} and set $\mu = 2m / \|\bb\|_1$.
+For subproblem associated with $\x$, no closed form.
+\begin{itemize}
+\item $\Rightarrow$ We apply a first-order $\ell^1$-minimization method,
+called \emph{fast iterative shrinkage-threshold algorithm} (FISTA). 
+\item Iteratively minimize a quadratic approximation $Q(\x, \z)$ to
+$L_{\mu} (\x,\e_{k+1},\blambda_k)$ 
+\item Good theoretical convergence properties
+\item In practice converges to sparse solutions faster than other $1^{st}$ order methods.
+\item $\gamma$ is the largest eigenvalue of $A^TA$
+\item $\mu = 2m / \|\bb\|_1$
+\end{itemize}
 }
 
 \frame{

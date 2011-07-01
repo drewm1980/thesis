@@ -1,56 +1,6 @@
 \section{Improving Recognition Accuracy}
-%\frame{\tableofcontents[currentsection, currentsubsection]}
 \frame{\tableofcontents[currentsection]}
 
-\frame{ \frametitle{Improved face window} 
-\centering
-\begin{tabular}{@{}cc@{}}
-\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.1in]{../figures_pami/example.png} &
-\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.1in]{../figures_pami/example_new.png} \\
-Default window. & Proposed window.
-\end{tabular}
-
-{Recognition rates on the Multi-PIE database
- %and [Yang2010-CVPR]
-}
-\centerline{
-\begin{tabular}{|c|c|c|c|c| }
-\hline
-Recognition rate & Session 2 & Session 3 & Session 4  \\
-\hline
-%{Alg. 1, $S=1$} & 90.7\% & 89.6\% & 87.5\% \\
-%\hline
-{Rectangular Window} & 93.9\% & 93.8\% & 92.3\% \\
-\hline
-{Improved window} & 95.0\% & {\bf 96.3}\% & {\bf 97.3}\% \\
-\hline
-%\cite{Yang2010-CVPR} & {\bf 95.2}\% & 93.4\% & 95.1\% \\
-%\hline
-\end{tabular}
-} }
-
-\frame{ \frametitle{Centering the test image before recognition} 
-\begin{itemize}
-\item After iterative alignment, test and training images can be transformed
-together as a set without breaking the model.
-\item In first prototype, test image was kept at initial (face detector) position.
-\item In second prototype, average of alignments is used to better position of test
-image in window.
-\item In both prototypes, training images stay aligned relative to test image.
-\item Fewer background pixels in the frame.
-\end{itemize}
-}
-
-\frame{ \frametitle{Difficulty with MRF model} 
-\begin{itemize} 
-\item Success! MRF improves occlusion handling for the aligned case.
-\item When MRF model and iterative alignment are combined,
-alignment stability problems arise.  
-\item The core problem: unable to differentiate error caused by occlusion and
-error caused by initial misalignment. 
-\item Need occlusion model that doesn't destabilize alignment.
-\end{itemize}
-}
 
 \frame{ \frametitle{Overlapping block model} 
 \centering
@@ -67,6 +17,43 @@ error caused by initial misalignment.
 \end{itemize}
 }
 
+\frame{ \frametitle{Centering the test image before recognition} 
+\begin{itemize}
+\item After iterative alignment, test and training images can be transformed
+together as a set without breaking the model.
+\item Enhancement: average of alignments is used to better position of test
+image in window.
+\item Training images stay aligned relative to test image.
+\item Fewer background pixels in the frame.
+\end{itemize}
+}
+
+\frame{ \frametitle{Improved face window} 
+\centering
+\begin{tabular}{@{}cc@{}}
+\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.1in]{../figures_pami/example.png} &
+\includegraphics[trim=1.9in .7in 1.9in .5in, clip, height=1.1in]{../figures_pami/example_new.png} \\
+Default window. & Proposed window.
+\end{tabular}
+
+{Recognition rates on the Multi-PIE database
+}
+\centerline{
+\begin{tabular}{|c|c|c|c|c| }
+\hline
+Recognition rate & Session 2 & Session 3 & Session 4  \\
+\hline
+%{Alg. 1, $S=1$} & 90.7\% & 89.6\% & 87.5\% \\
+%\hline
+{Rectangular Window} & 93.9\% & 93.8\% & 92.3\% \\
+\hline
+{Improved window} & 95.0\% & {\bf 96.3}\% & {\bf 97.3}\% \\
+\hline
+%\cite{Yang2010-CVPR} & {\bf 95.2}\% & 93.4\% & 95.1\% \\
+%\hline
+\end{tabular}
+} }
+ 
 \newcommand{\tempwidth}{0.1667\textwidth}
 \frame{ \frametitle{Robustness to sunglasses} 
 \centering

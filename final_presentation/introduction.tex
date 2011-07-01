@@ -8,12 +8,17 @@
 
 \frame{
 \frametitle{Why is face recognition important?}
-{\em Face Recognition makes the initiation of
-authenticated interaction with a machine as natural as making eye contact with
-another human.}
+\begin{itemize}
+\item Fast and accurate authentication is as important for Human-Machine interaction
+as it is for Human-Human interaction!
+\item We currently have to prove our identity to computers almost every time we interact
+with them.
+\item The ultimate goal of face recognition is to automate this to the point where it is almost
+transparent.
+\end{itemize}
 
 \begin{itemize}
-\item Automated door locks for buildings and automobiles
+\item Access control for buildings and automobiles
 \item Automatic login to computers and smart phones
 \item Automatic bill payment in restaurants, stores, and ATMs
 \item Automatic login on TVs, Sound Systems, and Game Systems 
@@ -22,22 +27,23 @@ another human.}
 
 \frame{
 \frametitle{Why is 2D face recognition important for these applications?}
-Face Recognition is uniquely {\em Unobtrusive, Fast, and Non-Contact}.
+Image based face recognition is uniquely \\
+{\em Unobtrusive, Fast, and Non-Contact}.
 
 Also,
 \begin{itemize}
 \item No time series $\Rightarrow$ Faster than gait or voice recognition
 \item Unlike iris recognition, no special hardware is needed
 \item Almost everyone has a face, so enrolment always succeeds
-\item Easier to cut off someone's finger than their head
-%STEPH: are you really going to leave this in here???!!! :D
+\item Spoofing difficult 
 \end{itemize}
 }
 
 \frame{
-\frametitle{Why is face recognition challenging?}
+\frametitle{Challenges of 2D face recognition}
 \begin{itemize}
-\item Three factors {\em dramatically} affect the appearance of a face:
+\item At least three factors affect the appearance of a face even {\em more}
+that the identity of the subject:
 \begin{enumerate}
 \item The appearance of the face depends very strongly on the illumination
 \item The image depends on the orientation between the camera and subject 
@@ -46,17 +52,18 @@ Also,
 \end{itemize}
 }
 
-%\item Classical algorithms, such as Eigenfaces, LDA, Nearest Neighbor, and Nearest Subspace perform poorly when confronted with test images taken outside of the lab.
-
 \frame{
-\frametitle{A promising recent direction in face recognition research}
+\frametitle{Sparse Representation base Classification}
 \begin{center}
 \vspace{-.2in}
-\includegraphics[width=.3\textwidth]{images/bouqet.pdf}\\
+\includegraphics[width=.2\textwidth]{images/bouqet.pdf}\\
 \vspace{-.2in}
 \end{center}
 \begin{itemize}
 \item {\bf Sparse Representation-based Classification (SRC)} [Wright et.\ al. PAMI 2009] achieves state-of-the-art performance on aligned public datasets.
+\begin{equation*}
+\min \| \mathbf{x} \|_1 + \| \mathbf{e} \|_1 \quad \mathrm{subj} \quad \mathbf{y} = A \mathbf{x} + \mathbf{e}
+\end{equation*}
 \item This is a solid foundation, but it is incomplete:
 	\begin{itemize}
 	\item Assumed {\em perfectly} aligned training {\em and testing} images
@@ -73,55 +80,28 @@ This encompases the following major contributions:
 \begin{itemize}
 %\item Determine what {\bf training illuminations} are sufficient and build an {\bf acquisition system} capable of capturing them
 %\item Design algorithm for {\bf automatically aligning} test images to training images
-\item System for capturing images of subject under many illuminations
-\item Algorithm for aligning test images to gallery
+\item Novel system for capturing images of subject under many illuminations
+\item New algorithm for aligning test images to gallery
 \item Algorithmic improvements to improve recognition rate
 \item Algorithmic improvements to improve recognition speed
 \item Highly optimized parallel implementations for real-time face recognition
 \end{itemize}
 }
 
-\frame{\frametitle{Compound effect of alignment and illumination}
-\renewcommand{\imagesizestring}{height}
-\setlength{\imagesizea}{0.25\textheight}
-\setlength{\imagesizeb}{0.15\textheight}
-\setlength{\gapsizea}{-0mm}
-\begin{tabular}[b]{cc@{}b{.5\textwidth}}
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case1/detector.png}& \hspace{\gapsizea}
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case1/sci_with_axis_face_case1.png} & 
-\begin{itemize}
-%\vspace{0.25in}
-\item {\bf Poor alignment}
-\item Sufficient training illuminations 
-\item Red: Weight of correct subject \newline in linear representation 
-\end{itemize}
-%\vfill
-\\
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/alignment_and_detector.png}& \hspace{\gapsizea}
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case2/sci_with_axis_face_case2.png} & 
-\begin{itemize}
-\item {\bf Good alignment}
-\item Insufficient training illuminations 
-\end{itemize}
-\vfill\\
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case3/alignment.png} & \hspace{\gapsizea}
-\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/promo/case3/sci_with_axis_face_case3.png} &
-\begin{itemize}
-\item {\bf Good alignment}
-\item Sufficient training illuminations 
-\end{itemize}
-\vfill
-\end{tabular}
-}
-
 \frame{
-\frametitle{Linear illumination models}
-\vspace{-5mm}\begin{center}
-\includegraphics[width=0.35\textwidth]{images/shadow_example}
-\end{center}\vspace{-5mm}
+\frametitle{Effect of illumination}
+\renewcommand{\imagesizestring}{height}
+\renewcommand{\imagesizea}{0.35\textheight}
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[\imagesizestring=\imagesizea]{images/shadow_example} & 
+\includegraphics[\imagesizestring=\imagesizea]{figures_cvpr/illum_results/granularity_sunset.pdf} \\
+Illumination Phenomena & Need for Illuminations
+\end{tabular}\vspace{2mm}
+\end{center}
 \begin{itemize}
 \item Shadows and Specularities do {\em not} break linear illumination model.
-\item They actually {\em help} by encoding 3D and photometric information!
+\item They may actually {\em help} by encoding 3D and photometric information!
 \item With enough training images, our 2D pipline uses this info implicitly.
 \item Need to {\em experimentally} determine which training illuminations needed
 \end{itemize}
@@ -162,15 +142,15 @@ Top View\\
 \end{columns}
 }
 
-\frame{
-\renewcommand{\imagesizestring}{height}
-\setlength{\imagesizea}{0.41\textheight}
-\frametitle{Experimentally motivated illumination set}
-\begin{tabular}{cc}
-\includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_front.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/front.png}\\
-\includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_back.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/back.png}
-\end{tabular}
-}
+%\frame{
+%\renewcommand{\imagesizestring}{height}
+%\setlength{\imagesizea}{0.41\textheight}
+%\frametitle{Experimentally motivated illumination set}
+%\begin{tabular}{cc}
+%\includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_front.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/front.png}\\
+%\includegraphics[\imagesizestring = \imagesizea]{images/camera_rig_drawings/side_back.pdf} & \includegraphics[\imagesizestring = \imagesizea]{images/illuminations/back.png}
+%\end{tabular}
+%}
 
 %\frame{\frametitle{Sample Training Images, Originals}
 %\includegraphics[width=\textwidth]{images/training_contact_sheet.png}
@@ -326,16 +306,16 @@ Color & Probability of correct alignment \\
 \begin{center}
 \begin{tabular}{|l|c|c|c|c|}
 \hline
-Rec. Rates & Session 2 & Session 3 & Session 4  \\
+Rec. Rates & Session 2  \\
 \hline
 \hline
-LDA$_d$ (LDA$_m$) & 5.1 (49.4)\%  & 5.9 (44.3)\% & 4.3 (47.9)\%  \\
+LDA$_d$ (LDA$_m$) & 5.1 (49.4)\%  \\
 \hline
-NN$_d$ (NN$_m$)  & 26.4 (67.3)\% & 24.7 (66.2)\% & 21.9 (62.8)\%  \\
+NN$_d$ (NN$_m$)  & 26.4 (67.3)\% \\
 \hline
-NS$_d$ (NS$_m$) &  30.8 (77.6)\% & 29.4 (74.3)\% & 24.6 (73.4)\% \\
+NS$_d$ (NS$_m$) &  30.8 (77.6)\% \\
 \hline
-{Our Algorithm} & {\bf 91.4} \% & {\bf 90.3} \% & {\bf 90.2} \% \\
+{Our Algorithm} & {\bf 91.4} \% \\
 \hline
 \end{tabular}
 \end{center}
@@ -421,69 +401,69 @@ Training (common to all): 74 users, 38 images per user
 \setlength{\imagesizea}{0.25\textheight}
 \setlength{\imagesizeb}{0.15\textheight}
 
-\frame{\frametitle{SRC on random corruption}
-\renewcommand{\imagesizestring}{height}
-\setlength{\imagesizea}{0.10\textheight}
-\vspace{-.1in}
-\begin{itemize}
-\item<1-> SRC is provably optimal for {\em randomized} corruption. 
-\begin{center}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-%{\footnotesize Yale Dataset, 19 images per person:}
-\begin{center}
-\begin{tabular}{@{}cccc@{}}
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-30-125-o.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-30-125-e.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-30-125-w.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-30-125-r.pdf} \\[-.05in]
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-50-379-o.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-50-379-e.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-50-379-w.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-50-379-r.pdf} \\[-.05in]
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-70-80-o.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-70-80-e.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-70-80-w.pdf} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-70-80-r.pdf}\\[-.1in]
-{\tiny Test Image} & {\tiny Error} & {\tiny Coefficients} & {\tiny Reconstruction}
-\end{tabular}
-\end{center}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{center}
-\includegraphics[height=.3\textheight]{IEEEPAMI_Occlusion/figures/yb_result_rc.pdf}\\
-\end{center}
-\end{column}
-\end{columns}
+%\frame{\frametitle{SRC on random corruption}
+%\renewcommand{\imagesizestring}{height}
+%\setlength{\imagesizea}{0.10\textheight}
+%\vspace{-.1in}
+%\begin{itemize}
+%\item<1-> SRC is provably optimal for {\em randomized} corruption. 
+%\begin{center}
+%\begin{columns}
+%\begin{column}{0.5\textwidth}
+%%{\footnotesize Yale Dataset, 19 images per person:}
+%\begin{center}
+%\begin{tabular}{@{}cccc@{}}
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-30-125-o.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-30-125-e.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-30-125-w.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-30-125-r.pdf} \\[-.05in]
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-50-379-o.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-50-379-e.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-50-379-w.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-50-379-r.pdf} \\[-.05in]
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-70-80-o.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-70-80-e.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-70-80-w.pdf} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/ysp-70-80-r.pdf}\\[-.1in]
+%{\tiny Test Image} & {\tiny Error} & {\tiny Coefficients} & {\tiny Reconstruction}
+%\end{tabular}
+%\end{center}
+%\end{column}
+%\begin{column}{0.5\textwidth}
+%\begin{center}
+%\includegraphics[height=.3\textheight]{IEEEPAMI_Occlusion/figures/yb_result_rc.pdf}\\
+%\end{center}
+%\end{column}
+%\end{columns}
 
-\end{center}
-%\vspace{.3in}
-\item<2-> For contiguous occlusion, SRC can handle up to 30\% occlusion.\\
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{center}
-\begin{tabular}{@{}cccc@{}}
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/352-30-O.PDF} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/352-30-E.PDF}&
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/352-30-W.PDF}&
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/352-30-R.PDF} \\[-.05in]
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/395-30-O.PDF} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/395-30-E.PDF}&
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/395-30-W.PDF} &
-\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/395-30-R.PDF}\\[-.05in]
-{\tiny Test Image} & {\tiny Error} & {\tiny Coefficients} & {\tiny Reconstruction}
-\end{tabular}
-\end{center}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{center}
-\includegraphics[height=.3\textheight]{IEEEPAMI_Occlusion/figures/yb_result_bab.pdf}
-\end{center}
-\end{column}
-\end{columns}
-\item<2-> Can we do better for spatially contiguous occlusions?
-\end{itemize}
-}
+%\end{center}
+%%\vspace{.3in}
+%\item<2-> For contiguous occlusion, SRC can handle up to 30\% occlusion.\\
+%\begin{columns}
+%\begin{column}{0.5\textwidth}
+%\begin{center}
+%\begin{tabular}{@{}cccc@{}}
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/352-30-O.PDF} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/352-30-E.PDF}&
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/352-30-W.PDF}&
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/352-30-R.PDF} \\[-.05in]
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/395-30-O.PDF} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/395-30-E.PDF}&
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/395-30-W.PDF} &
+%\includegraphics[\imagesizestring=\imagesizea]{IEEEPAMI_Occlusion/figures/395-30-R.PDF}\\[-.05in]
+%{\tiny Test Image} & {\tiny Error} & {\tiny Coefficients} & {\tiny Reconstruction}
+%\end{tabular}
+%\end{center}
+%\end{column}
+%\begin{column}{0.5\textwidth}
+%\begin{center}
+%\includegraphics[height=.3\textheight]{IEEEPAMI_Occlusion/figures/yb_result_bab.pdf}
+%\end{center}
+%\end{column}
+%\end{columns}
+%\item<2-> Can we do better for spatially contiguous occlusions?
+%\end{itemize}
+%}
 
 \frame{\frametitle{Markov random field model}
 \vspace{-.1in}
@@ -499,6 +479,36 @@ Training (common to all): 74 users, 38 images per user
 Model probability of adjacent pixels agreeing, and probability of pixel being occluded.
 \end{itemize}
 }
+
+\renewcommand{\imagesizestring}{height}
+\setlength{\imagesizea}{0.15\textheight}
+\frame{\frametitle{Tuning MRF model parameters}
+Example test image from AR database, occluded by scarf: \\
+\begin{center}
+\fbox{\includegraphics[height=0.225\textheight]{figures_iccv/test_epsilon.png}}\\
+\end{center}
+Error support for varying $\lambda, \tau$:
+\begin{tabular}{cccccccb{.120\textwidth}}
+$\lambda = 1$ &
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/20.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/17.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/14.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/11.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/8.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/5.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/2.png}}\\
+$\lambda = 3$&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/20.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/17.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/14.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/11.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/8.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/5.png}}&
+\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/2.png}}\\
+ &$\tau=0.2$ & 0.17 & 0.14 & 0.11 & 0.08 & 0.05 & 0.02
+\end{tabular}
+}
+
 
 \frame{\frametitle{Solving sparse representation under MRF assumption}
 \begin{itemize}
@@ -560,35 +570,6 @@ $\hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \y = A_
 %\end{itemize}
 %}
 
-\renewcommand{\imagesizestring}{height}
-\setlength{\imagesizea}{0.15\textheight}
-\frame{\frametitle{Tuning MRF model parameters}
-Example test image from AR database, occluded by scarf: \\
-\begin{center}
-\fbox{\includegraphics[height=0.225\textheight]{figures_iccv/test_epsilon.png}}\\
-\end{center}
-Error support for varying $\lambda, \tau$:
-\begin{tabular}{cccccccb{.120\textwidth}}
-$\lambda = 1$ &
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/20.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/17.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/14.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/11.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/8.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/5.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon1/2.png}}\\
-$\lambda = 3$&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/20.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/17.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/14.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/11.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/8.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/5.png}}&
-\fbox{\includegraphics[height=\imagesizea]{figures_iccv/epsilon3/2.png}}\\
- &$\tau=0.2$ & 0.17 & 0.14 & 0.11 & 0.08 & 0.05 & 0.02
-\end{tabular}
-}
-
 \frame{\frametitle{MRF vs. SRC on our dataset}
 \newcommand{\imagewidth}{.55in}
 \vspace{-.12in}
@@ -608,15 +589,23 @@ $\lambda = 3$&
 }
 
 \frame{\frametitle{Recap}
-The proposed SRC based alignment and recognition algorithm is already:
+The proposed SRC based alignment and recognition algorithm is:
 \begin{itemize}
 \item very robust to illumination variation
 \item robust to minor occlusions
 \item robust to large in-plane pose variation
 \end{itemize}
-Unfortunately:
-\begin{itemize}
+Unfortunately, it is too slow for commercial applications in current state 
+
+Also,
+\begin{itemize} 
+\item Showed that MRF improved occlusion handling for the aligned case.
 \item Performance still poor for moderate to severe occlusions
-\item Way too slow for commercial applications in current state 
+\item When MRF model and iterative alignment are combined,
+alignment stability problems arise.  
+\item Need occlusion model that doesn't destabilize alignment.
 \end{itemize}
 }
+
+
+

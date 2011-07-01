@@ -149,20 +149,17 @@ We consider two parallelizations of iterative alignment:
 }
 
 \frame{ \frametitle{Parallelization of iterative alignment}
-First, in order to measure the impact of solving many
-$\ell_1$ problems-per 
-%STEPH: problems-per?
-concurrently on the GPU, we benchmark three implementations of the
-alignment $\ell_1$-minimization solver with $A$ of size $5120 \times 32$, and a fixed
-$50$ inner loop iterations for each of $50$ outer loop iterations. The runtime
-on a GTX480 GPU is averaged over a large number of trials, which are run
-sequentially or concurrently depending on the implementation.
-The results are shown in Table \ref{tbl:ubench}.
-Our proposed parallelization of the $\ell_1$-minimization used in the alignment
+\begin{itemize}
+\item Measure the impact of solving many $\ell_1$ problems
+concurrently on the GPU
+\item Benchmark three implementations of the alignment $\ell_1$-minimization solver
+\item $A$ is size $5120 \times 32$
+\item $50$ inner loop iterations for each of $50$ outer loop iterations. 
+\item measured on GTX480 GPU 
+\item The proposed parallelization of the $\ell_1$-minimization used in the alignment
 stage is {\em eight times} faster than an implementation solving a single
 problem at a time using the stock BLAS libraries.
-%\footnote{The streams implementation is limited significantly by a 
-%cap on the number of concurrent streams in the current version of CUDA}
+\end{itemize}
 \centerline{
 \small
 \begin{tabular}{|l|c|}
