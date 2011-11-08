@@ -30,4 +30,3 @@
 #clean:
 	#rm -f ${TARGETS} 
 
-cp /home/awagner/cvpr2011_/pipeline/singleblock/alignment_runtime_graph_reference_*.dat .

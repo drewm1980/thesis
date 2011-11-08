@@ -1,9 +1,7 @@
 #!/bin/bash
 
-EXTERNAL_DATA_LOCATION=~/cvpr2011/pipeline/singleblock/
+LOC=~/cvpr2011_finalexp/pipeline/singleblock/
+cp ${LOC}alignment_runtime_graph_reference_cpu.dat .
+cp ${LOC}alignment_runtime_graph_reference_gpu.dat .
 
-# Be careful... no trailing spaces!!
-EXTERNAL_DATA="alignment_runtime_graph_reference_cpu.dat
-alignment_runtime_graph_reference_gpu.dat"
-
-echo "${EXTERNAL_DATA}" | parallel cp -u ${EXTERNAL_DATA_LOCATION}{} ./{}
+cp ~/cvpr2011_writeup/figures/accuracyVsResolution.eps .
