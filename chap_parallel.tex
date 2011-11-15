@@ -616,6 +616,88 @@ an engineering standpoint.
 \label{fig:accuracy_vs_resolution}
 \end{figure}
 
+\section{GPU Implementation Challenges}
+This section is intended to discuss some practical difficulties that were 
+encountered in the development of the GPU accelerated alignment stage.  While
+these observations in no way impact the overall message of the thesis, they 
+may nonetheless prove usefull to practitioners seeking to replicate these
+results, as well as engineers working on improving tools for programming
+the GPU.
+
+Our programming experience using the C for CUDA language has been positive
+overall; we were able to successfully parallelize our algorithm and take
+advantage of the computational resources of the GPU in a way that was largely
+independent of the number of SM's, and scalability to a large number of cores
+is the primary advantage of the CUDA architecture.
+
+In terms of ease of use, however, the CUDA ecosystem, including the toolchain
+and standard libraries, still has a long way to go before it will rival the
+much more mature ecosystem on the CPU.  
+here are some
+specific comments and recommendations.
+\begin{itemize}
+\item We recommend performing parallel reductions using a binary tree
+reduction similar to that presented in the CUDA documentation and whitepapers,
+even you suspect that a simpler reduction method would be faster and accurate enough.  
+This is not simply a matter of performance; we found that pretty much no matter how
+it is coded, on Fermi you cannot get threads to take turns accumulating a value into 
+shared memory using code similar to the following dot product code:
+\begin{verbatim}
+template<int n>
+__device__ void dot(const float* __restrict__ a
+							, const float* __restrict__ b
+							, float* __restrict__ o)
+	int i = threadIdx.x;
+	double localSum = 0.0;
+	__shared__ double blockSum;
+	blockSum=0.0;
+	__syncthreads();
+
+	// Do most of the dot product in a straightforward manner. (works!)
+	while(i<n){
+		double tempa = (double) a[i];
+		double tempb = (double) b[i];
+		localSum += tempa*tempb;
+		i += blockDim.x;
+	}
+	// Accumulate the values from each of the threads. 
+	// (Compiles wrong just freqently enough to drive you insane.)
+
+	__syncthreads();
+	for(int j=0; j<blockDim.x; j++){
+		if(threadIdx.x==j)
+			blockSum += localSum;
+		__syncthreads();
+	}
+	*o = (float) blockSum;
+}
+\end{verbatim}
+Whether the above code compiles properly or not seems to depend on the code surrounding the function call,
+and on the target architecture; it was more likely to fail on Fermi than in earlier versions.  Reducing
+the optimization level did not help.
+\item We recommend using an array of C structures (one struct instance for each problem instance
+being solved) to hold all of the significanly large intermediate variable in the optimization.  
+We found both the cuda enhanced gdb and the device-side printf() to be unreliable for debugging;
+the version of cuda-gdb used does not properly support templates.   Device-side printf sometimes
+changed the behavior of the code (even if when located right after a \_\_syncthreads call), and it 
+returns garbage if you try to print more than a few screenfuls of text. 
+Keeping all of the variables in on huge array of structures stored in global memory makes it
+far easier to transfer them back to the CPU host, where printf is reliable.
+\item If you only have a single problem instance to solve, we highly recommend using the CUBLAS library
+and writing as little native CUDA code as possible.  Implementing the alignment stage took
+far more development effort than the recognition stage, due not only to the CUDA's learning curve,
+but due to the total absence of linear algebra libraries that provide an API within CUDA (rather than
+an API for the host code).  This necessetated writing the entire alignment stage from scratch in C for CUDA.
+Contrast this with the situation on the CPU: MKL and most blas libraries are available in both multi-threaded
+and single threaded versions that share the same API.  This enables you to combine BLAS calls with your own
+threading.
+\end{itemize}
+While CUDA is evolving rapidly and some of the above recommendations will
+(hopefully) soon be obsolete, the last observation in particular may be
+relevant to the long-standing debate within the high-performace computing
+community over whether it is better to support parallel programming via new
+programming languages or via new libraries.
+
 \section{Conclusion}
 We have demonstrated that on both CPU and GPU architectures, parallelizations of
 ALM that solve multiple face alignment problems concurrently are significantly
