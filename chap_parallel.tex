@@ -605,9 +605,10 @@ overall pipeline.  As shown in Figure \ref{fig:accuracy_vs_resolution},
 at the optimal resolution, which happens to match the alignment stage
 resolution, the GPU implementation reaches 95\% recognition rate, the max
 achievable given the alignment selection process.  For significantly lower resolutions,
-the accuracy drops off significantly.  The slight difference in CPU vs. GPU
-accuracy may be a result of numerical precision differences in our matrix
-inversion and vector reduction routines.
+the accuracy drops off significantly.  As expected, the CPU and GPU accuracy results match.
+Differences in numerical precision may have played a role in differing recognition
+results for a few cases (out of thousands), but the difference is not significant from
+an engineering standpoint.
 \begin{figure}[t!]
 \centering
 \includegraphics[width=4in]{figures_ijcb/accuracyVsResolution.pdf} 
