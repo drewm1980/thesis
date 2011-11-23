@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="205.89761"
-   height="119.03883"
+   width="208.89999"
+   height="122.04"
    id="svg4085"
    version="1.1"
    inkscape:version="0.47 r22583"
@@ -23,14 +23,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.7561034"
-     inkscape:cx="99.143668"
-     inkscape:cy="50.681068"
+     inkscape:cx="100.63655"
+     inkscape:cy="56.271968"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="596"
-     inkscape:window-height="786"
-     inkscape:window-x="600"
+     inkscape:window-width="1115"
+     inkscape:window-height="1579"
+     inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0" />
   <defs
@@ -65,17 +65,17 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(-53.965637,-68.011605)"
+     transform="translate(-53.965637,-65.010442)"
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
     <g
-       transform="translate(15.974001,-62.032371)"
+       transform="translate(17.974001,-62.032371)"
        id="g2941">
       <text
          xml:space="preserve"
@@ -133,24 +133,24 @@
     <text
        id="text3708-6-9-2"
        y="89.315727"
-       x="73.280579"
+       x="75.280579"
        style="font-size:7px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
        xml:space="preserve"><tspan
          id="tspan3712-1-4-1"
          y="89.315727"
-         x="74.394836"
+         x="76.394836"
          sodipodi:role="line">16KiB: </tspan><tspan
          id="tspan2974"
          y="98.065727"
-         x="73.280579"
+         x="75.280579"
          sodipodi:role="line">Resampled</tspan><tspan
          id="tspan2976"
          y="106.81573"
-         x="73.280579"
+         x="75.280579"
          sodipodi:role="line">Face Image</tspan></text>
     <rect
        y="71.246117"
-       x="68.983681"
+       x="70.983681"
        height="7.25"
        width="7.25"
        id="rect3706-0-5-0"
@@ -158,20 +158,20 @@
     <text
        id="text3708-6-9-2-4"
        y="160.77379"
-       x="149.48524"
+       x="151.48524"
        style="font-size:7px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
        xml:space="preserve"><tspan
          id="tspan3043"
          y="160.77379"
-         x="149.48524"
+         x="151.48524"
          sodipodi:role="line" /><tspan
          id="tspan5689"
          y="169.52379"
-         x="149.48524"
+         x="151.48524"
          sodipodi:role="line">(20 images plus 4 column Jacobian)</tspan></text>
     <rect
        y="142.17545"
-       x="55.130413"
+       x="57.130413"
        height="44.75"
        width="29.75"
        id="rect3706-0-6-1"
@@ -183,30 +183,30 @@
        width="29.75"
        height="44.75"
        x="153.62602"
-       y="-259.73825" />
+       y="-261.73825" />
     <text
        id="text2997"
        y="180.59598"
-       x="60.447914"
+       x="62.447914"
        style="font-size:6px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
        xml:space="preserve"><tspan
          y="180.59598"
-         x="60.447914"
+         x="62.447914"
          id="tspan2999"
          sodipodi:role="line">384 KiB</tspan></text>
     <text
        id="text2997-1"
        y="167.39127"
-       x="246.16628"
+       x="248.16628"
        style="font-size:6px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
        xml:space="preserve"><tspan
          y="167.39127"
-         x="246.16628"
+         x="248.16628"
          id="tspan2999-0"
          sodipodi:role="line">384</tspan><tspan
          id="tspan3041"
          y="174.89127"
-         x="246.16628"
+         x="248.16628"
          sodipodi:role="line">KiB</tspan></text>
     <text
        transform="translate(57.005413,68.011605)"
@@ -224,7 +224,7 @@
          id="tspan3049"
          sodipodi:role="line" /></text>
     <g
-       transform="matrix(2.1574284,0,0,2.1574284,-43.473028,-22.261723)"
+       transform="matrix(2.1574284,0,0,2.1574284,-41.473028,-22.261723)"
        id="g3012">
       <g
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:none;stroke:#000000;stroke-width:0.4635148;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
@@ -251,7 +251,7 @@
            id="path3020" /></g>    </g>
     <g
        id="g3145"
-       transform="matrix(2.0787719,0,0,2.0787719,120.47094,-5.193366)">
+       transform="matrix(2.0787719,0,0,2.0787719,122.47094,-5.193366)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
