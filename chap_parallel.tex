@@ -314,7 +314,7 @@ but are also available in single-threaded versions (for the second implementatio
 operations that are not optimized by Intel in-house libraries, such as the soft thresholding
 operator in step 7 of Algorithm \ref{alg:iterative_alignment}, we achieve 
 vector-level concurrency via
-the automatic vectorization facilities of the Intel C++ compiler (ICC) \cite{dulong1999overview}.
+the automatic vectorization facilities of the Intel C++ compiler (ICC).
 To achieve core-level concurrency we make use of the Open MP API. \cite{dagum2002openmp} 
 %We shall compare the performance of the two parallelism methods in Section \ref{sec:experiment}.
 
@@ -382,7 +382,7 @@ coefficients in $\x$ are then used to compute error residuals that are used for
 classification.  
 %This recognition algorithm has
 %been extensively studied in
-%\cite{WrightJ2009-PAMI,YangA2010-ICIP,WagnerA2011-PAMI}.
+%\cite{WrightJ2009-PAMI,YangA2010-pp,WagnerA2011-PAMI}.
 In this stage of the algorithm, there is no problem-level
 parallelism to exploit, so this section will discuss how to exploit pixel-level parallelism
 on both CPU and GPU hardware.

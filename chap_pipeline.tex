@@ -285,7 +285,7 @@ method for minimizing the composition of a non-smooth objective function (the
 $\ell_1$-norm) with a differentiable mapping from transformation parameters to
 transformed images. Such algorithms date at least back to the 1970s
 \cite{Cromme1978-NM,Jittorntrum1980-NM}, and continue to attract attention
-today \cite{Lewis2008-TR}. While a detailed discussion of their properties is
+today \cite{lewis2008proximal}. While a detailed discussion of their properties is
 outside the scope of this thesis, it is worth mentioning that the scheme
 \eqref{eqn:L1-align} is known to converge quadratically in the neighborhood of
 any local optimum of the $\ell_1$-norm. In practice, this means that $\approx$
@@ -419,7 +419,7 @@ the C++ implementation of Algorithm~\ref{alg:deformable-src} takes
 about 0.60 seconds per subject for alignment and about 2.0
 seconds for global recognition. Compared to the highly
 customized interior point method first presented in 
-\cite{Wagner2009-CVPR}, this new algorithm is
+\cite{WagnerA2009-CVPR}, this new algorithm is
 only slightly faster for per subject alignment. However, it is
 much simpler to implement and it achieves a
 \emph{speedup of more than a factor of 10} for global
@@ -436,12 +436,12 @@ presented in Sections \ref{sec:multipie} and \ref{sec:own-data}.
 
 \noindent {1) \em 2D Deformation.}  The first experiment verifies the
     effectiveness of our alignment algorithm with images
-    from the CMU Multi-PIE Database \cite{Gross2008-FGR}.
+    from the CMU Multi-PIE Database \cite{gross2010multi}.
     The gallery set consists of all the subjects in Session 1, using 7
     illuminations per person. The test images use
     one new illumination from each user in Session
     2.\footnote{The training are illuminations $\{0, 1, 7,
-    13, 14, 16, 18\}$ of \cite{Gross2008-FGR}, and the
+    13, 14, 16, 18\}$ of \cite{gross2010multi}, and the
     testing is the illumination 10. } A ground truth for
 	registration is formed by manually selecting
     eye corners in both training and testing images. 
@@ -757,7 +757,7 @@ This is discussed further in Appendix \ref{chap:appendix_illumination}.
 
 {\em Relationship to existing work:} Most light stages used for face
 recognition have been constructed for the purpose of creating public data sets
-to study illumination invariance \cite{Georghiades2001-PAMI, Gross2008-FGR}.
+to study illumination invariance \cite{Georghiades2001-PAMI, gross2010multi}.
 Many other light stages have been used for computer graphics purposes
 \cite{debevec2000acquiring, jones2005performance}.  The light source can be
 moved around manually \cite{masselus2002free}, but this may result in poor
@@ -886,7 +886,7 @@ in Session 1 are used as the training set. The remaining 88 subjects are
 treated as ``impostors,'' or invalid images. For each of the
 249 training subjects, frontal images are used with 7 frontal
 illuminations,\footnote{They are illuminations
-$\{0,1,7,13,14,16,18\}$ of \cite{Gross2008-FGR}. For each
+$\{0,1,7,13,14,16,18\}$ of \cite{gross2010multi}. For each
 directional illumination, the ambient-illuminated
 image 0 is subtracted.} taken with neutral expression. As suggested by the
 work of \cite{Georghiades2001-PAMI}, these extreme
@@ -1054,7 +1054,7 @@ clicked points are sufficient to define a similarity transformation. All of the
 experiments in this section are carried out with similarity transformations.}
 and 3.\ the output of the iterative alignment algorithm. The performance drop
 of the LDA algorithm on Multi-PIE reported here seems to agree with that
-reported already in \cite{Gross2008-FGR}.  All of the classical algorithms
+reported already in \cite{gross2010multi}.  All of the classical algorithms
 benefit greatly from being paired with the proposed iterative alignment
 algorithm.
 

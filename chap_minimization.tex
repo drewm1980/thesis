@@ -37,7 +37,7 @@ called the LASSO \cite{TibshiraniR1996} and truncated Newton interior-point
 method (TNIPM) \cite{KimS2007}.
 Recently, a number of accelerated algorithms have been proposed that
 explicitly take advantage of the special structure of $\ell_1$-minimization
-problems \cite{LorisI2009,YangA2010-ICIP}. 
+problems \cite{LorisI2009,YangA2010-pp}. 
 The first published prototype of the face recognition pipeline utilized a customized
 interior point solver \cite{WagnerA2009-CVPR}.  A derivation of the Interior Point
 Method based solver is presented in Section \ref{sec:ipm_derivation}.
@@ -54,7 +54,7 @@ can be shown to exactly estimate BP when the solution is sufficiently sparse
 operations such as matrix-matrix multiplication and linear least-squares
 problems with varying $A$ matrices.  To overcome this, a state-of-the-art
 $\ell_1$-minimization solution based on \emph{augmented Lagrangian methods}
-(ALM) \cite{BertsekasD2003,YangA2010-ICIP} has been developed.
+(ALM) \cite{BertsekasD2003,YangA2010-pp} has been developed.
 
 The ALM algorithm belongs to a category of approximate $\ell_1$-minimization
 solutions called \emph{iterative shrinkage-thresholding} (IST) methods
@@ -62,7 +62,7 @@ solutions called \emph{iterative shrinkage-thresholding} (IST) methods
 operations such as vector algebra and matrix-vector multiplication. Therefore,
 when the dimension of the problem becomes high, IST-type algorithms are
 particularly suitable for hardware systems with a high degree of concurrency.
-In \cite{YangA2010-ICIP}, the authors showed that ALM is able to significantly
+In \cite{YangA2010-pp}, the authors showed that ALM is able to significantly
 improve the solver speed, while achieving estimation accuracy competitive with
 other $\ell_1$-minimization solutions. Therefore, we choose ALM as the core
 algorithm for the implementation of $\ell_1$-minimization in the second
