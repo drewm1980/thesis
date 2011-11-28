@@ -139,9 +139,9 @@ The main defining characteristics of contemporary multi-core GPU architectures
 are that they have two (much wider) levels of concurrency, relatively small amounts of
  cache, and relatively low clock speeds.  Whereas most of the transistors on
 a typical CPU are dedicated either to cache or to hardware that enables higher
-clock speeds (such as branch prediction, out-of-order instruction execution, etc...),
+clock speeds (such as branch prediction, out-of-order instruction execution, etc.),
 most of the transistors on a GPU are dedicated to arithmetic logic units.
-For our GPU implementations, we target NVIDIA Fermi GPU architecture (\eg, the GTX 480
+For our GPU implementations, we target NVIDIA Fermi GPU architecture (\eg the GTX 480
 GPU addressed in this chapter).  An explanation of the GPU programming model (CUDA) at a useful level of completeness would take more space than is available here, so we will instead frame our discussion in terms of 
 hardware capabilities. 
 %\footnote{A discussion of the CUDA programming model can be found in the NVIDIA C for CUDA Programming Guide}
@@ -149,8 +149,8 @@ CUDA programmable GPUs are comprised of several
 \emph{streaming multiprocessors} (SM), each of which is roughly analogous to a CPU core.
 For Fermi architecture GPUs there are up to 16 SMs, and each SM is capable of executing up to 64 single precision 
 floating point operations
-concurrently. \footnote{In CUDA terms, the warp width is 32, and the floating pipeline can
-issue up to two warps simultaneously}
+concurrently.\footnote{In CUDA terms, the warp width is 32, and the floating pipeline can
+issue up to two warps simultaneously.}
 
 % GPU CACHE DISCUSSION
 % for L2 cache
@@ -199,7 +199,7 @@ in error $\e$ after the alignment. Note that directly solving
 \eqref{eq:l1min_alignment} is inefficient since it is a non-convex problem
 and may exhibit local minima.
 However, given a good initial estimate of the
-transformation $\tau$ (\eg, provided by an accurate face detector), the optimal
+transformation $\tau$ (\eg provided by an accurate face detector), the optimal
 solution for $\tau$ can be sought iteratively by linearization at each $j$th
 step:
 \begin{equation}
@@ -208,7 +208,7 @@ step:
 where $J_j = \nabla_{\tau_j}(\tilde\bb\circ\tau_j)$ is the Jacobian, and
 $\Delta \tau$ is a step update to $\tau$. Denote $\bb_j =
 \tilde\bb\circ\tau_j$, $B_j = [A_i, -J_j]$ and $\ww^T = [\x^T, \Delta
-\tau^T]$, then the update $\Delta \tau$ can be computed by solving the
+\tau^T]$; then the update $\Delta \tau$ can be computed by solving the
 following linear program:
 \begin{equation}
 \min_{\ww, \e}\|\e\|_1\quad \subj\quad \bb_j = B_j\ww + \e.
@@ -224,7 +224,7 @@ The per-class alignment algorithm via ALM is summarized in Algorithm
 %In terms of computational complexity, one significant
 %term is the computation of the matrix pseudo-inverse $B_j^\dagger$, whose
 %computational cost is bounded by $O(n_i^2m + n_i^3)$. However, for per-class face
-%alignment, since both $B_j$ and $J_{j}$ are very tall matrices (\ie, $m\gg n_i$
+%alignment, since both $B_j$ and $J_{j}$ are very tall matrices (\ie $m\gg n_i$
 %for all $i=1, \cdots, K$ classes), we find that the computation cost is still
 %dominated by the frequently computed matrix-vector multiplications in the
 %inner loop.
@@ -256,7 +256,7 @@ In summary, the alignment stage essentially contains two levels of available
 parallelism. At the higher level, there are per-class alignment problems
 that are solved independently, or \emph{problem-level parallelism}.  At a lower
 level, the first-order linear algebraic operations exhibit parallelism within
-image operations, \ie, at the pixel level.  We call this \emph{pixel-level
+image operations, \ie at the pixel level.  We call this \emph{pixel-level
 parallelism}.  The following two sections discuss methods for exploiting
 these two levels of parallelism on CPU and GPU architectures.
 
@@ -265,13 +265,13 @@ these two levels of parallelism on CPU and GPU architectures.
 
 Optimal implementation of Algorithm \ref{alg:iterative_alignment} on a multi-core CPU must take 
 into account the properties of the cache hierarchy. In general, cache that is 
-closer to the core (i.e. L1 cache) has higher bandwidth, but smaller size compared to cache
+closer to the core (i.e. L1 cache) has higher bandwidth but smaller size compared to cache
 that is farther from the core (L3 cache).  For reference, Figure \ref{fig:cpu_caches} 
 shows the the sizes of L2 and L3 caches of the Intel E5530 CPU, 
 which is a representative example of a modern multi-core CPU. 
 
 For the E5530, the L2 cache in each core is only able to store about 16 images.
-For image alignment problem, the number of training images per class is
+For the image alignment problem, the number of training images per class is
 typically larger than 16.  
 In this chapter, we compare two mappings of the parallelism available in the alignment
 stage to the concurrency available on the CPU: a naive implementation that is purely 
@@ -318,7 +318,7 @@ To achieve core-level concurrency we make use of the Open MP API. \cite{dagum200
 \subsection{GPU Implementation} 
 \label{sec:alignment_implementation_gpu}
 While on the CPU, algorithm performance is highly dependent on effective
-cache usage, cache is relatively unimportant on the GPU for ALM based
+cache usage; cache is relatively unimportant on the GPU for ALM based
 $\ell_1$-minimization.  As can be seen in Figure \ref{fig:gpu_caches}, the GPU has 
 a very small amount of cache compared to the CPU.  While it might be possible
 to fit a single instance of the alignment problem (with a slightly reduced problem size)
@@ -425,7 +425,7 @@ On the GPU, most of the operations map well onto similar calls in NVIDIA's GPU
 BLAS library (CUBLAS) which, like MKL, can take advantage of both levels of
 concurrency available in the hardware architecture.  Operations that do not map
 well onto the CUBLAS API were implemented directly in CUDA code.
-Additionally, some operations that could have been implemented via multiple
+Additionally, for some operations that could have been implemented via multiple
 BLAS calls, performance improvements were achieved by combining multiple
 vector-vector operations into a single kernel, due to reduced bandwidth and
 kernel call overhead.  
@@ -490,7 +490,7 @@ used for solving the generic basis pursuit problem:
 The $m \times n$ measurement matrix $A$ is a random Gaussian matrix, with each
 entry generated from the standard normal distribution and normalized to unit
 column norm.  The ratio of $m/n$ is fixed at $1/2$ with $n$ varying from 1000 to 8000.
-The ground truth signal, $\x_0$ has a sparsity rate of 10\% of $m$ with
+The ground truth signal $\x_0$ has a sparsity rate of 10\% of $m$ with
 elements sampled from a normal distribution and normalized to unit column
 norm.  Because the ground truth signal $\x_0$ is known, the algorithm
 terminates when $\|\bx-\bx_0\| < \tau$ with $\tau=10^{-3}$.  The measurement
@@ -527,9 +527,8 @@ sequentially or concurrently depending on the implementation.
 The results are shown in Table \ref{tbl:ubench}.
 Our proposed parallelization of the $\ell_1$-minimization used in the alignment
 stage is {\em eight times} faster than an implementation solving a single
-problem at a time using the stock BLAS libraries.
-\footnote{The streams implementation is limited significantly by a 
-cap on the number of concurrent streams in the current version of CUDA}
+problem at a time using the stock BLAS libraries.\footnote{The streams implementation is limited significantly by a 
+cap on the number of concurrent streams in the current version of CUDA.}
 %The results are shown below:
 \begin{table}[t!]
 \caption{\small Benchmark of implementations of alignment $\ell_1$-minimization.}
@@ -561,7 +560,7 @@ transormation that maps two manually clicked outer eye corners to fixed
 locations in the canonical frame.  A $64 \times 64$
 pixel window in the canonical frame is used for resampling. 
 
-Figure \ref{fig:alignment_stage_runtime} shows the average run time of the CPU and GPU implementations to align
+Figure \ref{fig:alignment_stage_runtime} shows the average runtime of the CPU and GPU implementations to align
 a query image against all the subject classes separately. We vary the total number of
 subject classes to show how the algorithms scale. The plateaus seen in the GPU curve
 result from the GPU hardware scheduling the computation of alignment
@@ -589,7 +588,7 @@ poor alignment, we find that keeping more subjects for the recognition stage doe
 not necessarily improve recognition rate.
 
 Figure \ref{fig:recognition_stage_runtime} shows the recognition stage runtime
-for canonical images of size: $32\times32$, $48 \times 48$, $64 \times 64$, $96 \times
+for canonical images of size $32\times32$, $48 \times 48$, $64 \times 64$, $96 \times
 96$, and $128 \times 128$.  For all image resolutions, the problem size
 is sufficiently small that the CPU is significantly faster than the GPU.  Note
 also that for both implementations, the recognition stage takes much less time
@@ -597,7 +596,7 @@ than the alignment stage.
 \begin{figure}[t!]
 \centering
 \includegraphics[width=4in]{figures_ijcb/speedVsResolution.pdf} 
-\caption{Recognition stage runtime vs. face window resolution}
+\caption{Recognition stage runtime vs. face window resolution.}
 \label{fig:recognition_stage_runtime} \end{figure}
 
 Finally, we perform an experiment verifying the recognition accuracy of the
@@ -620,25 +619,25 @@ an engineering standpoint.
 This section is intended to discuss some practical difficulties that were 
 encountered in the development of the GPU accelerated alignment stage.  While
 these observations in no way impact the overall message of the thesis, they 
-may nonetheless prove usefull to practitioners seeking to replicate these
+may nonetheless prove useful to practitioners seeking to replicate these
 results, as well as engineers working on improving tools for programming
 the GPU.
 
 Our programming experience using the C for CUDA language has been positive
 overall; we were able to successfully parallelize our algorithm and take
 advantage of the computational resources of the GPU in a way that was largely
-independent of the number of SM's, and scalability to a large number of cores
+independent of the number of SMs, and scalability to a large number of cores
 is the primary advantage of the CUDA architecture.
 
 In terms of ease of use, however, the CUDA ecosystem, including the toolchain
 and standard libraries, still has a long way to go before it will rival the
 much more mature ecosystem on the CPU.  
-here are some
+Following are some
 specific comments and recommendations.
 \begin{itemize}
 \item We recommend performing parallel reductions using a binary tree
-reduction similar to that presented in the CUDA documentation and whitepapers,
-even you suspect that a simpler reduction method would be faster and accurate enough.  
+reduction similar to that presented in the CUDA documentation, 
+even if it is suspected that a simpler reduction method would be faster and accurate enough.  
 This is not simply a matter of performance; we found that pretty much no matter how
 it is coded, on Fermi you cannot get threads to take turns accumulating a value into 
 shared memory using code similar to the following dot product code:
@@ -653,16 +652,17 @@ __device__ void dot(const float* __restrict__ a
 	blockSum=0.0;
 	__syncthreads();
 
-	// Do most of the dot product in a straightforward manner. (works!)
+	// Do most of the dot product in a straightforward manner. 
+	// (This part works)
 	while(i<n){
 		double tempa = (double) a[i];
 		double tempb = (double) b[i];
 		localSum += tempa*tempb;
 		i += blockDim.x;
 	}
+
 	// Accumulate the values from each of the threads. 
 	// (Compiles wrong just freqently enough to drive you insane.)
-
 	__syncthreads();
 	for(int j=0; j<blockDim.x; j++){
 		if(threadIdx.x==j)
@@ -677,19 +677,19 @@ and on the target architecture; it was more likely to fail on Fermi than in earl
 the optimization level did not help.
 \item We recommend using an array of C structures (one struct instance for each problem instance
 being solved) to hold all of the significanly large intermediate variable in the optimization.  
-We found both the cuda enhanced gdb and the device-side printf() to be unreliable for debugging;
-the version of cuda-gdb used does not properly support templates.   Device-side printf sometimes
+We found both the CUDA enhanced gdb and the device-side printf() to be unreliable for debugging;
+the version of the ``cuda-gdb" debugger used does not properly support templates.   Device-side printf sometimes
 changed the behavior of the code (even if when located right after a \_\_syncthreads call), and it 
 returns garbage if you try to print more than a few screenfuls of text. 
-Keeping all of the variables in on huge array of structures stored in global memory makes it
+Keeping all of the variables in a huge array of structures stored in global memory makes it
 far easier to transfer them back to the CPU host, where printf is reliable.
-\item If you only have a single problem instance to solve, we highly recommend using the CUBLAS library
+\item If there is a single problem instance to solve, we highly recommend using the CUBLAS library
 and writing as little native CUDA code as possible.  Implementing the alignment stage took
-far more development effort than the recognition stage, due not only to the CUDA's learning curve,
-but due to the total absence of linear algebra libraries that provide an API within CUDA (rather than
+far more development effort than the recognition stage, due not only to CUDA's learning curve,
+but also due to the total absence of linear algebra libraries that provide an API within CUDA (rather than
 an API for the host code).  This necessetated writing the entire alignment stage from scratch in C for CUDA.
-Contrast this with the situation on the CPU: MKL and most blas libraries are available in both multi-threaded
-and single threaded versions that share the same API.  This enables you to combine BLAS calls with your own
+Contrast this with the situation on the CPU: MKL and most BLAS libraries are available in both multi-threaded
+and single-threaded versions that share the same API.  This enables you to combine BLAS calls with your own
 threading.
 \end{itemize}
 While CUDA is evolving rapidly and some of the above recommendations will
@@ -704,11 +704,11 @@ ALM that solve multiple face alignment problems concurrently are significantly
 faster than implementations that rely purely on vendor-supplied BLAS libraries.
 Furthermore, thanks to a combination of faster hardware and more efficient use
 of the hardware, we have demonstrated dramatic improvements in recognition
-speed over earlier poorly parallelized implementation.
+speed over earlier poorly parallelized implementations.
 As CPU manufacturers increase the number of cores and vector widths, and as GPU 
 manufacturers increase the amount
 of cache, both architectures are rapidly converging towards an architectural balance
-that increasingly favorable for $\ell_1$-minimization based face recognition.
-With technology available today, the algorithm already achieves near real-time
-recognition performanc.
+that is favorable for $\ell_1$-minimization based face recognition.
+With the hardware technology available today, the algorithm already achieves near real-time
+recognition performance.
 

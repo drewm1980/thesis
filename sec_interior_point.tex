@@ -1,17 +1,17 @@
-\section{L1 Minimization via Interior Point Method}
+\section{$\ell_1$-Minimization via Interior Point Method}
 %\section{An Interior Point Solver for Alignment}
 \label{sec:ipm_derivation}
 
-This section outlines the derivation of an interior point solver for the following optimization problem
+This section outlines the derivation of an interior point solver, for the following optimization problem:
 \begin{equation}
 \min_{\x,\e,\q}\;  \| \e \|_1 \quad \mathrm{subj} \quad \bb = A \x + B \q + \e, \quad \x \ge \0.
-\end{equation}
-for use in image alignment. This is a slightly more general version of problem \ref{eq:l1min_alignment},
-that constraints a subset of the coefficients ($\x$) to be non-negative. 
+\end{equation}, which forms the core of the iterative alignment routine.
+It is a slightly more general version of problem (\ref{eq:l1min_alignment}),
+that constrains a subset of the coefficients ($\x$) to be non-negative. 
 Here, $\x \in \Re^n$, $\q \in \Re^p$, $\bb, \e \in
 \Re^m$, so $A \in \Re^{m \times n}$, $B \in \Re^{m\times p}$. Our development
 will follow Chapter 11 of Boyd and Vandenbergh. We begin by recasting this as
-an inequality-constrained linear program in the usual fashion
+an inequality-constrained linear program in the usual fashion:
 \begin{eqnarray*}
 \min \qquad 1^* \u \\
 \subj \qquad -\x &\le& \0 \\
@@ -20,28 +20,28 @@ an inequality-constrained linear program in the usual fashion
 \end{eqnarray*}
 To the three inequality constraints associate Lagrange multiplier vectors $\blambda_{x,+} \in \Re^n$, $\blambda_{e,+}, \blambda_{e,-} \in \Re^m$. Here, we have simply eliminated the equality constraint. The combined primal variables are 
 \begin{equation}
-\tilde \x = [ \, \x^* \;\, \q^* \;\, \u^* \, ]^* \in \Re^{n+m+p}
+\tilde \x = [ \, \x^* \;\, \q^* \;\, \u^* \, ]^* \in \Re^{n+m+p}.
 \end{equation}
-Objective
+The objective is
 \begin{equation}
-\f^* \tilde \x \qquad   \f = [ \0_n \; \0_p \; \1_m ]^* \in \Re^{n+m+p}
+\f^* \tilde \x \qquad   \f = [ \0_n \; \0_p \; \1_m ]^* \in \Re^{n+m+p}.
 \end{equation}
-Combined inequality constraint matrix 
+The combined inequality constraint matrix 
 \begin{equation}
 \Phi \doteq \left[ \begin{array}{ccc} 
 -\Id_{n \times n} & 0_{n \times p} & 0_{n \times m} \\
 -A &  -B & - \Id_{m \times m} \\
 A  &   B  &  - \Id_{m \times m} \\
-\end{array} \right] \in \Re^{2m + n \times m + n + p}
+\end{array} \right] \in \Re^{2m + n \times m + n + p}.
 \end{equation}
 Define 
 \begin{equation}
-\g \doteq \left[ \, \0_n \;\; \bb^* \;\, -\bb^* \, \right]^* \in \Re^{n + 2m}
+\g \doteq \left[ \, \0_n \;\; \bb^* \;\, -\bb^* \, \right]^* \in \Re^{n + 2m}.
 \end{equation}
 The inequality constraint is then $$\Phi \tilde \x + \g \le \0_{n+2m}.$$
 The combined dual variables are 
 \begin{equation}
-\blambda = [ \blambda_{x} \; \blambda_{e,+} \; \blambda_{e,-} ]^* \in \Re^{n+2m}
+\blambda = [ \blambda_{x} \; \blambda_{e,+} \; \blambda_{e,-} ]^* \in \Re^{n+2m}.
 \end{equation}
 The KKT equations are 
 \begin{eqnarray}
@@ -57,11 +57,11 @@ As usual in barrier methods, we take a $t^{-1}$-relaxation of the complementarit
 \end{eqnarray}
 The Newton system is then simply
 \begin{equation}
-\left[ \begin{array}{cc} 0 & \Phi^* \\ - \diag(\blambda) \Phi & -\diag(\Phi \tilde \x + \g) \end{array} \right] \left[ \begin{array}{c} \Delta \tilde \x \\ \Delta \blambda \end{array} \right] = - \left[ \begin{array}{c} \r_{dual} \\ \r_{central} \end{array} \right]
+\left[ \begin{array}{cc} 0 & \Phi^* \\ - \diag(\blambda) \Phi & -\diag(\Phi \tilde \x + \g) \end{array} \right] \left[ \begin{array}{c} \Delta \tilde \x \\ \Delta \blambda \end{array} \right] = - \left[ \begin{array}{c} \r_{dual} \\ \r_{central} \end{array} \right].
 \end{equation}
 This system has a lot of structure, so simplifications on paper are possible. Let
-$$\Gamma \doteq - \diag(\Phi \tilde \x + \g)$$
-The top $n+p+m$ equations involve only the dual variables. Expanding them
+$$\Gamma \doteq - \diag(\Phi \tilde \x + \g).$$
+The top $n+p+m$ equations involve only the dual variables. Expanding them,
 \begin{equation} \label{eqn:d-lambda-only}
 \left[ \begin{array}{ccc} -\Id_{n\times n} &  -A^* & A^* \\  0_{p \times n} & -B^* & B^* \\ 
 0_{m \times n} & -\Id_{m \times m} & -\Id_{m \times m} \end{array} \right] \left[ \begin{array}{c} \Delta \blambda_{x} \\ \Delta \blambda_{e,+} \\ \Delta \blambda_{e,-} \end{array} \right] = - \left[ \begin{array}{c} \r_{d,1} \\ \r_{d,2} \\ \r_{d,3} \end{array} \right]
@@ -74,7 +74,7 @@ where
 \end{eqnarray*} 
 Immediately, we see that 
 \begin{eqnarray}
-\Delta \blambda_{e,-} &=& \r_{d,3} - \Delta \blambda_{e,+}
+\Delta \blambda_{e,-} &=& \r_{d,3} - \Delta \blambda_{e,+}.
 \end{eqnarray}
 Substituting into the top two equations of \eqref{eqn:d-lambda-only}, we have
 \begin{eqnarray}
@@ -85,26 +85,26 @@ yielding
 \begin{equation}
 \Delta \blambda_{x} = -2 A^* \Delta \blambda_{e,+} +  \r_{d,1} + A^* \r_{d,3} .
 \end{equation}
-If you trace back all of the substitutions, what we have left is the following system of equations
-\begin{eqnarray*}
+If you trace back all of the substitutions, what is left is the following system of equations:
+\begin{eqnarray*}\small
 B^* \Delta \blambda_{e,+} &=& \frac{1}{2} ( \r_{d,2} + B^* \r_{d,3} ) \;\doteq\; \a \\
 \hspace{-.75in}\left[ \begin{array}{cccc} \Lambda_{x} & 0 & 0 & -2 \ \Gamma_{x} A^* \\ \Lambda_{e,+}A & \Lambda_{e,+} B & \Lambda_{e,+} & \Gamma_{e,+} \\ 
 -\Lambda_{e,-} A& -\Lambda_{e,-} B & \Lambda_{e,-} & -\Gamma_{e,-} \end{array} \right] \left[ \begin{array}{c} \Delta \x \\ \Delta \q \\ \Delta \u \\ \Delta \blambda_{e,+} \end{array} \right] &=& \left[ \begin{array}{c} -\Gamma_{x} (\r_{d,1} + A^*\r_{d,3}) -\r_{c,1} \\ -\r_{c,2} \\ -\r_{c,3}-\Gamma_{e,-} \r_{d,3} \end{array} \right]
 \end{eqnarray*}
-We're in great shape here -- the $\Lambda$ and $\Gamma$ are diagonal, easy to invert. The subtlety is that for each equation $j$, exactly one of $\Lambda_j$ and $\Gamma_j$ is converging to zero. To continue analytically eliminating terms, we'll need to choose ``well-conditioned subsets'' for each of these matrices. 
+The above manipulations have exposed some structure in the problem that we can take advantage of: the $\Lambda$ and $\Gamma$ are diagonal, and therefore easy to invert. The subtlety is that for each equation $j$, exactly one of $\Lambda_j$ and $\Gamma_j$ is converging to zero. To continue analytically eliminating terms, we need to choose ``well-conditioned subsets'' for each of these matrices. 
 
 \paragraph{Eliminating $\Delta \u$.}
 
 From $[2m]$, select one element from each $\{ i, i+m\}$ (with ties broken at random):
 $$L^e_g \doteq \{ i : | [\blambda_{e,+} \; \blambda_{e,-}]_i | > | [\blambda_{e,+} \\ \blambda_{e,-} ]_{i+m} | \}.$$
 Let $\Lambda_g$ be the diagonal matrix such that
-$$\Lambda_g(i,i) = \left\{ \begin{array}{cc} \Lambda_{e,+}(i,i) & i \in L^e_g \\ \Lambda_{e,-}(i,i) & else \end{array}\right.$$ 
+$$\Lambda_g(i,i) = \left\{ \begin{array}{cc} \Lambda_{e,+}(i,i) & i \in L^e_g \\ \Lambda_{e,-}(i,i) & else \end{array}\right .$$ 
 Let $\Sigma_g \in \Re^{n \times n}$ be the diagonal matrix such that 
 $$\Sigma_g(i,i) = \left\{ \begin{array}{cc} 1 & i \in L^e_g \\ -1 & else \end{array}\right.$$
 $$M_g(i,i) = \left\{ \begin{array}{cc} \Gamma_{e,+}(i,i) & i \in L^e_g \\ -\Gamma_{e,-}(i,i) & else \end{array}\right.$$ 
 Let $\Lambda_b$, $\Sigma_b$, $M_b$ be defined in the natural (complement) manner. Define $\ggamma =  \left[ \begin{array}{c} - \r_{c,2} \\ -\r_{c,3} - \Gamma_{e,-} \r_{d,3} \end{array} \right]$, $\ggamma_g = \ggamma(L^e_g)$, $\ggamma_b = \ggamma(L^e_b)$.
 
-Then again we have two equations 
+Then again we have two equations:
 \begin{eqnarray}
 \Sigma_g \Lambda_g A \Delta \x \; + \Sigma_g \Lambda_g B \Delta \q + \Lambda_g \Delta \u + M_g \Delta \blambda_{e,+} &=& \ggamma_g \\
 \Sigma_b \Lambda_b A \Delta \x \; +  \Sigma_b \Lambda_b B \Delta \q + \Lambda_b \Delta \u + M_b \Delta \blambda_{e,+} &=& \ggamma_b. \label{eqn:bot-bad}
@@ -117,9 +117,9 @@ leaving
 \begin{equation}
 2 \Sigma^e_b \Lambda^e_b A \Delta \x + 2 \Sigma^e_b \Lambda^e_b B \Delta \q + (M^e_b - \Lambda^e_b (\Lambda^e_g)^{-1} M^e_g) \Delta \blambda_{e,+} = \ggamma_b - \Lambda^e_b (\Lambda^e_g)^{-1} \ggamma_g.
 \end{equation}
-Thankfully, $\Psi \doteq M_b^e - (\Lambda^e_g)^{-1} \Lambda^e_b M^e_g$ is a well-conditioned diagonal matrix, allowing us to next eliminate $\Delta \blambda_{e,+}$:
+$\Psi \doteq M_b^e - (\Lambda^e_g)^{-1} \Lambda^e_b M^e_g$ is a well-conditioned diagonal matrix, allowing us to next eliminate $\Delta \blambda_{e,+}$:
 \begin{equation}
-\Delta \blambda_{e,+} = P\Delta x + T \Delta \q + \h
+\Delta \blambda_{e,+} = P\Delta x + T \Delta \q + \h,
 \end{equation}
 where 
 \begin{equation}
@@ -130,10 +130,10 @@ P \doteq - 2 \Psi^{-1} \Sigma^e_b \Lambda^e_b A \qquad T \doteq -2 \Psi^{-1}\Sig
 with our core linear system of equations in unknowns $\Delta \x, \Delta \q$ ($n
 + p$ unknowns total): \begin{eqnarray} (W+FP) \Delta \x + F T \Delta \q &=& \v
 - F \h \\ B^* P \Delta \x + B^* T \Delta \q &=& \a - B^* \h .  \end{eqnarray}
-Thus through algebraic manipulation and re-ordering of the data, the linear
+Thus, through algebraic manipulation and re-ordering of the data, the linear
 system that must be solved to compute the updates for $\x$ and $\q$ reduced to
 size $(n+p)$.  Unfortunately, having to solve this system of equations each
-time the step direction is computed results in an algorithm that is has a high
+time the step direction is computed results in an algorithm that has a high
 cost per iteration.  Fortunately, the algorithm converges in a relatively 
 small number of iterations.  In contrast, the ALM algorithm derived in the next
 section is significantly cheaper per iteration, but requires more iterations.

@@ -52,7 +52,7 @@ While the primary value of this research is in the overall integrated approach t
 the recognition system, there are several contributions that stand out, and could be
 integrated into other recognition systems.  These contributions
 are the acquisition system, the robust iterative alignment formulation,
-improved $\ell_1$ minimization algorithms, and optimized parallel
+improved $\ell_1$-minimization algorithms, and optimized parallel
 implementations for both CPU and GPU architectures.  Each of these
 contributions is briefly reviewed.
 
@@ -80,7 +80,7 @@ sufficient to work with the output of the de-facto standard Viola-Jones face
 detector.  In addition to boosting the performance of a SRC-based recognition
 stage, iterative alignment is also shown to boost the performance of a
 recognition stage based on local binary patterns.  Experiments on the Multi-PIE
-dataset demonstrate that while this improves recognition rate, SRC remains
+data set demonstrate that while this improves recognition rate, SRC remains
 significantly better at rejecting impostors.  Isolating the cause of this and
 designing a recognition stage with the strengths of both is an important topic
 of future research.
@@ -106,7 +106,7 @@ API, and auto-vectorization compiler features.  For alignment on the CPU, the
 highest performing parallelization is achieved by solving one iterative
 alignment problem per CPU core.  In contrast with the CPU, on the GPU, there
 are no vendor-supplied libraries that operate at the granularity of a single
-core (Streaming Multiprocessor).  The vendor supplied CUBLAS library is
+core (streaming multiprocessor).  The vendor supplied CUBLAS library is
 designed to take advantage of the whole GPU to solve a single large problem.
 It was determined experimentally that the alignment problems are much too small
 to run efficiently on the GPU sequentially. It was therefore necessary to
@@ -149,18 +149,18 @@ degrees of freedom increases the danger of over-fitting the data and
 introducing convergence problems.  Another direction that could be pursued is
 to combine our 2D techniques with 3D gallery data, while still using 2D test
 images.  In this case, the Jacobian used in iterative alignment would be
-enhanced to include out of plane pose variation.
+enhanced to include out-of-plane pose variation.
 
 The training image acquisition system could be improved in several ways.  As
-already mentioned, it may be advantageous to to capture below horizontal
+already mentioned, it may be advantageous to capture below horizontal
 illumination directions.  Furthermore, it may be possible to capture images
 with a better SNR in a shorter time by using multiplexed illuminations
 \cite{schechner2007multiplexing}.  Multiplexed illuminations do have an
 important downside. Enforcing positivity of the illumination coefficients 
 $\x$ improves robustness in images that are taken with very poor SNR.  For this
-to be possible, the multiplexing must be invertible.  This in turn requires
-that the camera and projectors must either be carefully calibrated, or the
-brightness of the illumination for each image must be measured, increasing the
+to be possible, the multiplexing must be invertible.  This in turn requires either
+that the camera and projectors be carefully calibrated, or that the
+brightness of the illumination for each image be measured. This increases the
 cost and complexity of the acquisition system.  For data sets such as
 Multi-PIE, where the test images do not have gross errors, non-negativity of
 $\x$ need not be enforced, and inversion of the multiplexing becomes

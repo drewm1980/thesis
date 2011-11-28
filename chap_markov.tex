@@ -18,8 +18,8 @@ recognition. Sources of occlusion include apparel such as  eyeglasses,
 sunglasses, hats, or scarves. 
 Moreover, even in the absence of an occluding object,
 violations of an assumed model for face appearance may act like occlusions. For example, shadows due to extreme illumination violate the assumption of a
-low-dimensional linear illumination model\footnote{see \cite{Basri2003-PAMI} and Appendix
-\ref{chap:appendix_illumination} for more discussion}. Robustness to
+low-dimensional linear illumination model.\footnote{See \cite{Basri2003-PAMI} and Appendix
+\ref{chap:appendix_illumination} for more discussion.} Robustness to
 occlusion is therefore essential to practical face recognition.
 
 If the face image is partially occluded, popular recognition algorithms based
@@ -55,7 +55,7 @@ images of all $K$ subjects gives a large matrix $A = [A_1,A_2,\ldots,A_K] \in
 the given test image $\bb \in \Re^m$ as a sparse linear combination $A \x$ of
 all images in the data set, plus a sparse error $\e$ due to occlusion: $\bb = A
 \x + \e$. The sparse coefficients $\x$ and sparse error $\e$ are recovered by
-solving the $\ell^1$-norm minimization problem
+solving the $\ell_1$-minimization problem
 \begin{equation}
 \min \|\x\|_1 + \|\e\|_1\quad \textup{s.t.} \quad \bb = A \x + \e.
 \end{equation}
@@ -65,7 +65,7 @@ Experiments in \cite{Wright2009-PAMI} showed that the algorithm can tolerate up
 to 70\% random pixel corruption or 40\% random block occlusion while still
 maintaining recognition rates higher than $90\%$ on the Yale B database.
 
-However, in experiments on face images the $\ell^1$-minimization algorithm is
+However, in experiments on face images the $\ell_1$-minimization algorithm is
 not nearly as robust to contiguous occlusion as it is to random pixel
 corruption.  On the sunglasses and scarf occlusions in the AR database, it achieves
 only 87\% and 59.5\% respectively.  This algorithm does not exploit any prior
@@ -87,10 +87,10 @@ plane. The goal of this chapter is to show how to effectively incorporate this
 prior information into the sparse representation framework, significantly
 improving its robustness to all types of realistic occlusions.
 
-\section{Motivation for imposing local spatial continuity for sparse error correction}
+\section{Motivation For Imposing Local Spatial Continuity For Sparse Error Correction}
 Before introducing a model for the contiguous occlusion and incorporating it into a solution for face recognition, let us first justify why imposing spatial continuity could potentially help with finding the sparse errors (in our case, the occluded pixels). As discussed above, face recogntion can be cast as a problem of recovering an input signal $\x\in \Re^n$ from corrupted measurements $\bb = A\x+\e$, where $A\in
 \Re^{m\times n}$ with $m>n$. Let $F$ be a matrix whoose rows span the left nullspace of
-$A$\footnote{$\mathrm{rank}(F) = m - \mathrm{rank}(A)$ and $FA=0$}. Applying $F$ to both sides of the measurement equation gives \vspace{0mm}
+$A$.\footnote{$\mathrm{Rank}(F) = m - \mathrm{rank}(A)$ and $FA=0$.} Applying $F$ to both sides of the measurement equation gives \vspace{0mm}
 \begin{displaymath}
 \tilde{\bb} \doteq F \bb = F(A \x+ \e) = F\e. \vspace{0mm}
 \end{displaymath}
@@ -101,26 +101,26 @@ a sparse error vector $\e$ from the observation $F \e$. While this problem is ve
 \end{equation*}
 exactly recovers $\e$.
 
-Candes et.\ al.\ \cite{CandesE2005-IT} have characterized the recoverability of the sparse solution to the above problem in terms of the {\em restricted isometry property} (RIP) of the matrix $F$.
+Candes et al.\ \cite{CandesE2005-IT} have characterized the recoverability of the sparse solution to the above problem in terms of the {\em restricted isometry property} (RIP) of the matrix $F$.
 The $k$-restricted isometry constant $\delta_k \in \Re$ is defined as the smallest
 quantity such that for any $k$-sparse $\x$,
 \begin{equation}
 (1-\delta_k)\|\x\|_2 \leq \|F\x\|_2 \leq (1+\delta_k)\|\x\|_2.
 \label{eqn-rip}
 \end{equation}
-A typical result states that $\ell^1$-minimization is guaranteed to recover any $k$-sparse $\x$ whenever the matrix
+A typical result states that $\ell_1$-minimization is guaranteed to recover any $k$-sparse $\x$ whenever the matrix
 $F$ satisfies $\delta_{2k}<1$. Notice that this argument treats every
-possible $k$-sparse supports equally. However, in many
+possible $k$-sparse support equally. However, in many
 applications, we have prior information about the
-distribution of the supports. To extend the theory to such
+distribution of the support. To extend the theory to such
 structured sparsity, \cite{Cevher2008-NIPS} introduced the
 $(k,\epsilon)$-probabilistic RIP (PRIP). A matrix $F$ is said to
 satisfy the PRIP if there exists a constant $\delta_k>0$ such that
 for a $k$-sparse signal $\x$ whose support is a considered as a random variable, \eqref{eqn-rip} holds with probability $\ge 1-\epsilon$.
 
-Based on results from Compressed Sensing theory, for a randomly chosen matrix to have RIP of order $k$ requires at least $m =\mathcal{O}(k\log(n/k))$ measurements \cite{CandesE2005-IT}. However, it has been shown that a matrix can have PRIP of order $k$ with only $m =\mathcal {O}(k + \log(D))$ measurements, where $D$ is the cardinality of the smallest set of supports of size $k$ for which the probability that the support of a $k$-sparse signal $\x$ does not belong to the set is less than $\epsilon$ \cite{Cevher2008-NIPS}. Then for distributions that allow a small $D$, the required number of measurements essentially grows linearly in $k$, much less than the general case. The distribution of contiguous supports precisely falls into this category\footnote{Simple counting arguments similar to that in \cite{Cevher2008-NIPS} indicate that $D$ can be upper-bounded by a polynomial of the dimension $m$.}. Thus, we should expect to recover sparse errors with such supports from much fewer measurements. Or equivalently, from a fixed number measurements, we should expect to correct a larger fraction of errors from $\ell^1$-minimization {\em if} we know how to properly harness information about the distribution.
+Based on results from compressed sensing theory, for a randomly chosen matrix to have RIP of order $k$ requires at least $m =\mathcal{O}(k\log(n/k))$ measurements \cite{CandesE2005-IT}. However, it has been shown that a matrix can have PRIP of order $k$ with only $m =\mathcal {O}(k + \log(D))$ measurements, where $D$ is the cardinality of the smallest set of supports of size $k$ for which the probability that the support of a $k$-sparse signal $\x$ does not belong to the set is less than $\epsilon$ \cite{Cevher2008-NIPS}. Then for distributions that allow a small $D$, the required number of measurements essentially grows linearly in $k$, much less than the general case. The distribution of contiguous supports precisely falls into this category.\footnote{Simple counting arguments similar to that in \cite{Cevher2008-NIPS} indicate that $D$ can be upper-bounded by a polynomial of the dimension $m$.} Thus, we should expect to recover sparse errors with such supports from many fewer measurements. Or equivalently, from a fixed number measurements, we should expect to correct a larger fraction of errors from $\ell_1$-minimization {\em if} we know how to properly harness information about the distribution.
 
-\section{Using a Markov random field assumption to impose local spatial continuity of the error support}
+\section{Using a Markov Random Field Assumption to Impose Local Spatial Continuity of the Error Support}
 Consider the error vector $\e\in \Re^m$ incurred by some contiguous occlusion. Its nonzero entries should be both sparse and spatially continuous. Given an error vector $\e\in \Re^m$, we let $\s\in \{-1,1\}^m$ denote its
 support vector. That is, $\s[i] = -1$ when $\e[i] = 0$ and $\s[i] = 1$
 when $\e[i] \neq 0$. The image domain can be considered as a graph
@@ -137,9 +137,12 @@ Here, $\lambda_{ij}$ controls the interaction between support values $\s[i]$ and
 \begin{displaymath}
 {\lambda}_{ij} = \lambda \;\forall\,(i,j) \in E, \quad \mbox{and} \quad \lambda_i = 0 \;\,\forall\;i. \vspace{0mm}
 \end{displaymath}
-The first condition means that each pair of neighboring pixels exert the same influence on each other, while the second condition indicates that we do not make any additional prior assumptions about the locations of the erroneous pixels.
+The first condition means that each pair of neighboring pixels are likely to both be occluded (or not), and that
+this likelihood is uniform with the image.
+The second condition means that every pixel has a certain likelihood of being occluded, independent of its
+location in the image.
 
-\begin{figure} 
+\begin{figure}[h]
 \centerline{\includegraphics[width=4.0in]{figures_iccv/function.pdf}}
 \caption{Approximation to the likelihood of $\e$ given the error support. Left: $p(\e|\s = -1)$ (unoccluded pixels). Right: $p(\e|\s = 1)$ (occluded pixels).} \label{fig:likelihood} \vspace{0mm}
 \end{figure}
@@ -177,7 +180,7 @@ If estimate of $\s$ was exactly correct, then we would have $\bb^* = A_k^* \x_k$
 (\hat{\x}_k,\hat{\e}^*) = \arg\min \|\e^*\|_1  \; \textup{ s.t. } \; \bb^* = A_k^*\x+\e^*, \x\geq
 0.
 \end{equation}
-That is, we look for a regressor $\x_k$ such that the $\ell^1$-norm of the error $\e^*$ is minimized. The complete error vector $\e \in \Re^m$ can then be estimated as $\hat \e = \bb - A \hat{\x}_k$.
+That is, we look for a regressor $\x_k$ such that the $\ell_1$-norm of the error $\e^*$ is minimized. The complete error vector $\e \in \Re^m$ can then be estimated as $\hat \e = \bb - A \hat{\x}_k$.
 
 \paragraph{2. Estimating Error Support $\s$ with MRF.} 
 Given an initial estimate of the regressor $\x_k$ and corresponding estimate of the error vector $\e = \bb - A \x_k$, we may re-estimate the support vector $\s$ as the one that maximizes the log likelihood $\log p(\e,\s)$:\vspace{0mm}
@@ -187,13 +190,12 @@ Given an initial estimate of the regressor $\x_k$ and corresponding estimate of 
 \end{equation}
 This is an integer programming problem, but due to the special structure of the Ising model, it can be solved exactly in linear time, using graph cuts \cite{Kolmogorov2004-PAMI}.
 
-\vspace{1 em}
-Empirically, we observe that the above iteration between steps {\bf1.} and {\bf2.} converges in about five or six iterations. Once we have obtained final estimates of the error support $\s$, error values $\e$, and regressors $\x$, we still need to identify the subject based on some measure of goodness-of-fit within the unoccluded region. Here, we choose to assign the test image to the class that minimizes the $\ell^1$-error in that region, divided by the square of the number of unoccluded pixels:\vspace{0mm}
+Empirically, we observe that the above iteration between steps 1 and 2 converges in about five or six iterations. Once we have obtained final estimates of the error support $\s$, error values $\e$, and regressors $\x$, we still need to identify the subject based on some measure of goodness-of-fit within the unoccluded region. Here, we choose to assign the test image to the class that minimizes the $\ell_1$-error in that region, divided by the square of the number of unoccluded pixels:\vspace{0mm}
 $$\text{identity}(\bb) = \arg \min_k \; \frac{\| \bb^* - A_k^* \x_k \|_1}{|\{ i \mid \s_k[i] = -1 \}|^2}. \vspace{0mm}$$
 Here, squaring encourages the algorithm to choose solutions with as few occluded pixels as possible.
 %While the precise form of the classification heuristic is less important than the correct estimation of the occlusion, we note in passing that the scaling is correct: both the numerator and denominator are linear in the number of image pixels.
 
-We summarize the overall procedure as Algorithm 1 below. Since this algorithm operates on each subject's images individually, the overall complexity is linear in the number of subjects. Moreover, with fast implementations of both $\ell^1$-minimization and graph cuts,\footnote{Our implementation of $\ell^1$-minimization is a custom interior point method, while the graph cuts are computed with package of \cite{Boykov2001-PAMI,Kolmogorov2004-PAMI,Boykov2004-PAMI}, downloaded from \url{http://www.csd.uwo.ca/~olga/code.html}.} the computation time per subject is fairly small. On a Dual-Core Intel Xeon 2.66GHz computer, with 19 training images of resolution $96 \times 84$ per subject, our C++ implementation requires approximately 0.3 seconds per subject.
+We summarize the overall procedure as Algorithm 1 below. Since this algorithm operates on each subject's images individually, the overall complexity is linear in the number of subjects. Moreover, with fast implementations of both $\ell_1$-minimization and graph cuts,\footnote{Our implementation of $\ell_1$-minimization is a custom interior point method, while the graph cuts are computed with package of \cite{Boykov2001-PAMI,Kolmogorov2004-PAMI,Boykov2004-PAMI}, downloaded from \url{http://www.csd.uwo.ca/~olga/code.html}.} the computation time per subject is fairly small. On a Dual-Core Intel Xeon 2.66 GHz computer, with 19 training images of resolution $96 \times 84$ per subject, our C++ implementation requires approximately 0.3 seconds per subject.
 
 \begin{algorithm}[h]
 \caption{{\bf (Sparse Error Correction with MRF)}} \label{alg:p-mrf}
@@ -277,14 +279,14 @@ identification of occluded area, but this is not true if $\lambda =
 1$; in this case we obtain many false positives. Second, the choice of
 $\tau$ depends on the level of noise and within-class variation in the
 training and testing data. Third, the initial solution to
-the $\ell^1$-minimization problem may be somewhat unreliable in the
+the $\ell_1$-minimization problem may be somewhat unreliable in the
 presence of large amounts of occlusion.
 In this case, starting with a small $\tau$ will result in many pixels being
-falsely labelled as occluded early in the iteration.
+falsely labeled as occluded early in the iteration.
 
 We therefore choose $\tau$ adptively, starting with a
 relatively large value, reducing it by a constant step size
-at each iteration. We base our stopping criterion on the observation that for many test images, there is a
+at each iteration. We base our stopping criterion on the observation that, for many test images, there is a
 range of $\tau$ over which the estimate of $\s$ is stable.
 For example, in Figure \ref{fig:epsilon}, any $\tau$ between 0.2 and 0.05 is good; in
 the second row of Figure \ref{fig:epsilon}, any $\tau$ between
@@ -293,8 +295,8 @@ Figure \ref{fig:n_goodentry}, this stable range is followed by a sudden drop in 
 number of pixels considered unoccluded when $\tau$ falls below a certain critical value.
 For our algorithm, we start with $\tau_1 = 0.17$. At the $i$th
 iteration, we set $\tau_i = \tau_{i-1}-0.03$. Let $N_i$
-denote the number of good entries at $i$th iteration. We stop
-decreasing $\tau$ when $N_i < k \times N_{i-1}$, i.e. when there is a sudden increase in occluded pixels.  $k$ is an
+denote the number of good entries at the $i$th iteration. We stop
+decreasing $\tau$ when $N_i < k \times N_{i-1}$, i.e. when there is a sudden increase in occluded pixels.  The term $k$ is an
 empirically chosen constant, which we set to $0.4$ in our experiments.
 After fixing $\tau$, we allow the algorithm to continue iterating
 between estimating $\x$ and estimating $\s$ until convergence.
@@ -303,7 +305,7 @@ between estimating $\x$ and estimating $\s$ until convergence.
 \centering
 \includegraphics[scale=0.6,clip=true]{figures_iccv/n_of_goodentry.pdf}\vspace{2mm}
 \caption{Number of entries estimated as unoccluded versus
-$\tau$ for the sequence of images in the first row in figure \ref{fig:epsilon}. The {\bf \textcolor{red} o} indicates the
+$\tau$ for the sequence of images in the first row in Figure \ref{fig:epsilon}. The {\bf \textcolor{red} o} indicates the
 point at which the algorithm detects a sudden drop and stops
 decreasing $\tau$.} \label{fig:n_goodentry} \vspace{0mm}
 \end{figure}
@@ -316,7 +318,7 @@ should correspond to the smoothness level of error supports for
 each individual test image. Note that for $\lambda=0$, maximizing
 the probability of the Ising model reduces to simply thresholding
 based on $\tau$, and our algorithm becomes similar in spirit to
-reweighted $\ell^1$-minimization \cite{Candes2008-JFAA}, but
+reweighted $\ell_1$-minimization \cite{Candes2008-JFAA}, but
 with a nonlinear reweighting step that more agressively discounts occluded pixels.
 
 We will see that even simple thresholding works
@@ -351,7 +353,7 @@ In this section, we conduct experiments using three publicly available databases
 (a) & (b) & (c) & (d)
 \end{tabular}
 }
-\caption{Recovering a face image in Yale database from synthetic occlusion with $\lambda = 3$. Top: first iteration, Middle: second iteration, Bottom: final
+\caption{Recovering a face image in Yale database from synthetic occlusion with $\lambda = 3$. Top row: First iteration. Middle row: Second iteration. Bottom row: Final
 result. (a) Test image
 with 60\% occlusion. (b) Estimated error $\e$. (c) Error support estimated by
 graph cuts. (d) Reconstruction
@@ -393,7 +395,7 @@ Even with 80\% occlusion, only 11.5\% of images are misclassified.
 This is quite surprising because to the human eye, a face image
 is barely recognizable if the block occlusion is more than 60\%.\vspace{0mm}
 \begin{table*}[th]
-{\centerline {\small
+{\centerline {\tiny
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
 \hline
 Percent occluded & 10\% & 20\% & 30\% & 40\% & 50\% & 60\% & 70\% & 80\% & 90\%\\
@@ -401,7 +403,7 @@ Percent occluded & 10\% & 20\% & 30\% & 40\% & 50\% & 60\% & 70\% & 80\% & 90\%\
 Recognition rate & 100\% & 100\% & 100\% & 100\% & 100\% & 100\% & 99.7\% & 88.5\% & 40.3\%\\
  \hline
 \end{tabular}
-}} \vspace{0mm} \caption{Recognition rates on the Extended Yale B dataset with varying level
+}} \vspace{0mm} \caption{Recognition rates on the Extended Yale B data set with varying level
 of synthetic occlusion ($\lambda=3$).} \label{tab:res-yale} \vspace{0mm}
 \end{table*}
 \begin{figure}
@@ -413,7 +415,7 @@ of synthetic occlusion ($\lambda=3$).} \label{tab:res-yale} \vspace{0mm}
 (a) & (b)
 \end{tabular}
 }
-\caption{Recognition with synthetic occlusion on the Yale dataset. (a) The recognition
+\caption{Recognition with synthetic occlusion on the Yale data set. (a) The recognition
 rate for various algorithms with 10\% to 90\% occlusion. Our
 algorithm remains perfect at 70\% occlusion while all the other
 algorithms drop below 50\%. (b) Results of our algorithm with
@@ -422,7 +424,7 @@ different choices of $\lambda$. }\label{fig:yale_result} \vspace{0mm}
 
 In Figure \ref{fig:yale_result}(b) we show the results of our
 algorithm for $\lambda = 0,1,2,3,5$. All the choices work
-upto 80\% occlusion with above 80\% recognition rates.
+up to 80\% occlusion with above 80\% recognition rates.
 However, compared to setting $\lambda=0$ and ignoring the spatial structure of the
 error, enforcing continuity by setting $\lambda = 3$
 results in an 8\% increase in recognition rate for the 80\% occlusion case.
@@ -471,7 +473,7 @@ $8 \times 8$ & 90.4 &  94.4  &  {\bf 96.0}  &  85.2  &  29.7 \\
 \paragraph{Recognition with disguises.}
 
 We next test our algorithm on real disguises using a subset of the
-AR Face Database. The training set consists 799 unoccluded face
+AR Face Database. The training set consists of 799 unoccluded face
 images of 100 subjects (about 8 per subject) with varying facial
 expression. We consider two test sets of 200 images each. The first
 test set contains images of subjects wearing sunglasses, which
@@ -507,8 +509,8 @@ part after several iterations.
 (a) & (b) & (c) & (d)
 \end{tabular}
 }
-\caption{Recovering a face image with scarf occlusion. Top: first
-iteration, Middle: second iteration, Bottom: final
+\caption{Recovering a face image with scarf occlusion. Top row: First
+iteration. Middle row: Second iteration. Bottom row: final
 result. (a) Test image. (b) Estimated error. (c)
 Estimated error support. (d)
 Reconstruction result.} \label{fig:AR_exp} \vspace{0mm}
@@ -520,7 +522,7 @@ reduce the image size to 50\% ($42\times 30$), 25\% ($21\times 15$)
 and 15\% ($13\times 9$). Figure \ref{fig:AR_result}(a) plots the
 recognition rates for scarf images as a function of resolution, for each $\lambda \in \{0,1,2,3\}$.
 For the full size images, we achieve
-95.0\%, 97.0\%, 97.0\% and 97.5\% recognition rates\footnote{Because the dark scarf occludes as much as half of the image, for certain subjects not pictured in the test image, there is a degenerate solution that considers the scarf as the correct signal (with very small magnitude, $\hat{\x}_k \approx \mathbf{0}$) and the remainder of the face as error. For this dataset we penalize such solutions by dividing the normalized error by $\| \hat{\x}_k \|_1$.} with
+95.0\%, 97.0\%, 97.0\% and 97.5\% recognition rates\footnote{Because the dark scarf occludes as much as half of the image, for certain subjects not pictured in the test image, there is a degenerate solution that considers the scarf as the correct signal (with very small magnitude, $\hat{\x}_k \approx \mathbf{0}$) and the remainder of the face as error. For this data set we penalize such solutions by dividing the normalized error by $\| \hat{\x}_k \|_1$.} with
 $\lambda=$0, 1, 2, and 3, respectively, about 4\% higher
 than the result of \cite{Wright2009-PAMI} and on par with \cite{Jia2008-FGR}. Notice that
 the recognition rate is relatively insensitive to the choice of
@@ -544,7 +546,7 @@ With severely downsampled ($13 \times 9$) images, we again achieved
 the best results (89.5\%) by setting $\lambda=2$ and exploiting spatial continuity of the error.\vspace{0mm}
 
 \paragraph{Comparison with morphological filtering.}
-Figure \ref{fig:AR_result}(a) also compares our algorithm to a simple alternative based on morphological filtering. The idea is to replace the MRF and graph cuts step of our algorithm with a step that thresholds the error and then applies open and close operations to the binary error support map \cite{morph}. These operations supress small, disconnected regions of error. Figure \ref{fig:AR_result}(a) contains variants of this morphological alternative: one based on a fixed threshold $\tau = 0.2$ and one based on a similar adaptive thresholding strategy that starts at $\tau = 0.2$ and linearly decreases it by $0.03$ at each iteration. We started with a disk of radius 6 as the structuring element at the original resolution and shrunk it in proportional to the resolution of the image. In both cases, the number of iterations is fixed at 4, and the algorithm parameters are chosen to achieve optimal test performance. Figure \ref{fig:AR_result}(a) plots the results of both variants as a function of image resolution. In all cases, the MRF-based approach achieves superior performance to the simple alternative outlined here. However, the difference is much larger for low-resolution images (54\% at $13\times 9$, compared to only 2\% at $83 \times 60$), again highlighting the importance of spatial information when the number of measurements is small.\vspace{0mm}
+Figure \ref{fig:AR_result}(a) also compares our algorithm to a simple alternative based on morphological filtering. The idea is to replace the MRF and graph cuts step of our algorithm with a step that thresholds the error and then applies open and close operations to the binary error support map \cite{morph}. These operations supress small, disconnected regions of error. Figure \ref{fig:AR_result}(a) contains variants of this morphological alternative: one based on a fixed threshold $\tau = 0.2$ and one based on a similar adaptive thresholding strategy that starts at $\tau = 0.2$ and linearly decreases it by $0.03$ at each iteration. We started with a disk of radius 6 as the structuring element at the original resolution and shrunk it in proportion to the resolution of the image. In both cases, the number of iterations is fixed at 4, and the algorithm parameters are chosen to achieve optimal test performance. Figure \ref{fig:AR_result}(a) plots the results of both variants as a function of image resolution. In all cases, the MRF-based approach achieves superior performance to the simple alternative outlined here. However, the difference is much larger for low-resolution images (54\% at $13\times 9$, compared to only 2\% at $83 \times 60$), again highlighting the importance of spatial information when the number of measurements is small.\vspace{0mm}
 \begin{figure}
 \centering
 \centerline{
@@ -578,7 +580,7 @@ We next test our algorithm's ability to reject invalid test images
 (subjects not present in the database) despite significant occlusion.
 We declare an image to be invalid if the smallest normalized error
 $\min_k \| \bb^* - A_k^* \hat{\x}_k \|_1 / | \{ i \mid \s_k[i] = -1 \} |^2$ exceeds a threshold.
-We divide the Extended Yale B dataset into two parts.
+We divide the Extended Yale B data set into two parts.
 The training database contains the images of the first 19 subjects, while the other 19 subjects
 are considered invalid and should be rejected. Figure \ref{fig:yale-roc} plots
 the receiver operating characteristic (ROC) curve for each algorithm
@@ -643,7 +645,7 @@ must be performed automatically for the test image in a production system, the
 most important issue for future work on the MRF based recognition algorithm is
 to investigate how to perform robust alignment in the presence of large
 occlusions.  Since MRF essentially just restricts the subset of pixels on which
-the L1 optimization is performed, iterative alignment and occlusion modeling
+the $ll_1$ optimization is performed, iterative alignment and occlusion modeling
 using MRF are neatly orthogonal from an implementation standpoint.  
 Unfortunately, there is danger that the changing model of occluded areas
 used by in the MRF model will destabilize the iterative alignment.  Ideally, an
@@ -660,7 +662,7 @@ with modifications to the recognition algorithm that improve recognition
 accuracy and robustness, the following chapters are concerned with
 modifications that increase the speed of the recognition system without
 sacrificing accuracy.  Chapter \ref{chap:minimization} is dedicated to
-presenting algorithms for solving the required $\ell_1$ minimization problems.
+presenting algorithms for solving the required $\ell_1$-minimization problems.
 Chapter \ref{chap:parallel} presents optimized parallel implementations of the
 full recognition pipeline.
 

@@ -29,7 +29,7 @@ $\bar{\tau}$ from $\tau_{k_1}, \tau_{k_2}, \ldots, \tau_{k_S}$.
 k_S$. \STATE Set $A \leftarrow \big[ A_{k_1} \circ
 \tau_{k_1}^{-1} \mid A_{k_2} \circ \tau_{k_2}^{-1} \mid \dots
 \mid A_{k_S} \circ \tau_{k_S}^{-1} \big]$. \STATE Solve the
-$\ell^1$-minimization problem: \\
+$\ell_1$-minimization problem: \\
 \hspace{2em}$\hat{\x} = \arg \min_{\x, \e} \| \x \|_1 + \|\e\|_1 \;\; \subj \;\; \bb = A \x + \e.$
 \STATE Compute residuals $r_i(\bb) = \| {\bb} - {A}_i \, \delta_i(\hat{\x}) \|_2$ for $i = k_1, \dots, k_S$.
 \STATE {\bf Output:} $\mbox{identity}(\bb) = \arg\min_i r_i(\bb)$.

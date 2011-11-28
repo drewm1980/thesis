@@ -1,15 +1,15 @@
-\chapter{Derivation of the Linear Illumination Model}
+\chapter{Appendix}
 \label{chap:appendix_illumination}
 
 This appendix provides a more in-depth discussion of the linear illumination
 model used in the rest of the thesis.  The illumination model has important
 implications for the design of the training acquisition system, as well
-as important implications for how the $\ell_1$ minimization problems should
+as important implications for how the $\ell_1$-minimization problems should
 be formulated.
-A linear illumination model assumes that test image, although taken under some
+A linear illumination model assumes that the test image, although taken under some
 arbitrary illumination, can be linearly interpolated by a finite number of
-training illuminations.  This idea is certainly not new; indeed it has been in
-use for face recognition for roughly two decades, \cite{Turk1991-CVPR}.  Under
+training illuminations.  This idea is certainly not new; indeed, it has been in
+use for face recognition for roughly two decades\cite{Turk1991-CVPR}.  Under
 what conditions is this a reasonable assumption to make?  What can we say from
 first principles about how the training images should be chosen?  
 Section \ref{sec:illumination_derivation} explains the physical justification
@@ -17,7 +17,7 @@ for using a linear illumination model, and Section \ref{sec:positivity}
 discusses some important details of how the illumination model should be 
 applied.
 
-\subsection{The Illumination Model}
+\section{Derivation of the Illumination Model}
 \label{sec:illumination_derivation}
 %
 First, let us assume that the illumination if the subject's face is distant.
@@ -38,7 +38,7 @@ point on the sphere corresponds to the normal of a patch on the object (or any
 other patch with the same normal).  Under the Lambertian assumption, the
 radiance of a patch depends on the cosine of the incident angle of incoming
 light, and is integrated over the half-sphere of illumination that the patch
-can "see".
+can ``see."
 
 Thus, the surface of the object acts on the sphere in a manner very similar to
 a half-cosine approximation to a low-pass filter for a one-dimensional signal.
@@ -51,24 +51,24 @@ using spherical harmonic basis functions that nine basis illuminations
 images that do a good job of linearly interpolating all other training images.
 It should be noted, however, that these basis illuminations are not strictly
 positive, and thus neither are the training images they generate (when rendered
-on a computer that can handle negative illumination).  \footnote{Note that
+on a computer that can handle negative illumination).\footnote{Note that
 while the spherical harmonic basis functions have regions where they are
-negative, this does no necessary preclude this theoretical result from being
+negative, this does not necessary preclude this theoretical result from being
 put to use in practice.  If the geometry of the training illumination system
 were well calibrated, it would be possible to generate approximations of the
 positive and (rectified) negative components of the basis illuminations
 separately, taking the difference of the resulting two images, and storing it
 using a signed datatype.  Combinations of these images may not be positive, but
-they may still be good enough to be useful}.
+they may still be good enough to be useful.}
 
 Although a human face is neither perfectly Lambertian nor convex, it has been
 observed in various empirical studies that one can often get away using a
 similar number of frontal illuminations to interpolate a wide range of new
 frontal illuminations that taken under the same laboratory conditions
-\cite{Georghiades2001-PAMI}. This is the case for many public face datasets,
+\cite{Georghiades2001-PAMI}. This is the case for many public face data sets,
 including AR, ORL, PIE, and Multi-PIE.  Unfortunately, we have found that in
 practice, a training database consisting purely of frontal illuminations is not
-sufficient to linearly interpolate images of a faces taken under typical indoor
+sufficient to linearly interpolate images of faces taken under typical indoor
 or outdoor conditions (see the experiment conducted in Section
 \ref{sec:own-data}). As illustrated by the example in Figure \ref{fig:promo},
 an insufficient number of training illuminations can result in recognition
@@ -76,7 +76,7 @@ failure.  To ensure our algorithm works in practice, we need to find a set of
 training illuminations that are indeed {\em sufficient} to linearly interpolate
 a wide variety of practical indoor and outdoor illuminations.
 
-\subsection{Should Positivity in the Representation Coefficients
+\section{Should Positivity in the Representation Coefficients
 be Enforced?} 
 \label{sec:positivity}
 One critical issue in linear illumination models

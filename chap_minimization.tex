@@ -22,8 +22,8 @@ two optimization problems:
 \tag{\ref{eq:l1min_denoise}}
 \end{equation}
 As discussed in Chapter \ref{chap:pipeline}, the optimization problem in equation
-\ref{eq:l1min_alignment} is used in the iterative alignment stage, while the optimization
-problem in equation \ref{eq:l1min_denoise} is used in the recognition stage.
+(\ref{eq:l1min_alignment}) is used in the iterative alignment stage, while the optimization
+problem in equation (\ref{eq:l1min_denoise}) is used in the recognition stage.
 %The two classes of solvers that have been implemented in the face recognition pipeline
 %are derived in Sections \ref{}
 
@@ -68,7 +68,7 @@ other $\ell_1$-minimization solutions. Therefore, we choose ALM as the core
 algorithm for the implementation of $\ell_1$-minimization in the second
 prototype of the face recognition pipeline, the implementation of which was
 discussed in Section \ref{sec:pipeline_implementation}.  A derivation of the
-ALM based $\ell_1$ minimization solvers is presented in Section
+ALM based $\ell_1$-minimization solvers is presented in Section
 \ref{sec:alm_derivation}.
 
 \input{sec_interior_point}
@@ -84,7 +84,7 @@ increase in recognition speed for ALM based solvers compared to Interior Point
 Method based solvers.  Although ALM succeeded in improving the speed of the
 face recognition pipeline, due to the high per-class cost of the alignment
 step, the recognition system still failed to achieve \emph{real-time}
-performance against datasets of hundreds or thousands of subjects.  Therefore,
+performance against data sets of hundreds or thousands of subjects.  Therefore,
 Chapter \ref{chap:parallel} presents optimized parallel implementations of both
 the SRC based recognition stage, as well as the iterative alignment stage, that
 are based on the ALM solvers derived in this chapter.

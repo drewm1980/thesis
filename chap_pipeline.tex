@@ -18,12 +18,12 @@ an off-the-shelf face detector, has even a small amount of registration error
 against the training images (caused by mild pose, scale, or misalignment), the
 sparse representation obtained using the method of \cite{Wright2009-PAMI} is no
 longer informative, even if sufficient illuminations are present in the
-training, as shown in Figure \ref{fig:promo}(top). Additionally, in order to
+training, as shown in Figure \ref{fig:promo} (top). Additionally, in order to
 span the illuminations of a typical indoor (or outdoor) environment,
 illuminations from behind the subject are needed in the training set.
 Otherwise, even for perfectly aligned test images, the sparse representation
 obtained using \cite{Wright2009-PAMI} will not necessarily be sparse or
-informative, as shown by the example in Figure \ref{fig:promo}(middle).
+informative, as shown by the example in Figure \ref{fig:promo} (middle).
 Clearly, both good alignment and sufficient training images are needed
 to ensure success of the sparsity-based recognition method proposed by
 \cite{Wright2009-PAMI}.  This chapter demonstrates a system for handling alignment
@@ -43,7 +43,7 @@ bringing the method proposed in \cite{Wright2009-PAMI} closer to practical use.
 \hspace{3mm}
 \includegraphics[height=\tempheight]{figures_pami/promo/case3/sci_with_axis_face_case3.png}
 \end{tabular} \caption{\small{\bf Effects of registration and illumination on
-Recognition}. In this example we identify the girl among 20 subjects, by
+Recognition}. In this example we identify the girl among 20 subjects by
 computing the sparse representation of her input face with respect to the
 entire training set. The absolute sum of the coefficients associated with each
 subject is plotted on the right. The weighted sum of the 
@@ -52,7 +52,7 @@ The red line (cross) corresponds to her true identity, subject 12. {\bf Top:} Th
 input face is from Viola and Jones' face detector (the black box) and all 38
 illuminations specified in Section \ref{sec:illumination} are used in the
 training.  {\bf Middle:} The input face is well-aligned (the white box) with
-the training by our algorithm specified in Section \ref{sec:registration} but
+the training by our algorithm specified in Section \ref{sec:registration}, but
 only 24 frontal illuminations are used in the training for recognition (see
 Section \ref{sec:illumination}). {\bf Bottom:} The input face is well aligned and
 a sufficient set (all 38) of
@@ -86,17 +86,17 @@ below, illumination variation can be dealt with by expressing the test image as
 a linear combination of an appropriate set of training images. Similar
 representations have been exploited in illumination-robust tracking (e.g.
 \cite{Belhumeur1999-PAA,Murase1995-IJCV}).  For robustness to gross errors, the
-$\ell^1$-norm of the residual is a more appropriate objective function than the
-classical $\ell^2$-norm. Its use here is loosely motivated by theoretical
+$\ell_1$-norm of the residual is a more appropriate objective function than the
+classical $\ell_2$-norm. Its use here is loosely motivated by theoretical
 results due to Cand\`{e}s and Tao \cite{CandesE2005-IT} (see also
 \cite{Wright2008-IT}). These two observations motivate the reformulation of the
 registration problem as the search for a set of transformations and
-illumination coefficients that minimize the $\ell^1$-norm of the representation
+illumination coefficients that minimize the $\ell_1$-norm of the representation
 error.  The proposed alignment system uses a generalized Gauss-Newton method
-which solves a sequence of affine-constrained $\ell^1$-norm minimization
+which solves a sequence of affine-constrained $\ell_1$-minimization
 problems \cite{Osborne1990-JAMSSB,Jittorntrum1980-NM}. Each of these problems
 can also be solved efficiently using recently developed first-order techniques
-for $\ell^1$-minimization, which are reviewed in \cite{YangA2010-pp}.
+for $\ell_1$-minimization, which are reviewed in \cite{YangA2010-pp}.
 
 % Illumination
 Researchers have tried various techniques to deal with illumination variation.
@@ -158,7 +158,7 @@ clearly demonstrate that the recognition system not only works well with
 images taken under controlled laboratory conditions, but is
 capable of handling practical indoor and outdoor illuminations as well.
 
-\noindent{\em Organization of this chapter:} Section \ref{sec:registration},
+\noindent{\em Organization of this chapter:} Section \ref{sec:registration}
 presents a derivation of the robust registration and recognition algorithm within the sparse
 representation framework. It further elaborates on algorithmic implementation issues,
 conducts region of attraction experiments with respect to both 2D in-plane
@@ -191,7 +191,7 @@ linear combination $A \x_0$ of all of the images in the
 database,\footnote{This assumes that the training illuminations are sufficient. The next section will address how to ensure illumination
 sufficiency.} plus a sparse error $\e_0$
 due to corrupted pixels. The sparse representation can be recovered by
-minimizing the $\ell^1$-norm\footnote{The $\ell^1$-norm of a
+minimizing the $\ell_1$-norm\footnote{The $\ell_1$-norm of a
 vector, denoted by $\|\cdot\|_1$, is the sum of absolute values of its entries.} of
 $\x$ and $\e$:
 \begin{equation}
@@ -212,7 +212,7 @@ as seen in Figure \ref{fig:promo}(top).
 true deformation $\tau^{-1}$ can be found, then
 its inverse $\tau$ can be applied to the test image and it again becomes
 possible to find a sparse representation of the resulting
-image, as $\bb \circ \tau = A \x_0 + \e_0$.\footnote{In the terminology of \cite{baker2004lucas}, this formulation is ``Forward Additive''.}
+image, as $\bb \circ \tau = A \x_0 + \e_0$.\footnote{In the terminology of \cite{baker2004lucas}, this formulation is ``forward additive.''}
   This sparsity
 provides a strong cue for finding the correct deformation
 $\tau$: conceptually, one would like to seek a transformation
@@ -241,7 +241,7 @@ It no longer makes sense to penalize $\| \x \|_1$, since $A_i$ consists of
 only images of subject $i$ and therefore $\x$ is no longer expected to
 be sparse.
 
-\subsection{Alignment via Sequential $\ell^1$-Minimization} While the problem
+\subsection{Alignment via Sequential $\ell_1$-Minimization} While the problem
 \eqref{eqn:per-subject-L1} is still non-convex, for cases of practical interest
 in face recognition, a good initial guess for the transformation is available,
 e.g., from the output of a face detector. This initialization can be refined to
@@ -254,16 +254,16 @@ Here, $J = \frac{\partial}{\partial \tau} \bb \circ \tau$ is the Jacobian of $\b
 \circ \tau$ with respect to the transformation parameters $\tau$, and $\Delta
 \tau$ is the step in $\tau$. The above equation is under-determined if the
 registration error $\e$ is allowed to be arbitrary. At the correct alignment it
-is expected that the test image only differs from $A_i \x$ only for the
+is expected that the test image differs from $A_i \x$ only for the
 minority of the pixels corrupted by occlusions. Thus, the algorithm computes a
 deformation step $\Delta \tau$ that best sparsifies the registration error
-$\e$, in terms of its $\ell^1$-norm:
+$\e$, in terms of its $\ell_1$-norm:
 \begin{equation}
 \Delta\hat{\tau}_1 = \arg\hspace{-3.5mm}\min_{\x,\e,\Delta\tau \in T} \| \e \|_1 \quad \subj \quad \bb\circ\tau + J \Delta \tau = A_i \x + \e.
 \label{eqn:L1-align}
 \end{equation}
 This is different from the popular choice that
-minimizes the $\ell^2$-norm of the registration error:
+minimizes the $\ell_2$-norm of the registration error:
 \begin{equation}
 \Delta\hat{\tau}_2 = \arg\hspace{-3.5mm}\min_{\x,\e,\Delta\tau \in T} \| \e \|_2 \quad \subj \quad \bb\circ\tau + J \Delta \tau = A_i \x + \e,
 \label{eqn:L2-align}
@@ -275,20 +275,20 @@ $\min_{\x,\Delta \tau} \|\bb \circ \tau + J\Delta \tau - A_i \x
 between $\bb_0$ and $A_i\x$, both \eqref{eqn:L1-align} and
 $\eqref{eqn:L2-align}$ have similar performance.  However, if
 there are occlusions in $\bb_0$, sequential
-$\ell^1$-minimization \eqref{eqn:L1-align} is significantly
-better than sequential $\ell^2$-minimization
+$\ell_1$-minimization \eqref{eqn:L1-align} is significantly
+better than sequential $\ell_2$-minimization
 \eqref{eqn:L2-align}. Figure \ref{fig:L1-L2-align} shows an
 example.
 
 The scheme \eqref{eqn:L1-align} can be viewed as a generalized Gauss-Newton
 method for minimizing the composition of a non-smooth objective function (the
-$\ell^1$-norm) with a differentiable mapping from transformation parameters to
-transformed images. Such algorithms date at least back to the 1970's
+$\ell_1$-norm) with a differentiable mapping from transformation parameters to
+transformed images. Such algorithms date at least back to the 1970s
 \cite{Cromme1978-NM,Jittorntrum1980-NM}, and continue to attract attention
 today \cite{Lewis2008-TR}. While a detailed discussion of their properties is
 outside the scope of this thesis, it is worth mentioning that the scheme
 \eqref{eqn:L1-align} is known to converge quadratically in the neighborhood of
-any local optimum of the $\ell^1$-norm. In practice, this means that $\approx$
+any local optimum of the $\ell_1$-norm. In practice, this means that $\approx$
 10 to 15 iterations suffice to reach the desired solution. The
 interested reader is referred to \cite{Jittorntrum1980-NM,Osborne1990-JAMSSB} and the
 references therein.
@@ -309,9 +309,9 @@ references therein.
 (a) & (b) & (c) & (d)
 \end{tabular}}
 \caption{\small{\bf Comparing alignment of a subject wearing sunglasses by
-$\ell^1$ and $\ell^2$ minimization.}
-{\bf Top:} alignment result of minimizing $\|\e\|_1$; {\bf Bottom:}
-result of minimizing $\|\e\|_2$. (a) {\em Green (dotted):} Initial face boundary
+$\ell_1$ and $\ell_2$-minimization.}
+{\bf Top row:} Alignment result of minimizing $\|\e\|_1$. {\bf Bottom row:}
+Result of minimizing $\|\e\|_2$. (a) {\em Green (dotted):} Initial face boundary
 given by the face detector, {\em Red (solid):} Alignment result shown on the same
 face; (b) warped testing image using the estimated transformation $\bb_0$;
 (c) reconstructed face $A_i\x$ using the training; (d) image of error $\e$. }\label{fig:L1-L2-align}
@@ -356,14 +356,14 @@ selects coefficients from the vector $\x$ corresponding to subject $i$.
 Another important free parameter in Algorithm \ref{alg:deformable-src} is the
 class of deformations $T$. In the experiments presented here, 2D similarity
 (i.e. 2D rigid transformations) transformations are used, $T =
-\mathbb{SE}(2)\times \Re_+$\footnote{Here, SE stands for Special Euclidean.
-The $\Re_+$ accounts for the scale.}, for removing alignment error incurred by
+\mathbb{SE}(2)\times \Re_+$,\footnote{Here, SE stands for special Euclidean.
+The $\Re_+$ accounts for the scale.} for removing alignment error incurred by
 face detector, or 2D projective transformations, $T =
-\mathbb{GL}(3)\footnote{Here, GL stands for General Linear.  This class of
+\mathbb{GL}(3),\footnote{Here, GL stands for general linear.  This class of
 transformations is able to represent distortion in a perspective image of a
-planar object.}$, for handling some pose variation.
+planar object.}$ for handling some pose variation.
 
-Algorithm \ref{alg:deformable-src}, also implements a simple heuristic
+Algorithm \ref{alg:deformable-src} also implements a simple heuristic
 motivated by the observation that the face detector output may be poorly
 centered on the face and may contain a significant amount of the background:
 before the recognition stage, instead of aligning the training sets to the
@@ -399,11 +399,11 @@ discussed in Section \ref{sec:multipie}.
 \subsection{System Implementation}
 \label{sec:pipeline_implementation}
 The runtime of Algorithm~\ref{alg:deformable-src} is dominated
-by the time spent solving two qualitatively similar $\ell_1$ minimization problems.
-Custom $\ell_1$ minimization solvers for this purpose based on
+by the time spent solving two qualitatively similar $\ell_1$-minimization problems.
+Custom $\ell_1$-minimization solvers for this purpose based on the
 \emph{Augmented Lagrange Multiplier} (ALM) algorithm have been developed.
 The ALM algorithm was selected because it strikes the best
-balance between speed, accuracy, and scalability.  Several $\ell_1$ minimization
+balance between speed, accuracy, and scalability.  Several $\ell_1$-minimization
 algorithms were tested for the face recognition problem, 
 and ALM was found to have the best performance. 
 A more in-depth discussion of the solvers will be presented
@@ -412,7 +412,7 @@ For a more detailed discussion of competing
 approaches, the interested reader is referred to
 \cite{YangA2010-pp}.
 On a Mac Pro with
-two Dual-Core 2.66GHz Xeon processors and 4GB memory,
+two Dual-Core 2.66 GHz Xeon processors and 4 GB memory,
 running on a private database containing images size $80\times 60$
 pixels from 109 subjects under 38 illuminations,
 the C++ implementation of Algorithm~\ref{alg:deformable-src} takes
@@ -448,7 +448,7 @@ presented in Sections \ref{sec:multipie} and \ref{sec:own-data}.
 	The images are downsampled to a canonical image size of 
     $80\times 60$ pixels\footnote{Unless otherwise stated,
     this will be the default resolution at which 
-    all training and testing datasets are resampled.} 
+    all training and testing data sets are resampled.} 
 	and the distance between the two outer
     eye corners is normalized to be 50 pixels for each
     person. An artificial deformation is applied to the
@@ -474,7 +474,7 @@ In order to determine if this region of attraction is sufficient,
 it must be compared to the accuracy achieved by the initialization
 provided by the face detector.  This is done by gathering statistics 
 of the Viola and Jones'
- face detector on the Multi-PIE dataset: For 4,600 frontal
+ face detector on the Multi-PIE data set: For 4,600 frontal
  images of 230 subjects under 20 different illuminations,
  using manual registration as the ground truth, the average
  misalignment error of the detected faces is about 6 pixels
@@ -542,14 +542,14 @@ only 2 scales are used.
 \includegraphics[width=4in]{figures_pami/multiscale.png}
 \caption{\small{\bf Multiscale alignment.} This figure shows the average success rate of 
 alignment over all possible perturbations. A smaller blur kernel can be applied to achieve 
-better of performance when more scales are used.}
+better performance when more scales are used.}
 \label{fig:multiscale}
 \end{figure}
 
 \noindent{3) \em 3D Pose Variation.} Since densely sampled pose and
     illumination face images are not available in any of
     the public databases, including Multi-PIE, a private
-	dataset has been collected using the training image
+	data set has been collected using the training image
 	acquisition system described in the next section.
 	Frontal face images of each subject under the 38 illuminations proposed
     in the next section are used as training images. Test
@@ -617,7 +617,7 @@ in the following experimental comparisons.
     \cite{Huang2008-CVPR} uses random projections.
 	Note that the use of cropped images in this 
 	experiment introduces image boundary effects.
-    The proposed $\ell_1$ minimization based alignment
+    The proposed $\ell_1$-minimization based alignment
     algorithm achieves a recognition rate of 93.7\%,
     compared to a 89.1\% recognition rate reported in
     \cite{Huang2008-CVPR}.
@@ -633,9 +633,9 @@ in the following experimental comparisons.
     algorithm of \cite{Huang2008-CVPR} achieves a
     recognition rate of 67.5\%,\footnote{That algorithm has
     two free parameters - $l$ and $d$, which govern the trade-off between
-	accuracy and run-time. For this experiment
+	accuracy and runtime. For this experiment
     these values are chosen to be $l = 1$ and $d = 514$.} while 
-	$\ell_1$ minimization based alignment achieves 92.2\%.
+	$\ell_1$-minimization based alignment achieves 92.2\%.
     \end{enumerate}
 				
 \section{Handling Illumination Variation}
@@ -658,8 +658,7 @@ lowest frequency spherical harmonics.  While this is a very important result
 for understanding the image formation process, the direct application of this
 result in most practical systems is misguided for several reasons.\footnote{A more
 thorough discussion of this result can be found in 
-Appendix \ref{chap:appendix_illumination}
-, and more discussion of linearity can be found in
+Appendix \ref{chap:appendix_illumination}, and more discussion of linearity can be found in
 \cite{belhumeur1998set}.}
 Specularities, self-shadowing, and
 inter-reflections all dramatically affect the appearance of face images, and
@@ -688,7 +687,7 @@ It has been observed in various empirical studies that one can get away with
 using a small number of frontal illuminations to linearly represent a wide
 range of new frontal illuminations, when they are all taken under the same
 laboratory conditions \cite{Georghiades2001-PAMI}. This is the case for many
-public face datasets, including AR, ORL, PIE, and Multi-PIE.  Unfortunately, it
+public face data sets, including AR, ORL, PIE, and Multi-PIE.  Unfortunately, it
 has been found that in practice, a training database consisting purely of
 frontal illuminations is not sufficient to linearly represent images of faces
 taken under typical indoor or outdoor conditions (see the experiment conducted
@@ -699,7 +698,7 @@ practice, we need to find a set of training illuminations that are indeed {\em
 sufficient} to linearly represent a wide variety of practical indoor and
 outdoor illuminations.
 
-\subsection{Projector-based Illumination System}
+\subsection{Projector-Based Illumination System}
 %
 This section describes a novel system that can acquire frontal images of a
 subject while simultaneously illuminating the subject from all above-horizontal
@@ -707,7 +706,7 @@ illumination directions. A sketch of the system is shown in Figure
 \ref{fig:system}: The illumination system consists of four projectors that
 display various bright patterns onto the three white walls in the corner of a
 dark room.  The light reflects off of the walls and illuminates the user's head
-indirectly.  After acquiring the frontal illuminations the chair is rotated by
+indirectly.  After the frontal illuminations are acquired, the chair is rotated by
 180 degrees and a second set of pictures are taken from the opposite direction
 so that the subject is illuminated from behind and above.  In practice, having
 two cameras greatly accelerates the process since only the chair needs to be
@@ -729,7 +728,7 @@ recognition:
 \end{figure}
 %
 With this projector system, the choice of illumination patterns is constrained
-only by the need to achieve a good Signal to Noise Ratio (SNR),\footnote{Since
+only by the need to achieve a good signal-to-noise-ratio (SNR),\footnote{Since
 illuminations with more pixels illuminated will have a better SNR (provided
 they don't saturate), there is an engineering tradeoff between the SNR and the
 number of training images.} avoid saturation, and achieve a reasonably short
@@ -739,7 +738,7 @@ illuminated regions do not overlap.
 
 Assuming that each pixel is fully on or off makes it possible to guarantee that each
 illumination image has the same overall intensity, merely by guaranteeing that
-the same number of pixels are illuminated in each image.  \footnote{Since DLP
+the same number of pixels are illuminated in each image.\footnote{Since DLP
 projectors may have dramatically different response curves depending on the
 mode they are in, it is not advisable to simply normalize each illumination
 image by its mean.} Since our algorithm depends only on the linearity between
@@ -765,7 +764,7 @@ moved around manually \cite{masselus2002free}, but this may result in poor
 consistency of illuminations between users.  Structured light applications use
 projectors to directly illuminate the face (or other object)
 \cite{zhang2002rapid} for 3D reconstruction, but this is very disturbing to the
-user.  Y.\ Schechner \cite{schechner2007multiplexing} studies techniques for
+user.  Y.\ Schechner et al.\cite{schechner2007multiplexing} study techniques for
 multiplexing illumination that can dramatically reduce the noise of the
 demultiplexed images for certain classes of objects and cameras.  While these
 techniques have not been incorporated into the current system, they fit
@@ -787,7 +786,7 @@ used in the large-scale experiments:
     the front camera.  Subsets of the training images are
     chosen, starting at the front camera and adding a ring
     at a time.  Each time a ring is added to the training
-    illumination set, the average $\ell^1$ registration
+    illumination set, the average $\ell_1$ registration
     error (residual) for a set of test images taken under
     sunlight is computed and plotted in Figure
     \ref{fig:illumination-patterns}(a).  The more rings of
@@ -799,8 +798,8 @@ used in the large-scale experiments:
     granularity level, the projectors illuminate the
     covered area uniformly.  At each subsequent granularity
     level, each illuminated cell is divided in two along its
-    longer side but its intensity doubled.  For each
-    granularity level the average $\ell^1$ registration
+    longer side but its intensity is doubled.  For each
+    granularity level the average $\ell_1$ registration
     error is computed as in the coverage experiment and
     shown in Figure \ref{fig:illumination-sufficiency}(b).
     Again, diminishing returns are observed as more
@@ -828,7 +827,7 @@ projectors.  }
 \includegraphics[height=2in]{figures_pami/illum_results/granularity_sunset.pdf} \\
 (a) Coverage & (b) Granularity
 \end{tabular}
-\caption{\small{\bf Study of sufficient illuminations.} The average $\ell^1$
+\caption{\small{\bf Study of sufficient illuminations.} The average $\ell_1$
 registration residual versus different illumination training sets. }
 \label{fig:illumination-sufficiency}
 \end{figure}
@@ -836,7 +835,7 @@ registration residual versus different illumination training sets. }
 In the plot for the coverage experiment, Figure
 \ref{fig:illumination-sufficiency}(a), two plateau regions can be observed: one
 is after 4 rings and one is after 10 rings. The first four rings represent the
-typical frontal illuminations, which are present in most public face datasets;
+typical frontal illuminations, which are present in most public face data sets;
 however, the residual does not stabilize until after 10 rings, which include
 some illuminations from the back of the subject. This suggests that although
 the frontal illuminations account for most of the illumination on the face,
@@ -852,36 +851,39 @@ used for capturing gallery images for all of the subjects.\footnote{It is
 possible that with further experimentation a reduced set of illuminations can
 be found that performs as well or better.}
 
-See below for the 38 training images of one subject:
+Figure \ref{fig:sample_training_images} shows the full set of 38 training images 
+for an example subject:
 \begin{figure}[h]
+\caption{\small Example of the set of 38 training images for one subject}
 \centering
 \includegraphics[width=\textwidth]{figures_pami/training.png}
+\label{fig:sample_training_images}
 \end{figure}
 
 \section{Tests on Public Databases}\label{sec:multipie} In this section and the
 next section, comprehensive experiments are conducted on large-scale face
 databases to verify the performance of our face recognition pipeline.  The
 largest public face database available that is suitable for testing the
-$\ell_1$ minimization based pipeline, the CMU Multi-PIE dataset, is used for
+$\ell_1$-minimization based pipeline, the CMU Multi-PIE data set, is used for
 the first experiment.  One shortcoming of the CMU Multi-PIE database for this
 purpose is that there is no separate set of test images taken under natural
 illuminations; it is necessary to choose subsets of pictures taken in a lab
 setting to use for testing and training.  To challenge the algorithm, only a
 small set of illuminations for the training set is chosen, yet all
 illuminations are included in the testing set. In the following section, the
-performance the $\ell_1$ minimization based pipeline is tested on a face
-dataset that is collected by the projector-based acquisition system. The goal
+performance the $\ell_1$-minimization based pipeline is tested on a face
+data set that is collected by the projector-based acquisition system. The goal
 for this experiment will be to show that with a sufficient set of training
 illuminations for each subject, the algorithm indeed works stably and robustly
 with practical illumination, misalignment, pose, and occlusion, as already
-indicated by the experiment shown in Figure \ref{fig:promo}(bottom).
+indicated by the experiment shown in Figure \ref{fig:promo} (bottom).
 
 CMU Multi-PIE provides the most extensive test set among public
-datasets. This database contains images of 337 subjects across
+data sets. This database contains images of 337 subjects across
 simultaneous variation in pose, expression, and illumination.
 Of these 337 subjects, all of the 249 subjects 
 in Session 1 are used as the training set. The remaining 88 subjects are
-treated as ``impostors'', or invalid images. For each of the
+treated as ``impostors,'' or invalid images. For each of the
 249 training subjects, frontal images are used with 7 frontal
 illuminations,\footnote{They are illuminations
 $\{0,1,7,13,14,16,18\}$ of \cite{Gross2008-FGR}. For each
@@ -891,7 +893,7 @@ work of \cite{Georghiades2001-PAMI}, these extreme
 frontal illuminations are used in the hope that they would linearly
 represent other frontal illuminations well. For the test set,
 all 20 illuminations from Sessions 2-4, which were
-recorded over a period of several months, were used. The dataset is
+recorded over a period of several months, were used. The data set is
 challenging due to the large number of subjects, and due to
 natural variation in subject appearance over time.
 Table \ref{tab:MultiPIE-recognition2} shows the performance of the
@@ -906,7 +908,7 @@ error residuals (i.e. $S=1$) are shown in row 1.
 
 \begin{table}
 \caption{Recognition rates on the Multi-PIE database for
-Algorithm 1 and \cite{Yang2010-CVPR}}
+Algorithm 1 and \cite{Yang2010-CVPR}.}
 \centerline{
 \begin{tabular}{|c|c|c|c|c| }
 \hline
@@ -944,7 +946,7 @@ Recognition rate & Session 2 & Session 3 & Session 4  \\
 \hspace{-2mm}(a) & (b) & (c) & (d) & (e) & (f) 
 \end{tabular}
 }
-\caption{\small{\bf Representative failures from Multi-PIE}. {\bf Top:} training from Session 1; {\bf Bottom:} test images from Session 2. Due to changes in hair, glasses, beard, or pose, our alignment fails on these subjects regardless of test image illumination.}
+\caption{\small{\bf Representative failures from Multi-PIE}. {\bf Top row:} Training from Session 1. {\bf Bottom row:} Test images from Session 2. Due to changes in hair, glasses, beard, or pose, our alignment fails on these subjects regardless of test image illumination.}
 \label{fig:failed-examples}
 \end{figure}
 \subsection{Improving the Sampling Window}
@@ -983,6 +985,7 @@ Figure~\ref{fig:new-mask}.
 \caption{\small Recognition rates on the Multi-PIE database for
 different pairings of alignment and recognition stages.}
 \centerline{
+\small
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c| }
 \hline
 \backslashbox{Rec.}{Align.}
@@ -1012,7 +1015,7 @@ Multi-PIE indeed increase with this new window. In addition, Figure
 \ref{fig:failed-examples}(a), (b), and (c) illustrate three representative
 subjects for which the recognition rates of the algorithm are significantly
 boosted with the new window. However, it should be mentioned that the best
-choice of the window may be specific to the dataset and there is not a simple
+choice of the window may be specific to the data set and there is not a simple
 guideline to follow. For example, although the new window performs better on
 Multi-PIE, the same window does not help at all on the new database to be
 introduced in the next section. This is because most of the training and
@@ -1069,7 +1072,7 @@ binary patterns is then computed, where the patterns are generated by
 thresholding 8 neighboring pixels in a circle of radius 2 using the central
 pixel value. Finally, the local histograms are concatenated to produce the
 global descriptor vector. As suggested in \cite{Ahonen2006-PAMI}, the
-recognition is performed using a nearest neighbor classifier with Chi square
+recognition is performed using a nearest neighbor classifier with chi square
 distance as the distance measure. Recognition rates with the
 same three types of alignment input as before are reported.
 
@@ -1088,7 +1091,7 @@ that cannot be linearly interpolated by the training set.
 
 Although the SRC algorithm is not designed for recognition when there is only a
 single gallery image per user, its performance with LBP is compared within this
-setting for completeness. This experiment uses the FERET dataset
+setting for completeness. This experiment uses the FERET data set
 \cite{phillips1998feret}, which contains five standard partitions: `fa' is the
 gallery containing 1196 frontal images of 1196 subjects, and `fb', `fc', `dup1'
 and `dup2' are four sets of probe images. The testing sets differ from the
@@ -1100,7 +1103,7 @@ coordinates \cite{Deng2010-PR} and normalized to unit $\ell_2$ norm.  In
 Table~\ref{tab:FERET-recognition}, the performance of the SRC-based pipeline is
 computed for the four test sets, with input directly obtained from the Viola
 and Jones' detector.  The performance of LBP with the same three types of input
-as before is reported: the letters ``$d$'', ``$m$'', and ``$i$'' are used to
+as before is reported: the letters $d$, $m$, and $i$ are used to
 indicate face detector, manual alignment, and the iterative alignment
 algorithm, respectively.
 
@@ -1121,7 +1124,7 @@ observed on the Labeled Face in the Wild (LFW) database, where
 the training is uncontrolled and limited and the input is
 directly obtained from the face detector \cite{Wolf2008-ECCV}.
 \begin{table}
-\caption{Performance on single gallery image FERET dataset}
+\caption{Performance on single gallery image FERET data set.}
 \centerline{
 \begin{tabular}{|c|c|c|c|c| }
 \hline
@@ -1152,7 +1155,7 @@ mentioned before, the \emph{sparsity concentration index} (SCI)
 is used as the outlier rejection rule. Given the sparse
 representation $\x$ of a test image with respect to $K$
 training classes, the SCI measures how concentrated the
-coefficients are on a single class in the dataset and is
+coefficients are on a single class in the data set and is
 defined as in \cite{Wright2009-PAMI}:
 \begin{displaymath}
 \textup{SCI}(\x) \doteq \frac{K \cdot \max_i \|\delta_i(\x)\|_1 /
@@ -1192,11 +1195,11 @@ LBP, even when all algorithms are coupled with the proposed iterative
 alignment.  In the right plot we again see that classical algorithms, and even
 LBP, are very sensitive to alignment.  Similar contrasts between the SRC
 algorithm and baseline algorithms were also observed in \cite{Wright2009-PAMI},
-though on much smaller datasets.
+though on much smaller data sets.
 
 \subsection{Recognition with Synthetic Random Block Occlusion}
 
-Next, the robustness of the $\ell^1$-norm based
+Next, the robustness of the $\ell_1$-norm based
 algorithm to synthetic occlusion is tested further. 
 Various levels of
 occlusion from 10\% to 50\% are simulated by replacing a randomly located
@@ -1222,10 +1225,6 @@ recognition rate.
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_occ/occ40.png} &
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/multipie_occ/occ50.png}  \\
 \end{tabular}
-\caption{\small{\bf Recognition under varying level of random block occlusion.}
-The above row of images shows examples of occluded test images with occlusion
-level from 10\% to 50\%. The $\ell_1$ minimization based method maintains high recognition rates up to 30\%
-occlusion:}
 {
 \begin{tabular}{|c|c|c|c|c|c| }
 \hline
@@ -1235,6 +1234,10 @@ Recognition rate & 99.6\% & 94.9\% & 79.6\% & 46.5\% & 19.8\% \\
 \hline
 \end{tabular}
 }
+\caption{\small{\bf Recognition under varying level of random block occlusion.}
+Examples of occluded test images with occlusion
+level from 10\% to 50\% (left to right). The $\ell_1$-minimization based method maintains high recognition rates up to 30\%
+occlusion, as shown in the table.}
 \label{fig:multipie-occ-rec}
 \end{figure}
 
@@ -1305,7 +1308,8 @@ under typical indoor and outdoor illuminations.
 \caption{\small{\bf Representative examples of categories C1-C3}. One row for each category.}\label{fig:examples1-3}
 \end{figure}
 
-\begin{figure}[t]
+%\begin{figure}[h]
+\begin{figure}
 \centering
 \begin{tabular}{@{}c@{}c@{}c@{}c@{}c@{}c@{}}
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses/DSC_1565.JPG} &
@@ -1321,19 +1325,19 @@ under typical indoor and outdoor illuminations.
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_4030.JPG} &
 \includegraphics[width=\tempwidth,clip=true]{figures_pami/uiuc_example/sunglasses_failed/DSC_4095.JPG} \\
 \end{tabular}
-\caption{\small{\bf Representative examples of category C4}. Top row: examples
+\caption{\small{\bf Representative examples of category C4}. Top row: Examples
 where the overlapping blocks method of Section \ref{sec:overlapping_blocks}
-succeeded. Bottom row: examples where the overlapping blocks method
+succeeded. Bottom row: Examples where the overlapping blocks method
 failed.}
 \label{fig:examples4} 
 \end{figure}
 
 \subsection{Large-Scale Test with Sufficient Training
 Illuminations} The following experiment demonstrates the performance
-of the $\ell_1$ minimization based pipeline under the conditions it
+of the $\ell_1$-minimization based pipeline under the conditions it
 was designed for.  All 109 subjects and 38 illuminations
-are used in the training and 935 images of users taken under a variety of
-practical illuminations and conditions is used for the test set. 
+are used in the training, and 935 images of users taken under a variety of
+practical illuminations and conditions are used for the test set. 
 The test set has been manually partitioned into four main categories:
 \begin{description}
 \item[C1:] 310 \emph{indoor} images of 72 subjects without
@@ -1367,7 +1371,7 @@ the entire face. Given the previous experimental results on
 synthetic random block occlusions, and given that the
 illuminations are more challenging, the result is not
 surprising. The next subsection will show how additional
-assumptions on nature of the data can be used to improve 
+assumptions about the nature of the data can be used to improve 
 the recognition performance.
 \begin{table}[h]
 \centering \caption{Recognition rates on a more realistic
@@ -1383,7 +1387,7 @@ Recognition Rate & 98.4\% & 95.8\% & 95.1\% & 40.9\% \\
 \label{tab:UIUC-recognition}
 \end{table}
 
-\subsection{Improving the Performance with Occlusion using Overlapping Blocks}
+\subsection{Improving the Performance with Occlusion Using Overlapping Blocks}
 \label{sec:overlapping_blocks}
 %
 A traditional approach to improve the performance of face recognition under
@@ -1431,13 +1435,13 @@ approach is that occlusion cannot always be expected to fall within
 proposed scheme should only be viewed as an example which shows
 that the performance under occlusion can be boosted by
 leveraging local information of a face as well as global information. 
-The investigation of improved models for occlusion, such as the {\em Markov Random Field} (MRF)
+The investigation of improved models for occlusion, such as the {\em Markov random field} (MRF)
 based algorithm presented in \cite{ZhouZ2009} and in Chapter \ref{chap:markov},
 remains an interesting open research problem.
 
 \section{Conclusion}\label{sec:conclusion}
-The face recognition system described in this Chapter leverages a
-well-though-out combination of existing ideas (iterative image alignment,
+The face recognition system described in this chapter leverages a
+well-thought-out combination of existing ideas (iterative image alignment,
 $\ell_1$-error function, SRC, and using projectors for illumination).  It is
 capable of working with images taken under practical conditions and is
 conceptually simple, well motivated, and competitive with state-of-the-art
@@ -1446,7 +1450,7 @@ recognition systems for access control scenarios.
 The system achieves extremely stable performance under a wide range of
 variations in illumination, misalignment, and even under small amounts of pose
 and occlusion. Very good recognition performance is achieved on large-scale
-tests with public datasets as well as more realistically captured probe images,
+tests with public data sets as well as more realistically captured probe images,
 while using only frontal 2D images in the gallery and no explicit 3D face
 model.  This system demonstrates that misalignment can be naturally handled
 within the sparse representation framework.  The complete (from acquisition to

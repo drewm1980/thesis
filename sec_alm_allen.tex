@@ -1,7 +1,7 @@
-\section{L1 Minimization via Augmented Lagrange Multiplier} 
+\section{$\ell_1$-Minimization via Augmented Lagrange Multiplier} 
 \label{sec:alm_derivation}
 
-\subsection{ALM derivation for the Recognition Stage}
+\subsection{ALM Derivation for the Recognition Stage}
 This section provides a mathematical derivation for an Augmented Lagrange Method solver
 for the optimization problem:
 \begin{equation}
@@ -61,7 +61,7 @@ closed-form solution given by the soft-thresholding operator:
 \e_{k+1} = \mathcal{T}(\bb - A\x_k + \mu^{-1}\blambda_k, \mu^{-1}).
 \end{equation}
 To solve the subproblem associated with $\x$, we
-apply a first-order $\ell^1$-minimization method,
+apply a first-order $\ell_1$-minimization method,
 called \emph{fast iterative shrinkage-threshold algorithm}
 (FISTA) \cite{BeckA2009}. The main idea of FISTA is to
 iteratively minimize a quadratic approximation $Q(\x, \z)$ to
@@ -102,7 +102,7 @@ $\x_1 = \mathbf{0}$, $\e_1 = \bb$, $\blambda_1 =
 \end{algorithm}
 
 
-\subsection{ALM derivation for the Alignment Stage}
+\subsection{ALM Derivation for the Alignment Stage}
 This section provides a mathematical derivation for an Augmented Lagrange Method solver
 for the optimization problem:
 \begin{equation}
@@ -119,7 +119,7 @@ L_\mu (\x,\e,\blambda) = \|\e\|_1 + \langle \blambda, \bb-A\x - \e \rangle + \fr
 For the alternating minimizations, while the subproblem associated with $\e$
 has the same closed-form solution as before, the subproblem associated with
 $\x$ can now be solved in closed form:
-\begin{eqnarray}
+\begin{eqnarray}\small
 \x^* = \argmin{\x} \langle \blambda, \bb-A\x - \e \rangle + \frac{\mu}{2} \|\bb - A\x - \e\|_2^2 \\
 \x^* = \argmin{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x + (\e-\bb)^T (\e-\bb)) \\
 \x^* = \argmin{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x) \\
@@ -161,5 +161,5 @@ $\x$ can now be solved in closed form:
 Compared to the highly customized interior point method used in the conference
 version of this paper \cite{Wagner2009-CVPR}, this new algorithm is only
 slightly faster for per subject alignment. However, it is much simpler to
-implement and, as discussed in Section \label{sec:pipeline_implementation}, it
+implement and, as discussed in Section \ref{sec:pipeline_implementation}, it
 achieves a \emph{speedup of more than a factor of 10} for global recognition!
