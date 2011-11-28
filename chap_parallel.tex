@@ -92,6 +92,19 @@ has its own memory interface, and is directly interfaced to half of the RAM
 installed in the machine.  The amount of RAM exceeds the amount used
 by the algorithms, and is not an important performance consideration.  
 
+% CPU CACHE DISCUSSION
+%2MB = 2**21 bytes
+%64*64*4 = 2**14 bytes = 16384 bytes per image
+%... so can fit 2**7  = 128 images.
+Each core has a private 32\,KiB L1 data cache and a private 256\,KiB L2 cache.
+%16MB = 2**24 bytes = 16777216 bytes
+%64*64*4 = 2**14 bytes = 16384 bytes per image
+%... so can fit 2**10  = 1024 images.
+Each processor further has 8\,MiB of L3 cache that is shared by the four cores.
+Overall, the algorithm has approximately 16\,MiB of L3 cache
+available for a dual-processor configuration.  
+A visual representation of the caches can be seen in Figure \ref{fig:cpu_caches}.
+
 \begin{figure}
 \centering
 \subfigure[The larger algorithm data structures]
@@ -115,17 +128,6 @@ caches.  Note: Although the aspect ratio could not be preserved, all arrays and
 caches are drawn so that the area is proportional to the size of the data. } 
 \end{figure}
 
-% CPU CACHE DISCUSSION
-%2MB = 2**21 bytes
-%64*64*4 = 2**14 bytes = 16384 bytes per image
-%... so can fit 2**7  = 128 images.
-Each core has a private 32\,KiB L1 data cache and a private 256\,KiB L2 cache.
-%16MB = 2**24 bytes = 16777216 bytes
-%64*64*4 = 2**14 bytes = 16384 bytes per image
-%... so can fit 2**10  = 1024 images.
-Each processor further has 8\,MiB of L3 cache that is shared by the four cores.
-Overall, the algorithm has approximately 16\,MiB of L3 cache
-available for a dual-processor configuration.  
 
 For floating-point instructions, each core also has a vector processing unit
 (SSE) capable of performing the same arithmetic operation on four single-precision 
@@ -170,6 +172,7 @@ The GPU has its own memory system, and any data the GPU uses must first be
 transferred from CPU DRAM to GPU DRAM over PCIe.  For our application,
 this transfer overhead can be amortized over a large amount of computation and is
 not a major concern.
+
 
 While the programming model for
 the SIMD units of each SM is somewhat more flexible than on the CPU,

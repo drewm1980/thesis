@@ -142,11 +142,6 @@ this likelihood is uniform with the image.
 The second condition means that every pixel has a certain likelihood of being occluded, independent of its
 location in the image.
 
-\begin{figure}[h]
-\centerline{\includegraphics[width=4.0in]{figures_iccv/function.pdf}}
-\caption{Approximation to the likelihood of $\e$ given the error support. Left: $p(\e|\s = -1)$ (unoccluded pixels). Right: $p(\e|\s = 1)$ (occluded pixels).} \label{fig:likelihood} \vspace{0mm}
-\end{figure}
-
 The Ising model makes the fundamental assumption that the pixel values are independent of each other given the support. Hence we can write down the joint probability density function of the error vector $\e$ in exponential form as:
 \begin{eqnarray*}
 p(\e,\s) &=& p(\s) p(\e|\s) \,=\, p(\s) \prod_i p(\e[i]|\s[i]) \\
@@ -165,6 +160,10 @@ We normalize the range of error values to $[0,1]$, and approximate the log-likel
 \end{array} \right.
 \end{eqnarray*}
 This corresponds to the piecewise-constant likelihood function $p(\e\mid \s)$ pictured in Figure \ref{fig:likelihood}. While the precise form of the approximation is not essential to the success of the method, in this model $\tau$ effectively acts as a threshold for considering pixels as errors, subject to the spatial continuity prior. The constant $\tau$ should be set so that it is larger than the noise level and within-class variability of the non-occluded pixels, but smaller than the magnitude of the errors due to occlusion.  In Section \ref{sec:tau} we will see how this threshold can be chosen adaptively without prior knowledge of the statistics of the training and test images.
+\begin{figure}
+\centerline{\includegraphics[width=4.0in]{figures_iccv/function.pdf}}
+\caption{Approximation to the likelihood of $\e$ given the error support. Left: $p(\e|\s = -1)$ (unoccluded pixels). Right: $p(\e|\s = 1)$ (occluded pixels).} \label{fig:likelihood} \vspace{0mm}
+\end{figure}
 
 \subsection{Error correction with both MRF and sparsity}
 Now consider an image $\bb$ of subject $k$. Without occlusion, it can be well-approximated as a linear combination of training images of the same subject: $\bb = A_k \x_k$. If, however, a portion of the image is occluded, we need to discard that portion in order for the same linear equation to hold. Thus, a natural goal is to identify the most likely portion  on which $\bb = A_k \x_k$ holds for some $\x_k$. In terms of the error model introduced above, we want to solve the following optimization problem:
@@ -256,8 +255,8 @@ V}\log\big(p(\hat{\e}_k[i]|\s[i])\big);$$\vspace{0mm}
 & (a) & (b) & (c) & (d) & (e) & (f) & (g)
 \end{tabular}
 }
-\caption{Effect of $\tau$. Left: test image from AR database, occluded by scarf.
-Right: estimated error supports for varying $\tau$. First row: $\lambda = 3$. Second row:
+\caption{Effect of $\tau$. Left: Test image from AR database, occluded by scarf.
+Right: Estimated error supports for varying $\tau$. First row: $\lambda = 3$. Second row:
 $\lambda = 1$. (a) $\tau=0.2$, (b) $\tau=0.17$, (c)
 $\tau=0.14$, (d) $\tau=0.11$, (e) $\tau=0.08$, (f)
 $\tau=0.05$, (g) $\tau=0.02$.} \label{fig:epsilon} \vspace{0mm}
@@ -334,6 +333,25 @@ properly choosing $\lambda$ is essential.\vspace{0mm}
 
 In this section, we conduct experiments using three publicly available databases. Using the Extended Yale B database \cite{Georghiades2001-PAMI,Lee2005-PAMI}, we will investigate the breakdown point of our algorithm under varying levels of (synthetic) contiguous occlusion. In this setting, the algorithm maintains high recognition rates up to 80\% occlusion. Then with AR Face database \cite{Martinez1998-report}, we will show that this good performance carries over to more realistic occlusions such as sunglasses and scarves, and furthermore, that by exploiting knowledge of the spatial distribution of the occlusion, one can recover an occluded face from far fewer measurements (i.e., lower resolution images). Finally, we test algorithm with a database obtained from the authors of  \cite{Wagner2009-CVPR}, which contains multiple categories of occluded test images taken under realistic illumination conditions. \vspace{-0mm}
 
+
+\paragraph{Recognition with synthetic occlusion.}
+
+For this experiment, we use the Extend Yale B database to test the
+robustness of our algorithm to synthetic occlusion. Among 1238
+frontal face images of 38 subjects under varying laboratory lighting
+conditions in Subset 1, 2 and 3 of Extended Yale B database, we
+choose four illuminations from Subset 1 (mild illuminations), two
+from Subset 2 (moderate illuminations) and two from Subset 3
+(extreme illumiations) for testing and the rest for training. The
+total numbers of images in training and testing sets are 935 and 303,
+respectively. The images are cropped to $96 \times 84$ pixels.
+
+To compare our method with the algorithm in \cite{Wright2009-PAMI}, we simulate various levels of contiguous occlusion from 10\% to 90\%
+by replacing a random located block of a face image with the image of a baboon.
+Figure \ref{fig:yale_exp}(a) shows an example of a 60\%
+occluded face image. Figure \ref{fig:yale_exp}(c) illustrates the
+iterative estimates of the error supports with $\lambda=3$.
+For this test image, convergence occurs after six iterations.
 \begin{figure}
 \centering
 {\small
@@ -361,25 +379,6 @@ result.} \label{fig:yale_exp} \vspace{0mm}
 \end{figure}
 
 
-\paragraph{Recognition with synthetic occlusion.}
-
-For this experiment, we use the Extend Yale B database to test the
-robustness of our algorithm to synthetic occlusion. Among 1238
-frontal face images of 38 subjects under varying laboratory lighting
-conditions in Subset 1, 2 and 3 of Extended Yale B database, we
-choose four illuminations from Subset 1 (mild illuminations), two
-from Subset 2 (moderate illuminations) and two from Subset 3
-(extreme illumiations) for testing and the rest for training. The
-total numbers of images in training and testing sets are 935 and 303,
-respectively. The images are cropped to $96 \times 84$ pixels.
-
-To compare our method with the algorithm in \cite{Wright2009-PAMI}, we simulate various levels of contiguous occlusion from 10\% to 90\%
-by replacing a random located block of a face image with the image of a baboon.
-Figure \ref{fig:yale_exp}(a) shows an example of a 60\%
-occluded face image. Figure \ref{fig:yale_exp}(c) illustrates the
-iterative estimates of the error supports with $\lambda=3$.
-For this test image, convergence occurs after six iterations.
-
 We compare our result to the algorithm in \cite{Wright2009-PAMI} as
 well as other baseline linear projection based algorithms, such as
 Nearest Neighbor (NN), Nearest Subspace (NS) and Linear Discriminant
@@ -395,7 +394,9 @@ Even with 80\% occlusion, only 11.5\% of images are misclassified.
 This is quite surprising because to the human eye, a face image
 is barely recognizable if the block occlusion is more than 60\%.\vspace{0mm}
 \begin{table*}[th]
-{\centerline {\tiny
+\caption{Recognition rates on the Extended Yale B data set with varying level of synthetic occlusion ($\lambda=3$).} 
+{\centerline {
+\resizebox{5.4in}{!} {
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
 \hline
 Percent occluded & 10\% & 20\% & 30\% & 40\% & 50\% & 60\% & 70\% & 80\% & 90\%\\
@@ -403,8 +404,9 @@ Percent occluded & 10\% & 20\% & 30\% & 40\% & 50\% & 60\% & 70\% & 80\% & 90\%\
 Recognition rate & 100\% & 100\% & 100\% & 100\% & 100\% & 100\% & 99.7\% & 88.5\% & 40.3\%\\
  \hline
 \end{tabular}
-}} \vspace{0mm} \caption{Recognition rates on the Extended Yale B data set with varying level
-of synthetic occlusion ($\lambda=3$).} \label{tab:res-yale} \vspace{0mm}
+}
+}} 
+\label{tab:res-yale}
 \end{table*}
 \begin{figure}
 \centering
@@ -455,6 +457,7 @@ while for large $\lambda$ the recognition performance improves as the block size
 (b) $16\times 16$ blocks. (c) $8 \times 8$ blocks. All images are 80\% occluded.}\label{fig:test_sample} \vspace{0mm}
 \end{figure}
 \begin{table}[ht]
+\caption{Recognition rates with 80\% occlusion by multiple blocks.} 
 {\centerline {\small
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -467,7 +470,8 @@ $16 \times 16$ & 92.1 & 93.7 & {\bf 93.7} & 85.8 & 68.65\\
 $8 \times 8$ & 90.4 &  94.4  &  {\bf 96.0}  &  85.2  &  29.7 \\
  \hline
 \end{tabular}
-}} \vspace{0mm} \caption{Recognition rates with 80\% occlusion by multiple blocks.} \label{tab:res-block} \vspace{0mm}
+}} 
+\label{tab:res-block} 
 \end{table}
 
 \paragraph{Recognition with disguises.}
@@ -597,6 +601,19 @@ test image with the training images of the true subject using an iterative regis
 \cite{Wagner2009-CVPR}, initialized by manually selected feature points. Registering the test image to training images of the true subject (as opposed to separately registering to the training of each subject) may artificially inflate the absolute recognition rate, but does not introduce any obvious bias toward either of the algorithms. Our goal here is simply to demonstrate the improved occlusion handling over \cite{Wright2009-PAMI} that comes from incorporating spatial information about the error.
 
 We apply both algorithms\footnote{We consider a more scalable variant of \cite{Wright2009-PAMI} that first regresses against the training images of each subject separately, and then classifies based on a global sparse representation in terms of the training images of the 10 subjects with the lowest representation error. For fairness, we enforce nonnegativity $\x \ge 0$ in both algorithms.} to the registered test images. Informed by results on public databases in the previous section, we fix $\lambda = 3$ in Algorithm 1. Table \ref{tab:real-data-rates} shows the recognition rates of both algorithms on each category. For occlusion by sunglasses, our algorithm outperforms \cite{Wright2009-PAMI} by 15.4\%, with similar improvements for hats and disguises. The overall recognition rates of both algorithms are lower for these categories, both due to the more challenging nature of the occlusion and due to failures at the registration step (see Figure \ref{fig:registration}). For images that are not occluded, or occluded only by eyeglasses, the recognition rate of our algorithm exceeds 90\%, but is lower than that of \cite{Wright2009-PAMI}. Notice, however, that in these experiments we have reported results with a single, fixed value of $\lambda$. In practice, different tradeoffs between robustness to contiguous occlusion and recognition rate on unoccluded images can be achieved by varying this parameter.\vspace{0mm}
+\begin{table}
+\centering
+\caption{Recogntion rates on real data. Our algorithm outperforms \cite{Wright2009-PAMI} for all categories of significant occlusion.} \label{tab:real-data-rates}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+& Normal & Glasses & Sunglasses & Hats & Disguises \\
+\hline
+Algm.\ 1 & 91.4 & 90.9 & {\bf 81.0} & {\bf 55.0} & {\bf 43.6} \\
+\hline
+\cite{Wright2009-PAMI} & {\bf 99.4} & {\bf 98.3} & 65.6 & 40.0 & 37.8 \\
+\hline
+\end{tabular}
+\end{table}
 
 \begin{figure}
 \centering
@@ -611,20 +628,6 @@ Normal & Eyeglasses & Sunglasses & Hats & Disguises \\
 \end{tabular}
 \caption{Example images from the five test categories.} \label{fig:real-data-ex}
 \end{figure}
-
-\begin{table}[t]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|}
-\hline
-& Normal & Glasses & Sunglasses & Hats & Disguises \\
-\hline
-Algm.\ 1 & 91.4 & 90.9 & {\bf 81.0} & {\bf 55.0} & {\bf 43.6} \\
-\hline
-\cite{Wright2009-PAMI} & {\bf 99.4} & {\bf 98.3} & 65.6 & 40.0 & 37.8 \\
-\hline
-\end{tabular}
-\caption{Recogntion rates on real data. Our algorithm outperforms \cite{Wright2009-PAMI} for all categories of significant occlusion.} \label{tab:real-data-rates}
-\end{table}
 
 \begin{figure}
 \centering

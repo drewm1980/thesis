@@ -979,13 +979,13 @@ are removed.  In addition, the resolution of the window is adjusted to keep $m$
 approximately constant.  An example of the new window is shown in
 Figure~\ref{fig:new-mask}.
 
-\begin{table*}
+\begin{table*}{5in}
 \centering
 \small
 \caption{\small Recognition rates on the Multi-PIE database for
 different pairings of alignment and recognition stages.}
 \centerline{
-\small
+\resizebox{5.4in}{!} {
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c| }
 \hline
 \backslashbox{Rec.}{Align.}
@@ -1007,6 +1007,7 @@ LBP	& 39.9\%	& 38.1\%	& 33.9\%	& 93.3\%	& 91.2\%	& 92.9\%	& {\bf 95.2\%}	& {\bf 
 SRC	& -- & -- & -- & -- & -- & -- & 93.9\%	& 93.8\%	& 92.3\% \\
 \hline
 \end{tabular}
+}
 \label{tab:MultiPIE-recognition} }
 \end{table*}
 
@@ -1282,6 +1283,25 @@ $89.2\%$, respectively. This is a strong indication that frontal illuminations
 taken under laboratory conditions are insufficient for representing test images
 under typical indoor and outdoor illuminations.
 
+\subsection{Large-Scale Test with Sufficient Training
+Illuminations} The following experiment demonstrates the performance
+of the $\ell_1$-minimization based pipeline under the conditions it
+was designed for.  All 109 subjects and 38 illuminations
+are used in the training, and 935 images of users taken under a variety of
+practical illuminations and conditions are used for the test set. 
+The test set has been manually partitioned into four main categories:
+\begin{description}
+\item[C1:] 310 \emph{indoor} images of 72 subjects without
+    eyeglasses, frontal view
+    (Fig.~\ref{fig:examples1-3}, row 1).
+\item[C2:] 168 \emph{outdoor} images of 48 subjects without
+    eyeglasses, frontal view
+    (Fig.~\ref{fig:examples1-3}, row 2).
+\item[C3:] 211 images of 32 subjects with \emph{eyeglasses}
+    (Fig.~\ref{fig:examples1-3}, row 3).
+\item[C4:] 246 images of 56 subjects with \emph{sunglasses}
+    (Fig.~\ref{fig:examples4}).
+\end{description}
 \renewcommand{\tempwidth}{0.1667\textwidth}
 \begin{figure}
 \centering
@@ -1307,7 +1327,6 @@ under typical indoor and outdoor illuminations.
 \end{tabular}
 \caption{\small{\bf Representative examples of categories C1-C3}. One row for each category.}\label{fig:examples1-3}
 \end{figure}
-
 %\begin{figure}[h]
 \begin{figure}
 \centering
@@ -1331,26 +1350,6 @@ succeeded. Bottom row: Examples where the overlapping blocks method
 failed.}
 \label{fig:examples4} 
 \end{figure}
-
-\subsection{Large-Scale Test with Sufficient Training
-Illuminations} The following experiment demonstrates the performance
-of the $\ell_1$-minimization based pipeline under the conditions it
-was designed for.  All 109 subjects and 38 illuminations
-are used in the training, and 935 images of users taken under a variety of
-practical illuminations and conditions are used for the test set. 
-The test set has been manually partitioned into four main categories:
-\begin{description}
-\item[C1:] 310 \emph{indoor} images of 72 subjects without
-    eyeglasses, frontal view
-    (Fig.~\ref{fig:examples1-3}, row 1).
-\item[C2:] 168 \emph{outdoor} images of 48 subjects without
-    eyeglasses, frontal view
-    (Fig.~\ref{fig:examples1-3}, row 2).
-\item[C3:] 211 images of 32 subjects with \emph{eyeglasses}
-    (Fig.~\ref{fig:examples1-3}, row 3).
-\item[C4:] 246 images of 56 subjects with \emph{sunglasses}
-    (Fig.~\ref{fig:examples4}).
-\end{description}
 Viola and Jones' face detector is applied to these images and
 the resulting detected faces are used as the 
 initialization for the alignment stage.

@@ -120,14 +120,14 @@ For the alternating minimizations, while the subproblem associated with $\e$
 has the same closed-form solution as before, the subproblem associated with
 $\x$ can now be solved in closed form:
 \begin{eqnarray}\small
-\x^* = \argmin{\x} \langle \blambda, \bb-A\x - \e \rangle + \frac{\mu}{2} \|\bb - A\x - \e\|_2^2 \\
-\x^* = \argmin{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x + (\e-\bb)^T (\e-\bb)) \\
-\x^* = \argmin{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x) \\
-\x^* = \argmin{\x} (-\blambda^T -\bb -\frac{\blambda}{\mu}^T A x + \frac{1}{2} \x^T (A^T A) \x \\
-0 = A^T(\e - \bb -\frac{\blambda}{mu}) + (A^T A) \x^*\\
-(A^T A) \x^* =  A^T (\bb - \e + \frac{\blambda}{mu})\\
-\x^* =  (A^T A)^{-1} A^T (\bb - \e + \frac{\blambda}{mu})\\
-\x^* =  A^\dagger (\bb - \e + \frac{\blambda}{mu})
+\x^* &=& \argmin{\x} \langle \blambda, \bb-A\x - \e \rangle + \frac{\mu}{2} \|\bb - A\x - \e\|_2^2 \\
+ &=& \argmin{\x} -\blambda^T A x + \frac{\mu}{2} (\x^T(A^T A) \x + 2(\e-\bb)^T A \x) \\
+ &=& \argmin{\x} (-\blambda^T + \mu (\e - \bb)^T) A x + \frac{\mu}{2} \x^T (A^T A) \x \\
+ &=& \argmin{\x} (-\frac{1}{\mu}\blambda + \e - \bb)^T A x + \frac{1}{2} \x^T (A^T A) \x \\
+0 &=& A^T(\e - \bb -\frac{\blambda}{\mu}) + (A^T A) \x^*\\
+(A^T A) \x^* &=&  A^T (\bb - \e + \frac{\blambda}{\mu})\\
+\x^* &=&  (A^T A)^{-1} A^T (\bb - \e + \frac{\blambda}{\mu})\\
+&=&  A^\dagger (\bb - \e + \frac{\blambda}{\mu})
 \end{eqnarray}
 
 %\begin{algorithm}[t]
