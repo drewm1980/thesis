@@ -2,10 +2,10 @@
 %\section{An Interior Point Solver for Alignment}
 \label{sec:ipm_derivation}
 
-This section outlines the derivation of an interior point solver, for the following optimization problem:
+This section outlines the derivation of an interior point solver for the following optimization problem:
 \begin{equation}
 \min_{\x,\e,\q}\;  \| \e \|_1 \quad \mathrm{subj} \quad \bb = A \x + B \q + \e, \quad \x \ge \0.
-\end{equation}, which forms the core of the iterative alignment routine.
+\end{equation} This optimization problem forms the core of the iterative alignment routine.
 It is a slightly more general version of problem (\ref{eq:l1min_alignment}),
 that constrains a subset of the coefficients ($\x$) to be non-negative. 
 Here, $\x \in \Re^n$, $\q \in \Re^p$, $\bb, \e \in
@@ -26,7 +26,7 @@ The objective is
 \begin{equation}
 \f^* \tilde \x \qquad   \f = [ \0_n \; \0_p \; \1_m ]^* \in \Re^{n+m+p}.
 \end{equation}
-The combined inequality constraint matrix 
+The combined inequality constraint matrix is
 \begin{equation}
 \Phi \doteq \left[ \begin{array}{ccc} 
 -\Id_{n \times n} & 0_{n \times p} & 0_{n \times m} \\
@@ -97,11 +97,12 @@ The above manipulations have exposed some structure in the problem that we can t
 
 From $[2m]$, select one element from each $\{ i, i+m\}$ (with ties broken at random):
 $$L^e_g \doteq \{ i : | [\blambda_{e,+} \; \blambda_{e,-}]_i | > | [\blambda_{e,+} \\ \blambda_{e,-} ]_{i+m} | \}.$$
-Let $\Lambda_g$ be the diagonal matrix such that
-$$\Lambda_g(i,i) = \left\{ \begin{array}{cc} \Lambda_{e,+}(i,i) & i \in L^e_g \\ \Lambda_{e,-}(i,i) & else \end{array}\right .$$ 
-Let $\Sigma_g \in \Re^{n \times n}$ be the diagonal matrix such that 
-$$\Sigma_g(i,i) = \left\{ \begin{array}{cc} 1 & i \in L^e_g \\ -1 & else \end{array}\right.$$
-$$M_g(i,i) = \left\{ \begin{array}{cc} \Gamma_{e,+}(i,i) & i \in L^e_g \\ -\Gamma_{e,-}(i,i) & else \end{array}\right.$$ 
+Let $\Lambda_g$ be the diagonal matrix such that:
+$$\Lambda_g(i,i) = \left\{ \begin{array}{cc} \Lambda_{e,+}(i,i) & i \in L^e_g \\ \Lambda_{e,-}(i,i) & else \end{array}\right.,$$ 
+let $\Sigma_g \in \Re^{n \times n}$ be the diagonal matrix such that:
+$$\Sigma_g(i,i) = \left\{ \begin{array}{cc} 1 & i \in L^e_g \\ -1 & else \end{array}\right.,$$
+and let $M_g$ be the diagonal matrix such that:
+$$M_g(i,i) = \left\{ \begin{array}{cc} \Gamma_{e,+}(i,i) & i \in L^e_g \\ -\Gamma_{e,-}(i,i) & else \end{array}\right..$$ 
 Let $\Lambda_b$, $\Sigma_b$, $M_b$ be defined in the natural (complement) manner. Define $\ggamma =  \left[ \begin{array}{c} - \r_{c,2} \\ -\r_{c,3} - \Gamma_{e,-} \r_{d,3} \end{array} \right]$, $\ggamma_g = \ggamma(L^e_g)$, $\ggamma_b = \ggamma(L^e_b)$.
 
 Then again we have two equations:

@@ -87,7 +87,7 @@ plane. The goal of this chapter is to show how to effectively incorporate this
 prior information into the sparse representation framework, significantly
 improving its robustness to all types of realistic occlusions.
 
-\section{Motivation For Imposing Local Spatial Continuity For Sparse Error Correction}
+\section{Motivation for Imposing Local Spatial Continuity for Sparse Error Correction}
 Before introducing a model for the contiguous occlusion and incorporating it into a solution for face recognition, let us first justify why imposing spatial continuity could potentially help with finding the sparse errors (in our case, the occluded pixels). As discussed above, face recogntion can be cast as a problem of recovering an input signal $\x\in \Re^n$ from corrupted measurements $\bb = A\x+\e$, where $A\in
 \Re^{m\times n}$ with $m>n$. Let $F$ be a matrix whoose rows span the left nullspace of
 $A$.\footnote{$\mathrm{Rank}(F) = m - \mathrm{rank}(A)$ and $FA=0$.} Applying $F$ to both sides of the measurement equation gives \vspace{0mm}
