@@ -165,7 +165,7 @@ This corresponds to the piecewise-constant likelihood function $p(\e\mid \s)$ pi
 \caption{Approximation to the likelihood of $\e$ given the error support. Left: $p(\e|\s = -1)$ (unoccluded pixels). Right: $p(\e|\s = 1)$ (occluded pixels).} \label{fig:likelihood} \vspace{0mm}
 \end{figure}
 
-\subsection{Error correction with both MRF and sparsity}
+\subsection{Error Correction with Both MRF and Sparsity}
 Now consider an image $\bb$ of subject $k$. Without occlusion, it can be well-approximated as a linear combination of training images of the same subject: $\bb = A_k \x_k$. If, however, a portion of the image is occluded, we need to discard that portion in order for the same linear equation to hold. Thus, a natural goal is to identify the most likely portion  on which $\bb = A_k \x_k$ holds for some $\x_k$. In terms of the error model introduced above, we want to solve the following optimization problem:
 \begin{equation}
 \hat \s = \mbox{arg}\max_{\x_k,\e,\s} p(\s, \e) \quad \mbox{s.t.} \quad \bb = A_k \x_k + \e.
